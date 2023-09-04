@@ -1,0 +1,93 @@
+//
+// _authentication.scss
+//
+
+.auth-input{
+    .form-label{
+    position: relative;
+    left: 14px;
+    top: 11px;
+    line-height: 20px;
+    background: $input-bg;
+    margin: 0;
+    padding: 0 7px;
+    z-index: 1;
+    }
+    .form-control{
+        padding: .9rem 1.2rem;
+    }
+}
+.auth-page-wrapper {
+    .auth-card{
+        position: relative;
+        background-image: url(../images/bg-auth.jpg);
+        background-position: bottom,50px;
+        background-size: cover;  
+    }
+}
+
+// auth-pass-inputgroup
+.auth-pass-inputgroup {
+    input[type="text"]+.btn .ri-eye-fill {
+        &:before {
+            content: "\ecb6";
+        }
+    }
+}
+// signin card title
+
+.signin-other-title {
+    position: relative;
+
+    &:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        left: 0;
+        right: 0;
+        border-top: 1px dashed var(--#{$prefix}border-color);
+        top: 10px;
+    }
+
+    .title {
+        display: inline-block;
+        position: relative;
+        z-index: 9;
+        background-color: var(--#{$prefix}card-bg);
+        padding: 2px 16px;
+    }
+}
+
+//passowrd validations 
+#password-contain {
+    display: none;
+
+    p {
+        padding-left: 13px;
+
+        &.valid {
+            color: $success;
+
+            &::before {
+                position: relative;
+                left: -8px;
+                content: "✔";
+            }
+        }
+
+        &.invalid {
+            color: $danger;
+
+            &::before {
+                position: relative;
+                left: -8px;
+                content: "✖";
+            }
+        }
+    }
+}
+
+.password-addon {
+    z-index: 5;
+}

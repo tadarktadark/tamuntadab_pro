@@ -1,0 +1,102 @@
+//
+// tom-select.scss
+//
+
+
+.ts-wrapper {
+    .ts-control{
+        background-color: var(--#{$prefix}secndary-bg);
+        border-color: var(--#{$prefix}border-color);
+        padding: $input-padding-y $input-padding-x;
+        input{
+            color: var(--#{$prefix}choices-link-color);
+            &::placeholder{
+                color: $input-placeholder-color;
+            }
+        }
+    }
+    &.multi{
+        &.has-items {
+            .ts-control{
+                padding: calc($input-padding-y - 1px) $input-padding-x calc($input-padding-y - 4px);
+            }
+        }
+        .ts-control>div{
+            background-color: var(--#{$prefix}light);
+            color: var(--#{$prefix}body-color);
+        }
+    }
+    
+    &.focus .ts-control{
+        color: var(--#{$prefix}choices-link-color);
+        box-shadow: none;
+    }
+
+    .ts-control, .ts-control input, .ts-dropdown{
+        color: var(--#{$prefix}choices-link-color);
+    }
+
+    .ts-control, .ts-wrapper.single.input-active .ts-control{
+        background-color: var(--#{$prefix}secondary-bg) !important;
+    }
+    
+    .ts-dropdown, .ts-dropdown.form-control, .ts-dropdown.form-select{
+        background-color: var(--#{$prefix}secondary-bg);
+    }
+    .ts-dropdown .active{
+        background-color: var(--#{$prefix}choices-link-hover-bg);
+        color: var(--#{$prefix}choices-link-active-color);
+    }
+    
+
+    .ts-dropdown{
+        .create, 
+        .no-results, 
+        .optgroup-header, 
+        .option{
+            padding: $dropdown-item-padding-y $dropdown-item-padding-x;
+        }
+    }
+
+    .option {
+        .title {
+            display: block;
+        }
+
+        .url {
+            font-size: 12px;
+            display: block;
+            color: $text-muted;
+        }
+    }
+
+    &.contacts {
+        .ts-control {
+            >div {
+                .email {
+                    opacity: 0.7;
+                }
+
+                .name+.email {
+                    margin-left: 5px;
+                }
+
+                .email:before {
+                    content: '<';
+                }
+
+                .email:after {
+                    content: '>';
+                }
+            }
+        }
+
+        .ts-dropdown {
+            .caption {
+                font-size: 12px;
+                display: block;
+                color: $text-muted;
+            }
+        }
+    }
+}

@@ -1,0 +1,52 @@
+// 
+// _dashboard.scss
+// 
+
+.chat-sidebar {
+    width: 80px;
+}
+
+.dash-filter-picker {
+    min-width: 210px !important;
+}
+
+.jvectormap-legend-cnt-h .jvectormap-legend-tick-sample {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.selling-product {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        top: 34px;
+        width: 28px;
+        height: 28px;
+        background-color: rgba(var(--#{$prefix}primary-rgb), 0.1);
+        color: var(--#{$prefix}primary);
+        border-radius: .3rem;
+        right: 0px !important; 
+        z-index: 99; 
+    }
+
+    .swiper-button-prev {
+        right: 35px !important;
+        left: auto !important;
+    }
+}
+
+
+// .main-tab{
+//     .nav-item{
+//         padding: 0 6px;
+//     }
+// }
+
+.social-content {
+    position: absolute;
+    margin-top: -65px;
+    left: 0;
+    right: 0;
+}

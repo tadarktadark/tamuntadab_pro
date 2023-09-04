@@ -1,0 +1,19 @@
+// 
+// backgrounds.scss
+//
+
+@each $color,
+$value in $theme-colors {
+    .bg-soft-#{$color} {
+        background-color: rgba(($value), 0.17) !important;
+    }
+}
+
+.bg-dark-subtle {
+    background-color: rgba(var(--#{$prefix}dark-rgb),.17)!important;
+}
+
+.bg-light-subtle {
+    background-color: rgba(var(--#{$prefix}light-rgb),.17)!important;
+}
+

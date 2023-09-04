@@ -1,0 +1,209 @@
+// 
+// Widgets.scss
+// 
+
+.main-chart {
+    .chart-border-left {
+        border-left: 1.4px solid var(--#{$prefix}border-color);
+        padding: 2px 20px;
+
+        &:last-child {
+            margin-right: 0px;
+        }
+    }
+}
+
+// Sale Social
+.sale-social-box{
+    padding: 15px 0px;
+}
+
+.sales-history{
+    padding: 12px 0px;
+}
+
+
+
+
+
+// Activity profile
+.activity-checkout {
+    list-style: none;
+
+    .checkout-icon{
+        position: absolute;
+        top: -4px;
+        left: -24px;
+    }
+
+    .checkout-item {
+        position: relative;
+        padding-bottom: 24px;
+        padding-left: 35px;
+        border-left: 2px solid var(--#{$prefix}border-color);
+        &:first-child {
+            border-color: $primary;
+            &:after {
+                background-color: $primary;
+            }
+        }
+        &:last-child {
+            border-color: transparent;
+        }
+        &.crypto-activity{
+            margin-left: 50px;
+        }
+        .crypto-date{
+            position: absolute;
+            top: 3px;
+            left: -65px;
+        }
+    }
+}
+
+
+
+
+/* Activity */
+
+.activity-feed {
+    list-style: none;
+
+    .feed-item {
+        position: relative;
+        padding-bottom: 27px;
+        padding-left: 24px;
+        border-left: 2px solid var(--#{$prefix}border-color);
+
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0px;
+            left: -9px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 2px solid $primary;
+            background-color: var(--#{$prefix}card-bg);
+        }
+
+        &:last-child {
+            border-color: transparent;
+        }
+        &:first-child {
+            border-color: $primary;
+        }
+    }
+}
+
+
+.activity-feed .feed-item:first-child:after {
+    background-color: $primary;
+}
+
+// mini-stats-wid
+.mini-stats-wid {
+    position: relative;
+
+    .mini-stat-icon {
+        overflow: hidden;
+        position: relative;
+
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 69px;
+            background-color: rgba($success, .1);
+            left: 3px;
+            transform: rotate(32deg);
+            top: -8px;
+            transition: all 0.4s;
+        }
+
+        &::after {
+            left: 27px;
+            width: 8px;
+            transition: all 0.2s;
+        }
+    }
+
+    &:hover {
+        .mini-stat-icon {
+            &::after {
+                left: 60px;
+            }
+
+            &::before {
+                left: 50px;
+            }
+        }
+    }
+}
+
+
+// earning-reports
+
+.earning-reports{
+    .col-md-4{
+        border-right: 1px solid var(--#{$prefix}border-color);
+        @media (max-width :425px){
+            border-right: none;
+            border-bottom: 1px solid var(--#{$prefix}border-color);
+        }
+    }
+}
+
+.pricing-badge {
+    position: absolute;
+    top: 0;
+    z-index: 9;
+    right: 0;
+    width: 100%;
+    display: block;
+    font-size: 15px;
+    padding: 0;
+    overflow: hidden;
+    height: 100px;
+    .badge {
+        float: right;
+        transform: rotate(45deg);
+        right: -67px;
+        top: 17px;
+        position: relative;
+        text-align: center;
+        width: 200px;
+        font-size: 13px;
+        margin: 0;
+        padding: 7px 10px;
+        font-weight: 500;
+        color: $primary;
+        background: $white;
+    }
+}
+
+.pricing-tab-box{
+    .nav-link{
+      padding: 16px 20px;
+      border: 1px solid var(--#{$prefix}border-color);
+      &.active{
+        border: 1px solid $primary;
+        padding: 16px 20px;
+        i{
+          color: $white;
+        }
+        h2{
+          color: $white;
+          .text-muted{
+            color: rgba($white, 0.75) !important;
+          }
+        }
+        p{
+            color: rgba($white, 0.75) !important;
+        }
+      }
+     
+    }
+  }
