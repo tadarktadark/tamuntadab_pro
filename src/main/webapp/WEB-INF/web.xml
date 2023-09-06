@@ -52,7 +52,7 @@
 	
 	<filter>
 		<filter-name>accessLogFilter</filter-name>
-		<filter-class>com.min.edu.filter.accessLogFilter</filter-class>
+		<filter-class>com.tdtd.tmtd.filter.accessLogFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>accessLogFilter</filter-name>
