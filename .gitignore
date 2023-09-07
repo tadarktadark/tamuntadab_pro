@@ -4,7 +4,8 @@
 ### DBeaver ###
 # ide config file
 .dbeaver-data-sources*.xml
-
+.dbeaver
+*.dbeaver
 ### Eclipse ###
 .metadata
 bin/
