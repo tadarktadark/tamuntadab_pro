@@ -1,4 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.CareerDaoImpl">
+
+<insert id="insertCareer">
+	INSERT INTO CAREER (CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, 
+					CARE_SOSOK, CARE_POSITION, CARE_PERIOD, 
+					CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT, 
+					CARE_DATE, CARE_COMPANY, CARE_STATUS)
+	VALUES (#{careId}, #{careAccountId}, #{careName}, #{careContact}, 
+			#{careSosok}, #{carePosition}, #{carePeriod}, 
+			#{careJob}, #{careIssuer}, #{careIssuerContact}, 
+			#{careDate}, #{careCompany}, 'N')
+</insert>
+
+<select id="getMyCareerList" resultType="careerVo">
+	SELECT CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
+	FROM (
+	    SELECT CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS,
+	           CARE_STATUS_DATE, CARE_REASON,
+	           ROW_NUMBER() OVER (ORDER BY CARE_STATUS_DATE DESC) AS RN
+	    FROM CAREER
+	    WHERE CARE_ACCOUNT_ID = #{userAccountId}
+	)
+	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+
+<select id="getCareerList" resultType="careerVo">
+	SELECT CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, CARE_SOSOK,
+		CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
+		CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
+	FROM CAREER c 
+	WHERE CARE_STATUS = 'N'
+	OR 
+	CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
+						FROM CAREER c
+						GROUP BY CARE_ACCOUNT_ID
+						HAVING count(CARE_ACCOUNT_ID) >= 1)
+   AND CARE_COMPANY IN (SELECT CARE_COMPANY
+						FROM CAREER c
+						GROUP BY CARE_COMPANY
+						HAVING count(CARE_COMPANY) >= 1)
+   AND CARE_STATUS = 'B'
+   ORDER BY CARE_DATE
+</select>
+
+<update id="updateCareer">
+	UPDATE CAREER SET CARE_NAME=#{careName}, CARE_CONTACT=#{careContact}, CARE_SOSOK=#{careSosok}, 
+					CARE_POSITION=#{carePosition}, CARE_PERIOD=#{carePeriod}, CARE_JOB=#{careJob}, 
+					CARE_ISSUER=#{careIssuer}, CARE_ISSUER_CONTACT=#{careIssuerContact}, CARE_DATE=#{careDate}, 
+					CARE_COMPANY=#{careCompany}
+	WHERE CARE_ID=#{careId}
+</update>
+
+<update id="updateCareerS">
+	UPDATE CAREER SET CARE_STATUS = 'S', CARE_STATUS_DATE = SYSDATE 
+	WHERE CARE_ID=#{careId}
+</update>
+<update id="updateCareerCert">
+	UPDATE INSTR_PROFILE SET INPR_CERT = 'S'
+	WHERE INPR_ACCOUNT_ID = #{userAccountId}
+</update>
+
+<update id="updateCareerB">
+	UPDATE CAREER SET CARE_STATUS = 'B', CARE_REASON=#{careReason}, CARE_STATUS_DATE = SYSDATE 
+	WHERE CARE_ID=#{careId}
+</update>
+
+<update id="updateCareerD">
+	UPDATE CAREER SET CARE_STATUS = 'D', CARE_STATUS_DATE = SYSDATE 
+	WHERE CARE_ID=#{careId}
+</update>
+
+<delete id="deleteCareer">
+	DELETE FROM CAREER 
+	WHERE CARE_ID = #{careId}
+</delete>
+
+<!-- CRON 작동 필요 --> 
+<delete id="deleteCareerCron">
+	DELETE FROM CAREER
+	WHERE CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
+							FROM CAREER c
+							GROUP BY CARE_ACCOUNT_ID
+							HAVING count(CARE_ACCOUNT_ID) >= 1)
+	   AND CARE_COMPANY IN (SELECT CARE_COMPANY
+							FROM CAREER c
+							GROUP BY CARE_COMPANY
+							HAVING count(CARE_COMPANY) >= 1)
+	   AND CARE_STATUS = 'B'
+	   <![CDATA[
+		AND	CARE_STATUS_DATE <= SYSDATE - 10
+	   ]]>
+</delete>
+
+<select id="getOneInstrCareer" resultType="careerVo">
+	SELECT CARE_ACCOUNT_ID, CARE_COMPANY, CARE_JOB, CARE_PERIOD
+	FROM CAREER c 
+	WHERE CARE_STATUS = 'S' OR CARE_STATUS = 'D'
+		AND CARE_ACCOUNT_ID = #{userAccountId}
+</select>
+
 </mapper>
