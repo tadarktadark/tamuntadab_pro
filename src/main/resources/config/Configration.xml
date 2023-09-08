@@ -6,6 +6,22 @@
 	</settings>
 	
 	<mappers>
-		
+		<mapper resource="sqls/Admin_Statement.xml"/>
+		<mapper resource="sqls/Alarm_Statement.xml"/>
+		<mapper resource="sqls/Chat_Statement.xml"/>
+		<mapper resource="sqls/Class_Statement.xml"/>
+		<mapper resource="sqls/CommUser_Statement.xml"/>
+		<mapper resource="sqls/Cs_Statement.xml"/>
+		<mapper resource="sqls/File_Statement.xml"/>
+		<mapper resource="sqls/Instr_Statement.xml"/>
+		<mapper resource="sqls/Jayu_Statement.xml"/>
+		<mapper resource="sqls/Jilmun_Statement.xml"/>
+		<mapper resource="sqls/Payment_Statement.xml"/>
+		<mapper resource="sqls/Pilgi_Statement.xml"/>
+		<mapper resource="sqls/Review_Statement.xml"/>
+		<mapper resource="sqls/Singo_Statement.xml"/>
+		<mapper resource="sqls/SocialUser_Statement.xml"/>
+		<mapper resource="sqls/Subject_Statement.xml"/>
+		<mapper resource="sqls/Yeyak_Statement.xml"/>
 	</mappers>
 </configuration>

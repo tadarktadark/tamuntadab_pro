@@ -34,13 +34,13 @@
 
                 <ul class="navbar-nav" id="navbar-nav">
                     <li class="nav-item">
-                        <a href="#" class="nav-link menu-link"> <i class="ri-apps-2-line"></i> <span data-key="t-class">클래스</span> </a>
+                        <a href="./classList.do" class="nav-link menu-link"> <i class="ri-apps-2-line"></i> <span data-key="t-class">클래스</span> </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link menu-link"> <i class="ri-account-circle-line"></i> <span data-key="t-instr">강사</span> </a>
+                        <a href="./instrList.do" class="nav-link menu-link"> <i class="ri-account-circle-line"></i> <span data-key="t-instr">강사</span> </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link menu-link"> <i class="ri-map-pin-line"></i> <span data-key="t-yeyak">예약</span> </a>
+                        <a href="./gangeuisilList.do" class="nav-link menu-link"> <i class="ri-map-pin-line"></i> <span data-key="t-yeyak">예약</span> </a>
                     </li>
 
                     <li class="nav-item">
@@ -50,13 +50,13 @@
                         <div class="collapse menu-dropdown" id="sidebarComm">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-pilgi">필기 </a>
+                                    <a href="./pilgiList.do" class="nav-link" data-key="t-pilgi">필기 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-jilmun">질문 </a>
+                                    <a href="./jilmunList.do" class="nav-link" data-key="t-jilmun">질문 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-jayu">자유 </a>
+                                    <a href="./jayuList.do" class="nav-link" data-key="t-jayu">자유 </a>
                                 </li>
                             </ul>
                         </div>
@@ -69,13 +69,13 @@
                         <div class="collapse menu-dropdown" id="sidebarCenter">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-gongji">공지사항 </a>
+                                    <a href="./gongjiList.do" class="nav-link" data-key="t-gongji">공지사항 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-geoneui">건의사항 </a>
+                                    <a href="./geoneuiList.do" class="nav-link" data-key="t-geoneui">건의사항 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
+                                    <a href="./fagList.do" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
                                 </li>
                             </ul>
                         </div>
@@ -268,14 +268,11 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <h6 class="dropdown-header">Welcome Jimmie!</h6>
-                        <a class="dropdown-item" href="@Url.Action("Profile","Pages")"><i class="bx bx-user-circle text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="#!"><i class="bx bx-message-alt-detail text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
-                        <a class="dropdown-item" href="@Url.Action("Todo","Apps")"><i class="bx bx-calendar-check text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Todo</span></a>
-                        <a class="dropdown-item" href="@Url.Action("FAQs","Pages")"><i class="bx bx-help-circle text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Help</span></a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Profile","Pages")"><i class="bx bx-wallet text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Balance : <b>$8451.36</b></span></a>
-                        <a class="dropdown-item" href="@Url.Action("LockScreen","Authentication")"><i class="bx bx-lock-alt fs-17 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href="@Url.Action("Logout","Authentication")"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a class="dropdown-item" href="./mypage.do"><i class="bx bx-user-circle text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
+                        <a class="dropdown-item" href="./chatList.do"><i class="bx bx-message-alt-detail text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
+                        <a class="dropdown-item" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                        <a class="dropdown-item" href="./loginForm.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">login</span></a>
+                        <a class="dropdown-item" href="./regist.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">regist</span></a>
                     </div>
                 </div>
             </div>
