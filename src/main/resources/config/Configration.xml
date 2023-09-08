@@ -8,20 +8,20 @@
 	<typeAliases>
 		<typeAlias type="com.tdtd.tmtd.vo.UserProfileVo" alias="userProfileVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.InstrVo" alias="instrVo"/>
-		<typeAlias type="com.min.edu.vo.CareerVo" alias="careerVo"/>
-		<typeAlias type="com.min.edu.vo.ReviewVo" alias="reviewVo"/>
-		<typeAlias type="com.min.edu.vo.FileVo" alias="fileVo"/>
-		<typeAlias type="com.min.edu.vo.TupyoVo" alias="tupyoVo"/>
-		<typeAlias type="com.min.edu.vo.TupyoOptionVo" alias="tupyoOptionVo"/>
-		<typeAlias type="com.min.edu.vo.TupyoUserVo" alias="tupyoUserVo"/>
-		<typeAlias type="com.min.edu.vo.ClassVo" alias="classVo"/>
-		<typeAlias type="com.min.edu.vo.ChamyeoVo" alias="chamyeoVo"/>
-		<typeAlias type="com.min.edu.vo.SugangryoVo" alias="sugangryoVo"/>
-		<typeAlias type="com.min.edu.vo.SubjectVo" alias="subjectVo"/>
-		<typeAlias type="com.min.edu.vo.SubjectTagVo" alias="subjectTagVo"/>
-		<typeAlias type="com.min.edu.vo.GeoljeVo" alias="geoljeVo"/>
-		<typeAlias type="com.min.edu.vo.HwanbulVo" alias="hwanbulVo"/>
-		<typeAlias type="com.min.edu.vo.JeongsanVo" alias="jeongsanVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.CareerVo" alias="careerVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ReviewVo" alias="reviewVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.FileVo" alias="fileVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.TupyoVo" alias="tupyoVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.TupyoOptionVo" alias="tupyoOptionVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.TupyoUserVo" alias="tupyoUserVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ClassVo" alias="classVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ChamyeoVo" alias="chamyeoVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SugangryoVo" alias="sugangryoVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SubjectVo" alias="subjectVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SubjectTagVo" alias="subjectTagVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.GeoljeVo" alias="geoljeVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.HwanbulVo" alias="hwanbulVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.JeongsanVo" alias="jeongsanVo"/>
 	</typeAliases>
 	
 	<mappers>
