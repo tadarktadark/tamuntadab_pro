@@ -49,5 +49,4 @@ public class InstrVo {
 	
 	private List<UserProfileVo> userProfileVo;
 	private List<ClassVo> classVo;
-	private List<ReviewVo> reviewVo;
 }

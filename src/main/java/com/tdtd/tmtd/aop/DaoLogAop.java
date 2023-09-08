@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class DaoLogAop {
-	@Pointcut("execution(public * com.tdtd.tmtd.mapper.*Dao*.*(..))")
+	@Pointcut("execution(public * com.tdtd.tmtd.model.mapper.*Dao*.*(..))")
 	public void daoLoggerPointCut() {
 		
 	}
@@ -28,7 +28,7 @@ public class DaoLogAop {
 		if(objs!=null) {
 			logger.info("=============== {} args ===============", methodName);
 			
-			for(int i=0; i<objs.length; i++) {
+			for(int i=1; i<=objs.length; i++) {
 				logger.info(i+"번째 arg :\t"+String.valueOf(objs[i]));
 			}
 			logger.info("=============== {} args ===============", methodName);
