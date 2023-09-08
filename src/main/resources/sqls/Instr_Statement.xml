@@ -78,7 +78,7 @@
 	INSERT INTO INSTR_EDULEVEL (INED_SEQ, INED_INPR_SEQ, INED_STAGE, 
 							INED_SCHOOL, INED_MAJOR, INED_MINOR, 
 							INED_START, INED_END, INED_REGDATE)
-	VALUES (#{inprSeq}, #{inedInprSeq}, #{inedStage}, 
+	VALUES (INED_SEQ.NEXTVAL, #{inprSeq}, #{inedStage}, 
 			#{inedSchool}, #{inedMajor}, #{inedMinor}, 
 			#{inedStart}, #{inedEnd}, CURRENT_DATE)
 </insert>
