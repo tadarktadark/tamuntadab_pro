@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.ITupyoDao;
+import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
 
@@ -26,6 +27,12 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.getTupyo(tupyClasId);
 	}
 
+	@Override
+	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq) {
+		return dao.getAllTupyoOption(tuopTupySeq);
+	}
+
+	
 	@Override
 	public int insertTupyoOption(Map<String, Object> map) {
 		return dao.insertTupyoOption(map);
@@ -65,5 +72,6 @@ public class TupyoServiceImpl implements ITupyoService {
 	public int updateAgreeTupyo(Map<String, Object> map) {
 		return dao.updateAgreeTupyo(map);
 	}
+
 
 }
