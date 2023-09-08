@@ -1,10 +1,10 @@
 package com.tdtd.tmtd.aop;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,26 +18,34 @@ public class DaoLogAop {
 		
 	}
 	
-	@Before("daoLoggerPointCut()")
-	public void before(JoinPoint j) {
+	@Around("daoLoggerPointCut()")
+	public Object around(ProceedingJoinPoint j) {
 		Logger logger = LoggerFactory.getLogger(j.getTarget()+"");
-		logger.info("===============> DaoLog 실행");
+		logger.info("===============> daoAround");
+		String methodName = j.getSignature().toShortString();
 		Object[] objs = j.getArgs();
 		
 		if(objs!=null) {
-			logger.info("=============== {} ===============", j.getSignature().getName());
+			logger.info("=============== {} args ===============", methodName);
 			
 			for(int i=0; i<objs.length; i++) {
 				logger.info(i+"번째 arg :\t"+String.valueOf(objs[i]));
 			}
-			logger.info("=============== {} ===============", j.getSignature().getName());
+			logger.info("=============== {} args ===============", methodName);
 		}
-	}
-	
-	@AfterReturning("daoLoggerPointCut()")
-	public void afterReturning(JoinPoint j) {
-		Logger logger = LoggerFactory.getLogger(j.getTarget()+"");
-		logger.info("<=============== DaoLog 종료");
+		
+		try {
+			logger.info("=============== {} return ===============", methodName);
+			Object result = j.proceed();
+			logger.info(result.toString());
+			logger.info("<=============== DaoLog 종료");			
+			return result;
+		} catch (Throwable e) {
+			logger.error("===============> Around ERROR : {}",e.getMessage());
+			logger.info("<=============== DaoLog 종료");			
+			return null;
+		}
+		
 	}
 	
 	@AfterThrowing(value="daoLoggerPointCut()", throwing = "exception")
