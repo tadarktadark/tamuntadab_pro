@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tdtd.tmtd</groupId>
-	<artifactId>Tamuntadap</artifactId>
-	<name>Tamuntadap</name>
+	<artifactId>tamuntadab_pro</artifactId>
+	<name>tamuntadab_pro</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -246,6 +246,29 @@
 		    <artifactId>commons-text</artifactId>
 		    <version>1.10.0</version>
 		</dependency>
+		
+		<!-- ocr -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox</artifactId>
+		    <version>2.0.24</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>fontbox</artifactId>
+		    <version>2.0.24</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-imaging</artifactId>
+		    <version>1.0-alpha1</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.cloud</groupId>
+		    <artifactId>google-cloud-vision</artifactId>
+		    <version>3.21.0</version>
+		</dependency>
+
 	</dependencies>
     <build>
 		<plugins>
