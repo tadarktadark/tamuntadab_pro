@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -32,5 +34,6 @@ public class ClassVo {
 	private String clasMojipYeonjangHoitsu;
 	private String clasContent;
 	private String clasAccountId;
-
+	
+	private List<ReviewVo> reviewVo;
 }

@@ -32,6 +32,10 @@ public class InstrVo {
 	private int inprViewCount;
 	private int inprLikeCount;
 	private String inprCert;
+	private String subjectsTitle;
+	private String subjectsMajorTitle;
+	private int reviewCount;
+	private String ingi;
 
 	private int inedSeq;
 	private int inedInprSeq;
@@ -46,5 +50,4 @@ public class InstrVo {
 	private List<UserProfileVo> userProfileVo;
 	private List<ClassVo> classVo;
 	private List<ReviewVo> reviewVo;
-	private List<SubjectTagVo> subjectTagVo;
 }
