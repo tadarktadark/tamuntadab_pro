@@ -4,10 +4,10 @@
 
 <resultMap type="reviewVo" id="reviewMap">
 	<result column="REVI_SEQ" property="reviSeq"/>
-	<result column="REVI_CLAS_ID" property="reviClasId"/>
 	<result column="REVI_STUD_NAME" property="reviStudName"/>
 	<result column="REVI_PRO" property="reviPro"/>
 	<result column="REVI_PREPARE" property="reviPrepare"/>
+	<result column="AVG_SCORE" property="avgScore"/>
 	<result column="REVI_ABIL" property="reviAbil"/>
 	<result column="REVI_SIGAN" property="reviSigan"/>
 	<result column="REVI_DETAIL" property="reviDetail"/>
@@ -16,9 +16,7 @@
 	<collection property="classVo" resultMap="classMap"/>	
 </resultMap>
 <resultMap type="classVo" id="classMap">
-	<result column="CLAS_ID" property="clasId"/>
 	<result column="CLAS_TITLE" property="clasTitle"/>
-	<result column="CLAS_ACCOUNT_ID" property="clasAccountId"/>
 </resultMap>
 
 <select id="getMyReview" resultMap="reviewMap">

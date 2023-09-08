@@ -3,36 +3,54 @@
 <mapper namespace="com.tdtd.tmtd.model.mapper.InstrDaoImpl">
 
 <resultMap type="instrVo" id="">
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
+	<result column="INPR_SEQ" property="inprSeq"/>
+	<result column="INPR_ACCOUNT_ID" property="inprAccountId"/>
+	<result column="INPR_INTRO" property="inprIntro"/>
+	<result column="INPR_FEE" property="inprFee"/>
+	<result column="INPR_CERT" property="inprCert"/>
+	<result column="INPR_LIKE" property="inprLike"/>
+	<result column="INPR_SITE_YOUTUBE" property="inprSiteYoutube"/>
+	<result column="INPR_SITE_WEB" property="inprSiteWeb"/>
+	<result column="INPR_SITE_MOBILE" property="inprSiteMobile"/>
+	<result column="SUBJECTS_TITLE" property="subjectsTitle"/>
+	<result column="SUBJECTS_MAJOR_TITLE" property="subjectsMajorTitle"/>
+	<result column="REVIEW_COUNT" property="reviewCount"/>
+	<result column="INGI" property="ingi"/>
+	<result column="INED_SCHOOL" property="inedSchool"/>
+	<result column="INED_MAJOR" property="inedMajor"/>
+	<result column="INED_MINOR" property="inedMinor"/>
+	<result column="INED_START" property="inedStart"/>
+	<result column="INED_END" property="inedEnd"/>
 	
-	<collection property="" resultMap=""/>
+	<collection property="userProfileVo" resultMap=""/>
+	<collection property="classVo" resultMap=""/>
+	<collection property="reviewVo" resultMap=""/>
 </resultMap>
 <resultMap type="userProfileVo" id="userProfileMap">
-	<result column="" property=""/>
-	<result column="" property=""/>
+	<result column="USER_PROFILE_FILE" property=""/>
+	<result column="USER_NICKNAME" property=""/>
 	<result column="" property=""/>
 	<result column="" property=""/>
 </resultMap>
 <resultMap type="classVo" id="classMap">
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
+	<result column="CLAS_ID" property=""/>
+	<result column="CLAS_TITLE" property=""/>
+	<result column="CLAS_LOCATION" property=""/>
+	<result column="CLAS_SUEOP_NALJJA" property=""/>
+	<result column="CLAS_SUGANGNYO" property=""/>
+	<result column="CLAS_SUBJECT_JEONGBO" property=""/>
+	
+	<collection property="reviewVo"/>
 </resultMap>
 <resultMap type="reviewVo" id="reviewMap">
-	<result column="" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
-</resultMap>
-<resultMap type="subjectTagVo" id="subjectTagMap">
-	<result column="" property=""/>
-	<result column="" property=""/>
+	<result column="REVI_STUD_NAME" property=""/>
+	<result column="REVI_PRO" property=""/>
+	<result column="REVI_PREPARE" property=""/>
+	<result column="AVG_SCORE" property=""/>
+	<result column="REVI_ABIL" property=""/>
+	<result column="REVI_SIGAN" property=""/>
+	<result column="REVI_DETAIL" property=""/>
+	<result column="REVI_REGDATE" property=""/>
 </resultMap>
 
 <select id="getMyInstrProfile">
@@ -132,7 +150,7 @@
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
-<select id="">
+<select id="getOneInstrProfile">
 	SELECT (SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
 	     FROM JSON_TABLE(INPR_SUBJECTS_MAJOR, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
 	     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_MAJOR_TITLE,
@@ -141,13 +159,6 @@
 	FROM INSTR_PROFILE JOIN INSTR_EDULEVEL
 	ON INPR_SEQ = INED_INPR_SEQ
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
-</select>
-
-<select id="getOneInstrCareer">
-	SELECT CARE_ACCOUNT_ID, CARE_COMPANY, CARE_JOB, CARE_PERIOD
-	FROM CAREER c 
-	WHERE CARE_STATUS = 'S' OR CARE_STATUS = 'D'
-		AND CARE_ACCOUNT_ID = #{userAccountId}
 </select>
 
 <select id="getOneInstrClass">
