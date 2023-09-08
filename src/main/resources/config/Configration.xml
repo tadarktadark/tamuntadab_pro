@@ -27,6 +27,7 @@
 	<mappers>
 		<mapper resource="sqls/Admin_Statement.xml"/>
 		<mapper resource="sqls/Alarm_Statement.xml"/>
+		<mapper resource="sqls/Career_Statement.xml"/>
 		<mapper resource="sqls/Chat_Statement.xml"/>
 		<mapper resource="sqls/Class_Statement.xml"/>
 		<mapper resource="sqls/CommUser_Statement.xml"/>

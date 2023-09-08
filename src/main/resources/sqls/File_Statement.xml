@@ -5,7 +5,13 @@
 <insert id="insertFile">
 	INSERT INTO FILE
 	(FILE_REF_PK, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_REGDATE)
-	VALUES('', '', '', SYSDATE);
+	VALUES(#{fileRefPk}, #{fileOriginName}, #{fileSaveName}, SYSDATE)
 </insert>
+
+<select id="getFile" resultType="fileVo">
+	SELECT FILE_REF_PK, FILE_ORIGIN_NAME, FILE_SAVE_NAME
+	FROM "FILE"
+	WHERE FILE_REF_PK = #{fileRefPk}
+</select>
 
 </mapper>
