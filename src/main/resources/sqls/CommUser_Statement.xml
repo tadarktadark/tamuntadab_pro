@@ -40,6 +40,6 @@
 				UNION
 				SELECT gup.USER_NICKNAME AS USER_NICKNAME
 					FROM GOOGLE_USER_PROFILE gup) 
-			WHERE USER_NICKNAME =#{userNickname)
+			WHERE USER_NICKNAME=#{userNickname}
 	</select>
 </mapper>
