@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.vo;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,8 +20,8 @@ public class TupyoVo {
 	private int tupySeq;
 	private int tupyClasId;
 	private int tupyTotalUser;
-	private String tupyStartdate;
-	private String tupyEnddate;
+	private Date tupyStartdate;
+	private Date tupyEnddate;
 	private String tupyStatus;
 
 }

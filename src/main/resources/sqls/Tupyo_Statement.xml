@@ -26,7 +26,7 @@ INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE)
 </insert>
 <insert id="insertTupyoUser" parameterType="java.util.Map">
 INSERT INTO TUPYO_USER(TUUS_SEQ, TUUS_OPTION_SEQ, TUUS_ACCOUNT_ID, TUUS_AGREE)
-        VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, #{tuusAgree})
+        VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, 'A')
 </insert>
 <select id="getTupyoResult" parameterType="java.lang.Integer" resultType="tupyoUserVo">
 SELECT TUUS_SEQ , TUUS_OPTION_SEQ , TUUS_ACCOUNT_ID , TUUS_AGREE 
