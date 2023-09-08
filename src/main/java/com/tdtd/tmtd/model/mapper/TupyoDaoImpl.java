@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
 
@@ -26,6 +27,11 @@ public class TupyoDaoImpl implements ITupyoDao {
 	@Override
 	public TupyoVo getTupyo(int tupyClasId) {
 		return sqlSession.selectOne(NS+"getTupyo",tupyClasId);
+	}
+	
+	@Override
+	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq) {
+		return sqlSession.selectList(NS+"getAllTupyoOption",tuopTupySeq);
 	}
 
 	@Override
@@ -67,5 +73,7 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int updateAgreeTupyo(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateAgreeTupyo",map);
 	}
+
+
 
 }

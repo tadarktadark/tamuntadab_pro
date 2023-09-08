@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
 
@@ -12,6 +13,8 @@ public interface ITupyoService {
 	public int insertTupyo(Map<String, Object> map);
 	//투표 조회
 	public TupyoVo getTupyo(int tupyClasId);
+	//선택지 조회
+	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq);
 	//선택지 생성
 	public int insertTupyoOption(Map<String, Object> map);
 	//투표 진행

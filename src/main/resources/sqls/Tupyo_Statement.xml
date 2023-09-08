@@ -5,13 +5,19 @@
 
 <insert id="insertTupyo" parameterType="java.util.Map">
 INSERT INTO TUPYO(TUPY_SEQ, TUPY_CLAS_ID, TUPY_TOTAL_USER, TUPY_STARTDATE, TUPY_ENDDATE, TUPY_STATUS)
-        VALUES(TUPY_SEQ.NEXTVAL,#{tupyClasId}, #{tupyTotalUser}, SYSDATE , #{tupyEnddate}, 'P')
+        VALUES(TUPY_SEQ.NEXTVAL,#{tupyClasId}, #{tupyTotalUser}, CURRENT_DATE , #{tupyEnddate}, 'P')
 </insert>
 
-<select id="getTupyo" parameterType="java.lang.Integer" resultType="tupyoOptionVo">
-SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TUPY_STARTDATE ,TUPY_ENDDATE ,TUPY_STATUS
+<select id="getTupyo" parameterType="java.lang.Integer" resultType="tupyoVo">
+SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TO_CHAR(TUPY_STARTDATE,'YYYY-MM-DD')  ,TO_CHAR(TUPY_ENDDATE,'YYYY-MM-DD') ,TUPY_STATUS
         FROM TUPYO t
         WHERE TUPY_CLAS_ID =#{tupyClasId}
+</select>
+
+<select id="getAllTupyoOption" parameterType="java.lang.Integer" resultType="tupyoOptionVo">
+SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE
+        FROM TUPYO_OPTION to2 
+        WHERE TUOP_TUPY_SEQ =#{tuopTupySeq}
 </select>
 
 <insert id="insertTupyoOption" parameterType="java.util.Map">
@@ -22,7 +28,7 @@ INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE)
 INSERT INTO TUPYO_USER(TUUS_SEQ, TUUS_OPTION_SEQ, TUUS_ACCOUNT_ID, TUUS_AGREE)
         VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, #{tuusAgree})
 </insert>
-<select id="getTupyoResult" parameterType="java.lang.Integer" resultType="java.util.List">
+<select id="getTupyoResult" parameterType="java.lang.Integer" resultType="tupyoUserVo">
 SELECT TUUS_SEQ , TUUS_OPTION_SEQ , TUUS_ACCOUNT_ID , TUUS_AGREE 
         FROM TUPYO_USER tu
         WHERE TUUS_OPTION_SEQ  IN (
@@ -45,7 +51,7 @@ UPDATE TUPYO
 	SET TUPY_TOTAL_USER = TUPY_TOTAL_USER - 1
 	WHERE TUPY_SEQ=#{tupySeq}
 </update>
-<select id="getAgreeUser" parameterType="java.util.Map" resultType="java.util.List">
+<select id="getAgreeUser" parameterType="java.util.Map" resultType="tupyoUserVo">
 SELECT TUUS_SEQ ,TUUS_OPTION_SEQ ,TUUS_ACCOUNT_ID ,TUUS_AGREE 
         FROM TUPYO_USER tu 
         WHERE TUUS_OPTION_SEQ =#{tuusOptionSeq} AND TUUS_AGREE =#{tuusAgree}
