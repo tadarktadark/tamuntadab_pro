@@ -22,6 +22,8 @@
 		<typeAlias type="com.tdtd.tmtd.vo.GeoljeVo" alias="geoljeVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.HwanbulVo" alias="hwanbulVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.JeongsanVo" alias="jeongsanVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.GangeuisiilVo" alias="gangeuisiilVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.YeyakVo" alias="yeyakVo"/>
 	</typeAliases>
 	
 	<mappers>
