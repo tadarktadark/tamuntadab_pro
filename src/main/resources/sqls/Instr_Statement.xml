@@ -2,10 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.InstrDaoImpl">
 
-<select id="">
-
-
+<select id="getMyInstrProfile">
+	SELECT INPR_SEQ, INED_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
+		INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE,
+		INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INED_STAGE,
+		INED_SCHOOL, INED_MAJOR, INED_MINOR, TO_CHAR(INED_START,'YYYY-MM-DD') AS INED_START, 
+		TO_CHAR(INED_END, 'YYYY-MM-DD') AS INED_END
+	FROM INSTR_PROFILE INNER JOIN INSTR_EDULEVEL
+	ON INPR_SEQ = INED_INPR_SEQ
+	WHERE INPR_ACCOUNT_ID = #{userAccountId}
 </select>
+
+<insert id="insertInstrProfile">
+	INSERT INTO INSTR_PROFILE (INPR_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
+							 INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE, 
+							 INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INPR_REGDATE)
+	VALUES (INPR_SEQ.NEXTVAL, #{inprAccountId}, #{inprIntro}, #{inprFee},
+			#{inprSiteYoutube}, #{inprSiteWeb}, #{inprSiteMobile},
+			#{inprSubjects}, #{inprSubjectsMajor}, SYSDATE)
+</insert>
+
+<insert id="insertInstrEdulevel">
+	INSERT INTO INSTR_EDULEVEL (INED_SEQ, INED_INPR_SEQ, INED_STAGE, 
+							INED_SCHOOL, INED_MAJOR, INED_MINOR, 
+							INED_START, INED_END, INED_REGDATE)
+	VALUES (INED_SEQ.NEXTVAL, #{inedInprSeq}, #{inedStage}, 
+			#{inedSchool}, #{inedMajor}, #{inedMinor}, 
+			#{inedStart}, #{inedEnd}, SYSDATE)
+</insert>
+
+<update id="updateInstrProfile">
+	UPDATE INSTR_PROFILE SET INPR_INTRO=#{inprIntro}, INPR_FEE=#{inprFee}, INPR_SITE_YOUTUBE=#{inprSiteYoutube}, 
+							INPR_SITE_WEB=#{inprSiteWeb}, INPR_SITE_MOBILE=#{inprSiteMobile}, INPR_SUBJECTS=#{inprSubjects}, 
+							INPR_SUBJECTS_MAJOR=#{inprSubjectsMajor}, INPR_REGDATE=SYSDATE
+	WHERE INPR_SEQ=#{inprSeq}
+</update>
+
+<update id="updateInstrEdulevel">
+	UPDATE INSTR_EDULEVEL SET INED_STAGE=#{inedStage}, INED_SCHOOL=#{inedSchool}, INED_MAJOR=#{inedMajor}, 
+							INED_MINOR=#{inedMinor}, INED_START=#{inedStart}, INED_END=#{inedEnd}, INED_REGDATE=SYSDATE
+	WHERE INED_SEQ=#{inedSeq}
+		AND INED_INPR_SEQ = #{inedInprSeq}
+</update>
+
 
 
 </mapper>
