@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.ReviewDaoImpl">
+
+<resultMap type="reviewVo" id="reviewMap">
+	<result column="REVI_SEQ" property="reviSeq"/>
+	<result column="REVI_CLAS_ID" property="reviClasId"/>
+	<result column="REVI_STUD_NAME" property="reviStudName"/>
+	<result column="REVI_PRO" property="reviPro"/>
+	<result column="REVI_PREPARE" property="reviPrepare"/>
+	<result column="REVI_ABIL" property="reviAbil"/>
+	<result column="REVI_SIGAN" property="reviSigan"/>
+	<result column="REVI_DETAIL" property="reviDetail"/>
+	<result column="REVI_REGDATE" property="reviRegdate"/>
+	
+	<collection property="classVo" resultMap="classMap"/>	
+</resultMap>
+<resultMap type="classVo" id="classMap">
+	<result column="CLAS_ID" property="clasId"/>
+	<result column="CLAS_TITLE" property="clasTitle"/>
+	<result column="CLAS_ACCOUNT_ID" property="clasAccountId"/>
+</resultMap>
+
+<select id="getMyReview" resultMap="reviewMap">
+	SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
+           (REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0 AS AVG_SCORE,
+           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REV_REGDATE
+	FROM (
+	    SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
+	           (REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0 AS AVG_SCORE,
+	           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, 
+	           TO_CHAR(REVI_REGDATE,'YYYY-MM-DD') AS REV_REGDATE,
+	           ROW_NUMBER() OVER (ORDER BY REVI_REGDATE DESC) AS RN
+	    FROM REVIEW 
+	    JOIN CLASS ON CLAS_ID = REVI_CLAS_ID
+	    WHERE CLAS_ACCOUNT_ID = #{userAccountId}
+	)
+	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+
+<insert id="insertReview">
+	INSERT INTO REVIEW (REVI_SEQ, REVI_CLAS_ID, REVI_STUD_NAME, 
+					REVI_PRO, REVI_PREPARE, REVI_ABIL, 
+					REVI_SIGAN, REVI_DETAIL, REVI_REGDATE)
+	VALUES (REVI_SEQ.NEXTVAL, #{reviClasId}, #{reviStudName}, 
+			#{reviPro}, #{reviPrepare}, #{reviAbil}, 
+			#{reviSigan}, #{reviDetail}, SYSDATE)
+</insert>
+
+<delete id="deleteReview">
+	DELETE FROM REVIEW
+	WHERE REVI_SEQ IN
+	<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+		#{seq}
+	</foreach>
+</delete>
+
 </mapper>
