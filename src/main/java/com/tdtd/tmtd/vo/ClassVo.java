@@ -24,7 +24,7 @@ public class ClassVo {
 	private String clasMagamGihan;
 	private String clasHuimangInwon;
 	private String clasHyeonjaeInwon;
-	private String clasHuimangNaljja;
+	private String clasSueopNaljja;
 	private String clasChoisoSugangnyo;
 	private String clasChoidaeSugangnyo;
 	private String clasSeongbyeolJehan;
@@ -34,6 +34,7 @@ public class ClassVo {
 	private String clasMojipYeonjangHoitsu;
 	private String clasContent;
 	private String clasAccountId;
+	private int clasSugangRyo;
 	
 	private List<ReviewVo> reviewVo;
 }

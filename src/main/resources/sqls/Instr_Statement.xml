@@ -33,14 +33,14 @@
 	<result column="" property=""/>
 </resultMap>
 <resultMap type="classVo" id="classMap">
-	<result column="CLAS_ID" property=""/>
-	<result column="CLAS_TITLE" property=""/>
-	<result column="CLAS_LOCATION" property=""/>
-	<result column="CLAS_SUEOP_NALJJA" property=""/>
-	<result column="CLAS_SUGANGNYO" property=""/>
-	<result column="CLAS_SUBJECT_JEONGBO" property=""/>
+	<result column="CLAS_ID" property="clasId"/>
+	<result column="CLAS_TITLE" property="clasTitle"/>
+	<result column="CLAS_LOCATION" property="clasLocation"/>
+	<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
+	<result column="CLAS_SUGANGNYO" property="clasSugangRyo"/>
+	<result column="CLAS_SUBJECT_JEONGBO" property="clasSubjectJeongbo"/>
 	
-	<collection property="reviewVo"/>
+	<collection property="reviewVo" resultMap="reviewMap"/>
 </resultMap>
 <resultMap type="reviewVo" id="reviewMap">
 	<result column="REVI_STUD_NAME" property=""/>
