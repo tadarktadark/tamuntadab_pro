@@ -77,6 +77,9 @@
                                 <li class="nav-item">
                                     <a href="./fagList.do" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="./tupyoPage.do" class="nav-link" data-key="t-tupyo">투표 </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

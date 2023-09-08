@@ -8,6 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
+                    <a href="./admin.do">관리자 페이지로 이동</a><br>
                     Design by Themesbrand & Develop by TadakTadak
                 </div>
             </div>
