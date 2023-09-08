@@ -1,4 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.YeyakDaoImpl">
+	<select id="getGangeuisilSidoList" resultType="java.lang.String">
+		SELECT GACO_SIDO || '(' || COUNT(GACO_SIDO) || ')'
+	        FROM GANGEUISIL_COMM
+	        GROUP BY GACO_SIDO
+	        ORDER BY GACO_SIDO
+	</select>
+	<select id="getGangeuisilSigunguList" resultType="java.lang.String">
+		SELECT GACO_SIGUNGU || '(' || COUNT(GACO_SIGUNGU) || ')'
+	        FROM GANGEUISIL_COMM
+	        WHERE GACO_SIDO=#{gacoSido}
+	        GROUP BY GACO_SIGUNGU
+	</select>
+	<select id="getGangeuisilList" resultType="gangeuisiilVo">
+		SELECT GACO_ID , GACO_NAME , GACO_JUSO , GACO_LAT , GACO_LON , GACO_OPEN , GACO_CLOSE
+	        FROM GANGEUISIL_COMM
+	        <choose>
+	        	<when test="gacoSido">
+	        		WHERE GACO_SIDO=#{gacoSido}
+	        	</when>
+	        	<when test="">
+	        		WHERE GACO_SIGUNGU=#{gacoSigungu}
+	        	</when>
+	        </choose>
+	</select>
+	<select id="getGangeuisilDetailList" resultType="gangeuisiilVo">
+		SELECT GAGA_ID, GAGA_GACO_ID AS GACO_ID, GAGA_NAME, GAGA_MAX, GAGA_HOUR_PRICE 
+	        FROM GANGEUISIL_GAEBYEOL
+	        WHERE GAGA_GACO_ID = #{gagaGacoId}
+	</select>
+	<select id="getYeyakDateList" resultType="yeyakVo">
+		SELECT GAYE_YEYAK_DATE, GAYE_START_TIME , GAYE_HOURS 
+	        FROM GANGEUISIL_YEYAK
+	        WHERE GAYE_GAGA_ID = #{gayeGagaId}
+	                AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE ,'yyyyddmm')
+	</select>
+	<select id="getYeyakTimeList" resultType="yeyakVo">
+		SELECT GAYE_ID, GAYE_GAGA_ID , GAYE_ACCOUNT_ID , GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS
+	        FROM GANGEUISIL_YEYAK
+	        WHERE GAYE_GAGA_ID = #{gayeGagaId}
+	                AND GAYE_YEYAK_DATE = TO_CHAR(TO_DATE(#{gayeYeyakDate}),'yyyymmdd')
+	                AND NOT GAYE_STATE = 'N'
+	</select>
+	<insert id="insertYeakInfo">
+		INSERT INTO GANGEUISIL_YEYAK
+	                        (GAYE_ID, GAYE_GAGA_ID, GAYE_ACCOUNT_ID, 
+	                        GAYE_PHONE_NUMBER, GAYE_YEYAK_DATE, GAYE_START_TIME, 
+	                        GAYE_HOURS, GAYE_STATE, GAYE_CLAS_ID, 
+	                        GAYE_GYEOLJE_TYPE, GAYE_GYEOLJE_USER)
+	        VALUES((SELECT 'YY'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(MAX(TO_NUMBER(SUBSTR(GAYE_ID,11)))+1,4,'0')
+	        FROM GANGEUISIL_YEYAK
+	        WHERE SUBSTR(GAYE_ID,1,10)='YY'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), 'GAGA00271', 'TMTD1', '01000000001', '20230913', '1400', 2, 'D' , 1000000013, 'B', '{"TMTD1":"N","TMTD2":"N","TMTD3":"N","TMTD4":"N","TMTD5":"N"}')
+	</insert>
+	<insert id="insertYeakGyeoljeInfo">
+		INSERT INTO GYEOLJE
+	                (GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, 
+	                GYEO_ACCOUNT_ID, GYEO_REGDATE, GYEO_BANGBEOP, GYEO_STATUS)
+	        VALUES((SELECT 'RE'||TO_CHAR(MAX(SUBSTR(GYEO_ID, 3))+1)
+	        FROM GYEOLJE), 60000, 'YY202309080006', 
+	                'TDTD1', CURRENT_DATE , 'P', 'W' )
+	</insert>
+	<select id="getMyYeyakList">
+		SELECT GAYE_ID, GAYE_GAGA_ID, GAYE_ACCOUNT_ID , GAYE_PHONE_NUMBER , GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS , GAYE_STATE , GAYE_CLAS_ID , GAYE_GYEOLJE_TYPE , GAYE_GYEOLJE_USER  
+	        FROM GANGEUISIL_YEYAK
+	        WHERE GAYE_GYEOLJE_USER LIKE '%TMTD1%'
+	</select>
+	<update id="updateYeyakDelflag">
+		UPDATE GANGEUISIL_YEYAK SET GAYE_STATE='N'
+	        WHERE GAYE_ID='YY2023090006'
+	</update>
 </mapper>
