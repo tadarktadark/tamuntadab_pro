@@ -27,21 +27,25 @@
 
 <select id="getCareerList" resultType="careerVo">
 	SELECT CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, CARE_SOSOK,
-		CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
-		CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
-	FROM CAREER c 
-	WHERE CARE_STATUS = 'N'
-	OR 
-	CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
-						FROM CAREER c
-						GROUP BY CARE_ACCOUNT_ID
-						HAVING count(CARE_ACCOUNT_ID) >= 1)
+          CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
+          CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
+	FROM (SELECT CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, CARE_SOSOK,
+                CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
+                CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON,
+                ROW_NUMBER() OVER (ORDER BY CARE_DATE DESC) AS RN
+        FROM CAREER c 
+        WHERE CARE_STATUS = 'N'
+        OR 
+        CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
+                                                FROM CAREER c
+                                                GROUP BY CARE_ACCOUNT_ID
+                                                HAVING count(CARE_ACCOUNT_ID) >= 1)
    AND CARE_COMPANY IN (SELECT CARE_COMPANY
-						FROM CAREER c
-						GROUP BY CARE_COMPANY
-						HAVING count(CARE_COMPANY) >= 1)
-   AND CARE_STATUS = 'B'
-   ORDER BY CARE_DATE
+                                                FROM CAREER c
+                                                GROUP BY CARE_COMPANY
+                                                HAVING count(CARE_COMPANY) >= 1)
+   AND CARE_STATUS = 'B')
+   WHERE RN BETWEEN #{start} AND #{end}
 </select>
 
 <update id="updateCareer">
@@ -53,7 +57,7 @@
 </update>
 
 <update id="updateCareerS">
-	UPDATE CAREER SET CARE_STATUS = 'S', CARE_STATUS_DATE = SYSDATE 
+	UPDATE CAREER SET CARE_STATUS = 'S', CARE_STATUS_DATE = CURRENT_DATE 
 	WHERE CARE_ID=#{careId}
 </update>
 <update id="updateCareerCert">
@@ -62,12 +66,12 @@
 </update>
 
 <update id="updateCareerB">
-	UPDATE CAREER SET CARE_STATUS = 'B', CARE_REASON=#{careReason}, CARE_STATUS_DATE = SYSDATE 
+	UPDATE CAREER SET CARE_STATUS = 'B', CARE_REASON=#{careReason}, CARE_STATUS_DATE = CURRENT_DATE 
 	WHERE CARE_ID=#{careId}
 </update>
 
 <update id="updateCareerD">
-	UPDATE CAREER SET CARE_STATUS = 'D', CARE_STATUS_DATE = SYSDATE 
+	UPDATE CAREER SET CARE_STATUS = 'D', CARE_STATUS_DATE = CURRENT_DATE 
 	WHERE CARE_ID=#{careId}
 </update>
 
@@ -89,7 +93,7 @@
 							HAVING count(CARE_COMPANY) >= 1)
 	   AND CARE_STATUS = 'B'
 	   <![CDATA[
-		AND	CARE_STATUS_DATE <= SYSDATE - 10
+		AND	CARE_STATUS_DATE <= CURRENT_DATE - 10
 	   ]]>
 </delete>
 

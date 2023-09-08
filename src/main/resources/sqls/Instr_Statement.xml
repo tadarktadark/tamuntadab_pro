@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.InstrDaoImpl">
 
-<resultMap type="instrVo" id="">
+<resultMap type="instrVo" id="instrMap">
 	<result column="INPR_SEQ" property="inprSeq"/>
 	<result column="INPR_ACCOUNT_ID" property="inprAccountId"/>
 	<result column="INPR_INTRO" property="inprIntro"/>
@@ -16,21 +16,13 @@
 	<result column="SUBJECTS_MAJOR_TITLE" property="subjectsMajorTitle"/>
 	<result column="REVIEW_COUNT" property="reviewCount"/>
 	<result column="INGI" property="ingi"/>
-	<result column="INED_SCHOOL" property="inedSchool"/>
-	<result column="INED_MAJOR" property="inedMajor"/>
-	<result column="INED_MINOR" property="inedMinor"/>
-	<result column="INED_START" property="inedStart"/>
-	<result column="INED_END" property="inedEnd"/>
 	
-	<collection property="userProfileVo" resultMap=""/>
-	<collection property="classVo" resultMap=""/>
-	<collection property="reviewVo" resultMap=""/>
+	<collection property="userProfileVo" resultMap="userProfileMap"/>
+	<collection property="classVo" resultMap="classMap"/>
 </resultMap>
 <resultMap type="userProfileVo" id="userProfileMap">
-	<result column="USER_PROFILE_FILE" property=""/>
-	<result column="USER_NICKNAME" property=""/>
-	<result column="" property=""/>
-	<result column="" property=""/>
+	<result column="USER_PROFILE_FILE" property="userProfileFile"/>
+	<result column="USER_NICKNAME" property="userNickname"/>
 </resultMap>
 <resultMap type="classVo" id="classMap">
 	<result column="CLAS_ID" property="clasId"/>
@@ -43,20 +35,26 @@
 	<collection property="reviewVo" resultMap="reviewMap"/>
 </resultMap>
 <resultMap type="reviewVo" id="reviewMap">
-	<result column="REVI_STUD_NAME" property=""/>
-	<result column="REVI_PRO" property=""/>
-	<result column="REVI_PREPARE" property=""/>
-	<result column="AVG_SCORE" property=""/>
-	<result column="REVI_ABIL" property=""/>
-	<result column="REVI_SIGAN" property=""/>
-	<result column="REVI_DETAIL" property=""/>
-	<result column="REVI_REGDATE" property=""/>
+	<result column="REVI_STUD_NAME" property="reviStudName"/>
+	<result column="REVI_PRO" property="reviPro"/>
+	<result column="REVI_PREPARE" property="reviPrepare"/>
+	<result column="AVG_SCORE" property="avgScore"/>
+	<result column="REVI_ABIL" property="reviAbil"/>
+	<result column="REVI_SIGAN" property="reviSigan"/>
+	<result column="REVI_DETAIL" property="reviDetail"/>
+	<result column="REVI_REGDATE" property="reviRegdate"/>
 </resultMap>
 
-<select id="getMyInstrProfile">
+<select id="getMyInstrProfile" resultType="instrVo">
 	SELECT INPR_SEQ, INED_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
 		INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE,
-		INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INED_STAGE,
+		(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+		     FROM JSON_TABLE(INPR_SUBJECTS, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
+		     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_TITLE,
+		(SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
+		     FROM JSON_TABLE(INPR_SUBJECTS_MAJOR, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
+		     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_MAJOR_TITLE,
+		INED_STAGE,
 		INED_SCHOOL, INED_MAJOR, INED_MINOR, TO_CHAR(INED_START,'YYYY-MM-DD') AS INED_START, 
 		TO_CHAR(INED_END, 'YYYY-MM-DD') AS INED_END
 	FROM INSTR_PROFILE INNER JOIN INSTR_EDULEVEL
@@ -65,38 +63,41 @@
 </select>
 
 <insert id="insertInstrProfile">
+	<selectKey resultType="java.lang.Integer" keyProperty="inprSeq" order="BEFORE">
+		SELECT INPR_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
 	INSERT INTO INSTR_PROFILE (INPR_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
 							 INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE, 
 							 INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INPR_REGDATE)
-	VALUES (INPR_SEQ.NEXTVAL, #{inprAccountId}, #{inprIntro}, #{inprFee},
+	VALUES (#{inprSeq}, #{inprAccountId}, #{inprIntro}, #{inprFee},
 			#{inprSiteYoutube}, #{inprSiteWeb}, #{inprSiteMobile},
-			#{inprSubjects}, #{inprSubjectsMajor}, SYSDATE)
+			#{inprSubjects}, #{inprSubjectsMajor}, CURRENT_DATE)
 </insert>
 
 <insert id="insertInstrEdulevel">
 	INSERT INTO INSTR_EDULEVEL (INED_SEQ, INED_INPR_SEQ, INED_STAGE, 
 							INED_SCHOOL, INED_MAJOR, INED_MINOR, 
 							INED_START, INED_END, INED_REGDATE)
-	VALUES (INED_SEQ.NEXTVAL, #{inedInprSeq}, #{inedStage}, 
+	VALUES (#{inprSeq}, #{inedInprSeq}, #{inedStage}, 
 			#{inedSchool}, #{inedMajor}, #{inedMinor}, 
-			#{inedStart}, #{inedEnd}, SYSDATE)
+			#{inedStart}, #{inedEnd}, CURRENT_DATE)
 </insert>
 
 <update id="updateInstrProfile">
 	UPDATE INSTR_PROFILE SET INPR_INTRO=#{inprIntro}, INPR_FEE=#{inprFee}, INPR_SITE_YOUTUBE=#{inprSiteYoutube}, 
 							INPR_SITE_WEB=#{inprSiteWeb}, INPR_SITE_MOBILE=#{inprSiteMobile}, INPR_SUBJECTS=#{inprSubjects}, 
-							INPR_SUBJECTS_MAJOR=#{inprSubjectsMajor}, INPR_REGDATE=SYSDATE
+							INPR_SUBJECTS_MAJOR=#{inprSubjectsMajor}, INPR_REGDATE=CURRENT_DATE
 	WHERE INPR_SEQ=#{inprSeq}
 </update>
 
 <update id="updateInstrEdulevel">
 	UPDATE INSTR_EDULEVEL SET INED_STAGE=#{inedStage}, INED_SCHOOL=#{inedSchool}, INED_MAJOR=#{inedMajor}, 
-							INED_MINOR=#{inedMinor}, INED_START=#{inedStart}, INED_END=#{inedEnd}, INED_REGDATE=SYSDATE
+							INED_MINOR=#{inedMinor}, INED_START=#{inedStart}, INED_END=#{inedEnd}, INED_REGDATE=CURRENT_DATE
 	WHERE INED_SEQ=#{inedSeq}
 		AND INED_INPR_SEQ = #{inedInprSeq}
 </update>
 
-<select id="getAllInstr">
+<select id="getAllInstr" resultMap="instrMap">
 	SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT,
 	    SUBJECTS_TITLE, SUBJECTS_MAJOR_TITLE, REVIEW_COUNT,
 		CASE WHEN NTILE(10) OVER (ORDER BY INPR_LIKE_COUNT DESC) = 1 THEN 'HOT' ELSE NULL END AS INGI
@@ -130,16 +131,16 @@
 </select>
 
 <update id="updateInstrLike">
-	UPDATE INSTR_PROFILE SET INPR_LIKE = #{inprLike}, INPR_LIKE_COUNT = #{inprLikeCount}, INPR_REGDATE = SYSDATE
+	UPDATE INSTR_PROFILE SET INPR_LIKE = #{inprLike}, INPR_LIKE_COUNT = #{inprLikeCount}, INPR_REGDATE = CURRENT_DATE
 	WHERE INPR_SEQ = #{inprSeq}
 </update>
 
 <update id="updateInstrView">
-	UPDATE INSTR_PROFILE SET INPR_VIEW = #{inprView}, INPR_VIEW_COUNT = #{inprViewCount}, INPR_REGDATE = SYSDATE
+	UPDATE INSTR_PROFILE SET INPR_VIEW = #{inprView}, INPR_VIEW_COUNT = #{inprViewCount}, INPR_REGDATE = CURRENT_DATE
 	WHERE INPR_SEQ = #{inprSeq}
 </update>
 
-<select id="getOneInstrSimple">
+<select id="getOneInstrSimple" resultMap="instrMap">
 	SELECT INPR_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, USER_NICKNAME, USER_PROFILE_FILE, INPR_CERT, INPR_LIKE,
 		(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
 	     FROM JSON_TABLE(INPR_SUBJECTS, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
@@ -150,7 +151,7 @@
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
-<select id="getOneInstrProfile">
+<select id="getOneInstrProfile" resultType="instrVo">
 	SELECT (SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
 	     FROM JSON_TABLE(INPR_SUBJECTS_MAJOR, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
 	     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_MAJOR_TITLE,
@@ -161,7 +162,7 @@
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
-<select id="getOneInstrClass">
+<select id="getOneInstrClass" resultMap="instrMap">
 	SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_SUEOP_NALJJA, CLAS_SUGANGNYO,
 		(SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
 	     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
@@ -172,7 +173,7 @@
 	AND INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
-<select id="getOneIntrReview">
+<select id="getOneIntrReview" resultMap="classMap">
 	SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
 		(REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0 AS AVG_SCORE,
 		REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE
@@ -191,7 +192,6 @@
 		</otherwise>
 	</choose>
 </select>
-
 
 
 </mapper>

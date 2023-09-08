@@ -42,7 +42,7 @@
 					REVI_SIGAN, REVI_DETAIL, REVI_REGDATE)
 	VALUES (REVI_SEQ.NEXTVAL, #{reviClasId}, #{reviStudName}, 
 			#{reviPro}, #{reviPrepare}, #{reviAbil}, 
-			#{reviSigan}, #{reviDetail}, SYSDATE)
+			#{reviSigan}, #{reviDetail}, CURRENT_DATE)
 </insert>
 
 <delete id="deleteReview">
