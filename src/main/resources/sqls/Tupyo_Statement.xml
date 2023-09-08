@@ -1,4 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.TupyoDaoImpl">
+
+
+<insert id="insertTupyo" parameterType="java.util.Map">
+INSERT INTO TUPYO(TUPY_SEQ, TUPY_CLAS_ID, TUPY_TOTAL_USER, TUPY_STARTDATE, TUPY_ENDDATE, TUPY_STATUS)
+        VALUES(TUPY_SEQ.NEXTVAL,#{tupyClasId}, #{tupyTotalUser}, SYSDATE , #{tupyEnddate}, 'P')
+</insert>
+
+<select id="getTupyo" parameterType="java.lang.Integer" resultType="tupyoOptionVo">
+SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TUPY_STARTDATE ,TUPY_ENDDATE ,TUPY_STATUS
+        FROM TUPYO t
+        WHERE TUPY_CLAS_ID =#{tupyClasId}
+</select>
+
+<insert id="insertTupyoOption" parameterType="java.util.Map">
+INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE) 
+	VALUES(TUOP_SEQ.NEXTVAL, #{tuopTupySeq}, #{tuopInstr}, #{tuopFee})
+</insert>
+<insert id="insertTupyoUser" parameterType="java.util.Map">
+INSERT INTO TUPYO_USER(TUUS_SEQ, TUUS_OPTION_SEQ, TUUS_ACCOUNT_ID, TUUS_AGREE)
+        VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, #{tuusAgree})
+</insert>
+<select id="getTupyoResult" parameterType="java.lang.Integer" resultType="java.util.List">
+SELECT TUUS_SEQ , TUUS_OPTION_SEQ , TUUS_ACCOUNT_ID , TUUS_AGREE 
+        FROM TUPYO_USER tu
+        WHERE TUUS_OPTION_SEQ  IN (
+                                        SELECT TUOP_SEQ 
+                                                FROM TUPYO_OPTION to2
+                                                WHERE TUOP_TUPY_SEQ =#{tuopTupySeq}
+                                        )
+</select>
+<delete id="delTupyoUser" parameterType="java.lang.Integer">
+DELETE FROM TUPYO_USER
+        WHERE TUUS_SEQ=#{tuusSeq}
+</delete>
+<update id="endTupyo" parameterType="java.lang.Integer">
+UPDATE TUPYO
+	SET TUPY_STATUS='F'
+	WHERE TUPY_SEQ=#{tupySeq}
+</update>
+<update id="updateTupyo" parameterType="java.lang.Integer">
+UPDATE TUPYO
+	SET TUPY_TOTAL_USER = TUPY_TOTAL_USER - 1
+	WHERE TUPY_SEQ=#{tupySeq}
+</update>
+<select id="getAgreeUser" parameterType="java.util.Map" resultType="java.util.List">
+SELECT TUUS_SEQ ,TUUS_OPTION_SEQ ,TUUS_ACCOUNT_ID ,TUUS_AGREE 
+        FROM TUPYO_USER tu 
+        WHERE TUUS_OPTION_SEQ =#{tuusOptionSeq} AND TUUS_AGREE =#{tuusAgree}
+</select>
+<update id="updateAgreeTupyo" parameterType="java.util.Map">
+UPDATE TUPYO_USER 
+        SET TUUS_AGREE = #{tuusAgree}
+        WHERE TUUS_SEQ =#{tuusSeq}
+</update>
 </mapper>

@@ -1,4 +1,4 @@
-package com.tdtd.tmtd.model.mapper;
+package com.tdtd.tmtd.model.service;
 
 import java.util.List;
 import java.util.Map;
@@ -6,8 +6,8 @@ import java.util.Map;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
 
-public interface ITupyoDao {
-	
+public interface ITupyoService {
+
 	//투표 생성
 	public int insertTupyo(Map<String, Object> map);
 	//투표 조회
@@ -28,5 +28,5 @@ public interface ITupyoDao {
 	public List<TupyoUserVo> getAgreeUser(Map<String, Object> map);
 	//찬반 투표 반영
 	public int updateAgreeTupyo(Map<String, Object> map);
-
+	
 }
