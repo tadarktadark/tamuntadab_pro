@@ -1,4 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.CommUserDaoImpl">
+	
+	<!-- 이메일 중복확인 -->
+	<select id="searchEmail" parameterType="java.util.Map" resultType="java.lang.Boolean">
+		SELECT 
+		CASE WHEN COUNT(*) > 0  THEN 'TRUE' ELSE 'FALSE' END
+		<choose>
+			<when test='site == "T"'>
+				FROM USER_PROFILE
+			</when>
+			<when test='site == "N"'>
+				FROM NAVER_USER_PROFILE
+			</when>
+			<when test='site == "K"'>
+				FROM KAKAO_USER_PROFILE
+			</when>
+			<when test='site == "G"'>
+				FROM GOOGLE_USER_PROFILE
+			</when>
+		</choose>
+				WHERE USER_EMAIL =#{userEmail}
+	</select>
+	
+	
+	<!-- 닉네임 중복확인 -->
+	<select id="searchNickName" parameterType="java.lang.String" resultType="java.lang.Boolean">
+		SELECT 
+		CASE WHEN COUNT(*) > 0 THEN 'TRUE' ELSE 'FALSE' END
+		FROM(
+			SELECT USER_NICKNAME 
+				FROM USER_PROFILE up 
+			UNION
+			SELECT USER_NICKNAME 
+				FROM KAKAO_USER_PROFILE kup 
+			UNION
+			SELECT USER_NICKNAME 
+				FROM NAVER_USER_PROFILE nup 
+			UNION
+			SELECT USER_NICKNAME 
+				FROM GOOGLE_USER_PROFILE gup) 
+			WHERE USER_NICKNAME = #{userNickName)
+	</select>
 </mapper>

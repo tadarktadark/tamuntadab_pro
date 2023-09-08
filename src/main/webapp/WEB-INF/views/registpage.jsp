@@ -11,6 +11,7 @@
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_topbar.jsp" %>
 		<%@ include file="./shared/_sidebar.jsp" %>
+	
 		<div class="main-content">
 			<div class="page-content">
 				<div class="container-fluid">
