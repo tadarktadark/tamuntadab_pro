@@ -22,6 +22,7 @@
 		<mapper resource="sqls/Singo_Statement.xml"/>
 		<mapper resource="sqls/SocialUser_Statement.xml"/>
 		<mapper resource="sqls/Subject_Statement.xml"/>
+		<mapper resource="sqls/Tupyo_Statement.xml"/>
 		<mapper resource="sqls/Yeyak_Statement.xml"/>
 	</mappers>
 </configuration>
