@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.UserProfileVo;
+
 @Repository
 public class CommUserDaoImpl implements ICommUserDao {
 	
@@ -22,5 +24,10 @@ public class CommUserDaoImpl implements ICommUserDao {
 	@Override
 	public Boolean searchNickName(String userNickName) {
 		return sqlSession.selectOne(NS+"searchNickName",userNickName);
+	}
+
+	@Override
+	public int registCommUser(Map<String,Object> userprofile) {
+		return sqlSession.insert(NS+"commRegist",userprofile);
 	}
 }

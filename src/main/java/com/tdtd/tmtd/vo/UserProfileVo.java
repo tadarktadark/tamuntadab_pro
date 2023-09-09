@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.vo;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -23,6 +25,7 @@ public class UserProfileVo {
 	private String userAuth;
 	private String userPhoneNumber;
 	private String userAutoLoginToken;
+	private String userRefreshToken;
 	private String userJoinDate;
 	private String userLastAccessDate;
 	private String userGender;
@@ -32,5 +35,6 @@ public class UserProfileVo {
 	private String userDelflag;
 	private int userChadanCount;
 	private String userChadanRegistDate;
-	
 }
+
+
