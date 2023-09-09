@@ -122,14 +122,14 @@ public class Instr_JunitTest {
 	
 //	@Test
 	public void getOneInstrClass() {
-		InstrVo vo = service.getOneInstrClass("TMTD141");
+		List<InstrVo> vo = service.getOneInstrClass("TMTD131");
 		assertNotNull(vo);
 	}
 	
 	@Test
 	public void getOneIntrReview() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("userAccountId", "TMTD141");
+		map.put("userAccountId", "TMTD103");
 		map.put("order", "desc");
 		
 		List<InstrVo> list = service.getOneIntrReview(map);

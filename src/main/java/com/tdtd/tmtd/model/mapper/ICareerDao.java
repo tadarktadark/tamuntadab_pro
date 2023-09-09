@@ -7,6 +7,8 @@ import com.tdtd.tmtd.vo.CareerVo;
 
 public interface ICareerDao {
 	
+	public String selectMaxIdToday(String datePrefix);
+	
 	//TDT008 insertCareer
 	public int insertCareer(Map<String, Object> map);
 	
@@ -20,10 +22,10 @@ public interface ICareerDao {
 	public int updateCareer(CareerVo vo);
 	
 	//TDT012 updateCareerS
-	public int updateCareerS(String careId);
+	public int updateCareerS(Map<String, Object> map);
 	
 	//TDT013 updateCareerCert
-	public int updateCareerCert(String userAccountId);
+	public int updateCareerCert(Map<String, Object> map);
 	
 	//TDT014 updateCareerB
 	public int updateCareerB(Map<String, Object> map);

@@ -63,7 +63,7 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public InstrVo getOneInstrClass(String userAccountId) {
+	public List<InstrVo> getOneInstrClass(String userAccountId) {
 		return dao.getOneInstrClass(userAccountId);
 	}
 

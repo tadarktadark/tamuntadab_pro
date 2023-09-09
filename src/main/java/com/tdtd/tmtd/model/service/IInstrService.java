@@ -34,7 +34,7 @@ public interface IInstrService {
 		public InstrVo getOneInstrProfile(String userAccountId);
 		
 		//TDT024 getOneInstrClass
-		public InstrVo getOneInstrClass(String userAccountId);
+		public List<InstrVo> getOneInstrClass(String userAccountId);
 		
 		//TDT025 getOneIntrReview
 		public List<InstrVo> getOneIntrReview(Map<String, Object> map);
