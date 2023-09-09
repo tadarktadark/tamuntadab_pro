@@ -12,6 +12,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
+<div id="layout-wrapper">
 	<div id="tupyoList">
 		<b>강사님을 선택해주세요</b>${vo}<br>
 		<c:forEach var="item" items="${lists}">
@@ -22,6 +23,8 @@
 	<div id="tupyoResult" style="display: none;">
 		<canvas id="myChart"></canvas>
 	</div>
+</div>
+<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 <script type='text/javascript'>
 function tupyoComplete(){
@@ -43,33 +46,33 @@ function tupyoComplete(){
     	  
     	  console.log(response.length);
     	  console.log(response[0].tuopInstr);
-    	  var tupyoOptionArray = new Array();
+    	  var tupyoInstrsArray = new Array();
     	  for(let i=0;i<response.length;i++){
-    		  tupyoOptionArray.push(response[i].tuopInstr)
+    		  tupyoInstrsArray.push(response[i].tuopInstr)
     	  }
     	  
     	  
-    	  console.log(tupyoOptionArray);
+    	  console.log(tupyoInstrsArray);
     	  var ctx = document.getElementById("myChart").getContext('2d');
 
     	  var myChart = new Chart(ctx, {
     	      type: 'bar',
     	      data: {
-    	          labels: tupyoOptionArray,
+    	          labels: tupyoInstrsArray,
     	          datasets: [{
-    	              label: '# of Votes',
-    	              data: [12, 19, 3],
-    	              backgroundColor:'#FFB1C1'
+    	              label: '투표 결과',
+    	              data: [1, 6, 6],
+    	              backgroundColor:'#8977ad'
     	          }]
     	      },
     	      options: {
+    	    	  indexAxis: 'y',
     	          maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
     	          scales: {
-    	              yAxes: [{
-    	                  ticks: {
-    	                      beginAtZero:true
-    	                  }
-    	              }]
+    	        	  x:{
+    	                  beginAtZero:true,
+    	                  max:10
+    	              }
     	          }
     	      }
     	  });
