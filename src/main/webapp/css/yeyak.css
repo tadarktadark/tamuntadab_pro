@@ -8,3 +8,7 @@
 #btn-sigungu {
 	margin-left: 10px;
 }
+
+tr, td{
+	text-align: center;
+}
