@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.model.service.ITupyoService;
@@ -51,5 +52,8 @@ public class TupyoController {
 		System.out.println("이거임?"+tupyoOptionList);
 		return tupyoOptionList;
 	}
+	
+
+
 
 }

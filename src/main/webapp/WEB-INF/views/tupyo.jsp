@@ -15,6 +15,7 @@
 <div id="layout-wrapper">
 	<div id="tupyoList">
 		<b>강사님을 선택해주세요</b>${vo}<br>
+		<input name="list" type="hidden" value="${lists}">
 		<c:forEach var="item" items="${lists}">
 			<input type="radio" name="teacher" value="${item.tuopSeq}">강사 : ${item.tuopInstr} / 수업료: ${item.tuopFee}원<br>
 		</c:forEach>
@@ -31,13 +32,16 @@ function tupyoComplete(){
     
     var selectedTeacher = $("input[name='teacher']:checked").val();
     var tupyoOptionList = $("input[name='list']").val();
+    
     var userId = "TMTD1";
+    
     $.ajax({
       url: './insertTupyoUser.do',
       type: 'POST',
       contentType: "application/json;charset=UTF-8",
       data: JSON.stringify({ "tuusOptionSeq" : selectedTeacher,
-    	  	  "tuusAccountId" : userId}),
+    	  	  				 "tuusAccountId" : userId
+      						}),
       success: function(response) {
     	  console.log(selectedTeacher,userId);
     	  $("#tupyoList").css('display','none');
@@ -50,7 +54,7 @@ function tupyoComplete(){
     	  for(let i=0;i<response.length;i++){
     		  tupyoInstrsArray.push(response[i].tuopInstr)
     	  }
-    	  
+
     	  
     	  console.log(tupyoInstrsArray);
     	  var ctx = document.getElementById("myChart").getContext('2d');
