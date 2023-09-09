@@ -9,27 +9,27 @@ import com.tdtd.tmtd.vo.TupyoVo;
 
 public interface ITupyoService {
 
-	//투표 생성
+	//TDT066 투표 생성
 	public int insertTupyo(Map<String, Object> map);
-	//투표 조회
+	//TDT067 투표 조회
 	public TupyoVo getTupyo(int tupyClasId);
-	//선택지 조회
+	//TDT068 선택지 조회
 	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq);
-	//선택지 생성
+	//TDT069 선택지 생성
 	public int insertTupyoOption(Map<String, Object> map);
-	//투표 진행
+	//TDT070 투표 진행
 	public int insertTupyoUser(Map<String, Object> map);
-	//투표 결과 조회
+	//TDT071 투표 결과 조회
 	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq);
-	//재투표
+	//TDT072 재투표
 	public int delTupyoUser(int tuusSeq);
-	//투표 종료
+	//TDT073 투표 종료
 	public int endTupyo(int tuusSeq);
-	//투표 인원수 변경
+	//TDT074 투표 인원수 변경
 	public int updateTupyo(int tuusSeq);
-	//찬반 투표 구분
+	//TDT075 찬반 투표 구분
 	public List<TupyoUserVo> getAgreeUser(Map<String, Object> map);
-	//찬반 투표 반영
+	//TDT076 찬반 투표 반영
 	public int updateAgreeTupyo(Map<String, Object> map);
 	
 }

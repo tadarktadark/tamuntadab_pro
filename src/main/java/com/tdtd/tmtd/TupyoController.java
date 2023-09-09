@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,19 +32,24 @@ public class TupyoController {
 		List<TupyoOptionVo> lists = service.getAllTupyoOption(1);
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
+		model.addAttribute("title","투표");
 		return "tupyo";
 	}
 	
 	//투표하기
 	@ResponseBody
 	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
-	public void insertTupyoUser(@RequestBody TupyoUserVo vo)  throws Exception {
+	public List<TupyoOptionVo> insertTupyoUser(@RequestBody TupyoUserVo vo)  throws Exception {
 		int tuusOptionSeq = vo.getTuusOptionSeq();
 		String tuusAccountId = vo.getTuusAccountId();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
 		map.put("tuusAccountId", tuusAccountId);
 		service.insertTupyoUser(map);
+		
+		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tuusOptionSeq);
+		System.out.println("이거임?"+tupyoOptionList);
+		return tupyoOptionList;
 	}
 
 }
