@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.model.service.ITupyoService;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
@@ -33,8 +34,9 @@ public class TupyoController {
 	}
 	
 	//투표하기
+	@ResponseBody
 	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
-	public void insertTupyoUser(@RequestBody TupyoUserVo vo) {
+	public void insertTupyoUser(@RequestBody TupyoUserVo vo)  throws Exception {
 		int tuusOptionSeq = vo.getTuusOptionSeq();
 		String tuusAccountId = vo.getTuusAccountId();
 		Map<String, Object> map = new HashMap<String, Object>();
