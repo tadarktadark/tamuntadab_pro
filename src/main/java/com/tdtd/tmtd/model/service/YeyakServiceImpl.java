@@ -19,6 +19,11 @@ public class YeyakServiceImpl implements IYeyakService {
 	private IYeyakDao dao;
 	
 	@Override
+	public int getGangeuisilCount(Map<String, Object> map) {
+		return dao.getGangeuisilCount(map);
+	}
+	
+	@Override
 	public List<String> getGangeuisilSidoList() {
 		return dao.getGangeuisilSidoList();
 	}

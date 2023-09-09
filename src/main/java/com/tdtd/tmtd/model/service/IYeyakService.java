@@ -16,6 +16,15 @@ import com.tdtd.tmtd.vo.YeyakVo;
 public interface IYeyakService {
 	
 	/**
+	 * 강의실 개수 조회
+	 * @param map key = ["gacoSido", "gacoSigungu"] value=["시도","시군구"]
+	 * @return 강의실 개수 int
+	 * @author SoHyeon
+	 * @since 2023.09.09
+	 */
+	public int getGangeuisilCount(Map<String, Object> map);
+	
+	/**
 	 * 강의실이 있는 시도 조회
 	 * @return 시/도(갯수) List<String>
 	 * @author SoHyeon

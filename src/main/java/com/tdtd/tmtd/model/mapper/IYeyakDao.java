@@ -9,6 +9,8 @@ import com.tdtd.tmtd.vo.YeyakVo;
 
 public interface IYeyakDao {
 
+	public int getGangeuisilCount(Map<String, Object> map);
+	
 	public List<String> getGangeuisilSidoList();
 
 	public List<String> getGangeuisilSigunguList(String gacoSido);

@@ -13,9 +13,15 @@ import com.tdtd.tmtd.vo.YeyakVo;
 
 @Repository
 public class YeyakDaoImpl implements IYeyakDao {
-
+	
 	@Autowired
 	private SqlSessionTemplate session;
+	
+	@Override
+	public int getGangeuisilCount(Map<String, Object> map) {
+		return session.selectOne(NS+"getGangeuisilCount",map);
+	}
+
 	private final String NS = "com.tdtd.tmtd.model.mapper.YeyakDaoImpl.";
 	
 	@Override
