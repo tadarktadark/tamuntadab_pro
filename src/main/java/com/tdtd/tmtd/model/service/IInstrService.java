@@ -22,10 +22,10 @@ public interface IInstrService {
 		public List<InstrVo> getAllInstr(String order);
 		
 		//TDT019 updateInstrLike
-		public int updateInstrLike(Map<String, Object> map);
+		public int updateInstrLike(InstrVo vo);
 		
 		//TDT020 updateInstrView
-		public int updateInstrView(Map<String, Object> map);
+		public int updateInstrView(InstrVo vo);
 		
 		//TDT021 getOneInstrSimple
 		public InstrVo getOneInstrSimple(String userAccountId);
