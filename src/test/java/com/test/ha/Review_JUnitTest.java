@@ -36,14 +36,17 @@ public class Review_JUnitTest {
 	
 //	@Test
 	public void insertReview() {
-		ReviewVo vo = new ReviewVo(0, 1000000073, "자바의 신", 4, 3, 1, 5, "무난무난", 0, 0, null);
+		ReviewVo vo = new ReviewVo(0, 1000000073, "자바의 신", 4, 3, 1, 5, "무난무난", null, 0, null);
 		int n = service.insertReview(vo);
 		assertEquals(1, n);
 	}
 	
-	@Test
+//	@Test
 	public void deleteReview() {
-		
+		Map<String, String[]> map = new HashMap<String, String[]>();
+		map.put("seqs", new String[] {"1"});
+		int n = service.deleteReview(map);
+		assertEquals(1, n);
 	}
 
 }

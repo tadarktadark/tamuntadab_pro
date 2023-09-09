@@ -68,8 +68,8 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public InstrVo getOneInstrClass(String userAccountId) {
-		return sqlSession.selectOne(NS+"getOneInstrClass", userAccountId);
+	public List<InstrVo> getOneInstrClass(String userAccountId) {
+		return sqlSession.selectList(NS+"getOneInstrClass", userAccountId);
 	}
 
 	@Override
