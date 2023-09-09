@@ -40,7 +40,7 @@
                         <a href="./instrList.do" class="nav-link menu-link"> <i class="ri-account-circle-line"></i> <span data-key="t-instr">강사</span> </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./gangeuisilList.do" class="nav-link menu-link"> <i class="ri-map-pin-line"></i> <span data-key="t-yeyak">예약</span> </a>
+                        <a href="./yeyak.do" class="nav-link menu-link"> <i class="ri-map-pin-line"></i> <span data-key="t-yeyak">예약</span> </a>
                     </li>
 
                     <li class="nav-item">
