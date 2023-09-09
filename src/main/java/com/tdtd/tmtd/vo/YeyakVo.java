@@ -28,7 +28,7 @@ public class YeyakVo {
 	private String gayeGyeoljeUser;
 	
 	public YeyakVo(String gayeGagaId, String gayeAccountId, String gayePhoneNumber, String gayeYeyakDate,
-			String gayeStartTime, int gayeHours, int gayeClasId, String gayeGyeoljeType, String gayeGyeoljeUser) {
+			String gayeStartTime, int gayeHours, int gayeClasId, String gayeGyeoljeType) {
 		this.gayeGagaId = gayeGagaId;
 		this.gayeAccountId = gayeAccountId;
 		this.gayePhoneNumber = gayePhoneNumber;
@@ -37,6 +37,5 @@ public class YeyakVo {
 		this.gayeHours = gayeHours;
 		this.gayeClasId = gayeClasId;
 		this.gayeGyeoljeType = gayeGyeoljeType;
-		this.gayeGyeoljeUser = gayeGyeoljeUser;
 	}
 }

@@ -11,7 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class GangeuisiilVo {
+public class GangeuisilVo {
 	private String gacoId;
 	private String gacoName;
 	private String gacoSido;
