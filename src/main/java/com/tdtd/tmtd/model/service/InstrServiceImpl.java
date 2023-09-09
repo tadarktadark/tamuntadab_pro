@@ -23,8 +23,11 @@ public class InstrServiceImpl implements IInstrService {
 	@Override
 	public int insertInstrProfile(InstrVo vo) {
 		int m = dao.insertInstrProfile(vo);
-		int n = dao.insertInstrEdulevel(vo);
-		return (m>0 || n>0) ? 1:0;
+		if(vo.getInedStage() != 0) {
+			int n = dao.insertInstrEdulevel(vo);
+			return (m>0 || n>0) ? 1:0;
+		}
+		return m;
 	}
 
 	@Override
@@ -40,13 +43,13 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public int updateInstrLike(Map<String, Object> map) {
-		return dao.updateInstrLike(map);
+	public int updateInstrLike(InstrVo vo) {
+		return dao.updateInstrLike(vo);
 	}
 
 	@Override
-	public int updateInstrView(Map<String, Object> map) {
-		return dao.updateInstrView(map);
+	public int updateInstrView(InstrVo vo) {
+		return dao.updateInstrView(vo);
 	}
 
 	@Override
