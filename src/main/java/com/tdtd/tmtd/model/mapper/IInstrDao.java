@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
 public interface IInstrDao {
@@ -14,13 +15,13 @@ public interface IInstrDao {
 	public int insertInstrProfile(InstrVo vo);
 	
 	//TDT005 insertInstrEdulevel
-	public int insertInstrEdulevel(InstrVo vo);
+	public int insertInstrEdulevel(InstrEduVo vo);
 	
 	//TDT006 updateInstrProfile
 	public int updateInstrProfile(InstrVo vo);
 	
 	//TDT007 updateInstrEdulevel
-	public int updateInstrEdulevel(InstrVo vo);
+	public int updateInstrEdulevel(InstrEduVo vo);
 	
 	//TDT018 getAllInstr
 	public List<InstrVo> getAllInstr(String order);

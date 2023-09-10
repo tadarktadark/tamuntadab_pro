@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.IInstrDao;
+import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
 @Service
@@ -23,18 +24,34 @@ public class InstrServiceImpl implements IInstrService {
 	@Override
 	public int insertInstrProfile(InstrVo vo) {
 		int m = dao.insertInstrProfile(vo);
-		if(vo.getInedStage() != 0) {
-			int n = dao.insertInstrEdulevel(vo);
-			return (m>0 || n>0) ? 1:0;
-		}
+		if (vo.getInstrEduVo() != null && !vo.getInstrEduVo().isEmpty()) {
+	        List<InstrEduVo> eduLevels = vo.getInstrEduVo();
+	        for (InstrEduVo eduLevel : eduLevels) {
+	            eduLevel.setInedInprSeq(vo.getInprSeq());
+	            
+	            dao.insertInstrEdulevel(eduLevel);
+	        }
+	        
+	        return 1;  // 성공적으로 저장되었을 경우 반환값 변경 가능
+	    }
 		return m;
 	}
 
 	@Override
 	public int updateInstrProfile(InstrVo vo) {
 		int m = dao.updateInstrProfile(vo);
-		int n = dao.updateInstrEdulevel(vo);
-		return (m>0 || n>0) ? 1:0;
+		if (vo.getInstrEduVo() != null && !vo.getInstrEduVo().isEmpty()) {
+	        List<InstrEduVo> eduLevels = vo.getInstrEduVo();
+	        for (InstrEduVo eduLevel : eduLevels) {
+	            eduLevel.setInedInprSeq(vo.getInprSeq());
+	            
+	            dao.updateInstrEdulevel(eduLevel);
+	        }
+	        
+	        return 1;  // 성공적으로 업데이트되었을 경우 반환값 변경 가능
+	    }
+	    
+	    return m;
 	}
 
 	@Override

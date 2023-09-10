@@ -24,11 +24,11 @@
 				</div>
 				<div class="card">
 					<div class="card-body">
-						<form action="#">
+						<form action="./insertInstrProfile.do" method="post">
 							<div class="row mb-3">
 								<div style="width: 700px;">
-									<label for="meassageInput" class="form-label">한줄 소개</label>
-									<textarea class="form-control" id="meassageInput" rows="3"
+									<label for="inprIntro" class="form-label">한줄 소개</label>
+									<textarea class="form-control" name="inprIntro" id="inprIntro" rows="3"
 										placeholder="자신을 소개하는 한마디를 적어주세요(100자 이내)"></textarea>
 								</div>
 							</div>

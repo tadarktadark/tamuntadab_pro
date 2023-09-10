@@ -17,8 +17,18 @@
 	<result column="REVIEW_COUNT" property="reviewCount"/>
 	<result column="INGI" property="ingi"/>
 	
+	<collection property="instrEduVo" resultMap="instrEduMap"/>
 	<collection property="userProfileVo" resultMap="userProfileMap"/>
 	<collection property="classVo" resultMap="classMap"/>
+</resultMap>
+<resultMap type="instrEduVo" id="instrEduMap">
+	<result column="INED_SEQ" property="inedSeq"/>
+	<result column="INED_STAGE" property="inedStage"/>
+	<result column="INED_SCHOOL" property="inedSchool"/>
+	<result column="INED_MAJOR" property="inedMajor"/>
+	<result column="INED_MINOR" property="inedMinor"/>
+	<result column="INED_START" property="inedStart"/>
+	<result column="INED_END" property="inedEnd"/>
 </resultMap>
 <resultMap type="userProfileVo" id="userProfileMap">
 	<result column="USER_PROFILE_FILE" property="userProfileFile"/>
