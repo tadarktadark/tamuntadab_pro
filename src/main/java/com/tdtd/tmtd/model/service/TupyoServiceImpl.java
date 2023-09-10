@@ -37,6 +37,12 @@ public class TupyoServiceImpl implements ITupyoService {
 	public int insertTupyoOption(Map<String, Object> map) {
 		return dao.insertTupyoOption(map);
 	}
+	
+	@Override
+	public List<TupyoUserVo> tupyoUserChk(Map<String, Object> map) {
+		return dao.tupyoUserChk(map);
+	}
+
 
 	@Override
 	public int insertTupyoUser(Map<String, Object> map) {
@@ -72,6 +78,7 @@ public class TupyoServiceImpl implements ITupyoService {
 	public int updateAgreeTupyo(Map<String, Object> map) {
 		return dao.updateAgreeTupyo(map);
 	}
+
 
 
 }

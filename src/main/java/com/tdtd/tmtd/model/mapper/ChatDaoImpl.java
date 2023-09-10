@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.model.mapper;
 
-public class ChatDaoImpl implements IClassDao {
+
+public class ChatDaoImpl implements IChatDao {
+
 
 }

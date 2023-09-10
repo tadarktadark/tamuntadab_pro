@@ -38,6 +38,11 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int insertTupyoOption(Map<String, Object> map) {
 		return sqlSession.insert(NS+"insertTupyoOption",map);
 	}
+	
+	@Override
+	public List<TupyoUserVo> tupyoUserChk(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"tupyoUserChk",map);
+	}
 
 	@Override
 	public int insertTupyoUser(Map<String, Object> map) {
@@ -73,6 +78,8 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int updateAgreeTupyo(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateAgreeTupyo",map);
 	}
+
+	
 
 
 
