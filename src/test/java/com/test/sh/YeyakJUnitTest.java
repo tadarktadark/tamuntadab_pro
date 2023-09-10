@@ -67,10 +67,10 @@ public class YeyakJUnitTest {
 	}
 	
 //	@Test
-	public void getYeyakDateList() {
-		List<GangeuisilVo> list = service.getYeyakDateList("GAGA00277");
-		assertNotNull(list);
-	}
+//	public void getYeyakDateList() {
+//		List<GangeuisilVo> list = service.getYeyakDateList("GAGA00277");
+//		assertNotNull(list);
+//	}
 	
 //	@Test
 	/*
