@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
 import com.tdtd.tmtd.vo.GyeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
@@ -44,14 +45,19 @@ public class YeyakDaoImpl implements IYeyakDao {
 		return session.selectList(NS+"getGangeuisilDetailList",gagaGacoId);
 	}
 
+//	@Override
+//	public List<GangeuisilVo> getYeyakDateList(String gagaId) {
+//		return session.selectList(NS+"getYeyakDateList",gagaId);
+//	}
+//
+//	@Override
+//	public List<GangeuisilVo> getYeyakTimeList(String gagaId) {
+//		return session.selectList(NS+"getYeyakTimeList",gagaId);
+//	}
+	
 	@Override
-	public List<GangeuisilVo> getYeyakDateList(String gagaId) {
-		return session.selectList(NS+"getYeyakDateList",gagaId);
-	}
-
-	@Override
-	public List<GangeuisilVo> getYeyakTimeList(String gagaId) {
-		return session.selectList(NS+"getYeyakTimeList",gagaId);
+	public GangeuisilVo getYeoyuTime(String gagaId) {
+		return session.selectOne(NS+"getYeoyuTime",gagaId);
 	}
 
 	@Override
@@ -85,8 +91,9 @@ public class YeyakDaoImpl implements IYeyakDao {
 	}
 	
 	@Override
-	public GangeuisilVo getYeoyuTime(String gagaId) {
-		return session.selectOne(NS+"getYeoyuTime",gagaId);
+	public List<ClassVo> getchamyeoClassList(String accountId) {
+		return session.selectList(NS+"getchamyeoClassList",accountId);
 	}
+	
 	
 }

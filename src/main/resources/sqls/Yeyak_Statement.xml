@@ -60,6 +60,7 @@
 		SELECT GAGA_ID, GAGA_GACO_ID AS GACO_ID, GAGA_NAME, GAGA_MAX, GAGA_HOUR_PRICE 
 	        FROM GANGEUISIL_GAEBYEOL
 	        WHERE GAGA_GACO_ID = #{gagaGacoId}
+	        ORDER BY GAGA_ID
 	</select>
 	<select id="getYeyakDateList" resultMap="gangeuisilMap">
 		SELECT GAGA_ID, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS, GACO_NAME, GAGA_NAME, GAGA_MAX, GAGA_HOUR_PRICE , GACO_OPEN, GACO_CLOSE
@@ -139,5 +140,13 @@
 	        FROM GANGEUISIL_COMM JOIN GANGEUISIL_GAEBYEOL
 	        ON GACO_ID = GAGA_GACO_ID 
 	        WHERE GAGA_ID = #{gagaId}
+	</select>
+	<select id="getchamyeoClassList" resultType="classVo">
+		SELECT CLAS_ID , CLAS_TITLE , CLAS_HYEONJAE_INWON 
+			FROM CLASS_CHAMYEOJA JOIN CLASS
+			ON CLCH_CLAS_ID = CLAS_ID
+			WHERE CLCH_ACCOUNT_ID = #{accountId}
+				AND CLCH_STATUS = 'Y'
+				AND CLAS_STATUS = '매칭완료'
 	</select>
 </mapper>

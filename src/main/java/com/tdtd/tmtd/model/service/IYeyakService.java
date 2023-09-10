@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
 import com.tdtd.tmtd.vo.GyeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
@@ -66,7 +67,7 @@ public interface IYeyakService {
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public List<GangeuisilVo> getYeyakDateList(String gagaId);
+//	public List<GangeuisilVo> getYeyakDateList(String gagaId);
 
 	/**
 	 * 개별 강의실 특정 날짜의 예약 가능한 시간 조회
@@ -75,7 +76,16 @@ public interface IYeyakService {
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public List<GangeuisilVo> getYeyakTimeList(String gagaId);
+//	public List<GangeuisilVo> getYeyakTimeList(String gagaId);
+	
+	/**
+	 * 개별 강의실의 예약 가능한 날짜 및 시간 조회
+	 * @param gagaId 강의실 개별 id
+	 * @return 강의실 으픈, 마감 시간, 여유 시간<GangeuisilVo>
+	 * @author SoHyeon
+	 * @since 2023.09.10
+	 */
+	public GangeuisilVo getYeoyuTime(String gagaId);
 
 	/**
 	 * 예약 정보 입력 및 결제 정보 입력
@@ -114,8 +124,6 @@ public interface IYeyakService {
 	 */
 	public int updateYeoyuTimeAdd(String gagaId);
 	
-	public int dummy(String gagaId);
-	public int dummy2();
 	
 	/**
 	 * 예약한 날짜 및 시간을 강의실 예약 가능일에서 제거
@@ -125,4 +133,16 @@ public interface IYeyakService {
 	 * @since 2023.09.10
 	 */
 	public int updateYeoyuTimeRm(String gagaId);
+	
+	/**
+	 * 사용자가 참여한 클래스 조회
+	 * @param accountId 사용자 id
+	 * @return 클래스 목록 List<ClassVo>
+	 * @author SoHyeon
+	 * @since 2023.09.11
+	 */
+	public List<ClassVo> getchamyeoClassList(String accountId);
+	
+	public int dummy(String gagaId);
+	public int dummy2();
 }
