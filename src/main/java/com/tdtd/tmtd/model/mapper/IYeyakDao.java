@@ -19,9 +19,9 @@ public interface IYeyakDao {
 
 	public List<GangeuisilVo> getGangeuisilDetailList(String gagaGacoId);
 
-	public List<YeyakVo> getYeyakDateList(String gayeGagaId);
+	public List<GangeuisilVo> getYeyakDateList(String gagaId);
 
-	public List<YeyakVo> getYeyakTimeList(Map<String, Object> map);
+	public List<GangeuisilVo> getYeyakTimeList(String gagaId);
 
 	public int insertYeakInfo(YeyakVo vo);
 	
@@ -32,4 +32,8 @@ public interface IYeyakDao {
 	public List<YeyakVo> getMyYeyakList(String gayeAccountId);
 
 	public int updateYeyakDelflag(String gayeId);
+	
+	public int updateYeoyuTime(Map<String, Object> map);
+	
+	public GangeuisilVo getYeoyuTime(String gagaId);
 }

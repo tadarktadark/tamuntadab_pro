@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.vo;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +27,7 @@ public class GangeuisilVo {
 	private String gagaName;
 	private int gagaMax;
 	private int gagaHourPrice;
+	private String gagaYeoyuTime;
+	
+	private List<YeyakVo> yeyakList; 
 }
