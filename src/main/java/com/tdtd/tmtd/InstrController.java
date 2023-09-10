@@ -14,4 +14,10 @@ public class InstrController {
 		return "instrProfileForm";
 	}
 
+	@GetMapping("/eduLevelForm.do")
+	public String eduLevelForm(Model model) {
+		model.addAttribute("title", "학력추가");
+		return "eduLevelForm";
+	}
+	
 }
