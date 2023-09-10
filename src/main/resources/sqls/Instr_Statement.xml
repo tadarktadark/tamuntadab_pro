@@ -67,10 +67,13 @@
 </select>
 
 <insert id="insertInstrProfile">
+	<selectKey keyProperty="inprSeq" resultType="int" order="BEFORE">
+		SELECT INPR_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
 	INSERT INTO INSTR_PROFILE (INPR_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
 							 INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE, 
 							 INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INPR_REGDATE)
-	VALUES (INPR_SEQ.NEXTVAL, #{inprAccountId}, #{inprIntro}, #{inprFee},
+	VALUES (#{inprSeq}, #{inprAccountId}, #{inprIntro}, #{inprFee},
 			#{inprSiteYoutube}, #{inprSiteWeb}, #{inprSiteMobile},
 			#{inprSubjects}, #{inprSubjectsMajor}, CURRENT_DATE)
 </insert>
