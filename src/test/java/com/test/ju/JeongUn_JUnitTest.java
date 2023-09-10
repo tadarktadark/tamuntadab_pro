@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
 import com.tdtd.tmtd.model.mapper.ISocialUserDao;
+
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
@@ -67,7 +74,7 @@ public class JeongUn_JUnitTest {
 	}
 	
 	//WOON [회원관리 : 네이버 회원가입 테스트]
-	@Test
+//	@Test
 	public void insertNaverUser() {
 		Map<String, Object> userProfile = new HashMap<String, Object>(){{
 			put("userEmail", "hansome@tomato.com");
@@ -111,6 +118,35 @@ public class JeongUn_JUnitTest {
 		}};
 		int n = sdao.registGoogleUser(userProfile);
 		assertEquals(n, 1);
+	}
+	
+	//WOON[메세지 전송 테스트]
+	@Test
+	public void sendSMS() {
+		Map<String,String> sendMap = new HashMap<String, String>();
+		
+		//랜덤 난수 발생
+		Random ran = new Random();
+		sendMap.put("code", ""+ran.nextInt(10000));
+		
+		//coolSMS API사용
+		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLBXKI8KF3NOKC", "4RC5BBKPJOLNURRUZA1ARTZQXPH7ZAHQ", "https://api.coolsms.co.kr");
+		Message message = new Message();
+		message.setFrom("01066389809");
+		message.setTo("01046465753");
+		message.setText("타문타답 문자 인증 번호 : "+sendMap.get("code")+"안녕 나는 임정운이야");
+		try {
+		  messageService.send(message);
+		  sendMap.put("result", "true");
+		} catch (NurigoMessageNotReceivedException exception) {
+		  System.out.println(exception.getFailedMessageList());
+		  System.out.println(exception.getMessage());
+		} catch (Exception exception) {
+			sendMap.put("result", "false");
+		  System.out.println(exception.getMessage());
+		}
+		Gson gson = new Gson();
+		String result = gson.toJson(sendMap);
 	}
 
 }

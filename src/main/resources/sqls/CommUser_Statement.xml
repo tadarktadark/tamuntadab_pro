@@ -74,7 +74,7 @@
 					 SELECT USER_ACCOUNT_ID FROM KAKAO_USER_PROFILE kup 
 					 UNION 
 					 SELECT USER_ACCOUNT_ID FROM GOOGLE_USER_PROFILE gup)))),
-				 'S',#{userPhoneNumber}, #{userAutoLoginToken},
+				 #{userAuth},#{userPhoneNumber}, #{userAutoLoginToken},
 				 CURRENT_DATE,CURRENT_DATE , #{userGender}, 
 				 'T', #{userBirth}, '기본경로 잡아주기' , 'N')
 	</insert>

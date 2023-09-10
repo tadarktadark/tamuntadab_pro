@@ -16,5 +16,10 @@ public class CommUserServiceImpl implements ICommUserService {
 	public boolean searchEmailService(Map<String, String> map) {
 		return cdao.emailCheck(map);
 	}
+
+	@Override
+	public int registCommUser(Map<String, Object> userprofile) {
+		return cdao.registCommUser(userprofile);
+	}
 	
 }
