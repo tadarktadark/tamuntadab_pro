@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
@@ -25,34 +26,37 @@
 				<div class="card">
 					<div class="card-body">
 						<form action="./insertInstrProfile.do" method="post">
-						<input type="hidden" value="${accountId}" name="inprAccountId">
+							<input type="hidden" value="${accountId}" name="inprAccountId">
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprIntro" class="form-label">한줄 소개</label>
-									<textarea class="form-control" name="inprIntro" id="inprIntro" rows="3"
-										placeholder="자신을 소개하는 한마디를 적어주세요(100자 이내)"></textarea>
-										<span class="introSpan">0</span>/100
+									<textarea class="form-control" name="inprIntro" id="inprIntro"
+										rows="3" placeholder="자신을 소개하는 한마디를 적어주세요(100자 이내)">${not empty profile ? profile.inprIntro : ''}</textarea>
+									<span class="introSpan">0</span>/100
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprSiteYoutube" class="form-label">유튜브 링크</label>
-									<input type="url" class="form-control" id="inprSiteYoutube" name="inprSiteYoutube"
-										placeholder="소개할 자신의 유튜브 url">
+									<input type="url" class="form-control" id="inprSiteYoutube"
+										name="inprSiteYoutube" placeholder="소개할 자신의 유튜브 url"
+										value="${not empty profile ? profile.inprSiteYoutube : ''}">
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprSiteWeb" class="form-label">웹사이트 링크</label> <input
-										type="url" class="form-control" id="inprSiteWeb" name="inprSiteWeb"
-										placeholder="소개할 웹 홈페이지">
+										type="url" class="form-control" id="inprSiteWeb"
+										name="inprSiteWeb" placeholder="소개할 웹 홈페이지"
+										value="${not empty profile ? profile.inprSiteWeb : ''}">
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprSiteMobile" class="form-label">모바일 사이트
-										링크</label> <input type="url" class="form-control" id="inprSiteMobile" name="inprSiteMobile"
-										placeholder="소개할 모바일 홈페이지">
+										링크</label> <input type="url" class="form-control" id="inprSiteMobile"
+										name="inprSiteMobile" placeholder="소개할 모바일 홈페이지"
+										value="${not empty profile ? profile.inprSiteMobile : ''}">
 								</div>
 							</div>
 							<div class="row mb-3">
@@ -62,18 +66,50 @@
 									<button type="button" class="btn btn btn-outline-secondary"
 										onclick="addEduLevel()">+ 학력추가</button>
 
-									<table class='education-table table table-nowrap' style="display: none;">
+									<table class='education-table table table-nowrap'
+										style="display: none;">
 										<thead class="table-light">
 											<tr>
 												<th scope="col">구분</th>
-										            <th scope="col">학교명</th>
-										            <th scope="col">전공</th>
-										            <th scope="col">부전공</th>
-										            <th scope="col" >입학년월일</th>
-										 	    <th scope="col">졸업년월일</th>
+												<th scope="col">학교명</th>
+												<th scope="col">전공</th>
+												<th scope="col">부전공</th>
+												<th scope="col">입학년월일</th>
+												<th scope="col">졸업년월일</th>
 											</tr>
 										</thead>
-										<tbody></tbody>
+										<tbody>
+											<c:if test="${not empty profile.instrEduVo}">
+												<c:forEach var="edu" items="${profile.instrEduVo}" varStatus="vs">
+													<tr>
+														<td>
+														<c:choose>
+															<c:when test="${edu.inedStage == 1}">대학원(박사)</c:when>
+															<c:when test="${edu.inedStage == 2}">대학원(석사)</c:when>
+															<c:when test="${edu.inedStage == 3}">대학교(4년)</c:when>
+															<c:when test="${edu.inedStage == 4}">대학(2,3년)</c:when>
+															<c:otherwise>고등학교</c:otherwise>
+														</c:choose>
+														<input type="hidden" name="instrEduVo[${vs.index}].inedStage" value="${edu.inedStage}">
+														</td>
+														<td>${edu.inedSchool}
+														<input type="hidden" name="instrEduVo[${vs.index}].inedSchool" value="${edu.inedSchool}">
+														</td>
+														<td>${edu.inedMajor}
+														<input type="hidden" name="instrEduVo[${vs.index}].inedMajor" value="${edu.inedMajor}"></td>
+														<td>${edu.inedMinor}
+														<input type="hidden" name="instrEduVo[${vs.index}].inedMinor" value="${edu.inedMinor}"></td>
+														<td>${edu.inedStart}
+														<input type="hidden" name="instrEduVo[${vs.index}].inedStart" value="${edu.inedStart}"></td>
+														<td>${edu.inedEnd}
+														<input type="hidden" name="instrEduVo[${vs.index}].inedEnd" value="${edu.inedEnd}"></td>
+													</tr>
+												</c:forEach>
+												<script type="text/javascript">
+						            	 			  $('.education-table').css('display', 'table');
+						            			</script>
+											</c:if>
+										</tbody>
 									</table>
 								</div>
 							</div>
@@ -83,7 +119,33 @@
 										<label for="inprSubjects" class="form-label">가능한 과목</label>
 									</div>
 									<div id="selectedSubjects"
-										class="col-lg-9 choices__list choices__list--multiple"></div>
+										class="col-lg-9 choices__list choices__list--multiple">
+										 <script type="text/javascript">
+										 var subjectsTitle = ${profile.subjectsTitle};  // Use the server-provided string as JavaScript code
+									        var inprSubjects = ${profile.inprSubjects};  // Get the inprSubjects from the server
+
+									        $.each(subjectsTitle, function(index, value) {  // Iterate over each item in the array
+									            // Create a new div element and add it to #selectedSubjects
+									            var $div = $('<div>')
+									                .addClass('choices choices__item choices__item--selectable')
+									                .attr('data-value', inprSubjects[index])  // Use the corresponding value from inprSubjects as data-value
+									                .attr('data-type', 'select-multiple')
+									                .text(value)
+									                .appendTo('#selectedSubjects');
+
+									            // Create a remove button and add it to the new div element
+									            var $removeButton = $('<button>')
+									                .addClass('choices__button')
+									                .attr('aria-label', "Remove item: '" + value + "'")
+									                .attr('data-button', '')
+									                .text("Remove item")
+									                .on('click', function() {
+									                    $div.remove();
+									                 })
+									                 .appendTo($div);
+									        });
+									    	</script>
+									</div>
 									<div class="choices__inner choices hstack gap-3"
 										data-type="multiple">
 										<input type="search" id="inprSubjects"
@@ -98,19 +160,45 @@
 											분야 과목</label>
 									</div>
 									<div id="selectedSubjectsMajor"
-										class="col-lg-9 choices__list choices__list--multiple"></div>
+										class="col-lg-9 choices__list choices__list--multiple">
+									</div>
 									<div class="col-md-2 choices__inner choices"
 										data-type="multiple">
 										<input type="search" id="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
+									<script type="text/javascript">
+									 var subjectsMajorTitle = ${profile.subjectsMajorTitle};  
+								        var inprSubjectsMajor = ${profile.inprSubjectsMajor}; 
+
+								        $.each(subjectsMajorTitle, function(index, value) {  
+								            var $div = $('<div>')
+								                .addClass('choices choices__item choices__item--selectable')
+								                .attr('data-value', inprSubjectsMajor[index]) 
+								                .attr('data-type', 'select-multiple')
+								                .text(value)
+								                .appendTo('#selectedSubjectsMajor');
+
+								            // Create a remove button and add it to the new div element
+								            var $removeButton = $('<button>')
+								                .addClass('choices__button')
+								                .attr('aria-label', "Remove item: '" + value + "'")
+								                .attr('data-button', '')
+								                .text("Remove item")
+								                .on('click', function() {
+								                    $div.remove();
+								                 })
+								                 .appendTo($div);
+								        });									
+									</script>
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 350px;">
 									<label for="inprFee" class="form-label">최소 수업료</label> <input
 										type="number" class="form-control" id="inprFee" name="inprFee"
-										placeholder="단위(만원)">
+										placeholder="단위(만원)"
+										value="${not empty profile ? profile.inprFee : ''}">
 								</div>
 							</div>
 
@@ -197,7 +285,8 @@ body {
 .ui-autocomplete {
 	background-color: #f9f9f9;
 	max-height: 200px;
-	max-width: 150px; overflow-y : auto;
+	max-width: 150px;
+	overflow-y: auto;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
