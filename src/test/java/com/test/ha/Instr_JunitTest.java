@@ -46,12 +46,11 @@ public class Instr_JunitTest {
 		vo.setInprSiteMobile("m.naver.com");
 		vo.setInprSubjects(subjects);
 		vo.setInprSubjectsMajor(major);
-		vo.setInedStage(2);
-		vo.setInedSchool("한양대학교");
-		vo.setInedMajor("컴퓨터공학과");
-		vo.setInedMinor("심리학과");
-		vo.setInedStart("2014-03-15");
-		vo.setInedEnd("2019-02-14");
+		/*
+		 * vo.setInedStage(2); vo.setInedSchool("한양대학교"); vo.setInedMajor("컴퓨터공학과");
+		 * vo.setInedMinor("심리학과"); vo.setInedStart("2014-03-15");
+		 * vo.setInedEnd("2019-02-14");
+		 */
 		
 		int n = service.insertInstrProfile(vo);
 		assertEquals(1, n);
@@ -73,12 +72,11 @@ public class Instr_JunitTest {
 		vo.setInprSiteYoutube("https://www.youtube.com/watch?v=DFvKDNgbPrc");
 		vo.setInprSiteWeb("https://s5hy25ni.atlassian.net/jira/software/projects/TDTD/code");
 		vo.setInprSiteMobile("m.naver.com");
-		vo.setInedStage(2);
-		vo.setInedSchool("한양대학교");
-		vo.setInedMajor("컴퓨터공학과");
-		vo.setInedMinor("심리학과");
-		vo.setInedStart("2014-03-15");
-		vo.setInedEnd("2019-02-14");
+		/*
+		 * vo.setInedStage(2); vo.setInedSchool("한양대학교"); vo.setInedMajor("컴퓨터공학과");
+		 * vo.setInedMinor("심리학과"); vo.setInedStart("2014-03-15");
+		 * vo.setInedEnd("2019-02-14");
+		 */
 		
 		int n = service.updateInstrProfile(vo);
 		assertEquals(1, n);

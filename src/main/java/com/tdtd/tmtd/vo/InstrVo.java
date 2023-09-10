@@ -37,16 +37,7 @@ public class InstrVo {
 	private int reviewCount;
 	private String ingi;
 
-	private int inedSeq;
-	private int inedInprSeq;
-	private int inedStage;
-	private String inedSchool;
-	private String inedMajor;
-	private String inedMinor;
-	private String inedStart;
-	private String inedEnd;
-	private String inedRegdate;
-	
+	private List<InstrEduVo> instrEduVo;	
 	private List<UserProfileVo> userProfileVo;
 	private List<ClassVo> classVo;
 }

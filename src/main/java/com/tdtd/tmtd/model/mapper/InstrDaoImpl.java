@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
 @Repository
@@ -28,7 +29,7 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public int insertInstrEdulevel(InstrVo vo) {
+	public int insertInstrEdulevel(InstrEduVo vo) {
 		return sqlSession.insert(NS+"insertInstrEdulevel", vo);
 	}
 
@@ -38,7 +39,7 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public int updateInstrEdulevel(InstrVo vo) {
+	public int updateInstrEdulevel(InstrEduVo vo) {
 		return sqlSession.update(NS+"updateInstrEdulevel", vo);
 	}
 

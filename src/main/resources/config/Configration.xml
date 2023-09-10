@@ -8,6 +8,7 @@
 	<typeAliases>
 		<typeAlias type="com.tdtd.tmtd.vo.UserProfileVo" alias="userProfileVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.InstrVo" alias="instrVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.InstrEduVo" alias="instrEduVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.CareerVo" alias="careerVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ReviewVo" alias="reviewVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.FileVo" alias="fileVo"/>
