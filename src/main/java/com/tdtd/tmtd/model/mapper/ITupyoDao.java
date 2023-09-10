@@ -19,6 +19,8 @@ public interface ITupyoDao {
 	public int insertTupyoOption(Map<String, Object> map);
 	//투표 진행
 	public int insertTupyoUser(Map<String, Object> map);
+	//투표 유무 판단
+	public List<TupyoUserVo> tupyoUserChk(Map<String, Object> map);
 	//투표 결과 조회
 	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq);
 	//재투표

@@ -17,6 +17,8 @@ public interface ITupyoService {
 	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq);
 	//TDT069 선택지 생성
 	public int insertTupyoOption(Map<String, Object> map);
+	//투표 유무 판단
+	public List<TupyoUserVo> tupyoUserChk(Map<String, Object> map);
 	//TDT070 투표 진행
 	public int insertTupyoUser(Map<String, Object> map);
 	//TDT071 투표 결과 조회

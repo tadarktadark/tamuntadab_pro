@@ -33,6 +33,17 @@ SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE
 INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE) 
 	VALUES(TUOP_SEQ.NEXTVAL, #{tuopTupySeq}, #{tuopInstr}, #{tuopFee})
 </insert>
+
+<select id="tupyoUserChk" parameterType="java.util.Map" resultType="tupyoUserVo">
+SELECT TUUS_SEQ 
+    FROM TUPYO_USER 
+    WHERE TUUS_ACCOUNT_ID = #{tuusAccountId} AND 
+          TUUS_OPTION_SEQ IN (
+              SELECT TUOP_SEQ 
+              FROM TUPYO_OPTION 
+              WHERE TUOP_TUPY_SEQ = #{tuopTupySeq})
+</select>
+
 <insert id="insertTupyoUser" parameterType="java.util.Map">
 INSERT INTO TUPYO_USER(TUUS_SEQ, TUUS_OPTION_SEQ, TUUS_ACCOUNT_ID, TUUS_AGREE)
         VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, 'A')

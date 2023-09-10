@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,6 +75,19 @@ public class TupyoController {
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
 		return "tupyo";
+	}
+	
+	@GetMapping("/checkVoted.do")
+	public String checkVoted(String tuusAccountId, int tuopTupySeq) {
+		String result = "";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tuusAccountId", tuusAccountId);
+		map.put("tuopTupySeq", tuopTupySeq);
+		if(service.tupyoUserChk(map)==null) {
+			result = "false";
+		}
+		return result;
+		
 	}
 	
 

@@ -1,3 +1,34 @@
+$(document).ready(function() {
+    var userId = "TMTD1"; // 현재 로그인된 유저 ID
+
+    $.ajax({
+        url: './checkVoted.do',
+        type: 'GET',
+        data: {
+            "tuusAccountId": userId,
+            "tuopTupySeq":1,
+              },
+        success: function(response) {
+            if (response=="false") {
+                $("#tupyoList").hide();
+                $("#tupyoResult").show();
+                $("#reTupyo").show();
+            } else {
+                $("#tupyoList").show();
+                $("#tupyoResult").hide();
+            }
+        },
+        error: function(error) {
+            console.log("오류");
+            console.log(error);
+        }
+    });
+});
+
+
+
+
+
 
 var myChart = '';
 
@@ -60,7 +91,10 @@ function tupyoComplete() {
 					maintainAspectRatio: false,
 					scales: {
 						x: {
-							beginAtZero: true
+							beginAtZero: true,
+							ticks:{
+			                    stepSize : 1 // X축의 눈금 단위 설정
+			                }
 						}
 					}
 				}
@@ -77,10 +111,10 @@ function tupyoComplete() {
 function reTupyo() {
 
 	var selectedTeacher = $("input[name='teacher']:checked").val();
-	var userId = document.getAttribute("accountId");
+	var userId ="TMTD1"
 
 	$.ajax({
-		url: './tupyoPage.do',
+		url: './reTupyo.do',
 		type: 'GET',
 		data: {
 			"tuusAccountId": userId,
