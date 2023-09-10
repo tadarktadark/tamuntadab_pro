@@ -48,15 +48,20 @@ function tupyoComplete(){
     	  $("#tupyoResult").css('display','block');
     	  
     	  
-    	  console.log(response.length);
-    	  console.log(response[0].tuopInstr);
-    	  var tupyoInstrsArray = new Array();
-    	  for(let i=0;i<response.length;i++){
-    		  tupyoInstrsArray.push(response[i].tuopInstr)
-    	  }
-
     	  
+    	  
+    	  var tupyoInstrsArray = new Array();
+    	  for(let i=0;i<response.tupyoOptionList.length;i++){
+    		  tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr)
+    	  }
     	  console.log(tupyoInstrsArray);
+    	  
+    	  var tupyoResultArray = new Array();
+    	  for(let i=0;i<response.resultList.length;i++){
+    		  tupyoResultArray.push(response.resultList[i].count);
+    	  }
+    	  console.log(tupyoResultArray);
+    	  
     	  var ctx = document.getElementById("myChart").getContext('2d');
 
     	  var myChart = new Chart(ctx, {
@@ -64,18 +69,17 @@ function tupyoComplete(){
     	      data: {
     	          labels: tupyoInstrsArray,
     	          datasets: [{
-    	              label: '투표 결과',
-    	              data: [1, 6, 6],
+    	              label: '득표수',
+    	              data: tupyoResultArray,
     	              backgroundColor:'#8977ad'
     	          }]
     	      },
     	      options: {
     	    	  indexAxis: 'y',
-    	          maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+    	          maintainAspectRatio: false,
     	          scales: {
     	        	  x:{
-    	                  beginAtZero:true,
-    	                  max:10
+    	                  beginAtZero:true
     	              }
     	          }
     	      }
