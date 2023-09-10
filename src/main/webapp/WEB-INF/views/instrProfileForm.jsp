@@ -25,31 +25,33 @@
 				<div class="card">
 					<div class="card-body">
 						<form action="./insertInstrProfile.do" method="post">
+						<input type="hidden" value="${accountId}" name="inprAccountId">
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprIntro" class="form-label">한줄 소개</label>
 									<textarea class="form-control" name="inprIntro" id="inprIntro" rows="3"
 										placeholder="자신을 소개하는 한마디를 적어주세요(100자 이내)"></textarea>
+										<span class="introSpan">0</span>/100
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprSiteYoutube" class="form-label">유튜브 링크</label>
-									<input type="url" class="form-control" id="inprSiteYoutube"
+									<input type="url" class="form-control" id="inprSiteYoutube" name="inprSiteYoutube"
 										placeholder="소개할 자신의 유튜브 url">
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprSiteWeb" class="form-label">웹사이트 링크</label> <input
-										type="url" class="form-control" id="inprSiteWeb"
+										type="url" class="form-control" id="inprSiteWeb" name="inprSiteWeb"
 										placeholder="소개할 웹 홈페이지">
 								</div>
 							</div>
 							<div class="row mb-3">
 								<div style="width: 700px;">
 									<label for="inprSiteMobile" class="form-label">모바일 사이트
-										링크</label> <input type="url" class="form-control" id="inprSiteMobile"
+										링크</label> <input type="url" class="form-control" id="inprSiteMobile" name="inprSiteMobile"
 										placeholder="소개할 모바일 홈페이지">
 								</div>
 							</div>
@@ -84,7 +86,7 @@
 										class="col-lg-9 choices__list choices__list--multiple"></div>
 									<div class="choices__inner choices hstack gap-3"
 										data-type="multiple">
-										<input type="search" id="inprSubjects" name="inprSubjects"
+										<input type="search" id="inprSubjects"
 											class="choices__input choices__input--cloned">
 									</div>
 								</div>
@@ -100,7 +102,6 @@
 									<div class="col-md-2 choices__inner choices"
 										data-type="multiple">
 										<input type="search" id="inprSubjectsMajor"
-											name="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
 								</div>
@@ -108,7 +109,7 @@
 							<div class="row mb-3">
 								<div style="width: 350px;">
 									<label for="inprFee" class="form-label">최소 수업료</label> <input
-										type="number" class="form-control" id="inputZip"
+										type="number" class="form-control" id="inprFee" name="inprFee"
 										placeholder="단위(만원)">
 								</div>
 							</div>
@@ -127,135 +128,58 @@
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript">
-	function searchElastic(query, callback) {
-		$.ajax({
-			url : 'http://192.168.8.164:9200/subject_tag/_search',
-			type : 'POST',
-			dataType : 'json',
-			headers : {
-				'Content-Type' : 'application/json',
-				'Authorization' : 'Basic ' + btoa('elastic:elastic')
-			},
-			data : JSON.stringify({
-				suggest : {
-					"title-suggestion" : {
-						"prefix" : query,
-						"completion" : {
-							"field" : "title"
-						}
-					}
-				}
-			}),
-			success : function(response) {
-				var results = response.suggest['title-suggestion'][0].options
-						.map(function(option) {
-							return {
-								label : option._source.title[0],
-								value : option._source.code
-							};
-						});
+	$('form').on('submit', function(e) {
+	    e.preventDefault();
 
-				callback(results);
-			},
-			error : function() {
-				callback([]);
-			}
-		});
-	}
+	    var formData = new FormData(this);
+	    
+	    var selectedSubjects = $('#selectedSubjects .choices__item--selectable').map(function() {
+	        return $(this).data('value').toString();
+	    }).get();
+	    
+	    formData.append('inprSubjects', JSON.stringify(selectedSubjects));
+	    
+	    var selectedSubjectsMajor = $('#selectedSubjectsMajor .choices__item--selectable').map(function() {
+		    return $(this).data('value').toString();
+		}).get();
+	    
+	    formData.append('inprSubjectsMajor', JSON.stringify(selectedSubjectsMajor));
+	    
+	    var data = {};
 
-	$(function() {
-		$("#inprSubjects")
-				.autocomplete(
-						{
-							minLength : 1,
-							source : function(request, response) {
-								searchElastic(request.term, function(results) {
-									response(results);
-								});
-							},
-							focus : function() {
-								return false;
-							},
-							select : function(event, ui) {
-								this.value = '';
-
-								// 선택된 값들이 추가될 div 요소
-								var $selectedSubjects = $('#selectedSubjects');
-
-								// 이미 추가된 값인지 확인
-								if ($selectedSubjects.find('li[data-value="'
-										+ ui.item.value + '"]').length > 0) {
-									return false;
-								}
-
-								// 새로운 div 요소 생성 및 추가
-								var $div = $('<div>')
-										.addClass(
-												'choices choices__item choices__item--selectable')
-										.attr('data-value', ui.item.value)
-										.attr('data-type', 'select-multiple')
-										.text(ui.item.label).appendTo(
-												$selectedSubjects);
-
-								// 삭제 버튼 생성 및 추가
-								var $removeButton = $('<button>').addClass(
-										'choices__button').attr('aria-label',
-										"Remove item: '" + ui.item.label + "'")
-										.attr('data-button', '').text(
-												"Remove item").on('click',
-												function() {
-													$div.remove();
-												}).appendTo($div);
-
-								return false;
-							},
-						}).data("ui-autocomplete")._renderItem = function(ul,
-				item) {
-			return $("<li>").append("<a>" + item.label + "</a>").appendTo(ul);
-		};
-		$("#inprSubjectsMajor")
-				.autocomplete(
-						{
-							minLength : 1,
-							source : function(request, response) {
-								searchElastic(request.term, function(results) {
-									response(results);
-								});
-							},
-							select : function(event, ui) {
-								this.value = '';
-
-								var $selectedSubjectsMajor = $('#selectedSubjectsMajor');
-
-								if ($selectedSubjectsMajor
-										.find('div[data-value="'
-												+ ui.item.value + '"]').length > 0) {
-									return false;
-								}
-
-								var $div = $('<div>')
-										.addClass(
-												'choices choices__item choices__item--selectable')
-										.attr('data-value', ui.item.value)
-										.attr('data-type', 'select-multiple')
-										.text(ui.item.label).appendTo(
-												$selectedSubjectsMajor);
-
-								var $removeButton = $('<button>').addClass(
-										'choices__button').attr('aria-label',
-										"Remove item: '" + ui.item.label + "'")
-										.attr('data-button', '').text(
-												"Remove item").on('click',
-												function() {
-													$div.remove();
-												}).appendTo($div);
-
-								return false;
-							},
-						}).data("ui-autocomplete")._renderItem = function(ul,
-				item) {
-			return $("<li>").append("<a>" + item.label + "</a>").appendTo(ul);
-		};
+	 // Iterate over the FormData entries
+	    for (var pair of formData.entries()) {
+	        console.log(pair[0]+ ', ' + pair[1]); 
+	        
+	        // Handle array field names (like "instrEduVo[x].fieldName")
+	        var match = pair[0].match(/^(\w+)\[(\d+)\]\.(\w+)$/);
+	        if (match) {
+	            var arrayName = match[1];
+	            var index = parseInt(match[2]);
+	            var propertyName = match[3];
+	            
+	            data[arrayName] = data[arrayName] || [];
+	            data[arrayName][index] = data[arrayName][index] || {};
+	            data[arrayName][index][propertyName] = pair[1];
+	        } else {
+	            // Handle non-array field names
+	          	data[pair[0]] = pair[1];
+	      	}
+	    }
+	   
+	   $.ajax({
+	       url: './insertInstrProfile.do',
+	       type: 'POST',
+	       data: JSON.stringify(data),
+	       contentType: 'application/json',  // tell jQuery not to set contentType
+	       success:function(response){
+	           console.log(response);
+	           window.location.href = './instrProfileForm.do';  // Redirect to a success page (modify this)
+	      },
+	      error:function(jqXHR, textStatus){
+	          alert("Request failed : " + textStatus);
+	      }
+	   });
 	});
 </script>
 <style type="text/css">

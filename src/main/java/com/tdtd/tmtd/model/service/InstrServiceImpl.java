@@ -25,11 +25,16 @@ public class InstrServiceImpl implements IInstrService {
 	public int insertInstrProfile(InstrVo vo) {
 		int m = dao.insertInstrProfile(vo);
 		if (vo.getInstrEduVo() != null && !vo.getInstrEduVo().isEmpty()) {
+			System.out.println("$$$$$$$$$$$$$insertInstrEdulevel실행");
+			System.out.println("$$$$$$$$$$$$$ seq:"+vo.getInprSeq());
 	        List<InstrEduVo> eduLevels = vo.getInstrEduVo();
 	        for (InstrEduVo eduLevel : eduLevels) {
 	            eduLevel.setInedInprSeq(vo.getInprSeq());
 	            
-	            dao.insertInstrEdulevel(eduLevel);
+	            int result = dao.insertInstrEdulevel(eduLevel);
+	            if (result == 0) {
+	                return 0; 
+	            }
 	        }
 	        
 	        return 1;  // 성공적으로 저장되었을 경우 반환값 변경 가능
@@ -45,7 +50,10 @@ public class InstrServiceImpl implements IInstrService {
 	        for (InstrEduVo eduLevel : eduLevels) {
 	            eduLevel.setInedInprSeq(vo.getInprSeq());
 	            
-	            dao.updateInstrEdulevel(eduLevel);
+	            int result = dao.updateInstrEdulevel(eduLevel);
+	            if (result == 0) {
+	                return 0; 
+	            }
 	        }
 	        
 	        return 1;  // 성공적으로 업데이트되었을 경우 반환값 변경 가능

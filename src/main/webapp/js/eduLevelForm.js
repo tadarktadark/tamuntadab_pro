@@ -62,7 +62,7 @@ function regist() {
             var highSchoolEnd = document.getElementById('blackEnd').value;
             var highSchoolMajor = '';
             
-            createAndAppendRow(tableBody, [stage, highSchool, highSchoolMajor, '', highSchoolStart, highSchoolEnd]);
+            createAndAppendRow(tableBody, [stage, highSchool, highSchoolMajor, '', highSchoolStart, highSchoolEnd],5, tableBody.rows.length);
         } else {  // If 대입 검정고시 checkbox is not checked, check all other fields
             if (!$('#highSchool').val() || !$('#highSchoolStart').val() || !$('#highSchoolEnd').val() || $('#highSchoolMajor option:selected').text() == '전공계열') {
                 alert('모든 필수 항목을 입력해주세요.');
@@ -74,12 +74,12 @@ function regist() {
 	        var highSchoolEnd = document.getElementById('highSchoolEnd').value;
 	        var highSchoolMajor = document.getElementById('highSchoolMajor').value;
 	
-	        createAndAppendRow(tableBody, [stage, highSchool, highSchoolMajor, '', highSchoolStart, highSchoolEnd]);
+	        createAndAppendRow(tableBody, [stage, highSchool, highSchoolMajor, '', highSchoolStart, highSchoolEnd],5, tableBody.rows.length);
         }
 
 		table.style.display = 'table';
     } else if (selectedValue == '2') {  // If "대학/대학원 추가" is selected
-        if (!$('#univStage').val() || !$('#univSchool').val() || !$('#major').val()
+        if ($('#univStage').val() == '대학구분*'  || !$('#univSchool').val() || !$('#major').val()
             || !$('#univStart').val() || !$('#univEnd').val()) {
             alert('모든 필수 항목을 입력해주세요.');
             return;
@@ -92,21 +92,43 @@ function regist() {
 		var univStart = document.getElementById('univStart').value;
 		var univEnd= 	document.getElementById('univEnd').value;
 
-    	createAndAppendRow(tableBody, [stage, univSchool, major, minor, univStart, univEnd]);
+    	createAndAppendRow(tableBody, [stage, univSchool, major, minor, univStart, univEnd],univStage, tableBody.rows.length);
    		table.style.display = 'table';
     }
 	
 	window.close();
 }
 
-function createAndAppendRow(parentElm ,dataArr){
-	let trItem= 	document.createElement("tr");
+function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
+    let trItem = document.createElement("tr");
+    
+    // Define the names for each input field
+    let inputNames = ["inedStage", "inedSchool", "inedMajor", "inedMinor", "inedStart", "inedEnd"];
+    
+    for(let i=0; i<dataArr.length; i++){
+        let tdItem = document.createElement("td");
+        let textNode = document.createTextNode(dataArr[i])
+        
+        // Create an input field for each cell
+        let inputField = document.createElement("input");
+        inputField.type = "hidden";
+        
+        // Assign a name attribute based on the index (you can modify this to suit your needs)
+        if (i < inputNames.length) {
+            inputField.name = `instrEduVo[${rowIndex}].${inputNames[i]}`;
+            
+            // If this is the first element (stage), use the stageValue parameter as its value
+            if(i == 0){
+               	inputField.value = stageValue;
+            } else {
+            	inputField.value = dataArr[i];
+	    }
+	    
+	    tdItem.appendChild(inputField);
+	}
 	
-	for(let i=0; i<dataArr.length; i++){
-	    let tdItem=	document.createElement("td");
-	    let textNode=	document.createTextNode(dataArr[i])
-	    tdItem.appendChild(textNode)
-	    trItem.appendChild(tdItem)
+	tdItem.appendChild(textNode)
+	trItem.appendChild(tdItem)
    }
    
    parentElm.appendChild(trItem)
