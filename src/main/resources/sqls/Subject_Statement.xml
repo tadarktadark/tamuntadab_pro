@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.SubjectDaoImpl">
+	
+	<!-- 페이징 할 과목 리스트 조회 -->
+	<select id="getSubjectList" parameterType="java.util.Map" resultType="subjectVo">
+		SELECT SUBJ_TITLE, SUBJ_STUD_ID, SUBJ_STATUS, SUBJ_SUJEONGIL, SUBJ_DELFLAG, SUBJ_CODE
+			FROM (
+					SELECT SUBJ_TITLE, SUBJ_STUD_ID, SUBJ_STATUS, SUBJ_SUJEONGIL, SUBJ_DELFLAG, SUBJ_CODE,
+					ROW_NUMBER() OVER (ORDER BY SUBJ_CODE DESC) AS RN
+					FROM TMTD.SUBJECT
+				)
+		WHERE RN BETWEEN {first} AND {last}
+	</select>
+	
+	<!-- 페이징 할 과목 갯수 조회 -->
+	<select id="getSubjectTagListCount">
+		SELECT COUNT(*)
+		FROM TMTD.SUBJECT s
+	</select>
+	
+	<!-- 과목 상태 변경 (승인, 반려) -->
+	<update id="updateSubject" parameterType="subjectVo">
+		UPDATE TMTD.SUBJECT
+		SET SUBJ_STATUS = #{subjStatus},
+		    SUBJ_BALLYEO_SAYU = 3{subjBallyeoSayu},
+		    SUBJ_SUJEONGIL = CURRENT_DATE,
+		    SUBJ_SUJEONG_SAYU = #{subjSujeongSayu},
+		    SUBJ_DELFLAG = #{subjDelflag},
+		    SUBJ_CODE = #{subjCode}
+		WHERE SUBJ_ID = #{subjId}
+	</update>
+	
+	<!-- 클래스 상태 변경 (과목을 승인 또는 반려할 경우 클래스 상태 변경) -->
+	<update id="updateClass" parameterType="java.util.Map">
+	  UPDATE TMTD.CLASS
+	  SET CLAS_STATUS = #{clasStatus}
+	  WHERE JSON_EXISTS(CLAS_SUBJECT_JEONGBO, '$[*] ? (@.SUBJ_ID == #{subjId})')
+	</update>
 </mapper>

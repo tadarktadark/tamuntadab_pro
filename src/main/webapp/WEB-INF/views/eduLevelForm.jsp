@@ -96,18 +96,12 @@
 		<div class="col-12">
 			<label class="visually-hidden" for="major">전공</label>
 			<div class="input-group">
-				<div class="input-group-text">
-					<i class="bx bx-search-alt-2"></i>
-				</div>
 				<input type="text" class="form-control" id="major" placeholder="전공*">
 			</div>
 		</div>
 		<div class="col-12">
 			<label class="visually-hidden" for="minor">부전공</label>
 			<div class="input-group">
-				<div class="input-group-text">
-					<i class="bx bx-search-alt-2"></i>
-				</div>
 				<input type="text" class="form-control" id="minor"
 					placeholder="부전공(복수전공)">
 			</div>

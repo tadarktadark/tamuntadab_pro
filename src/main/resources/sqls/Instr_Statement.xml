@@ -14,6 +14,8 @@
 	<result column="INPR_SITE_MOBILE" property="inprSiteMobile"/>
 	<result column="SUBJECTS_TITLE" property="subjectsTitle"/>
 	<result column="SUBJECTS_MAJOR_TITLE" property="subjectsMajorTitle"/>
+	<result column="INPR_SUBJECTS" property="inprSubjects"/>
+	<result column="INPR_SUBJECTS_MAJOR" property="inprSubjectsMajor"/>
 	<result column="REVIEW_COUNT" property="reviewCount"/>
 	<result column="INGI" property="ingi"/>
 	
@@ -55,22 +57,31 @@
 	<result column="REVI_REGDATE" property="reviRegdate"/>
 </resultMap>
 
-<select id="getMyInstrProfile" resultType="instrVo">
+<select id="getMyInstrProfile" resultMap="instrMap">
 	SELECT INPR_SEQ, INED_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
 		INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE,
 		INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INED_STAGE,
 		INED_SCHOOL, INED_MAJOR, INED_MINOR, TO_CHAR(INED_START,'YYYY-MM-DD') AS INED_START, 
-		TO_CHAR(INED_END, 'YYYY-MM-DD') AS INED_END
+		TO_CHAR(INED_END, 'YYYY-MM-DD') AS INED_END,
+		(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+		     FROM JSON_TABLE(INPR_SUBJECTS, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
+		     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_TITLE,
+		    (SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
+		     FROM JSON_TABLE(INPR_SUBJECTS_MAJOR, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
+		     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_MAJOR_TITLE
 	FROM INSTR_PROFILE INNER JOIN INSTR_EDULEVEL
 	ON INPR_SEQ = INED_INPR_SEQ
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
 <insert id="insertInstrProfile">
+	<selectKey keyProperty="inprSeq" resultType="int" order="BEFORE">
+		SELECT INPR_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
 	INSERT INTO INSTR_PROFILE (INPR_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
 							 INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE, 
 							 INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INPR_REGDATE)
-	VALUES (INPR_SEQ.NEXTVAL, #{inprAccountId}, #{inprIntro}, #{inprFee},
+	VALUES (#{inprSeq}, #{inprAccountId}, #{inprIntro}, #{inprFee},
 			#{inprSiteYoutube}, #{inprSiteWeb}, #{inprSiteMobile},
 			#{inprSubjects}, #{inprSubjectsMajor}, CURRENT_DATE)
 </insert>
