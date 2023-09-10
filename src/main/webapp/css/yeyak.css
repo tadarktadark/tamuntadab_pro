@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.sido-group, .sigungu-group{
+	max-height: 165px;
+}
+.click-btn:hover{
+	cursor: pointer;
+}
+#btn-sigungu {
+	margin-left: 10px;
+}
+
+tr, td{
+	text-align: center;
+}

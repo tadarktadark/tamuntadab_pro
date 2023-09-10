@@ -26,6 +26,16 @@ public class YeyakJUnitTest {
 	@Autowired
 	private IYeyakService service;
 	
+	@Test
+	public void getGangeuisilCount() {
+		Map<String, Object> map = new HashMap<String, Object>(){{
+			put("gacoSido", "광주");
+//			put("gacoSigungu", "원주시");
+		}};
+		int n = service.getGangeuisilCount(map);
+		assertEquals(12, n);
+	}
+	
 //	@Test
 	public void getGangeuisilSidoList() {
 		List<String> list = service.getGangeuisilSidoList();
@@ -41,8 +51,10 @@ public class YeyakJUnitTest {
 //	@Test
 	public void getGangeuisilList() {
 		Map<String, Object> map = new HashMap<String, Object>(){{
+			put("start", 1);
+			put("end", 5);
 //			put("gacoSido", "강원");
-			put("gacoSigungu", "원주시");
+//			put("gacoSigungu", "원주시");
 		}};
 		List<GangeuisilVo> list = service.getGangeuisilList(map);
 		assertNotNull(list);
@@ -85,7 +97,7 @@ public class YeyakJUnitTest {
 		assertNotNull(list);
 	}
 	
-	@Test
+//	@Test
 	public void updateYeyakDelflag() {
 		int n = service.updateYeyakDelflag("YY202309090001");
 		assertEquals(1, n);
