@@ -22,7 +22,7 @@ public interface ITupyoDao {
 	//투표 결과 조회
 	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq);
 	//재투표
-	public int delTupyoUser(int tuusSeq);
+	public int delTupyoUser(TupyoUserVo vo);
 	//투표 종료
 	public int endTupyo(int tuusSeq);
 	//투표 인원수 변경

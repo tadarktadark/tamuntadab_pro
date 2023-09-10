@@ -29,11 +29,14 @@ public class TupyoController {
 	//투표 페이지로 이동
 	@RequestMapping(value = "/tupyoPage.do")
 	public String tupyoPage(Model model) {
-		TupyoVo vo = service.getTupyo(1000000033);
-		List<TupyoOptionVo> lists = service.getAllTupyoOption(1);
+		TupyoVo vo = service.getTupyo(1000000033);//classId 받아야함
+		List<TupyoOptionVo> lists = service.getAllTupyoOption(1);//tupySeq받아야함
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
+		
+		model.addAttribute("accountId","TMTD1");//accountId 세션에서 받아야함
+		
 		return "tupyo";
 	}
 	
@@ -59,7 +62,19 @@ public class TupyoController {
 		return optionMap;
 	}
 	
-	
+	@RequestMapping(value = "/reTupyo.do", method = RequestMethod.GET)
+	public String reTupyo(String tuusAccountId,int tuusOptionSeq,Model model) {
+		TupyoVo vo = service.getTupyo(1000000033);//classId 받아야함
+		TupyoUserVo tupyoUserVo = new TupyoUserVo();
+		tupyoUserVo.setTuusAccountId(tuusAccountId);
+		tupyoUserVo.setTuusOptionSeq(tuusOptionSeq);
+		service.delTupyoUser(tupyoUserVo);
+		List<TupyoOptionVo> lists = service.getAllTupyoOption(1);//tupySeq받아야함
+		model.addAttribute("vo",vo);
+		model.addAttribute("lists",lists);
+		model.addAttribute("title","투표");
+		return "tupyo";
+	}
 	
 
 
