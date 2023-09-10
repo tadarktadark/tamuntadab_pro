@@ -17,21 +17,21 @@ import lombok.ToString;
 @ToString
 public class ClassVo {
 
-	private String clasId;
+	private int clasId;
 	private String clasTitle;
-	private String clasLocation;
+	private int clasLocation;
 	private String clasStatus;
 	private String clasMagamGihan;
-	private String clasHuimangInwon;
-	private String clasHyeonjaeInwon;
+	private int clasHuimangInwon;
+	private int clasHyeonjaeInwon;
 	private String clasSueopNaljja;
-	private String clasChoisoSugangnyo;
-	private String clasChoidaeSugangnyo;
+	private int clasChoisoSugangnyo;
+	private int clasChoidaeSugangnyo;
 	private String clasSeongbyeolJehan;
 	private String clasNaiJehan;
 	private String clasSubjectJeongbo;
 	private String clasRegdate;
-	private String clasMojipYeonjangHoitsu;
+	private int clasMojipYeonjangHoitsu;
 	private String clasContent;
 	private String clasAccountId;
 	private int clasSugangRyo;
