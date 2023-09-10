@@ -103,14 +103,19 @@ function confirmMail() {
 						customClass: {
 							confirmButton: 'btn btn-primary w-xs mb-2',
 						},
-						confirmButtonText: 'Register <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
+						confirmButtonText: '인증 <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
 						buttonsStyling: false,
 						showCloseButton: true,
 						preConfirm: function(inputcode) {
 							if (inputcode == result.code) {
+								var checkbox= document.getElementById("confirmEmailCheck");
+								var checkboxLabel= document.getElementById("confirmEmail");
+								checkbox.checked=true;
+								checkbox.removeAttribute('hidden');
+								checkboxLabel.innerText='인증이 완료되었습니다.';
 								Swal.fire({
 									icon: 'info',
-									title: '인증번호에 성공하였습니다!',
+									title: '인증에 성공하였습니다!',
 									showConfirmButton: true,
 									timer: 1500,
 									showCloseButton: false
@@ -118,7 +123,7 @@ function confirmMail() {
 							} else {
 								Swal.fire({
 									icon: 'warning',
-									title: '인증번호을 실패하였습니다.',
+									title: '인증을 실패하였습니다.',
 									showConfirmButton: false,
 									timer: 1500,
 									showCloseButton: true

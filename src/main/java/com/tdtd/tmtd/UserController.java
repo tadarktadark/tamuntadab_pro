@@ -9,7 +9,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -19,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.tdtd.tmtd.model.mapper.ICommUserDao;
 import com.tdtd.tmtd.model.service.ICommUserService;
 
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
 @Slf4j
@@ -36,8 +38,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
 	public String registForm() {
-		log.info("###regist.do###");
-		return "registpage";
+		return "regist";
 	}
 	
 	@RequestMapping(value = "/searchEmail.do", method =RequestMethod.POST)
@@ -73,8 +74,43 @@ public class UserController {
 		return result;
 	}
 	
-	@RequestMapping(name="/confirmPhone.do", method=RequestMethod.POST)
-	public String sendSMS(String phonenumber) {
-		return "";
+	@RequestMapping(value="/sendSMS.do", method=RequestMethod.POST)
+	@ResponseBody
+	public String sendSMS(@RequestParam String phoneNumber) {
+		Map<String,String> sendMap = new HashMap<String, String>();
+		
+		//랜덤 난수 발생
+		Random ran = new Random();
+		sendMap.put("code", ""+ran.nextInt(10000));
+		//coolSMS API사용
+		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLBXKI8KF3NOKC", "4RC5BBKPJOLNURRUZA1ARTZQXPH7ZAHQ", "https://api.coolsms.co.kr");
+		Message message = new Message();
+		message.setFrom("01066389809");
+		message.setTo(phoneNumber);
+		message.setText("타문타답 문자 인증 번호 : "+sendMap.get("code"));
+		try {
+		  messageService.send(message);
+		  sendMap.put("isc", "true");
+		} catch (NurigoMessageNotReceivedException exception) {
+		  System.out.println(exception.getFailedMessageList());
+		  System.out.println(exception.getMessage());
+		} catch (Exception exception) {
+			sendMap.put("isc", "false");
+		  System.out.println(exception.getMessage());
+		}
+		Gson gson = new Gson();
+		String result = gson.toJson(sendMap);
+		return result;
+	}
+	
+	@RequestMapping(value = "/regist.do" )
+	public String registration(@RequestParam Map<String,Object> map) {
+			map.put("userAutoLoginToken",(UUID.randomUUID())+(map.get("userPassword").toString().substring(0, 4))+(map.get("userGender"))+(map.get("userAuth"))+(map.get("userEmail").toString().substring(0, 2)));
+			int n = commUserService.registCommUser(map);
+			if(n!=1) {
+				return "redirect:/regist.do";
+			}else {
+				return "redirect:/home.do";
+			}
 	}
 }
