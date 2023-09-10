@@ -66,7 +66,7 @@ public class Career_JUnitTest {
 		assertEquals(1, n);
 	}
 	
-//	@Test
+	@Test
 	public void getMyCareerList() {
 		Map<String, Object> map =new HashMap<String, Object>(){{
 			put("userAccountId", "TMTD142");

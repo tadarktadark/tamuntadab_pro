@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.TupyoDaoImpl">
 
+<resultMap type="Map" id="tupyoResultMap">
+	<result column="TUUS_OPTION_SEQ" property="tuusOptionSeq"/>
+	<result column="COUNT" property="count"/>
+</resultMap>
+
 
 <insert id="insertTupyo" parameterType="java.util.Map">
 INSERT INTO TUPYO(TUPY_SEQ, TUPY_CLAS_ID, TUPY_TOTAL_USER, TUPY_STARTDATE, TUPY_ENDDATE, TUPY_STATUS)
@@ -32,13 +37,17 @@ INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE)
 INSERT INTO TUPYO_USER(TUUS_SEQ, TUUS_OPTION_SEQ, TUUS_ACCOUNT_ID, TUUS_AGREE)
         VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, 'A')
 </insert>
-<select id="getTupyoResult" parameterType="java.lang.Integer" resultType="tupyoUserVo">
-SELECT TUUS_OPTION_SEQ, COUNT(*) 
-	FROM TUPYO_USER
+<select id="getTupyoResult" parameterType="java.lang.Integer" resultMap="tupyoResultMap">
+SELECT TUUS_OPTION_SEQ, COUNT(*) as COUNT
+	FROM TUPYO_USER tu 
 	WHERE TUUS_OPTION_SEQ IN (
-						SELECT TUOP_SEQ 
-							FROM TUPYO_OPTION to2
-							WHERE TUOP_TUPY_SEQ =#{tuopTupySeq}
+							SELECT TUOP_SEQ 
+							FROM TUPYO_OPTION to2 
+							WHERE TUOP_TUPY_SEQ =(
+												SELECT TUOP_TUPY_SEQ 
+													FROM TUPYO_OPTION to2 
+													WHERE TUOP_SEQ =#{tuopTupySeq}
+												)
 						)
 	GROUP BY TUUS_OPTION_SEQ
 </select>
