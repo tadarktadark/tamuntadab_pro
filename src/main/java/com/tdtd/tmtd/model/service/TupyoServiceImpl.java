@@ -49,8 +49,8 @@ public class TupyoServiceImpl implements ITupyoService {
 	}
 
 	@Override
-	public int delTupyoUser(int tuusSeq) {
-		return dao.delTupyoUser(tuusSeq);
+	public int delTupyoUser(TupyoUserVo vo) {
+		return dao.delTupyoUser(vo);
 	}
 
 	@Override

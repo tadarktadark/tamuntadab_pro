@@ -1,6 +1,10 @@
+
+var myChart = '';
+
+
 function tupyoComplete(){
     
-    var selectedTeacher = $("input[name='teacher']:checked").val();
+	var selectedTeacher = $("input[name='teacher']:checked").val();
     var tupyoOptionList = $("input[name='list']").val();
     var tupyoOptionList = $("input[name='list']").val();
     
@@ -29,14 +33,29 @@ function tupyoComplete(){
     	  console.log(tupyoInstrsArray);
     	  
     	  var tupyoResultArray = new Array();
+    	  var tuopSeqList = [];
+			$("input[name='teacher']").each(function() {
+			    tuopSeqList.push($(this).val());
+			});
     	  for(let i=0;i<response.resultList.length;i++){
-    		  tupyoResultArray.push(response.resultList[i].count);
+			console.log("tuopSeqList",tuopSeqList[i]);
+			console.log("resultList",response.resultList[i].tuusOptionSeq);
+				if(tuopSeqList[i] == response.resultList[i].tuusOptionSeq){
+					if(response.resultList[i].count==null){
+		    		  tupyoResultArray.push(0);
+					}
+	    		  tupyoResultArray.push(response.resultList[i].count);
+				}
     	  }
     	  console.log(tupyoResultArray);
     	  
     	  var ctx = document.getElementById("myChart").getContext('2d');
-
-    	  var myChart = new Chart(ctx, {
+			
+			if (myChart!='') {
+		        myChart.destroy();
+		    }
+			
+    	  myChart = new Chart(ctx, {
     	      type: 'bar',
     	      data: {
     	          labels: tupyoInstrsArray,
@@ -65,21 +84,26 @@ function tupyoComplete(){
  }
  
  
-// function reTupyo(){
-//	
-//	$.ajax({
-//	url: './tupyoPage.do',
-//  	type: 'GET',
-//  	success: function(response) {
-//	  $("#tupyoList").css('display','block');
-//	  $("#tupyoResult").css('display','none');
-//	  $("#reTupyo").css('display','none');
-//    	  
-//      },
-//      error: function(error) {
-//    	  console.log("오류");
-//        console.log(error);
-//      }
-//	});
-//	
-//}
+ function reTupyo(){
+	
+	var selectedTeacher = $("input[name='teacher']:checked").val();
+	var userId = document.getAttribute("accountId");
+	
+	$.ajax({
+	url: './tupyoPage.do',
+  	type: 'GET',
+  	data: {"tuusAccountId":userId,
+  			"tuusOptionSeq":selectedTeacher},
+  	success: function(response) {
+	  $("#tupyoList").css('display','block');
+	  $("#tupyoResult").css('display','none');
+	  $("#reTupyo").css('display','none');
+    	  
+      },
+      error: function(error) {
+    	  console.log("오류");
+        console.log(error);
+      }
+	});
+	
+}

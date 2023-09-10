@@ -51,9 +51,9 @@ SELECT TUUS_OPTION_SEQ, COUNT(*) as COUNT
 						)
 	GROUP BY TUUS_OPTION_SEQ
 </select>
-<delete id="delTupyoUser" parameterType="java.lang.Integer">
-DELETE FROM TUPYO_USER
-        WHERE TUUS_SEQ=#{tuusSeq}
+<delete id="delTupyoUser" parameterType="tupyoUserVo">
+DELETE FROM TUPYO_USER tu 
+	WHERE TUUS_ACCOUNT_ID =#{tuusAccountId} AND TUUS_OPTION_SEQ =#{tuusOptionSeq}
 </delete>
 <update id="endTupyo" parameterType="java.lang.Integer">
 UPDATE TUPYO

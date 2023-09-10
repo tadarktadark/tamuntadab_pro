@@ -50,8 +50,8 @@ public class TupyoDaoImpl implements ITupyoDao {
 	}
 
 	@Override
-	public int delTupyoUser(int tuusSeq) {
-		return sqlSession.delete(NS+"delTupyoUser",tuusSeq);
+	public int delTupyoUser(TupyoUserVo vo) {
+		return sqlSession.delete(NS+"delTupyoUser",vo);
 	}
 
 	@Override
