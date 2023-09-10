@@ -23,31 +23,20 @@ function tupyoComplete(){
     	  $("#tupyoResult").css('display','block');
     	  $("#reTupyo").css('display','block');
     	  
-    	  
-    	  
-    	  
     	  var tupyoInstrsArray = new Array();
     	  for(let i=0;i<response.tupyoOptionList.length;i++){
-    		  tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr)
+				tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr);
     	  }
-    	  console.log(tupyoInstrsArray);
     	  
     	  var tupyoResultArray = new Array();
-    	  var tuopSeqList = [];
-			$("input[name='teacher']").each(function() {
-			    tuopSeqList.push($(this).val());
-			});
-    	  for(let i=0;i<response.resultList.length;i++){
-			console.log("tuopSeqList",tuopSeqList[i]);
-			console.log("resultList",response.resultList[i].tuusOptionSeq);
-				if(tuopSeqList[i] == response.resultList[i].tuusOptionSeq){
-					if(response.resultList[i].count==null){
-		    		  tupyoResultArray.push(0);
-					}
-	    		  tupyoResultArray.push(response.resultList[i].count);
+    	  for(let i=0;i<response.tupyoOptionList.length;i++){
+				if(response.resultList[i]==null){
+		    		tupyoResultArray.push(0);
+		    	}else {
+					tupyoResultArray.push(response.resultList[i].count);
 				}
     	  }
-    	  console.log(tupyoResultArray);
+				
     	  
     	  var ctx = document.getElementById("myChart").getContext('2d');
 			
