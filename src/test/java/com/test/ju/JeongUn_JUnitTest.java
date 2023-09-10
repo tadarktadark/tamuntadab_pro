@@ -54,13 +54,13 @@ public class JeongUn_JUnitTest {
 //	@Test
 	public void insertCommUser() {
 		Map<String, Object> userProfile = new HashMap<String, Object>(){{
-			put("userEmail", "hansome@tomato.com");
-			put("userPassword", "tomato1");
-			put("userName", "멋쟁이토마토");
-			put("userPhoneNumber", "01066389809");
+			put("userEmail", "hansome@tomato.com"); //
+			put("userPassword", "tomato1");//
+			put("userName", "멋쟁이토마토");//
+			put("userPhoneNumber", "01066389809");//
 			put("userAutoLoginToken", "tomatoo");
-			put("userGender", "F");
-			put("userBirth", "19910101");
+			put("userGender", "F");//
+			put("userBirth", "19910101");//
 		}};
 		int n = cdao.registCommUser(userProfile);
 		assertEquals(n, 1);

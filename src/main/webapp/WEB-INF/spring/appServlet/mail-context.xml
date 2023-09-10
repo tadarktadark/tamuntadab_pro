@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp.naver.com"/>
+	<property name="port" value="587"/>
+	<property name="username" value="juojuo9809"/>
+	<property name="password" value="qqww2883#@!"/>
+	<!-- 비밀번호에 특수문자로 인해 작동이 안되는 경우 -->
+<!-- 	<property name="password"> -->
+<!-- 		<value><![CDATA[]]></value> -->
+<!-- 	</property> -->
+	
+	<property name="javaMailProperties">
+		<props>
+			<prop key="mail.smtp.debug">true</prop>
+			<prop key="mail.smtp.auth">true</prop>
+			<prop key="mail.transport.protocol">smtp</prop>
+			<prop key="mail.smtp.starttls.enable">false</prop>
+			<!-- TLS Convert 오류 -->
+<!-- 			<prop key="mail.smtp.ssl.trust">smtp.naver.com</prop> -->
+			<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+		</props>
+	</property>
+</bean>
+
+</beans>
