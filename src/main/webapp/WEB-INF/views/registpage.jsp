@@ -28,84 +28,6 @@
 									   		<div class="input-group">
 										        <input type="email" name="email" class="form-control" id="email" placeholder="Email">
 										        <button type="button" class="btn btn-primary w-lg" onclick="confirmMail()">이메일 인증</button>
-										        <script type="text/javascript">
-										        	function confirmMail(){
-										        		var email = document.getElementById("email").value;
-										        		console.log(email);
-										        		if(email == ""){
-									        		        Swal.fire({
-									        		            position: 'top-center',
-									        		            icon: 'warning',
-									        		            title: '이메일을 입력해주세요',
-									        		            showConfirmButton: false,
-									        		            timer: 1500,
-									        		            showCloseButton: true
-									        		        })
-										        		}else{
-										        			$.ajax({
-										    					url: "./sendMail.do",
-										    					data: { userEmail: email},
-										    					type: "POST",
-										    					dataType: "json",
-										    					success: function(result) {
-										    						if(result.isc == "true"){
-										    					        Swal.fire({
-										    					        	html: '<div class="mt-3">' +
-										    				                '<div class="avatar-lg mx-auto">' +
-										    				                '<div class="avatar-title bg-light text-success display-5 rounded-circle">' +
-										    				                '<i class="ri-mail-send-fill"></i>' +
-										    				                '</div>' +
-										    				                '</div>' +
-										    				                '<div class="mt-4 pt-2 fs-15">' +
-										    				                '<h4 class="fs-20 fw-semibold">인증번호를 입력해주세요</h4>' +
-										    				                '</div>' +
-										    				                '</div>',
-										    				                input:'text',
-										    				                timer:300000,
-										    				                timerProgressBar: true,
-										    					            customClass: {
-										    					                confirmButton: 'btn btn-primary w-xs mb-2',
-										    					            },
-										    					            confirmButtonText: 'Register <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
-										    					            buttonsStyling: false,
-										    					            showCloseButton: true,
-										    					            preConfirm:function(inputcode){
-										    					            		if(inputcode==result.code){
-										    					            			Swal.fire({
-																        		            icon: 'info',
-																        		            title: '인증번호에 성공하였습니다!',
-																        		            showConfirmButton: true,
-																        		            timer: 1500,
-																        		            showCloseButton: false
-																        		        })
-										    					            		}else{
-										    					            			Swal.fire({
-																        		            icon: 'warning',
-																        		            title: '인증번호을 실패하였습니다.',
-																        		            showConfirmButton: false,
-																        		            timer: 1500,
-																        		            showCloseButton: true
-																        		        })
-										    					            		}
-										    					            }
-										    					        })
-										    						}else{
-										    							Swal.fire({
-												        		            position: 'top-center',
-												        		            icon: 'warning',
-												        		            title: '인증번호 전송을 실패하였습니다.',
-												        		            showConfirmButton: false,
-												        		            timer: 1500,
-												        		            showCloseButton: true
-												        		        })
-										    						}
-										    					},
-										    					error: function(result) {
-										    					}
-										        			})
-										        		}
-										        	}
-										        </script>
 									        </div>
 									    </div>
 									    <div class="col-md-6">
@@ -120,7 +42,7 @@
 									        <label for="inputPhoneNumber" class="form-label"><b>핸드폰 번호</b></label>
 									        <div class="input-group">
 									       		<input type="text" class="form-control" id="inputPhoneNumber" placeholder="Enter Your Phone NUmber">
-										        <button type="button" class="btn btn-primary w-lg">핸드폰 인증</button>
+										        <button type="button" class="btn btn-primary w-lg" onclick="confirmPhone()">핸드폰 인증</button>
 									        </div>
 									    </div>
 									    <div class="col-md-2">
@@ -158,6 +80,7 @@
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-	<script type="text/javascript" src="./js/regist.js"></script>
+	<script type="text/javascript" src="./js/confirmEmail.js"></script>
+	<script type="text/javascript" src="./js/confirmPhone.js"></script>
 	</body>
 </html>
