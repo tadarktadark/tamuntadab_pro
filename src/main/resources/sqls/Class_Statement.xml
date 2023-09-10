@@ -1,4 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tdtd.tmtd.model.mapper.AlarmDaoImpl">
+<mapper namespace="com.tdtd.tmtd.model.mapper.ClassDaoImpl">
+
+	<!-- 페이징 할 클래스 조회 -->
+	<select id="getClassList" parameterType="java.util.Map"
+		resultType="classVo">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION,
+		CLAS_SUBJECT_JEONGBO
+		FROM (
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION,
+		CLAS_SUBJECT_JEONGBO,
+		ROW_NUMBER() OVER (ORDER BY CLAS_ID DESC) AS RN
+		FROM CLASS c
+		)
+		WHERE RN BETWEEN #{first} AND #{last}
+	</select>
+
+	<!-- 페이징 할 전체 클래스 갯수 조회 -->
+	<select id="getClassListCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM
+		TMTD.CLASS
+	</select>
+
+	<!-- 클래스 개설 -->
+	<insert id="addClass" parameterType="classVo">
+		INSERT INTO TMTD.CLASS
+		(CLAS_ID, CLAS_TITLE, CLAS_LOCATION,
+		CLAS_STATUS, CLAS_MAGAM_GIHAN,
+		CLAS_HUIMANG_INWON,
+		CLAS_SUEOP_NALJJA, CLAS_CHOISO_SUGANGNYO,
+		CLAS_CHOIDAE_SUGANGNYO, CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN,
+		CLAS_SUBJECT_JEONGBO,
+		CLAS_CONTENT)
+		VALUES(CLAS_ID_SEQ.NEXTVAL,
+		#{clasTitle}, #{clasLocation},
+		#{clasStatus} , TO_CHAR(CURRENT_DATE +
+		INTERVAL '1' MONTH, 'YYYY-MM-DD'), #{clasHuimangInwon},
+		#{clasSueopNaljja}, #{clasChoisoSugangnyo},
+		#{clasChoidaeSugangnyo},
+		#{clasSeongbyeolJehan}, #{clasNaiJehan},
+		#{clasSubjectJeongbo},
+		#{clasContent})
+	</insert>
+
+	<!-- 과목 추가 -->
+	<insert id="addSubject">
+		<selectKey resultType="java.lang.Integer" keyProperty="subjCode" order="BEFORE">
+			SELECT SUBJ_CODE_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TMTD.SUBJECT
+			(SUBJ_ID, SUBJ_TITLE, SUBJ_STUD_ID, SUBJ_STATUS, SUBJ_DELFLAG, SUBJ_CODE)
+		VALUES (SUBJ_ID_SEQ.NEXTVAL, #{subjTitle}, #{subjStudId},
+		#{subjStatus}, #{subjDelflag}, #{subjCode})
+	</insert>
+	<!-- 과목태그 추가 -->
+	<insert id="addSubjectTag">
+	<selectKey resultType="java.lang.String" keyProperty="subjCode" order="BEFORE">
+		SELECT SUBJ_CODE_SEQ.CURRVAL FROM DUAL
+	</selectKey>
+	INSERT INTO TMTD.SUBJECT_TAG 
+		(SUTA_CODE, SUTA_TITLE)
+	VALUES(COALESCE(#{subjCode}, NULL), #{sutaTitle})
+	</insert>
+
+	<!-- 참여자 추가 -->
+	<insert id="addChamyeoja">
+		INSERT INTO TMTD.CLASS_CHAMYEOJA
+		(CLCH_ID,
+		CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS,
+		CLCH_YEOKAL)
+		VALUES(CLCH_ID_SEQ.NEXTVAL, #{clch_accountId},
+		#{clchClasId}, #{clchStatus} , 'N', #{clchYeokal} )
+	</insert>
 </mapper>
