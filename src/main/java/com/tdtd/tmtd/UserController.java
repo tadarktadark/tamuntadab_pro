@@ -2,6 +2,7 @@ package com.tdtd.tmtd;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -47,7 +48,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/sendMail.do", method =RequestMethod.POST)
 	@ResponseBody
-	public String sendMmail(@RequestParam Map<String,String> map) {
+	public String sendmail(@RequestParam Map<String,String> map) {
 		log.info("받은 매일 {}",map.get("userEmail"));
 		
 		Map<String,String> sendmap = new HashMap<String, String>();
@@ -70,5 +71,10 @@ public class UserController {
 		Gson gson = new Gson();
 		String result = gson.toJson(map);
 		return result;
+	}
+	
+	@RequestMapping(name="/confirmPhone.do", method=RequestMethod.POST)
+	public String sendSMS(String phonenumber) {
+		return "";
 	}
 }
