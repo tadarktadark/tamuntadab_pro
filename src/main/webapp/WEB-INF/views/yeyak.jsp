@@ -9,6 +9,9 @@
 <title>${title} | 타문타답</title>
 <%@ include file="./shared/_head_css.jsp" %>
 <link href="./css/yeyak.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="./assets/libs/@simonwep/pickr/themes/classic.min.css" /> <!-- 'classic' theme -->
+<link rel="stylesheet" href="./assets/libs/@simonwep/pickr/themes/monolith.min.css" /> <!-- 'monolith' theme -->
+<link rel="stylesheet" href="./assets/libs/@simonwep/pickr/themes/nano.min.css" /> <!-- 'nano' theme -->
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -25,8 +28,17 @@
 			<%@ include file="./shared/_footer.jsp" %>
 		</div>
 	</div>	
+	<div id="yeyak-form" style="display:none;">
+		<%@ include file="./yeyakForm.jsp" %>
+	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script type="text/javascript" src="./assets/libs/@simonwep/pickr/pickr.min.js"></script>
+	<script type="text/javascript" src="./assets/js/pages/form-pickers.init.js"></script>
+	<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+	<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
+    <script src="./assets/js/pages/form-wizard.init.js"></script>
+	<script type="text/javascript" src="./assets/js/app.js"></script>
 	<script type="text/javascript" src="./js/yeyak.js"></script>
 </body>
 </html>

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.YeyakDaoImpl">
+	<resultMap type="gangeuisilVo" id="gangeuisilMap">
+		<result property="gagaId" column="GAGA_ID"/>
+		<result property="gacoName" column="GACO_NAME"/>
+		<result property="gagaName" column="GAGA_NAME"/>
+		<result property="gacoOpen" column="GACO_OPEN"/>
+		<result property="gacoClose" column="GACO_CLOSE"/>
+		<result property="gagaMax" column="GAGA_MAX"/>
+		<result property="gagaHourPrice" column="GAGA_HOUR_PRICE"/>
+		<collection property="yeyakList" resultMap="reyakMap"></collection>
+	</resultMap>
+	<resultMap type="yeyakVo" id="reyakMap">
+		<result property="gayeYeyakDate" column="GAYE_YEYAK_DATE"/>
+		<result property="gayeStartTime" column="GAYE_START_TIME"/>
+		<result property="gayeHours" column="GAYE_HOURS"/>
+	</resultMap>
 	<select id="getGangeuisilCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 			FROM GANGEUISIL_COMM
@@ -46,18 +61,22 @@
 	        FROM GANGEUISIL_GAEBYEOL
 	        WHERE GAGA_GACO_ID = #{gagaGacoId}
 	</select>
-	<select id="getYeyakDateList" resultType="yeyakVo">
-		SELECT GAYE_YEYAK_DATE, GAYE_START_TIME , GAYE_HOURS 
-	        FROM GANGEUISIL_YEYAK
-	        WHERE GAYE_GAGA_ID = #{gayeGagaId}
-	                AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE ,'yyyyddmm')
+	<select id="getYeyakDateList" resultMap="gangeuisilMap">
+		SELECT GAGA_ID, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS, GACO_NAME, GAGA_NAME, GAGA_MAX, GAGA_HOUR_PRICE , GACO_OPEN, GACO_CLOSE
+			FROM GANGEUISIL_YEYAK JOIN GANGEUISIL_GAEBYEOL
+			ON GAYE_GAGA_ID = GAGA_ID
+			JOIN GANGEUISIL_COMM
+			ON GAGA_GACO_ID = GACO_ID
+			WHERE NOT GAYE_STATE = 'N'
+				AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE ,'yyyymmdd')
+				<![CDATA[AND GAYE_YEYAK_DATE < TO_CHAR(CURRENT_DATE+28 ,'yyyymmdd')]]>
+				AND GAGA_ID=#{gagaId}
 	</select>
-	<select id="getYeyakTimeList" resultType="yeyakVo">
-		SELECT GAYE_ID, GAYE_GAGA_ID , GAYE_ACCOUNT_ID , GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS
-	        FROM GANGEUISIL_YEYAK
-	        WHERE GAYE_GAGA_ID = #{gayeGagaId}
-	                AND GAYE_YEYAK_DATE = TO_CHAR(TO_DATE(#{gayeYeyakDate}),'yyyymmdd')
-	                AND NOT GAYE_STATE = 'N'
+	<select id="getYeyakTimeList" resultType="gangeuisilVo">
+		SELECT GACO_OPEN , GACO_CLOSE
+		        FROM GANGEUISIL_GAEBYEOL JOIN GANGEUISIL_COMM
+		        ON GAGA_GACO_ID = GACO_ID
+		        WHERE GAGA_ID=#{gagaId}
 	</select>
 	<insert id="insertYeakInfo">
 		INSERT INTO GANGEUISIL_YEYAK
@@ -111,4 +130,14 @@
 		UPDATE GANGEUISIL_YEYAK SET GAYE_STATE='N'
 	        WHERE GAYE_ID=#{gayeId}
 	</update>
+	<update id="updateYeoyuTime">
+		UPDATE GANGEUISIL_GAEBYEOL SET GAGA_YEOYU_TIME = #{gagaYeoyuTime}
+        	WHERE GAGA_ID = #{gagaId}
+	</update>
+	<select id="getYeoyuTime" resultType="gangeuisilVo">
+		SELECT GAGA_ID , GACO_OPEN, GACO_CLOSE, GAGA_YEOYU_TIME
+	        FROM GANGEUISIL_COMM JOIN GANGEUISIL_GAEBYEOL
+	        ON GACO_ID = GAGA_GACO_ID 
+	        WHERE GAGA_ID = #{gagaId}
+	</select>
 </mapper>

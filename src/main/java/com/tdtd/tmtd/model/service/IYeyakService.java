@@ -61,21 +61,21 @@ public interface IYeyakService {
 
 	/**
 	 * 개별 강의실의 예약 가능한 날짜 조회
-	 * @param gayeGagaId 강의실 개별 id
-	 * @return 예약된 날짜 리스트 List<YeyakVo>
+	 * @param gagaId 강의실 개별 id
+	 * @return 강의실의 예약 리스트 List<GangeuisilVo>
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public List<YeyakVo> getYeyakDateList(String gayeGagaId);
+	public List<GangeuisilVo> getYeyakDateList(String gagaId);
 
 	/**
 	 * 개별 강의실 특정 날짜의 예약 가능한 시간 조회
-	 * @param map kye=["gayeGagaId", "gayeYeyakDate" value=["강의실 개별 id","예약 날짜"]
-	 * @return 예약된 시간 리스트 List<YeyakVo>
+	 * @param gagaId 강의실 개별 id
+	 * @return 강의실 으픈, 마감 시간<GangeuisilVo>
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public List<YeyakVo> getYeyakTimeList(Map<String, Object> map);
+	public List<GangeuisilVo> getYeyakTimeList(String gagaId);
 
 	/**
 	 * 예약 정보 입력 및 결제 정보 입력
@@ -104,4 +104,25 @@ public interface IYeyakService {
 	 * @since 2023.09.09
 	 */
 	public int updateYeyakDelflag(String gayeId);
+	
+	/**
+	 * 매일 자정 강의실 예약 가능일 추가
+	 * @param gayaId 개별 강의실 id
+	 * @return 성공시 1, 실패시 0
+	 * @author SoHyeon
+	 * @since 2023.09.10
+	 */
+	public int updateYeoyuTimeAdd(String gagaId);
+	
+	public int dummy(String gagaId);
+	public int dummy2();
+	
+	/**
+	 * 예약한 날짜 및 시간을 강의실 예약 가능일에서 제거
+	 * @param gayaId 개별 강의실 id
+	 * @return 성공시 1, 실패시 0
+	 * @author SoHyeon
+	 * @since 2023.09.10
+	 */
+	public int updateYeoyuTimeRm(String gagaId);
 }

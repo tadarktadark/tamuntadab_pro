@@ -26,7 +26,7 @@ public class YeyakJUnitTest {
 	@Autowired
 	private IYeyakService service;
 	
-	@Test
+//	@Test
 	public void getGangeuisilCount() {
 		Map<String, Object> map = new HashMap<String, Object>(){{
 			put("gacoSido", "광주");
@@ -68,19 +68,17 @@ public class YeyakJUnitTest {
 	
 //	@Test
 	public void getYeyakDateList() {
-		List<YeyakVo> list = service.getYeyakDateList("GAGA00277");
+		List<GangeuisilVo> list = service.getYeyakDateList("GAGA00277");
 		assertNotNull(list);
 	}
 	
 //	@Test
-	public void getYeyakTimeList(){
-		Map<String, Object> map = new HashMap<String, Object>(){{
-			put("gayeGagaId", "GAGA00265");
-			put("gayeYeyakDate", "20230912");
-		}};
-		List<YeyakVo> list = service.getYeyakTimeList(map);
-		assertNotNull(list);
-	}
+	/*
+	 * public void getYeyakTimeList(){ Map<String, Object> map = new HashMap<String,
+	 * Object>(){{ put("gayeGagaId", "GAGA00265"); put("gayeYeyakDate", "20230912");
+	 * }}; List<YeyakVo> list = service.getYeyakTimeList(map); assertNotNull(list);
+	 * }
+	 */
 	
 //	@Test
 	public void insertYeakInfo() {
@@ -102,4 +100,11 @@ public class YeyakJUnitTest {
 		int n = service.updateYeyakDelflag("YY202309090001");
 		assertEquals(1, n);
 	}
+	
+	@Test
+	public void updateYeoyuTimeAdd() {
+		int n = service.updateYeoyuTimeAdd("GAGA00277");
+		assertEquals(1, n);
+	}
+
 }

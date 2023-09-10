@@ -68,11 +68,11 @@ $(document).on('click', '.show-gangeuisilDetails', function(e) {
 								            '<th scope="col"></th>'+
 								    	'</tr>');
 			for(i=0; i<data.length; i++){
-				$("#"+data[i].gacoId).append('<tr>'+												            
+				$("#"+data[i].gacoId).append('<tr>'+		            
 											 	'<td scope="row">'+data[i].gagaName+'</td>'+
 									            '<td scope="row">'+data[i].gagaMax+'</td>'+
 									            '<td scope="row">'+data[i].gagaHourPrice+'</td>'+												            
-									            '<td><a class="link-success click-btn">예약 <i class="ri-arrow-right-line align-middle"></i></a></td>'+
+									            '<td><a id="'+data[i].gagaId+'" class="link-success click-btn yeyak-btn">예약 <i class="ri-arrow-right-line align-middle"></i></a></td>'+
 									        '</tr>');					
 			}
 			
@@ -122,7 +122,8 @@ function getGangeuisilSidoList(){
 					    '</div>'+
 					    '<div class="col">'+
 					        '<div class="collapse multi-collapse" id="multiCollapseExample2">'+
-					            '<div class="card card-body mb-0" id="map">'+
+					            '<div class="card card-body mb-0" id="multiCollapseExample2-content">'+
+					            '<div>hi</div>'+
 					            '</div>'+
 					        '</div>'+
 					    '</div>'+
@@ -135,6 +136,50 @@ function getGangeuisilSidoList(){
 		}
 	});		
 }
+
+$(document).on('click', '.yeyak-btn', function(e){
+	var gagaName = e.target.parentNode.parentNode.firstChild.textContent;
+	if(gagaName=='예약 '){
+		gagaName=e.target.parentNode.parentNode.parentNode.firstChild.textContent;
+	}
+	var html = '<b class="ri-home-wifi-fill"> '+gagaName+'</b>';
+	$('.form-header').children().remove();
+	$('.form-header').append(html);
+	$("#multiCollapseExample2-content").children().remove();
+	$("#multiCollapseExample2-content").append($("#yeyak-form").html());
+	if(e.target.id){
+		var gagaId = e.target.id;
+	} else {		
+		var gagaId = e.target.parentNode.id;
+	}
+	$("#gayeGagaId").text(gagaId);
+	console.log($("#gayeGagaId").text());
+	$.ajax({
+		type:"post",
+		url:"./getYeyakDateList.do",
+		data:{
+			"gagaId":gagaId
+		},
+		success: function(data){
+			console.log(data);
+			flatpickr.localize(flatpickr.l10ns.ko);
+			$('.flatpickr').flatpickr({
+				local: 'ko',
+			    disable: [
+			    //몇개 적을일 없는 경우
+			    "2023-09-20", 
+			    ],
+			    dateFormat: "Y-m-d",
+			    minDate: "today", // 오늘부터 시작
+    			maxDate: new Date().fp_incr(28) // 오늘부터 28일 이내
+			  });
+		},
+		error: function(){
+			alert("잘못된 요청입니다.");
+		}
+	});
+});
+
 function getGangeuisilList(page, type, sendData){
 	$.ajax({
 		type:"post",
