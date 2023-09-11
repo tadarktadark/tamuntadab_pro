@@ -274,9 +274,11 @@
 		    <artifactId>google-cloud-vision</artifactId>
 		    <version>3.21.0</version>
 		</dependency>
-		
-		
-
+		<dependency>
+			  <groupId>net.nurigo</groupId>
+			  <artifactId>sdk</artifactId>
+			  <version>4.2.7</version>
+		</dependency>
 	</dependencies>
     <build>
 		<plugins>
