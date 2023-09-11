@@ -10,7 +10,7 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="./js/eduLevelForm.js" charset="UTF-8"></script>
-<%@ include file="./shared/_head_css.jsp"%>
+<%-- <%@ include file="./shared/_head_css.jsp"%> --%>
 </head>
 <body>
 	<select class="form-select mb-3" aria-label=".form-select-lg example">
