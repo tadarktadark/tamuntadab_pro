@@ -139,7 +139,6 @@ $(document).on('click', '.sido-dropdown', function(e){
 		getGangeuisilList("1","sido", e.target.text.substr(0,2));
 		$.ajax({
 			type:"get",
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			url:"./getGangeuisilSigunguList.do",
 			data:{
 				"sido":e.target.text.substr(0,2)
@@ -257,6 +256,7 @@ $(document).on('click', '.yeyak-btn', function(e){
 	$("#gyeolje-hour").val(gyeoljeHour);
 	$.ajax({
 		type:"post",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getYeyakInfo.do",
 		data:{
 			"gagaId":gagaId,

@@ -32,13 +32,13 @@
 		<%@ include file="./yeyakForm.jsp" %>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-	<script type="text/javascript" src="./assets/libs/@simonwep/pickr/pickr.min.js"></script>
-	<script type="text/javascript" src="./assets/js/pages/form-pickers.init.js"></script>
-	<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-	<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
-    <script src="./assets/js/pages/form-wizard.init.js"></script>
-	<script type="text/javascript" src="./assets/js/app.js"></script>
-	<script type="text/javascript" src="./js/yeyak.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./assets/libs/@simonwep/pickr/pickr.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./assets/js/pages/form-pickers.init.js" charset="UTF-8"></script>
+	<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js" charset="UTF-8"></script>
+	<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js" charset="UTF-8"></script>
+    <script src="./assets/js/pages/form-wizard.init.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./assets/js/app.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./js/yeyak.js" charset="UTF-8"></script>
 </body>
 </html>
