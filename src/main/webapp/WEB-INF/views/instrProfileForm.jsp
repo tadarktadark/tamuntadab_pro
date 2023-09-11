@@ -10,6 +10,7 @@
 <title>${title}|타문타답</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="./js/instrProfileForm.js" charset="UTF-8"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
@@ -81,7 +82,7 @@
 										<tbody>
 											<c:if test="${not empty profile.instrEduVo}">
 												<c:forEach var="edu" items="${profile.instrEduVo}" varStatus="vs">
-													<tr style="text-align: center;">
+													<tr style="text-align: center;" class="isDb">
 														<td>
 														<c:choose>
 															<c:when test="${edu.inedStage == 1}">대학원(박사)</c:when>
@@ -90,6 +91,7 @@
 															<c:when test="${edu.inedStage == 4}">대학(2,3년)</c:when>
 															<c:otherwise>고등학교</c:otherwise>
 														</c:choose>
+														<input type="hidden" name="instrEduVo[${vs.index}].inedSeq" value="${edu.inedSeq}">
 														<input type="hidden" name="instrEduVo[${vs.index}].inedStage" value="${edu.inedStage}">
 														</td>
 														<td>${edu.inedSchool}
@@ -103,7 +105,7 @@
 														<input type="hidden" name="instrEduVo[${vs.index}].inedStart" value="${edu.inedStart}"></td>
 														<td>${edu.inedEnd}
 														<input type="hidden" name="instrEduVo[${vs.index}].inedEnd" value="${edu.inedEnd}"></td>
-														<td><button class="cancel-button btn btn-danger" onclick="deleteRow(this)">취소</button></td>
+														<td><button type="button" class="cancel-button btn btn-danger" onclick="deleteRow(this)">취소</button></td>
 													</tr>
 												</c:forEach>
 												<script type="text/javascript" charset="UTF-8">
@@ -204,7 +206,7 @@
 							</div>
 
 							<div class="text-end">
-								<button type="submit" class="btn btn-primary">저장</button>
+								<button type="submit" class="btn btn-primary" style="width: 150px;">저장</button>
 							</div>
 						</form>
 					</div>
@@ -218,67 +220,160 @@
 </body>
 <script type="text/javascript" charset="UTF-8">
 function deleteRow(button) {
-    $(button).closest('tr').remove();
+	var row = $(button).closest('tr');
+    var isDbRow = row.attr('class') === 'isDb';
+
+    if (isDbRow) {
+        Swal.fire({
+            title: "정말로 삭제하시겠습니까?",
+            text: "기존의 데이터가 삭제됩니다.",
+            icon: "warning",
+            showCancelButton: true,
+            customClass: {
+                confirmButton: 'btn btn-primary w-xs mt-2 me-2',
+                cancelButton: 'btn btn-danger w-xs mt-2',
+            },
+            confirmButtonText: "삭제",
+            buttonsStyling: false,
+            showCloseButton: true
+        }).then(function (result) {
+            if (result.isConfirmed) { // 확인 버튼을 누른 경우
+                var inedSeq = row.find('input[name$=".inedSeq"]').val();
+
+                $.ajax({
+                    url: './deleteInstrEdulevel.do',
+                    type: 'POST',
+                    data: { inedSeq: inedSeq },
+                    success:function(response){
+                        if(response == 'true'){
+                            Swal.fire({
+                                title:'삭제되었습니다',
+                                text:'',
+                                icon:'success',
+                                customClass:{
+                                    confirmButton:'btn btn-primary w-xs mt-2'
+                                },
+                                buttonsStyling:false
+                            });
+                            row.remove();
+                        } else {
+                        	Swal.fire({
+                                title: '삭제에 실패했습니다',
+                                text: '',
+                                icon: 'error',
+                                 customClass: {
+                                    confirmButton: 'btn btn-primary w-xs mt-2',
+                                },
+                                buttonsStyling: false,
+                            })
+                        }
+                    },
+                    error:function(jqXHR, textStatus){
+                        alert("Request failed : " + textStatus);
+                    }
+               });
+                
+           }
+        });
+        
+    } else {
+       row.remove();
+     }
 }
 
-	$('form').on('submit', function(e) {
-	    e.preventDefault();
-		
-	    var formData = new FormData(this);
-	    
-	    var selectedSubjects = $('#selectedSubjects .choices__item--selectable').map(function() {
-	        return $(this).data('value').toString();
-	    }).get();
-	    
-	    formData.append('inprSubjects', JSON.stringify(selectedSubjects));
-	    
-	    if(selectedSubjects.length == 0) {
-	        alert("가능한 과목을 선택해주세요.");
-	        return false;
-	    }
-	    
-	    var selectedSubjectsMajor = $('#selectedSubjectsMajor .choices__item--selectable').map(function() {
-		    return $(this).data('value').toString();
-		}).get();
-	    
-	    formData.append('inprSubjectsMajor', JSON.stringify(selectedSubjectsMajor));
-	    
-	    var data = {};
+$('form').on('submit', function(e) {
+    e.preventDefault();
+    
+    var selectedSubjects = $('#selectedSubjects .choices__item--selectable').map(function() {
+        return $(this).data('value').toString();
+    }).get();
+    
+    if(selectedSubjects.length == 0) {
+    	Swal.fire('가능한 과목을 선택해주세요');
+        return false;
+    }
+    Swal.fire({
+        title: '저장하시겠습니까?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: '예',
+        customClass: {
+            confirmButton: 'btn btn-primary w-xs me-2',
+            cancelButton: 'btn btn-danger w-xs',
+            denyButton: 'btn btn-info w-xs me-2',
+        },
+        buttonsStyling: false,
+        denyButtonText: '기존 사항 유지',
+        showCloseButton: true
+    }).then(function (result) {
+        if (result.isConfirmed) {
+            
+            var formData = new FormData(e.target);
+    
+    formData.append('inprSubjects', JSON.stringify(selectedSubjects));
+    
+    
+    var selectedSubjectsMajor = $('#selectedSubjectsMajor .choices__item--selectable').map(function() {
+	    return $(this).data('value').toString();
+	}).get();
+    
+    formData.append('inprSubjectsMajor', JSON.stringify(selectedSubjectsMajor));
+    
+    var data = {};
 
-	 // Iterate over the FormData entries
-	    for (var pair of formData.entries()) {
-	        console.log(pair[0]+ ', ' + pair[1]); 
-	        
-	        // Handle array field names (like "instrEduVo[x].fieldName")
-	        var match = pair[0].match(/^(\w+)\[(\d+)\]\.(\w+)$/);
-	        if (match) {
-	            var arrayName = match[1];
-	            var index = parseInt(match[2]);
-	            var propertyName = match[3];
-	            
-	            data[arrayName] = data[arrayName] || [];
-	            data[arrayName][index] = data[arrayName][index] || {};
-	            data[arrayName][index][propertyName] = pair[1];
-	        } else {
-	            // Handle non-array field names
-	          	data[pair[0]] = pair[1];
-	      	}
-	    }
-	   
-	   $.ajax({
-	       url: './insertInstrProfile.do',
-	       type: 'POST',
-	       data: JSON.stringify(data),
-	       contentType: 'application/json',  // tell jQuery not to set contentType
-	       success:function(response){
-	           alert(response);
-	           window.location.href = './instrProfileForm.do';  // Redirect to a success page (modify this)
-	      },
-	      error:function(jqXHR, textStatus){
-	          alert("Request failed : " + textStatus);
-	      }
-	   });
+ // Iterate over the FormData entries
+    for (var pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+        
+        // Handle array field names (like "instrEduVo[x].fieldName")
+        var match = pair[0].match(/^(\w+)\[(\d+)\]\.(\w+)$/);
+        if (match) {
+            var arrayName = match[1];
+            var index = parseInt(match[2]);
+            var propertyName = match[3];
+            
+            data[arrayName] = data[arrayName] || [];
+            data[arrayName][index] = data[arrayName][index] || {};
+            data[arrayName][index][propertyName] = pair[1];
+        } else {
+            // Handle non-array field names
+          	data[pair[0]] = pair[1];
+      	}
+    }
+   
+    $.ajax({
+        url : './insertInstrProfile.do',
+        type : 'POST',
+        data : JSON.stringify(data),
+        contentType : 'application/json',  // tell jQuery not to set contentType
+        success:function(response){
+            if(response == 'true'){
+                Swal.fire({
+                    title:'성공적으로 저장되었습니다.',
+                    icon:'success'
+                }).then(function() {
+                    window.location.href = './home.do';
+                });
+            } else {
+                Swal.fire({
+                    title:'저장 실패',
+                    icon:'error'
+                }).then(function() {
+                    location.reload();
+                });
+            }
+        },
+        error:function(jqXHR, textStatus){
+            alert("Request failed : " + textStatus);
+        }
+   });
+		} else if (result.isDenied) {
+			Swal.fire('변경사항이 적용되지 않았습니다', '', 'info').then(function() {
+                window.location.href = './home.do';
+            });
+		}
 	});
+});
 </script>
 <style type="text/css">
 body {

@@ -18,6 +18,8 @@ public interface IInstrService {
 		//TDT007 updateInstrEdulevel
 		public int updateInstrProfile(InstrVo vo);
 		
+		public int deleteInstrEdulevel(String inedSeq);
+		
 		//TDT018 getAllInstr
 		public List<InstrVo> getAllInstr(String order);
 		

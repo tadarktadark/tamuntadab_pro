@@ -9,8 +9,9 @@
 <title>${title}|타문타답</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="./js/eduLevelForm.js" charset="UTF-8"></script>
-<%-- <%@ include file="./shared/_head_css.jsp"%> --%>
+<%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body>
 	<select class="form-select mb-3" aria-label=".form-select-lg example">
@@ -132,7 +133,7 @@ $(function() {
 
         $('#highSchool').autocomplete({
             source: schoolNames,
-            minLength: 2 
+            minLength: 1 
         });
     });
     
@@ -146,7 +147,7 @@ $(function() {
 
 		$('#univSchool').autocomplete({
 			source: univNames,
-			minLength: 2 
+			minLength: 1 
 		});
    });
 	
@@ -166,6 +167,10 @@ body {
 
 .ui-autocomplete li {
 	list-style-type: none;
+}
+
+.ui-helper-hidden-accessible > div {
+    visibility: hidden;
 }
 </style>
 </html>

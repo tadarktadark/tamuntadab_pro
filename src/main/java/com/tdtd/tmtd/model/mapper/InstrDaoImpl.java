@@ -42,6 +42,11 @@ public class InstrDaoImpl implements IInstrDao {
 	public int updateInstrEdulevel(InstrEduVo vo) {
 		return sqlSession.update(NS+"updateInstrEdulevel", vo);
 	}
+	
+	@Override
+	public int deleteInstrEdulevel(String inedSeq) {
+		return sqlSession.delete(NS+"deleteInstrEdulevel", inedSeq);
+	}
 
 	@Override
 	public List<InstrVo> getAllInstr(String order) {

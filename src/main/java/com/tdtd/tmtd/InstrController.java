@@ -2,8 +2,6 @@ package com.tdtd.tmtd;
 
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.api.client.http.HttpRequest;
 import com.tdtd.tmtd.model.service.IInstrService;
+import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
 @Controller
@@ -47,9 +45,7 @@ public class InstrController {
 	
 	@PostMapping("/insertInstrProfile.do")
 	@ResponseBody
-	public String insertInstrProfile(@RequestBody InstrVo vo, HttpServletResponse response) {
-		
-		response.setContentType("text/html; charset=UTF-8");
+	public String insertInstrProfile(@RequestBody InstrVo vo) {
 		
 		System.out.println("###########전달받은 값"+ vo.toString());
 	    String accountId = vo.getInprAccountId();
@@ -59,9 +55,25 @@ public class InstrController {
 	    if(before == null) {
 	        n = service.insertInstrProfile(vo);
 	    } else {
+	    	vo.setInprSeq(before.getInprSeq());
+	    	 if (before.getInstrEduVo() != null && !before.getInstrEduVo().isEmpty()) {  
+	 	        for (int i=0; i<before.getInstrEduVo().size(); i++) { 
+	 	            InstrEduVo ined = before.getInstrEduVo().get(i);
+	 	            if (!vo.getInstrEduVo().contains(ined)) { 
+	 	                vo.getInstrEduVo().add(ined);  
+	 	            }
+	 	        }
+	 	    }
 	        n = service.updateInstrProfile(vo);
 	    }
-	    return (n>0)?"저장에 성공하였습니다":"처리중 오류 발생";
+	    return (n>0)?"true":"false";
+	}
+	
+	@PostMapping("/deleteInstrEdulevel.do")
+	@ResponseBody
+	public String deleteInstrEdulevel(String inedSeq) {
+		int n = service.deleteInstrEdulevel(inedSeq);
+		return (n>0)?"true":"false";
 	}
 	
 }

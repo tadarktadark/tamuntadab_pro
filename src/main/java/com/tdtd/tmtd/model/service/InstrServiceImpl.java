@@ -61,6 +61,11 @@ public class InstrServiceImpl implements IInstrService {
 	    
 	    return m;
 	}
+	
+	@Override
+	public int deleteInstrEdulevel(String inedSeq) {
+		return dao.deleteInstrEdulevel(inedSeq);
+	}
 
 	@Override
 	public List<InstrVo> getAllInstr(String order) {
