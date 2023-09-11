@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script type="text/javascript" src="./js/instrProfileForm.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/instrProfileForm.js" charset="UTF-8"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body class="twocolumn-panel">
