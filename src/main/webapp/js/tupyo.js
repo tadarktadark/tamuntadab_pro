@@ -1,38 +1,38 @@
 $(document).ready(function() {
-    var userId = "TMTD1"; // 현재 로그인된 유저 ID
+	var userId = "TMTD1"; // 현재 로그인된 유저 ID
 
-    $.ajax({
-        url: './checkVoted.do',
-        type: 'GET',
-        data: {
-            "tuusAccountId": userId,
-            "tuopTupySeq":2,//투표 seq 받아야함
-              },
-        success: function(response) {
-            if (response=="false") {
-                $("#tupyoList").hide();
-                $("#tupyoResult").show();
-                $("#reTupyo").show();
-            } else {
-                var teacherCount = $('input[name=teacher]').length;
-    
-                if (teacherCount === 1) {
-                    $('#list-group').hide();
-                    $('#agree-disagree-group').show();
-                    $("#tupyoList").show(); 
-                } else { 
-                    $("#tupyoList").show(); 
-                    $('#agree-disagree-group').hide(); 
-                }
-                
-                $("#tupyoResult").hide();
-            }
-        },
-        error: function(error) {
-            console.log("오류");
-            console.log(error);
-        }
-    });
+	$.ajax({
+		url: './checkVoted.do',
+		type: 'GET',
+		data: {
+			"tuusAccountId": userId,
+			"tuopTupySeq": 2,//투표 seq 받아야함
+		},
+		success: function(response) {
+			if (response == "false") {
+				$("#tupyoList").hide();
+				$("#tupyoResult").show();
+				$("#reTupyo").show();
+			} else {
+				var teacherCount = $('input[name=teacher]').length;
+
+				if (teacherCount === 1) {
+					$('#list-group').hide();
+					$('#agree-disagree-group').show();
+					$("#tupyoList").show();
+				} else {
+					$("#tupyoList").show();
+					$('#agree-disagree-group').hide();
+				}
+
+				$("#tupyoResult").hide();
+			}
+		},
+		error: function(error) {
+			console.log("오류");
+			console.log(error);
+		}
+	});
 });
 
 
@@ -49,110 +49,175 @@ function tupyoComplete() {
 	var tupyoOptionList = $("input[name='list']").val();
 
 	var userId = "TMTD1";
-	
+
 	if ($('#list-group').is(':visible')) { // 강사 선택 투표일 때
-        var radios = document.getElementsByName('teacher');
-        var isChecked = false;
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                isChecked = true;
-                break;
-            }
-        }
-        
-        if (!isChecked) {
-            alert('강사를 선택해주세요.');
-            return false;
-        }
-
-	$.ajax({
-		url: './insertTupyoUser.do',
-		type: 'POST',
-		contentType: "application/json;charset=UTF-8",
-		data: JSON.stringify({
-			"tuusOptionSeq": selectedTeacher,
-			"tuusAccountId": userId
-		}),
-		success: function(response) {
-			console.log(selectedTeacher, userId);
-			$("#tupyoList").css('display', 'none');
-			$("#tupyoResult").css('display', 'block');
-			$("#reTupyo").css('display', 'inline-block');
-
-			var tupyoInstrsArray = new Array();
-			for (let i = 0; i < response.tupyoOptionList.length; i++) {
-				tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr);
+		var radios = document.getElementsByName('teacher');
+		var isChecked = false;
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].checked) {
+				isChecked = true;
+				break;
 			}
+		}
 
-			var tupyoResultArray = new Array();
-			for (let i = 0; i < response.tupyoOptionList.length; i++) {
+		if (!isChecked) {
+			alert('강사를 선택해주세요.');
+			return false;
+		}
+
+		$.ajax({
+			url: './insertTupyoUser.do',
+			type: 'POST',
+			contentType: "application/json;charset=UTF-8",
+			data: JSON.stringify({
+				"tuusOptionSeq": selectedTeacher,
+				"tuusAccountId": userId
+			}),
+			success: function(response) {
+				console.log(selectedTeacher, userId);
+				$("#tupyoList").css('display', 'none');
+				$("#tupyoResult").css('display', 'block');
+				$("#reTupyo").css('display', 'inline-block');
+
+				var tupyoInstrsArray = new Array();
+				for (let i = 0; i < response.tupyoOptionList.length; i++) {
+					tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr);
+				}
+
+				var tupyoResultArray = new Array();
+				for (let i = 0; i < response.tupyoOptionList.length; i++) {
 					tupyoResultArray.push(response.resultList[i].count);
-			}
-			
-			console.log(tupyoInstrsArray);
-			console.log(tupyoResultArray);
+				}
 
-			var ctx = document.getElementById("myChart").getContext('2d');
+				console.log(tupyoInstrsArray);
+				console.log(tupyoResultArray);
 
-			if (myChart != '') {
-				myChart.destroy();
-			}
+				var ctx = document.getElementById("myChart").getContext('2d');
 
-			myChart = new Chart(ctx, {
-				type: 'bar',
-				data: {
-					labels: tupyoInstrsArray,
-					datasets: [{
-						label: '득표수',
-						data: tupyoResultArray,
-						backgroundColor: '#8977ad'
-					}]
-				},
-				options: {
-					indexAxis: 'y',
-					maintainAspectRatio: false,
-					scales: {
-						x: {
-							beginAtZero: true,
-							ticks:{
-			                    stepSize : 1 // X축의 눈금 단위 설정
-			                }
+				if (myChart != '') {
+					myChart.destroy();
+				}
+
+				myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: tupyoInstrsArray,
+						datasets: [{
+							label: '득표수',
+							data: tupyoResultArray,
+							backgroundColor: '#8977ad'
+						}]
+					},
+					options: {
+						indexAxis: 'y',
+						maintainAspectRatio: false,
+						scales: {
+							x: {
+								beginAtZero: true,
+								ticks: {
+									stepSize: 1 // X축의 눈금 단위 설정
+								}
+							}
 						}
 					}
-				}
-			});
-		},
-		error: function(error) {
-			console.log("오류");
-			console.log(error);
+				});
+			},
+			error: function(error) {
+				console.log("오류");
+				console.log(error);
+			}
+		});
+	} else if ($('#agree-disagree-group').is(':visible')) {  // 찬반 투표일 때
+		var voteRadios = document.getElementsByName('vote');
+		var isVoteChecked = false;
+
+		for (var j = 0; j < voteRadios.length; j++) {
+			if (voteRadios[j].checked) {
+				isVoteChecked = true;
+				break;
+			}
 		}
-	});
-}else if ($('#agree-disagree-group').is(':visible')) {  // 찬반 투표일 때
-       var voteRadios = document.getElementsByName('vote');
-       var isVoteChecked = false;
 
-       for (var j = 0; j < voteRadios.length; j++) { 
-           if (voteRadios[j].checked) { 
-               isVoteChecked = true; 
-               break; 
-		   } 
-	   }
-
-      if (!isVoteChecked) { 
-          alert('찬성 혹은 반대를 선택해주세요.'); 
-          return false;  
-      } 
-       $.ajax({
-	//찬반 투표 반영하는 ajax 코드 짜주면 됨
-});
-     }
+		if (!isVoteChecked) {
+			alert('찬성 혹은 반대를 선택해주세요.');
+			return false;
+		}
+		$.ajax({
+			url: './agreeTupyo.do',
+			type: 'POST',
+			data:{
+				"tuusOptionSeq":4,
+				"tuusAccountId":userId,
+				"tuusAgree":'A'//셋 다 값 받아줘야함
+			},
+			success:function(map){
+				
+				console.log(map.agreeCount);
+				console.log(map.disagreeCount);
+				
+				
+				
+//				console.log(selectedTeacher, userId);
+//				$("#tupyoList").css('display', 'none');
+//				$("#tupyoResult").css('display', 'block');
+//				$("#reTupyo").css('display', 'inline-block');
+//
+//				var tupyoInstrsArray = new Array();
+//				for (let i = 0; i < response.tupyoOptionList.length; i++) {
+//					tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr);
+//				}
+//
+//				var tupyoResultArray = new Array();
+//				for (let i = 0; i < response.tupyoOptionList.length; i++) {
+//					tupyoResultArray.push(response.resultList[i].count);
+//				}
+//
+//				console.log(tupyoInstrsArray);
+//				console.log(tupyoResultArray);
+//
+//				var ctx = document.getElementById("myChart").getContext('2d');
+//
+//				if (myChart != '') {
+//					myChart.destroy();
+//				}
+//
+//				myChart = new Chart(ctx, {
+//					type: 'bar',
+//					data: {
+//						labels: tupyoInstrsArray,
+//						datasets: [{
+//							label: '득표수',
+//							data: tupyoResultArray,
+//							backgroundColor: '#8977ad'
+//						}]
+//					},
+//					options: {
+//						indexAxis: 'y',
+//						maintainAspectRatio: false,
+//						scales: {
+//							x: {
+//								beginAtZero: true,
+//								ticks: {
+//									stepSize: 1 // X축의 눈금 단위 설정
+//								}
+//							}
+//						}
+//					}
+//				});
+			},
+			error:function(error){
+				console.log("오류");
+				console.log(error);
+			}
+		});
+	}
 }
 
 
 function reTupyo() {
 
 	var selectedTeacher = $("input[name='teacher']:checked").val();
-	var userId ="TMTD1"
+	var userId = "TMTD1"
 
 	$.ajax({
 		url: './reTupyo.do',
