@@ -1,5 +1,7 @@
 package com.tdtd.tmtd;
 
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,10 +25,7 @@ public class InstrController {
 	private IInstrService service;
 	
 	@GetMapping("/instrProfileForm.do")
-	public String instrProfileForm(HttpSession session, Model model, String accountId, HttpServletResponse resp) {
-		
-		resp.setContentType("text/html; charset=UTF-8");
-		
+	public String instrProfileForm(HttpSession session, Model model, String accountId) {
 //		String accountId = (String)session.getAttribute("userAccountId");
 		InstrVo vo = service.getMyInstrProfile(accountId);
 		if(vo != null) {
