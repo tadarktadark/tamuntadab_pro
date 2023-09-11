@@ -14,6 +14,8 @@
 <context:component-scan base-package="com.tdtd.tmtd" />
 <mvc:annotation-driven/>
 
+<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+
 <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<beans:property name="prefix" value="/WEB-INF/views/" />
 	<beans:property name="suffix" value=".jsp" />
