@@ -6,7 +6,7 @@ $(document).ready(function() {
         type: 'GET',
         data: {
             "tuusAccountId": userId,
-            "tuopTupySeq":1,
+            "tuopTupySeq":2,//투표 seq 받아야함
               },
         success: function(response) {
             if (response=="false") {
@@ -14,7 +14,17 @@ $(document).ready(function() {
                 $("#tupyoResult").show();
                 $("#reTupyo").show();
             } else {
-                $("#tupyoList").show();
+                var teacherCount = $('input[name=teacher]').length;
+    
+                if (teacherCount === 1) {
+                    $('#list-group').hide();
+                    $('#agree-disagree-group').show();
+                    $("#tupyoList").show(); 
+                } else { 
+                    $("#tupyoList").show(); 
+                    $('#agree-disagree-group').hide(); 
+                }
+                
                 $("#tupyoResult").hide();
             }
         },
@@ -29,17 +39,31 @@ $(document).ready(function() {
 
 
 
-
 var myChart = '';
 
 
 function tupyoComplete() {
 
 	var selectedTeacher = $("input[name='teacher']:checked").val();
-	var tupyoOptionList = $("input[name='list']").val();
+	var selectedVote = $("input[name='vote']:checked").val();
 	var tupyoOptionList = $("input[name='list']").val();
 
 	var userId = "TMTD1";
+	
+	if ($('#list-group').is(':visible')) { // 강사 선택 투표일 때
+        var radios = document.getElementsByName('teacher');
+        var isChecked = false;
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+        
+        if (!isChecked) {
+            alert('강사를 선택해주세요.');
+            return false;
+        }
 
 	$.ajax({
 		url: './insertTupyoUser.do',
@@ -53,7 +77,7 @@ function tupyoComplete() {
 			console.log(selectedTeacher, userId);
 			$("#tupyoList").css('display', 'none');
 			$("#tupyoResult").css('display', 'block');
-			$("#reTupyo").css('display', 'block');
+			$("#reTupyo").css('display', 'inline-block');
 
 			var tupyoInstrsArray = new Array();
 			for (let i = 0; i < response.tupyoOptionList.length; i++) {
@@ -62,13 +86,11 @@ function tupyoComplete() {
 
 			var tupyoResultArray = new Array();
 			for (let i = 0; i < response.tupyoOptionList.length; i++) {
-				if (response.resultList[i] == null) {
-					tupyoResultArray.push(0);
-				} else {
 					tupyoResultArray.push(response.resultList[i].count);
-				}
 			}
-
+			
+			console.log(tupyoInstrsArray);
+			console.log(tupyoResultArray);
 
 			var ctx = document.getElementById("myChart").getContext('2d');
 
@@ -105,6 +127,25 @@ function tupyoComplete() {
 			console.log(error);
 		}
 	});
+}else if ($('#agree-disagree-group').is(':visible')) {  // 찬반 투표일 때
+       var voteRadios = document.getElementsByName('vote');
+       var isVoteChecked = false;
+
+       for (var j = 0; j < voteRadios.length; j++) { 
+           if (voteRadios[j].checked) { 
+               isVoteChecked = true; 
+               break; 
+		   } 
+	   }
+
+      if (!isVoteChecked) { 
+          alert('찬성 혹은 반대를 선택해주세요.'); 
+          return false;  
+      } 
+       $.ajax({
+	//찬반 투표 반영하는 ajax 코드 짜주면 됨
+});
+     }
 }
 
 
