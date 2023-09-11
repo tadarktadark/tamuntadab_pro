@@ -25,7 +25,10 @@ public class InstrController {
 	private IInstrService service;
 	
 	@GetMapping("/instrProfileForm.do")
-	public String instrProfileForm(HttpSession session, Model model, String accountId) {
+	public String instrProfileForm(HttpSession session, Model model, String accountId, HttpServletResponse resp) {
+		
+		resp.setContentType("text/html; charset=UTF-8");
+		
 //		String accountId = (String)session.getAttribute("userAccountId");
 		InstrVo vo = service.getMyInstrProfile(accountId);
 		if(vo != null) {
