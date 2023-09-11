@@ -281,6 +281,7 @@
 		</dependency>
 	</dependencies>
     <build>
+    <finalName>tamuntadab_pro</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
