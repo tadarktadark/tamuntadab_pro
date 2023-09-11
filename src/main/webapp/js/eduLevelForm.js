@@ -101,6 +101,7 @@ function regist() {
 
 function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
     let trItem = document.createElement("tr");
+    trItem.style.textAlign = "center";
     
     // Define the names for each input field
     let inputNames = ["inedStage", "inedSchool", "inedMajor", "inedMinor", "inedStart", "inedEnd"];
@@ -130,6 +131,17 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
 	tdItem.appendChild(textNode)
 	trItem.appendChild(tdItem)
    }
+   // Add a delete button to the last cell of each row
+   var deleteButtonTd = document.createElement('td');
+   var deleteButton = document.createElement('button');
+   
+   deleteButton.textContent ='취소';
+   deleteButton.className ='cancel-button btn btn-danger';
+   deleteButton.setAttribute('onclick', 'deleteRow(this)');
+   
+   deleteButtonTd.appendChild(deleteButton);
+   trItem.appendChild(deleteButtonTd);
+
    
    parentElm.appendChild(trItem)
 }

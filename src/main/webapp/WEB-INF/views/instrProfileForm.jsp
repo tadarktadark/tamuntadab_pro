@@ -65,23 +65,23 @@
 										style="margin-right: 10px;">학력</label>
 									<button type="button" class="btn btn btn-outline-secondary"
 										onclick="addEduLevel()">+ 학력추가</button>
-
 									<table class='education-table table table-nowrap'
 										style="display: none;">
 										<thead class="table-light">
-											<tr>
+											<tr style="text-align: center;">
 												<th scope="col">구분</th>
 												<th scope="col">학교명</th>
 												<th scope="col">전공</th>
 												<th scope="col">부전공</th>
 												<th scope="col">입학년월일</th>
 												<th scope="col">졸업년월일</th>
+												<th scope="col">&nbsp;&nbsp;</th>
 											</tr>
 										</thead>
 										<tbody>
 											<c:if test="${not empty profile.instrEduVo}">
 												<c:forEach var="edu" items="${profile.instrEduVo}" varStatus="vs">
-													<tr>
+													<tr style="text-align: center;">
 														<td>
 														<c:choose>
 															<c:when test="${edu.inedStage == 1}">대학원(박사)</c:when>
@@ -103,6 +103,7 @@
 														<input type="hidden" name="instrEduVo[${vs.index}].inedStart" value="${edu.inedStart}"></td>
 														<td>${edu.inedEnd}
 														<input type="hidden" name="instrEduVo[${vs.index}].inedEnd" value="${edu.inedEnd}"></td>
+														<td><button class="cancel-button btn btn-danger" onclick="deleteRow(this)">취소</button></td>
 													</tr>
 												</c:forEach>
 												<script type="text/javascript">
@@ -121,8 +122,8 @@
 									<div id="selectedSubjects"
 										class="col-lg-9 choices__list choices__list--multiple">
 										 <script type="text/javascript">
-										 var subjectsTitle = ${profile.subjectsTitle};  // Use the server-provided string as JavaScript code
-									        var inprSubjects = ${profile.inprSubjects};  // Get the inprSubjects from the server
+										 var subjectsTitle = ${profile.subjectsTitle}  // Use the server-provided string as JavaScript code
+									        var inprSubjects = ${profile.inprSubjects}  // Get the inprSubjects from the server
 
 									        $.each(subjectsTitle, function(index, value) {  // Iterate over each item in the array
 									            // Create a new div element and add it to #selectedSubjects
@@ -216,9 +217,13 @@
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript">
+function deleteRow(button) {
+    $(button).closest('tr').remove();
+}
+
 	$('form').on('submit', function(e) {
 	    e.preventDefault();
-
+		
 	    var formData = new FormData(this);
 	    
 	    var selectedSubjects = $('#selectedSubjects .choices__item--selectable').map(function() {
@@ -226,6 +231,10 @@
 	    }).get();
 	    
 	    formData.append('inprSubjects', JSON.stringify(selectedSubjects));
+	    
+	    if(!selectedSubjects){
+	    	alert("과목 선택은 필수입니다");
+	    }
 	    
 	    var selectedSubjectsMajor = $('#selectedSubjectsMajor .choices__item--selectable').map(function() {
 		    return $(this).data('value').toString();
