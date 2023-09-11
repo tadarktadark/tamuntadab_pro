@@ -121,32 +121,24 @@ public class JeongUn_JUnitTest {
 	}
 	
 	//WOON[메세지 전송 테스트]
-	@Test
-	public void sendSMS() {
-		Map<String,String> sendMap = new HashMap<String, String>();
-		
-		//랜덤 난수 발생
-		Random ran = new Random();
-		sendMap.put("code", ""+ran.nextInt(10000));
-		
-		//coolSMS API사용
-		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLBXKI8KF3NOKC", "4RC5BBKPJOLNURRUZA1ARTZQXPH7ZAHQ", "https://api.coolsms.co.kr");
-		Message message = new Message();
-		message.setFrom("01066389809");
-		message.setTo("01046465753");
-		message.setText("타문타답 문자 인증 번호 : "+sendMap.get("code")+"안녕 나는 임정운이야");
-		try {
-		  messageService.send(message);
-		  sendMap.put("result", "true");
-		} catch (NurigoMessageNotReceivedException exception) {
-		  System.out.println(exception.getFailedMessageList());
-		  System.out.println(exception.getMessage());
-		} catch (Exception exception) {
-			sendMap.put("result", "false");
-		  System.out.println(exception.getMessage());
-		}
-		Gson gson = new Gson();
-		String result = gson.toJson(sendMap);
-	}
-
+	/*
+	 * @Test public void sendSMS() { Map<String,String> sendMap = new
+	 * HashMap<String, String>();
+	 * 
+	 * //랜덤 난수 발생 Random ran = new Random(); sendMap.put("code",
+	 * ""+ran.nextInt(10000));
+	 * 
+	 * //coolSMS API사용 DefaultMessageService messageService =
+	 * NurigoApp.INSTANCE.initialize("NCSLBXKI8KF3NOKC",
+	 * "4RC5BBKPJOLNURRUZA1ARTZQXPH7ZAHQ", "https://api.coolsms.co.kr"); Message
+	 * message = new Message(); message.setFrom("01066389809");
+	 * message.setTo("01046465753");
+	 * message.setText("타문타답 문자 인증 번호 : "+sendMap.get("code")+"안녕 나는 임정운이야"); try {
+	 * messageService.send(message); sendMap.put("result", "true"); } catch
+	 * (NurigoMessageNotReceivedException exception) {
+	 * System.out.println(exception.getFailedMessageList());
+	 * System.out.println(exception.getMessage()); } catch (Exception exception) {
+	 * sendMap.put("result", "false"); System.out.println(exception.getMessage()); }
+	 * Gson gson = new Gson(); String result = gson.toJson(sendMap); }
+	 */
 }
