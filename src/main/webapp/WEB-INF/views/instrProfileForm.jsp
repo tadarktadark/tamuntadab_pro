@@ -106,7 +106,7 @@
 														<td><button class="cancel-button btn btn-danger" onclick="deleteRow(this)">취소</button></td>
 													</tr>
 												</c:forEach>
-												<script type="text/javascript">
+												<script type="text/javascript" charset="UTF-8">
 						            	 			  $('.education-table').css('display', 'table');
 						            			</script>
 											</c:if>
@@ -121,7 +121,7 @@
 									</div>
 									<div id="selectedSubjects"
 										class="col-lg-9 choices__list choices__list--multiple">
-										 <script type="text/javascript">
+										 <script type="text/javascript" charset="UTF-8">
 										 var subjectsTitle = ${profile.subjectsTitle}  // Use the server-provided string as JavaScript code
 									        var inprSubjects = ${profile.inprSubjects}  // Get the inprSubjects from the server
 
@@ -168,7 +168,7 @@
 										<input type="search" id="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
-									<script type="text/javascript">
+									<script type="text/javascript" charset="UTF-8">
 									 var subjectsMajorTitle = ${profile.subjectsMajorTitle};  
 								        var inprSubjectsMajor = ${profile.inprSubjectsMajor}; 
 
@@ -216,7 +216,7 @@
 	<%@ include file="./shared/_footer.jsp"%>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
-<script type="text/javascript">
+<script type="text/javascript" charset="UTF-8">
 function deleteRow(button) {
     $(button).closest('tr').remove();
 }
