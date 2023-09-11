@@ -134,7 +134,7 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
    var deleteButtonTd = document.createElement('td');
    var deleteButton = document.createElement('button');
    
-   deleteButton.textContent ='취소';
+   deleteButton.textContent =String('취소').toString();
    deleteButton.className ='cancel-button btn btn-danger';
    deleteButton.setAttribute('onclick', 'deleteRow(this)');
    
