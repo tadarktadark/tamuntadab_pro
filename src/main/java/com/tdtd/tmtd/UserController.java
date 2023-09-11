@@ -38,7 +38,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
 	public String registForm() {
-		return "regist";
+		return "registform";
 	}
 	
 	@RequestMapping(value = "/searchEmail.do", method =RequestMethod.POST)

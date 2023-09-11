@@ -8,22 +8,51 @@
 <head>
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
+<%@ include file="./shared/_head_css.jsp" %>
 </head>
-<body>
+<body class="twocolumn-panel">
 <div id="layout-wrapper">
-	<div id="tupyoList">
-		<b>강사님을 선택해주세요</b>${vo}<br>
-		<input name="list" type="hidden" value="${lists}">
-		<c:forEach var="item" items="${lists}">
-			<input type="radio" name="teacher" value="${item.tuopSeq}">강사 : ${item.tuopInstr} / 수업료: ${item.tuopFee}원<br>
-		</c:forEach>
-		<input type="button" value="선택완료" onclick="tupyoComplete()">
-	</div>
-	<div id="tupyoResult" style="display: none;">
-		<canvas id="myChart"></canvas>
-	</div>
-	<div>
-		<input id="reTupyo" type="button" value="재투표" onclick="reTupyo()" style="display: none;">
+	<div class="main-content">
+		<div class="container">
+			<div class="card">
+				<input name="list" type="hidden" value="${lists}">
+				<div class="card-header">
+					<b>강사님을 선택해주세요</b><br>
+				</div>
+				<div class="card-body">
+					<div id="tupyoList">
+						<div class="list-group" id="list-group">
+						    <c:forEach var="item" items="${lists}">
+						    <label class="list-group-item">
+						        <input class="form-check-input me-1" name="teacher" type="radio" value="${item.tuopSeq}">
+						        강사 : ${item.tuopInstr} / 수업료: ${item.tuopFee}원
+						    </label>
+						    </c:forEach>
+						</div>
+						<div class="list-group" id="agree-disagree-group" style="display: none;">
+						<div>${lists[0].tuopInstr} 강사님 / 수업료 : ${lists[0].tuopFee}원</div>
+						    <label class="list-group-item">
+						        <input class="form-check-input me-1" name="vote" type="radio" value="agree">
+						        찬성
+						    </label>
+						    <label class="list-group-item">
+						        <input class="form-check-input me-1" name="vote" type="radio" value="disagree">
+						        반대
+						    </label>
+						</div>
+						<div style="text-align: center;">
+							<button class="btn btn-primary" onclick="tupyoComplete()" style="margin-top: 10px;">선택완료</button>
+						</div>
+					</div>
+					<div id="tupyoResult" style="display: none;">
+						<canvas id="myChart"></canvas>
+					</div>
+					<div style="text-align: center;">
+						<button id="reTupyo" class="btn btn-primary" onclick="reTupyo()" style="display: none;margin-top: 10px;">재투표</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <%@ include file="./shared/_vender_scripts.jsp" %>

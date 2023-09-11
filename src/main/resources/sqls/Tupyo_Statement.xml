@@ -22,11 +22,7 @@ SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TO_CHAR(TUPY_STARTDATE,'YYYY-MM-
 <select id="getAllTupyoOption" parameterType="java.lang.Integer" resultType="tupyoOptionVo">
 SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE 
 	FROM TUPYO_OPTION to2 
-	WHERE TUOP_TUPY_SEQ =(
-			SELECT TUOP_TUPY_SEQ 
-				FROM TUPYO_OPTION to2 
-				WHERE TUOP_SEQ =#{tuopTupySeq}
-		)
+	WHERE TUOP_TUPY_SEQ =#{tuopTupySeq}
 </select>
 
 <insert id="insertTupyoOption" parameterType="java.util.Map">
@@ -65,6 +61,7 @@ LEFT JOIN (
                                                 )
         GROUP BY TUUS_OPTION_SEQ) tu ON ot.TUOP_SEQ = tu.TUUS_OPTION_SEQ
 WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =#{tuopTupySeq})
+ORDER BY TUOP_SEQ 
 </select>
 <delete id="delTupyoUser" parameterType="tupyoUserVo">
 DELETE FROM TUPYO_USER tu 

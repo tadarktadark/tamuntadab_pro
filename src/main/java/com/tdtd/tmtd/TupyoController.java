@@ -30,8 +30,8 @@ public class TupyoController {
 	//투표 페이지로 이동
 	@RequestMapping(value = "/tupyoPage.do")
 	public String tupyoPage(Model model) {
-		TupyoVo vo = service.getTupyo(1000000033);//classId 받아야함
-		List<TupyoOptionVo> lists = service.getAllTupyoOption(1);//tupySeq받아야함
+		TupyoVo vo = service.getTupyo(1000000017);//classId 받아야함
+		List<TupyoOptionVo> lists = service.getAllTupyoOption(2);//tupySeq받아야함
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
@@ -55,7 +55,7 @@ public class TupyoController {
 		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tuusOptionSeq);
 		System.out.println("이거임?"+tupyoOptionList);
 
-		List<?> resultList = service.getTupyoResult(tuusOptionSeq);
+		List<TupyoUserVo> resultList = service.getTupyoResult(tuusOptionSeq);
 		System.out.println("리절트리스트"+resultList);
 		Map<String, Object> optionMap = new HashMap<String, Object>();
 		optionMap.put("tupyoOptionList",tupyoOptionList);
@@ -65,28 +65,32 @@ public class TupyoController {
 	
 	@RequestMapping(value = "/reTupyo.do", method = RequestMethod.GET)
 	public String reTupyo(String tuusAccountId,int tuusOptionSeq,Model model) {
-		TupyoVo vo = service.getTupyo(1000000033);//classId 받아야함
+		TupyoVo vo = service.getTupyo(1000000017);//classId 받아야함
 		TupyoUserVo tupyoUserVo = new TupyoUserVo();
 		tupyoUserVo.setTuusAccountId(tuusAccountId);
 		tupyoUserVo.setTuusOptionSeq(tuusOptionSeq);
 		service.delTupyoUser(tupyoUserVo);
-		List<TupyoOptionVo> lists = service.getAllTupyoOption(1);//tupySeq받아야함
+		List<TupyoOptionVo> lists = service.getAllTupyoOption(2);//tupySeq받아야함
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
 		return "tupyo";
 	}
 	
+	
 	@GetMapping("/checkVoted.do")
-	public String checkVoted(String tuusAccountId, int tuopTupySeq) {
+	public String checkVoted(String tuusAccountId, int tuopTupySeq,Model model) {
 		String result = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusAccountId", tuusAccountId);
 		map.put("tuopTupySeq", tuopTupySeq);
-		if(service.tupyoUserChk(map)==null) {
+		System.out.println("투표 여부 체크"+service.tupyoUserChk(map));
+		if(service.tupyoUserChk(map).isEmpty()) {
 			result = "false";
+			System.out.println("result 값 : "+result);
 		}
-		return result;
+		model.addAttribute("result",result);
+		return "tupyo";
 		
 	}
 	
