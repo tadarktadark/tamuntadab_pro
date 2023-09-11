@@ -2,6 +2,8 @@ package com.tdtd.tmtd;
 
 
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.api.client.http.HttpRequest;
 import com.tdtd.tmtd.model.service.IInstrService;
 import com.tdtd.tmtd.vo.InstrVo;
 
@@ -44,7 +47,10 @@ public class InstrController {
 	
 	@PostMapping("/insertInstrProfile.do")
 	@ResponseBody
-	public String insertInstrProfile(@RequestBody InstrVo vo) {
+	public String insertInstrProfile(@RequestBody InstrVo vo, HttpServletResponse response) {
+		
+		response.setContentType("text/html; charset=UTF-8");
+		
 		System.out.println("###########전달받은 값"+ vo.toString());
 	    String accountId = vo.getInprAccountId();
 	    

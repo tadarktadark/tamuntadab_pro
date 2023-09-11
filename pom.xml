@@ -274,15 +274,14 @@
 		    <artifactId>google-cloud-vision</artifactId>
 		    <version>3.21.0</version>
 		</dependency>
-		
 		<dependency>
 			  <groupId>net.nurigo</groupId>
 			  <artifactId>sdk</artifactId>
 			  <version>4.2.7</version>
 		</dependency>
-
 	</dependencies>
     <build>
+    <finalName>tamuntadab_pro</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -291,12 +290,17 @@
 				<configuration>
 					<source>17</source>
 					<target>17</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.3.2</version>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
 			</plugin>
 		</plugins>
     </build>
