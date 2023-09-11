@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script type="text/javascript" src="./js/instrProfileForm.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="./js/instrProfileForm.js" charset="UTF-8"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body class="twocolumn-panel">
@@ -106,7 +106,7 @@
 														<td><button class="cancel-button btn btn-danger" onclick="deleteRow(this)">취소</button></td>
 													</tr>
 												</c:forEach>
-												<script type="text/javascript">
+												<script type="text/javascript" charset="UTF-8">
 						            	 			  $('.education-table').css('display', 'table');
 						            			</script>
 											</c:if>
@@ -121,7 +121,7 @@
 									</div>
 									<div id="selectedSubjects"
 										class="col-lg-9 choices__list choices__list--multiple">
-										 <script type="text/javascript">
+										 <script type="text/javascript" charset="UTF-8">
 										 var subjectsTitle = ${profile.subjectsTitle}  // Use the server-provided string as JavaScript code
 									        var inprSubjects = ${profile.inprSubjects}  // Get the inprSubjects from the server
 
@@ -168,7 +168,7 @@
 										<input type="search" id="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
-									<script type="text/javascript">
+									<script type="text/javascript" charset="UTF-8">
 									 var subjectsMajorTitle = ${profile.subjectsMajorTitle};  
 								        var inprSubjectsMajor = ${profile.inprSubjectsMajor}; 
 
@@ -216,7 +216,7 @@
 	<%@ include file="./shared/_footer.jsp"%>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
-<script type="text/javascript">
+<script type="text/javascript" charset="UTF-8">
 function deleteRow(button) {
     $(button).closest('tr').remove();
 }

@@ -10,6 +10,7 @@ function addEduLevel(){
 
     // window.open 함수에 위치와 크기를 지정
     window.open(url, title, 'width='+width+', height='+height+', top='+top+', left='+left);
+    
 
 }
 
