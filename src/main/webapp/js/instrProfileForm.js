@@ -143,6 +143,20 @@ function addEduLevel(){
 				item) {
 			return $("<li>").append("<a>" + item.label + "</a>").appendTo(ul);
 		};
+		
+		$('#inprSubjects').on('keydown', function(event) {
+		    if (event.key === 'Enter') {
+		        event.preventDefault();
+		        return false;
+		    }
+		});
+		
+		$('#inprSubjectsMajor').on('keydown', function(event) {
+		    if (event.key === 'Enter') {
+		        event.preventDefault();
+		        return false;
+		    }
+		});
 	});
 
 $(function(){
@@ -154,6 +168,12 @@ $(function(){
             $(this).val($(this).val().substring(0, 100));
         } else {
             $(".introSpan").text(text_length);
+        }
+    });
+    //최소 수업료 제한
+    $('#inprFee').on('input', function () {
+        if ($(this).val().length > 4) {
+            $(this).val($(this).val().slice(0, 4));
         }
     });
 })

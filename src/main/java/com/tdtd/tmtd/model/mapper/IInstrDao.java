@@ -23,6 +23,8 @@ public interface IInstrDao {
 	//TDT007 updateInstrEdulevel
 	public int updateInstrEdulevel(InstrEduVo vo);
 	
+	public int deleteInstrEdulevel(String inedSeq);
+	
 	//TDT018 getAllInstr
 	public List<InstrVo> getAllInstr(String order);
 	

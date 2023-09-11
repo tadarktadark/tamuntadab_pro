@@ -23,33 +23,54 @@ $(document).ready(function() {
 	// 대입 검정고시 체크박스의 상태가 변경될 때 실행할 함수
 	$('#inedSchoolCheck').change(function() {
 		
-			if ($(this).is(':checked')) {  // 체크박스가 선택된 경우
+			if ($(this).is(':checked')) { 
 			
-				// 고등학교 관련 입력 필드를 숨깁니다.
 				$('#highSchool, #highSchoolStart, #highSchoolEnd, #highSchoolMajor ').parent().hide(); 
 				
-				// 합격년월일을 보여줍니다.
 				$('#blackEnd ').parent().show(); 
 				
-		 } else {  // 체크박스가 해제된 경우
-			
-			 // 고등학교 관련 입력 필드를 보여줍니다.
+		 } else {  
 			 $('#highSchool, #highSchoolStart, #highSchoolEnd, #highSchoolMajor ').parent().show(); 
 			 
-			 // 합격년월일을 숨깁니다.
 			 $('#blackEnd ').parent().hide(); 
 	  }
    });
+	
+	$('#highSchoolForm #highSchoolEnd, #universityForm #univEnd').one('focus', function() {
+	    var correspondingStartDateId = this.id.replace('End', 'Start');
+	    if (!$('#' + correspondingStartDateId).val()) {
+	        Swal.fire('먼저 입학년월일을 선택해주세요');
+	        $(this).blur();
+	    }
+	});
+   
+	$('#highSchoolStart, #univStart')
+		 .attr('max', new Date().toISOString().split('T')[0]);
+
+	$('#highSchoolStart')
+		 .on('change', function () {
+			 $("#highSchoolEnd").attr("min", this.value);
+		 });
+
+	$("#univStart")
+		 .on(
+			 'change',
+			 function () {
+				 $("#univEnd").attr("min", this.value);
+			 });
+			 
+	$('#highSchoolEnd, #univEnd')
+     .attr('max', new Date().toISOString().split('T')[0]);
+   
 });
 
 function regist() {
 	console.log("등록")
-	 // Check if all required fields are filled
     var selectedValue = $('.form-select.mb-3').val();
     var table = window.opener.document.querySelector('.education-table');
     var tableBody = window.opener.document.querySelector('.card-body table tbody');
     
-    if (selectedValue == '1') {  // If "고등학교 추가" is selected
+    if (selectedValue == '1') {
         if ($('#inedSchoolCheck').is(':checked')) {
             if (!$('#blackEnd').val()) {
                 alert('합격년월일을 입력해주세요.');
@@ -102,7 +123,6 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
     let trItem = document.createElement("tr");
     trItem.style.textAlign = "center";
     
-    // Define the names for each input field
     let inputNames = ["inedStage", "inedSchool", "inedMajor", "inedMinor", "inedStart", "inedEnd"];
     
     for(let i=0; i<dataArr.length; i++){
@@ -117,7 +137,6 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
         if (i < inputNames.length) {
             inputField.name = `instrEduVo[${rowIndex}].${inputNames[i]}`;
             
-            // If this is the first element (stage), use the stageValue parameter as its value
             if(i == 0){
                	inputField.value = stageValue;
             } else {
@@ -130,7 +149,6 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
 	tdItem.appendChild(textNode)
 	trItem.appendChild(tdItem)
    }
-   // Add a delete button to the last cell of each row
    var deleteButtonTd = document.createElement('td');
    var deleteButton = document.createElement('button');
    
