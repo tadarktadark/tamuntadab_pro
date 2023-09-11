@@ -232,8 +232,9 @@ function deleteRow(button) {
 	    
 	    formData.append('inprSubjects', JSON.stringify(selectedSubjects));
 	    
-	    if(!selectedSubjects){
-	    	alert("과목 선택은 필수입니다");
+	    if(selectedSubjects.length == 0) {
+	        alert("가능한 과목을 선택해주세요.");
+	        return false;
 	    }
 	    
 	    var selectedSubjectsMajor = $('#selectedSubjectsMajor .choices__item--selectable').map(function() {
@@ -270,7 +271,7 @@ function deleteRow(button) {
 	       data: JSON.stringify(data),
 	       contentType: 'application/json',  // tell jQuery not to set contentType
 	       success:function(response){
-	           console.log(response);
+	           alert(response);
 	           window.location.href = './instrProfileForm.do';  // Redirect to a success page (modify this)
 	      },
 	      error:function(jqXHR, textStatus){
