@@ -28,29 +28,30 @@ public class accessLogFilter implements Filter {
 		
 		HttpServletRequest req = (HttpServletRequest)request;
 		
-	    String ip = req.getHeader("X-Forwarded-For");
-	    log.info("===============> X-FORWARDED-FOR : " + StringUtils.defaultIfEmpty(ip, "-"));
-
-	    if (ip == null) {
-	        ip = req.getHeader("Proxy-Client-IP");
-	        log.info("===============> Proxy-Client-IP : " + StringUtils.defaultIfEmpty(ip, "-"));
-	    }
-	    if (ip == null) {
-	        ip = req.getHeader("WL-Proxy-Client-IP");
-	        log.info("===============> WL-Proxy-Client-IP : " + StringUtils.defaultIfEmpty(ip, "-"));
-	    }
-	    if (ip == null) {
-	        ip = req.getHeader("HTTP_CLIENT_IP");
-	        log.info("===============> HTTP_CLIENT_IP : " + StringUtils.defaultIfEmpty(ip, "-"));
-	    }
-	    if (ip == null) {
-	        ip = req.getHeader("HTTP_X_FORWARDED_FOR");
-	        log.info("===============> HTTP_X_FORWARDED_FOR : " + StringUtils.defaultIfEmpty(ip, "-"));
-	    }
-	    if (ip == null) {
-	        ip = req.getRemoteAddr();
-	        log.info("===============> getRemoteAddr : " + StringUtils.defaultIfEmpty(ip, "-"));
-	    }
+//	    String ip = req.getHeader("X-Forwarded-For");
+	    
+//	    log.info("===============> X-FORWARDED-FOR : " + StringUtils.defaultIfEmpty(ip, "-"));
+//
+//	    if (ip == null) {
+//	        ip = req.getHeader("Proxy-Client-IP");
+//	        log.info("===============> Proxy-Client-IP : " + StringUtils.defaultIfEmpty(ip, "-"));
+//	    }
+//	    if (ip == null) {
+//	        ip = req.getHeader("WL-Proxy-Client-IP");
+//	        log.info("===============> WL-Proxy-Client-IP : " + StringUtils.defaultIfEmpty(ip, "-"));
+//	    }
+//	    if (ip == null) {
+//	        ip = req.getHeader("HTTP_CLIENT_IP");
+//	        log.info("===============> HTTP_CLIENT_IP : " + StringUtils.defaultIfEmpty(ip, "-"));
+//	    }
+//	    if (ip == null) {
+//	        ip = req.getHeader("HTTP_X_FORWARDED_FOR");
+//	        log.info("===============> HTTP_X_FORWARDED_FOR : " + StringUtils.defaultIfEmpty(ip, "-"));
+//	    }
+//	    if (ip == null) {
+//	        ip = req.getRemoteAddr();
+//	        log.info("===============> getRemoteAddr : " + StringUtils.defaultIfEmpty(ip, "-"));
+//	    }
 	    
 	    chain.doFilter(request, response);
 
