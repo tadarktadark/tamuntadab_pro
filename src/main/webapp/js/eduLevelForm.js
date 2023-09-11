@@ -18,7 +18,7 @@ $(document).ready(function() {
             $('#highSchoolForm').hide();
             $('#universityForm').hide();
         }
-        
+        console.log("sss");
     });
 
 	// 대입 검정고시 체크박스의 상태가 변경될 때 실행할 함수
