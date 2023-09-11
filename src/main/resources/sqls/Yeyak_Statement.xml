@@ -142,11 +142,14 @@
 	        WHERE GAGA_ID = #{gagaId}
 	</select>
 	<select id="getchamyeoClassList" resultType="classVo">
-		SELECT CLAS_ID , CLAS_TITLE , CLAS_HYEONJAE_INWON 
+		SELECT CLAS_ID , CLAS_TITLE , CLAS_HYEONJAE_INWON
 			FROM CLASS_CHAMYEOJA JOIN CLASS
 			ON CLCH_CLAS_ID = CLAS_ID
+			LEFT JOIN GANGEUISIL_YEYAK
+			ON CLAS_ID = GAYE_CLAS_ID
 			WHERE CLCH_ACCOUNT_ID = #{accountId}
 				AND CLCH_STATUS = 'Y'
 				AND CLAS_STATUS = '매칭완료'
+				AND GAYE_ID IS NULL
 	</select>
 </mapper>

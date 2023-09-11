@@ -9,6 +9,7 @@ $(document).ready(function(){
 function getGangeuisilSidoList(){
 	$.ajax({
 		type:"get",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getGangeuisilSidoList.do",
 		success: function(data){
 			var html = '<div class="btn-group" id="btn-sido">'+
@@ -55,6 +56,7 @@ function getGangeuisilSidoList(){
 function getGangeuisilList(page, type, sendData){
 	$.ajax({
 		type:"post",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getGangeuisilList.do",
 		data:{
 			"page":page,
@@ -137,6 +139,7 @@ $(document).on('click', '.sido-dropdown', function(e){
 		getGangeuisilList("1","sido", e.target.text.substr(0,2));
 		$.ajax({
 			type:"get",
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			url:"./getGangeuisilSigunguList.do",
 			data:{
 				"sido":e.target.text.substr(0,2)
@@ -186,6 +189,7 @@ $(document).on('click', '.show-gangeuisilDetails', function(e) {
 	$("#multiCollapseExample2").addClass("show");
 	$.ajax({
 		type:"get",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getGangeuisilDetailList.do",
 		data:{
 			"gacoId":e.target.value
@@ -280,6 +284,7 @@ $(document).on('click', '.yeyak-btn', function(e){
 $(document).on('change', '#dateInput', function(e){
 	$.ajax({
 		type:"post",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getYeyakInfo.do",
 		data:{
 			"gagaId":$("#gayeGagaId").text(),
