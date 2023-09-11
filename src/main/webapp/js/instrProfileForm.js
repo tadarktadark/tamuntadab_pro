@@ -1,8 +1,8 @@
 function addEduLevel(){
 	var url = "./eduLevelForm.do";
 	var title = "학력 정보 입력";
-	var width = 500;
-    var height = 500;
+	var width = 700;
+    var height = 700;
 
     // 화면 중앙에 위치시키기 위한 좌표 계산
     var left = (screen.width/2)-(width/2);
