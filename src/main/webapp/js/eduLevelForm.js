@@ -1,4 +1,3 @@
-/* ³İ ³İ */
 $(document).ready(function() {
     // Initially hide both forms and the 'blackEnd' field
     $('#highSchoolForm').hide();
@@ -9,19 +8,19 @@ $(document).ready(function() {
     $('.form-select.mb-3').change(function() {
         var selectedValue = $(this).val();
 
-        if (selectedValue == '1') {  // If "°íµîÇĞ±³ Ãß°¡" is selected
+        if (selectedValue == '1') {  // If "ê³ ë“±í•™êµ ì¶”ê°€" is selected
             $('#highSchoolForm').show();
             $('#universityForm').hide();
-        } else if (selectedValue == '2') {  // If "´ëÇĞ/´ëÇĞ¿ø Ãß°¡" is selected
+        } else if (selectedValue == '2') {  // If "ëŒ€í•™/ëŒ€í•™ì› ì¶”ê°€" is selected
             $('#highSchoolForm').hide();
             $('#universityForm').show();
-        } else {  // If "Ãß°¡ ÇĞ·Â ÀÔ·Â*" is selected or nothing is selected
+        } else {  // If "ì¶”ê°€ í•™ë ¥ ì…ë ¥*" is selected or nothing is selected
             $('#highSchoolForm').hide();
             $('#universityForm').hide();
         }
     });
 
-	// ´ëÀÔ °ËÁ¤°í½Ã Ã¼Å©¹Ú½ºÀÇ »óÅÂ°¡ º¯°æµÉ ¶§ ½ÇÇàÇÒ ÇÔ¼ö
+	// ëŒ€ì… ê²€ì •ê³ ì‹œ ì²´í¬ë°•ìŠ¤ì˜ ìƒíƒœê°€ ë³€ê²½ë  ë•Œ ì‹¤í–‰í•  í•¨ìˆ˜
 	$('#inedSchoolCheck').change(function() {
 		
 			if ($(this).is(':checked')) { 
@@ -40,7 +39,7 @@ $(document).ready(function() {
 	$('#highSchoolForm #highSchoolEnd, #universityForm #univEnd').one('focus', function() {
 	    var correspondingStartDateId = this.id.replace('End', 'Start');
 	    if (!$('#' + correspondingStartDateId).val()) {
-	        Swal.fire('¸ÕÀú ÀÔÇĞ³â¿ùÀÏÀ» ¼±ÅÃÇØÁÖ¼¼¿ä');
+	        Swal.fire('ë¨¼ì € ì…í•™ë…„ì›”ì¼ì„ ì„ íƒí•´ì£¼ì„¸ìš”');
 	        $(this).blur();
 	    }
 	});
@@ -66,7 +65,7 @@ $(document).ready(function() {
 });
 
 function regist() {
-	console.log("µî·Ï")
+	console.log("ë“±ë¡")
     var selectedValue = $('.form-select.mb-3').val();
     var table = window.opener.document.querySelector('.education-table');
     var tableBody = window.opener.document.querySelector('.card-body table tbody');
@@ -74,19 +73,19 @@ function regist() {
     if (selectedValue == '1') {
         if ($('#inedSchoolCheck').is(':checked')) {
             if (!$('#blackEnd').val()) {
-                alert('ÇÕ°İ³â¿ùÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.');
+                alert('í•©ê²©ë…„ì›”ì¼ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.');
                 return;
             }
             var stage = getEduLevelText('5');
-            var highSchool = '´ëÀÔ°ËÁ¤°í½Ã';
+            var highSchool = 'ëŒ€ì…ê²€ì •ê³ ì‹œ';
             var highSchoolStart = document.getElementById('blackEnd').value;
             var highSchoolEnd = document.getElementById('blackEnd').value;
             var highSchoolMajor = '';
             
             createAndAppendRow(tableBody, [stage, highSchool, highSchoolMajor, '', highSchoolStart, highSchoolEnd],5, tableBody.rows.length);
-        } else {  // If ´ëÀÔ °ËÁ¤°í½Ã checkbox is not checked, check all other fields
-            if (!$('#highSchool').val() || !$('#highSchoolStart').val() || !$('#highSchoolEnd').val() || $('#highSchoolMajor option:selected').text() == 'Àü°ø°è¿­') {
-                alert('¸ğµç ÇÊ¼ö Ç×¸ñÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.');
+        } else {  // If ëŒ€ì… ê²€ì •ê³ ì‹œ checkbox is not checked, check all other fields
+            if (!$('#highSchool').val() || !$('#highSchoolStart').val() || !$('#highSchoolEnd').val() || $('#highSchoolMajor option:selected').text() == 'ì „ê³µê³„ì—´') {
+                alert('ëª¨ë“  í•„ìˆ˜ í•­ëª©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.');
                 return;
             }
 	       	var stage = getEduLevelText('5');
@@ -99,10 +98,10 @@ function regist() {
         }
 
 		table.style.display = 'table';
-    } else if (selectedValue == '2') {  // If "´ëÇĞ/´ëÇĞ¿ø Ãß°¡" is selected
-        if ($('#univStage').val() == '´ëÇĞ±¸ºĞ*'  || !$('#univSchool').val() || !$('#major').val()
+    } else if (selectedValue == '2') {  // If "ëŒ€í•™/ëŒ€í•™ì› ì¶”ê°€" is selected
+        if ($('#univStage').val() == 'ëŒ€í•™êµ¬ë¶„*'  || !$('#univSchool').val() || !$('#major').val()
             || !$('#univStart').val() || !$('#univEnd').val()) {
-            alert('¸ğµç ÇÊ¼ö Ç×¸ñÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.');
+            alert('ëª¨ë“  í•„ìˆ˜ í•­ëª©ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.');
             return;
         }
         var univStage = document.getElementById('univStage').value;
@@ -153,7 +152,7 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
    var deleteButtonTd = document.createElement('td');
    var deleteButton = document.createElement('button');
    
-   deleteButton.innerHTML ='Ãë¼Ò';
+   deleteButton.innerHTML ='ì·¨ì†Œ';
    deleteButton.className ='cancel-button btn btn-danger';
    deleteButton.setAttribute('onclick', 'deleteRow(this)');
    
@@ -166,11 +165,11 @@ function createAndAppendRow(parentElm ,dataArr, stageValue, rowIndex){
 
 function getEduLevelText(value) {
     switch(value) {
-        case '1': return '´ëÇĞ¿ø(¹Ú»ç)';
-        case '2': return '´ëÇĞ¿ø(¼®»ç)';
-        case '3': return '´ëÇĞ±³(4³â)';
-        case '4': return '´ëÇĞ(2,3³â)';
-        case '5': return '°íµîÇĞ±³';
+        case '1': return 'ëŒ€í•™ì›(ë°•ì‚¬)';
+        case '2': return 'ëŒ€í•™ì›(ì„ì‚¬)';
+        case '3': return 'ëŒ€í•™êµ(4ë…„)';
+        case '4': return 'ëŒ€í•™(2,3ë…„)';
+        case '5': return 'ê³ ë“±í•™êµ';
         default: return '';
     }
 }
