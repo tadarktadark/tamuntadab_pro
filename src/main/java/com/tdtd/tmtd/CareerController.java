@@ -3,13 +3,17 @@ package com.tdtd.tmtd;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IFileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +36,9 @@ public class CareerController {
 	
 	@Autowired
 	private IFileService fileService;
+	
+	@Autowired
+	private ICareerService service;
 	
 	@GetMapping("/instrCareer.do")
 	public String instrCareer(Model model) {
@@ -48,6 +56,8 @@ public class CareerController {
 	
 	@RequestMapping(value = "/careerFileDownload.do", method = RequestMethod.GET)
 	public void careerFiledownload(HttpServletResponse resp) throws IOException {
+		log.info("CareerController careerFiledownload 실행");
+		
 		String filePath = "C:\\jenkins_git\\tamuntadab_pro\\src\\main\\webapp\\json\\타문타답_경력증명서.docx";
 		String fileName = "타문타답_경력증명서.docx";
 		
@@ -62,11 +72,6 @@ public class CareerController {
 			System.out.println("읽어온 파일 byte: "+ Arrays.toString(b));
 			
 			resp.reset(); // 브라우저로 응답할 때 header에 있는 정보를 초기화함 (생략가능)
-			
-			// MIME 타입
-			// 전달하는 파일의 특성에 맞춰 header 정보를 변경해 줌
-			// 어떤 타입인지 모를 경우 application/octet-stream
-			// 만약에 타입을 알고 있다면 제공해주는 타입을 사용하면 된다 ex) application/msword
 			
 			resp.setContentType("application/octet-stream");
 			
@@ -94,19 +99,61 @@ public class CareerController {
 
 	@ResponseBody
 	@PostMapping("/careerUpload.do")
-	public String fileUpload(MultipartFile file, HttpServletRequest request) throws IOException {
-		String response = "false";
+	public Map<String, Object> fileUpload(HttpServletRequest request,
+			List<MultipartFile> file, HttpSession session) throws IOException {
+		log.info("CareerController fileUpload 실행");
+//		String accountId = (String)session.getAttribute("userAccountId");
+		String accountId = "TMTD101";
+		Map<String, Object> response = new HashMap<>();
+
+	    for (MultipartFile f : file) {
+	        try {
+	        	String savedFilePath = (String)fileService.fileSave(f, request).get("path")+"/"+fileService.fileSave(f, request).get("saveName");
+	            List<String> pngFileNames = fileService.convertPdfToPng(savedFilePath, request.getSession().getServletContext().getRealPath("/storage")+"/");
+	            for (String pngFileName : pngFileNames) {
+	                Map<String, Object> ocrMap = fileService.extractTextFromAreas(request.getSession().getServletContext().getRealPath("/storage")+"/"+pngFileName);
+	                ocrMap.put("careId", createId());
+	                ocrMap.put("careAccountId", accountId);
+	                
+	                for (Object value : ocrMap.values()) {
+	                    if (value == null || "".equals(value.toString().trim())) {
+	                        response.put("errorMessage", "모든 항목은 반드시 기재되어야 합니다.");
+	                        return response;
+	                    }
+	                }
+
+	                int n = service.insertCareer(ocrMap);
+	                if(n > 0) System.out.println("insert 성공!!!!!");
+	            }
+	            
+	            // OCR 처리와 DB 저장이 끝나면 PNG 파일 삭제
+                fileService.deletePngFiles(pngFileNames,request.getSession().getServletContext().getRealPath("/storage"));
+
+	            
+	        } catch (Exception e) { 
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return response; 
+	}
+	
+	private String createId() {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
 		
-		Map<String, Object> fileVo = fileService.fileSave(file, request);
-		String path = (String)fileVo.get("path");
-		String saveName = (String)fileVo.get("saveName");
+		String datePrefix = "CA"+ sdf.format(date);
 		
-		if(path != null) {
-			log.info("#@@@@@@@@@@@@@@@@#!@#!@#!@#!@#파일 저장된곳!!! {} 저장명: {}",path, saveName);
-			response = "true";
+		String maxIdToday = service.selectMaxIdToday(datePrefix);
+		
+		int seq;
+		
+		if(maxIdToday == null) {
+			seq = 1;
+		} else {
+			seq = Integer.parseInt(maxIdToday.substring(8))+1;
 		}
-		
-		return response;
+		return datePrefix + String.format("%03d", seq);
 	}
 	
 

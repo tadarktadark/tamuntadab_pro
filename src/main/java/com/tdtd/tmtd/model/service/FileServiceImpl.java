@@ -46,16 +46,16 @@ public class FileServiceImpl implements IFileService {
 private static final Map<String, Rectangle> areas = new HashMap<>();
     
     static {
-        areas.put("name", new Rectangle(714, 534, 466, 104));
-        areas.put("contact", new Rectangle(1600, 534, 466, 104));
-        areas.put("affiliation", new Rectangle(714, 654 ,466 ,104));
-        areas.put("position", new Rectangle(1600 ,654 ,466 ,104));
-        areas.put("period", new Rectangle(714 ,773 ,1462 ,117));
-        areas.put("job_desc", new Rectangle(714 ,894 ,1462 ,117));
-        areas.put("issuer_name", new Rectangle(714 ,1014 ,466 ,104));
-        areas.put("issuer_contact", new Rectangle(1600, 1014, 466, 104));
-        areas.put("create_date", new Rectangle(927 ,2419 ,639 ,82));
-        areas.put("company_name", new Rectangle(576,2830,624,70));   
+        areas.put("careName", new Rectangle(714, 534, 466, 104));
+        areas.put("careContact", new Rectangle(1600, 534, 466, 104));
+        areas.put("careSosok", new Rectangle(714, 654 ,466 ,104));
+        areas.put("carePosition", new Rectangle(1600 ,654 ,466 ,104));
+        areas.put("carePeriod", new Rectangle(714 ,773 ,1462 ,117));
+        areas.put("careJob", new Rectangle(714 ,894 ,1462 ,117));
+        areas.put("careIssuer", new Rectangle(714 ,1014 ,466 ,104));
+        areas.put("careIssuerContact", new Rectangle(1600, 1014, 466, 104));
+        areas.put("careDate", new Rectangle(927 ,2419 ,639 ,82));
+        areas.put("careCompany", new Rectangle(576,2830,624,70));   
     }
 	
     @Override
