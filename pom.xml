@@ -305,6 +305,17 @@
 	                <encoding>UTF-8</encoding>
 	            </configuration>
 	        </plugin>
+	        <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+			<artifactId>tomcat-maven-plugin</artifactId>
+			<version>1.1</version>
+			<configuration>
+				<url>http://localhost:9099/manager/text</url>			
+				<path>/${project.build.finalName}</path>
+				<username>admin</username>
+				<password>admin</password>
+			</configuration>
+			</plugin>
 		</plugins>
     </build>
 </project>
