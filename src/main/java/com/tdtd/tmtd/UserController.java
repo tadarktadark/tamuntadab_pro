@@ -38,7 +38,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
 	public String registForm() {
-		return "registform";
+		return "regist";
 	}
 	
 	@RequestMapping(value = "/searchEmail.do", method =RequestMethod.POST)
@@ -103,7 +103,7 @@ public class UserController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/regist.do" )
+	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
 	public String registration(@RequestParam Map<String,Object> map) {
 			map.put("userAutoLoginToken",(UUID.randomUUID())+(map.get("userPassword").toString().substring(0, 4))+(map.get("userGender"))+(map.get("userAuth"))+(map.get("userEmail").toString().substring(0, 2)));
 			int n = commUserService.registCommUser(map);
@@ -112,5 +112,10 @@ public class UserController {
 			}else {
 				return "redirect:/home.do";
 			}
+	}
+	
+	@RequestMapping(value="/registForm.do",method= RequestMethod.GET)
+	public String registinputForm() {
+		return "registform";
 	}
 }
