@@ -19,8 +19,11 @@ public class BoardVo {
 	private int clasId;
 	private String subjectCode;
 	private String content;
+	private int replyCount;
 	private String likeUser;
+	private int likeCount;
 	private String viewUser;
+	private int viewCount;
 	private String viewGroup;
 	private String downloadGroup;
 	private String chaetaek;
