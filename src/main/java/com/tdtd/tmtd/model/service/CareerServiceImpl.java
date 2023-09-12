@@ -24,6 +24,11 @@ public class CareerServiceImpl implements ICareerService {
 	public int insertCareer(Map<String, Object> map) {
 		return dao.insertCareer(map);
 	}
+	
+	@Override
+	public int getMyCareerCount(String userAccountId) {
+		return dao.getMyCareerCount(userAccountId);
+	}
 
 	@Override
 	public List<CareerVo> getMyCareerList(Map<String, Object> map) {

@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IFileService;
+import com.tdtd.tmtd.vo.CareerVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,9 +50,22 @@ public class CareerController {
 	}
 	
 	@GetMapping("/myCareerList.do")
-	public String myCareerList(Model model) {
+	public String myCareerList(Model model, HttpSession session, String page) {
+//		String accountId = (String)session.getAttribute("userAccountId");
+		String accountId = "TMTD101";
+		
+		int totalCount = service.getMyCareerCount(accountId);
+		
+		Map<String, Object> paging = PagingUtils.paging(page, totalCount, 3, 3);
+		paging.put("userAccountId", accountId);
+		
+		List<CareerVo> lists = service.getMyCareerList(paging);
+		
 		model.addAttribute("title","프로필");
 		model.addAttribute("pageTitle", "경력 인증 리스트");
+		model.addAttribute("lists", lists);
+		model.addAttribute("page", paging.get("page"));
+		
 		return "myCareerList";
 	}
 	

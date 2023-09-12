@@ -16,8 +16,14 @@
 	VALUES (#{careId}, #{careAccountId}, #{careName}, #{careContact}, 
 			#{careSosok}, #{carePosition}, #{carePeriod}, 
 			#{careJob}, #{careIssuer}, #{careIssuerContact}, 
-			#{careDate}, #{careCompany}, 'N')
+			#{careDate}, #{careCompany},'N')
 </insert>
+
+<select id="getMyCareerCount" resultType="Integer">
+	SELECT COUNT(*)
+		FROM CAREER
+		WHERE CARE_ACCOUNT_ID = #{userAccountId}
+</select>
 
 <select id="getMyCareerList" resultType="careerVo">
 	SELECT CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON

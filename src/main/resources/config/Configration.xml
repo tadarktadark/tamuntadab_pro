@@ -6,24 +6,27 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.tdtd.tmtd.vo.UserProfileVo" alias="userProfileVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.InstrVo" alias="instrVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.InstrEduVo" alias="instrEduVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.BoardVo" alias="boardVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.CareerVo" alias="careerVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.ReviewVo" alias="reviewVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.FileVo" alias="fileVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.TupyoVo" alias="tupyoVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.TupyoOptionVo" alias="tupyoOptionVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.TupyoUserVo" alias="tupyoUserVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.ClassVo" alias="classVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ChamyeoVo" alias="chamyeoVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.SugangryoVo" alias="sugangryoVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.SubjectVo" alias="subjectVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.SubjectTagVo" alias="subjectTagVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ClassVo" alias="classVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.FileVo" alias="fileVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.GangeuisilVo" alias="gangeuisilVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.GeoljeVo" alias="geoljeVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.HwanbulVo" alias="hwanbulVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.InstrEduVo" alias="instrEduVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.InstrVo" alias="instrVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.JeongsanVo" alias="jeongsanVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.GangeuisilVo" alias="gangeuisilVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ReplyVo" alias="replyVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ReviewVo" alias="reviewVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SingoVo" alias="singoVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SubjectTagVo" alias="subjectTagVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SubjectVo" alias="subjectVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.SugangryoVo" alias="sugangryoVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.TupyoOptionVo" alias="tupyoOptionVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.TupyoUserVo" alias="tupyoUserVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.TupyoVo" alias="tupyoVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.UserProfileVo" alias="userProfileVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.YeyakVo" alias="yeyakVo"/>
 	</typeAliases>
 	
@@ -41,6 +44,7 @@
 		<mapper resource="sqls/Jilmun_Statement.xml"/>
 		<mapper resource="sqls/Payment_Statement.xml"/>
 		<mapper resource="sqls/Pilgi_Statement.xml"/>
+		<mapper resource="sqls/Reply_Statement.xml"/>
 		<mapper resource="sqls/Review_Statement.xml"/>
 		<mapper resource="sqls/Singo_Statement.xml"/>
 		<mapper resource="sqls/SocialUser_Statement.xml"/>
