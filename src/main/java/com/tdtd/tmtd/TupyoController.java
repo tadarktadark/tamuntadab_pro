@@ -65,34 +65,9 @@ public class TupyoController {
 		return optionMap;
 	}
 	
-	
-	
-	
-	//투표하기
-//	@ResponseBody
-//	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
-//	public Map<String, Object> insertTupyoUser(@RequestBody TupyoUserVo vo)  throws Exception {
-//		int tuusOptionSeq = vo.getTuusOptionSeq();
-//		String tuusAccountId = vo.getTuusAccountId();
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("tuusOptionSeq", tuusOptionSeq);
-//		map.put("tuusAccountId", tuusAccountId);
-//		service.insertTupyoUser(map);
-//		
-//		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tuusOptionSeq);
-//		System.out.println("이거임?"+tupyoOptionList);
-//
-//		List<TupyoUserVo> resultList = service.getTupyoResult(tuusOptionSeq);
-//		System.out.println("리절트리스트"+resultList);
-//		Map<String, Object> optionMap = new HashMap<String, Object>();
-//		optionMap.put("tupyoOptionList",tupyoOptionList);
-//		optionMap.put("resultList",resultList);
-//		return optionMap;
-//	}
-	
 	@ResponseBody
 	@RequestMapping(value = "/agreeTupyo.do",method = RequestMethod.POST)
-	public Map<String, Object> agreeTupyo(int tuusOptionSeq,String tuusAccountId,String tuusAgree) {
+	public void agreeTupyo(int tuusOptionSeq,String tuusAccountId,String tuusAgree) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
@@ -104,38 +79,53 @@ public class TupyoController {
 		List<TupyoUserVo> userList = service.getAgreeUser(tupyoMap);
 		int seq = userList.get(0).getTuusSeq();
 		
-		//투표 입력을 먼저하고 그 seq를 업데이트에 넣어야함
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put("tuusSeq", seq);
 		dataMap.put("tuusAgree", tuusAgree);
 		service.updateAgreeTupyo(dataMap);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/agreeTupyoResult.do",method = RequestMethod.GET)
+	public Map<String, Object> agreeUserResult(@RequestParam int tupySeq, @RequestParam int tuusOptionSeq){
+//		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tupySeq);
 		
 		Map<String, Object> agreeMap = new HashMap<String, Object>();
 		agreeMap.put("tuusOptionSeq", tuusOptionSeq);
 		agreeMap.put("tuusAgree", "A");
 		List<TupyoUserVo> agreeList = service.getAgreeUser(agreeMap);
-		
+		System.out.println(agreeList);
 		Map<String, Object> disagreeMap = new HashMap<String, Object>();
 		disagreeMap.put("tuusOptionSeq", tuusOptionSeq);
 		disagreeMap.put("tuusAgree", "D");
 		List<TupyoUserVo> disagreeList = service.getAgreeUser(disagreeMap);
+		System.out.println(disagreeList);
+		Map<String, Object> optionMap = new HashMap<String, Object>();
+		optionMap.put("agreeCount", agreeList.size());
+		optionMap.put("disagreeCount", disagreeList.size());
+		System.out.println(optionMap);
+//		optionMap.put("tupyoOptionList",tupyoOptionList);
 		
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("agreeCount", agreeList.size());
-		resultMap.put("disagreeCount", disagreeList.size());
-		return resultMap;
+		return optionMap;
 	}
+	
+
+	
 	
 	
 	
 	@RequestMapping(value = "/reTupyo.do", method = RequestMethod.GET)
-	public String reTupyo(String tuusAccountId,int tuusOptionSeq,Model model) {
-		TupyoVo vo = service.getTupyo(1000000017);//classId 받아야함
+	public String reTupyo(int tupyClasId,String tuusAccountId,int tupySeq,Model model) {
+		Map<String, Object> userMap = new HashMap<String, Object>();
+		userMap.put("tuusAccountId", tuusAccountId);
+		userMap.put("tuopTupySeq", tupySeq);
+		List<TupyoUserVo> userList = service.tupyoUserChk(userMap);
+		TupyoVo vo = service.getTupyo(tupyClasId);
 		TupyoUserVo tupyoUserVo = new TupyoUserVo();
 		tupyoUserVo.setTuusAccountId(tuusAccountId);
-		tupyoUserVo.setTuusOptionSeq(tuusOptionSeq);
+		tupyoUserVo.setTuusOptionSeq(userList.get(0).getTuusOptionSeq());
 		service.delTupyoUser(tupyoUserVo);
-		List<TupyoOptionVo> lists = service.getAllTupyoOption(2);//tupySeq받아야함
+		List<TupyoOptionVo> lists = service.getAllTupyoOption(tupySeq);
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
@@ -151,7 +141,7 @@ public class TupyoController {
 		map.put("tuopTupySeq", tuopTupySeq);
 		System.out.println("투표 여부 체크"+service.tupyoUserChk(map));
 		if(!service.tupyoUserChk(map).isEmpty()) {
-			result = "false";
+			result = "voted";
 			System.out.println("result 값 : "+result);
 		}
 		return result;
