@@ -41,20 +41,22 @@ public class TupyoController {
 		return "tupyo";
 	}
 	
-	//투표하기
 	@ResponseBody
 	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
-	public Map<String, Object> insertTupyoUser(@RequestBody TupyoUserVo vo)  throws Exception {
+	public void insertTupyo(@RequestBody TupyoUserVo vo) {
 		int tuusOptionSeq = vo.getTuusOptionSeq();
 		String tuusAccountId = vo.getTuusAccountId();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
 		map.put("tuusAccountId", tuusAccountId);
 		service.insertTupyoUser(map);
-		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/tupyoResult.do",method = RequestMethod.GET)
+	public Map<String, Object> tupyoResult(@RequestParam int tuusOptionSeq){
 		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tuusOptionSeq);
-		System.out.println("이거임?"+tupyoOptionList);
-
+		
 		List<TupyoUserVo> resultList = service.getTupyoResult(tuusOptionSeq);
 		System.out.println("리절트리스트"+resultList);
 		Map<String, Object> optionMap = new HashMap<String, Object>();
@@ -62,6 +64,31 @@ public class TupyoController {
 		optionMap.put("resultList",resultList);
 		return optionMap;
 	}
+	
+	
+	
+	
+	//투표하기
+//	@ResponseBody
+//	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
+//	public Map<String, Object> insertTupyoUser(@RequestBody TupyoUserVo vo)  throws Exception {
+//		int tuusOptionSeq = vo.getTuusOptionSeq();
+//		String tuusAccountId = vo.getTuusAccountId();
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("tuusOptionSeq", tuusOptionSeq);
+//		map.put("tuusAccountId", tuusAccountId);
+//		service.insertTupyoUser(map);
+//		
+//		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tuusOptionSeq);
+//		System.out.println("이거임?"+tupyoOptionList);
+//
+//		List<TupyoUserVo> resultList = service.getTupyoResult(tuusOptionSeq);
+//		System.out.println("리절트리스트"+resultList);
+//		Map<String, Object> optionMap = new HashMap<String, Object>();
+//		optionMap.put("tupyoOptionList",tupyoOptionList);
+//		optionMap.put("resultList",resultList);
+//		return optionMap;
+//	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/agreeTupyo.do",method = RequestMethod.POST)
@@ -115,21 +142,19 @@ public class TupyoController {
 		return "tupyo";
 	}
 	
-	
+	@ResponseBody
 	@GetMapping("/checkVoted.do")
-	public String checkVoted(String tuusAccountId, int tuopTupySeq,Model model) {
+	public String checkVoted(String tuusAccountId, int tuopTupySeq) {
 		String result = "";
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusAccountId", tuusAccountId);
 		map.put("tuopTupySeq", tuopTupySeq);
 		System.out.println("투표 여부 체크"+service.tupyoUserChk(map));
-		if(service.tupyoUserChk(map).isEmpty()) {
+		if(!service.tupyoUserChk(map).isEmpty()) {
 			result = "false";
 			System.out.println("result 값 : "+result);
 		}
-		model.addAttribute("result",result);
-		return "tupyo";
-		
+		return result;
 	}
 	
 
