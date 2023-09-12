@@ -1,3 +1,7 @@
+<%@page import="java.math.BigInteger"%>
+<%@page import="java.security.SecureRandom"%>
+<%@page import="com.tdtd.tmtd.vo.ClientVo"%>
+<%@page import="com.tdtd.tmtd.vo.URLVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -444,9 +448,23 @@
 										        </div>
 										
 										        <div>
-										            <button type="button" class="btn btn-ghost-dark btn-icon " id="naverRegist" style="background-image: url('./image/naver_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
-										            <button type="button" class="btn btn-ghost-dark btn-icon " id="kakaoRegist" style="background-image: url('./image/kakao_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
-										            <button type="button" class="btn btn-ghost-dark btn-icon " id="googleRegist" style="background-image: url('./image/google_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										        <%
+										        	URLVo uvo = new URLVo();
+													ClientVo cvo = new ClientVo();
+													SecureRandom random = new SecureRandom();
+													String state = new BigInteger(130, random).toString();
+										        %>
+										           <a href="<%=uvo.getNaverUrl()+"&client_id="+cvo.getNaverClientID()+"&redirect_uri="+uvo.getNaverRedirect()+"&state="+state%>">
+										           <button type="button" class="btn btn-ghost-dark btn-icon" id="naverRegist" 
+										            style="background-image: url('./image/naver_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            </a>
+										            
+										            <button type="button" class="btn btn-ghost-dark btn-icon" id="kakaoRegist" 
+										            style="background-image: url('./image/kakao_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            
+										            <button type="button" class="btn btn-ghost-dark btn-icon" id="googleRegist" 
+										            style="background-image: url('./image/google_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            
 										        </div>
 										    </div>
 										

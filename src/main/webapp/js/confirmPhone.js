@@ -54,10 +54,11 @@ function confirmSMS(phoneNumber){
 						preConfirm: function(inputcode) {
 						var checkbox= document.getElementById("confirmPhoneCheck");
 						var checkboxLabel= document.getElementById("confirmPhone");
-						checkbox.checked=true;
-						checkbox.removeAttribute('hidden');
-						checkboxLabel.innerText='인증이 완료되었습니다.';
 							if (inputcode == result.code) {
+								checkbox.checked=true;
+								document.getElementById("PhoneNumber").readOnly=true;
+								checkbox.removeAttribute('hidden');
+								checkboxLabel.innerText='인증이 완료되었습니다.';
 								Swal.fire({
 									icon: 'info',
 									title: '인증에 성공하였습니다!',
