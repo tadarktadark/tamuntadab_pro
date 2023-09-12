@@ -33,7 +33,7 @@
 					 UNION 
 					 SELECT USER_ACCOUNT_ID FROM GOOGLE_USER_PROFILE gup)))),
 		 CURRENT_DATE, CURRENT_DATE , #{userGender}, 
-		 #{userBirth}, #{userPhoneNumber}, 'N' , 
+		 TO_DATE(#{userBirth},'YYYY-MM-DD'), #{userPhoneNumber}, #{site} , 
 		 'N' , #{userProfileFile}, 'S')
 	</insert>
 	<!-- 	NOTE [소셜 회원관리 : 카카오 가입 유저 회원 등록 쿼리] -->
