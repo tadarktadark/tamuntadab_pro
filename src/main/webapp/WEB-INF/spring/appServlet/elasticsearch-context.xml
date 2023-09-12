@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="restHighLevelClient" class="org.elasticsearch.client.RestHighLevelClient">
+        <constructor-arg>
+            <bean class="org.elasticsearch.client.RestClient" factory-method="builder">
+                <constructor-arg>
+                    <list>
+                        <bean class="org.apache.http.HttpHost">
+                            <constructor-arg value="192.168.8.164"/>
+                            <constructor-arg value="9200"/>
+                            <constructor-arg value="http"/>
+                        </bean>
+                    </list>
+                </constructor-arg>
+                <property name = "defaultHeaders">
+                 	<array> 
+                 		<bean class = "org.apache.http.message.BasicHeader"> 
+                 			<constructor-arg index = "0" value = "Authorization"/> 
+                 			<constructor-arg index = "1" value = "#{ 'Basic ' + T(java.util.Base64).getEncoder().encodeToString(('elastic:elastic').getBytes('UTF-8')) }"/> 
+                 		</bean> 
+                 </array>  
+                 </property>
+            </bean>
+        </constructor-arg>
+    </bean>
+</beans>
