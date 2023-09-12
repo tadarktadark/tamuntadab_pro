@@ -63,6 +63,44 @@ public class TupyoController {
 		return optionMap;
 	}
 	
+	@RequestMapping(value = "/agreeTupyo.do",method = RequestMethod.POST)
+	public Map<String, Object> agreeTupyo(int tuusOptionSeq,String tuusAccountId,String tuusAgree) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tuusOptionSeq", tuusOptionSeq);
+		map.put("tuusAccountId", tuusAccountId);
+		service.insertTupyoUser(map);
+		Map<String, Object> tupyoMap = new HashMap<String, Object>();
+		tupyoMap.put("tuusOptionSeq", tuusOptionSeq);
+		tupyoMap.put("tuusAgree", "A");
+		List<TupyoUserVo> userList = service.getAgreeUser(tupyoMap);
+		int seq = userList.get(0).getTuusSeq();
+		
+		
+		//투표 입력을 먼저하고 그 seq를 업데이트에 넣어야함
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("tuusSeq", seq);
+		dataMap.put("tuusAgree", tuusAgree);
+		service.updateAgreeTupyo(dataMap);
+		
+		Map<String, Object> agreeMap = new HashMap<String, Object>();
+		agreeMap.put("tuusOptionSeq", tuusOptionSeq);
+		agreeMap.put("tuusAgree", "A");
+		List<TupyoUserVo> agreeList = service.getAgreeUser(agreeMap);
+		
+		Map<String, Object> disagreeMap = new HashMap<String, Object>();
+		disagreeMap.put("tuusOptionSeq", tuusOptionSeq);
+		disagreeMap.put("tuusAgree", "D");
+		List<TupyoUserVo> disagreeList = service.getAgreeUser(disagreeMap);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("agreeCount", agreeList.size());
+		resultMap.put("disagreeCount", disagreeList.size());
+		return resultMap;
+	}
+	
+	
+	
 	@RequestMapping(value = "/reTupyo.do", method = RequestMethod.GET)
 	public String reTupyo(String tuusAccountId,int tuusOptionSeq,Model model) {
 		TupyoVo vo = service.getTupyo(1000000017);//classId 받아야함
