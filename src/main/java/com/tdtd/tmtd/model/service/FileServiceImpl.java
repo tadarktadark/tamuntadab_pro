@@ -22,6 +22,7 @@ import org.apache.commons.imaging.ImageFormats;
 import org.apache.commons.imaging.Imaging;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
@@ -33,9 +34,14 @@ import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.protobuf.ByteString;
+import com.tdtd.tmtd.model.mapper.IFileDao;
+import com.tdtd.tmtd.vo.FileVo;
 
 @Service
 public class FileServiceImpl implements IFileService {
+	
+	@Autowired
+	private IFileDao dao;
 
 private static final Map<String, Rectangle> areas = new HashMap<>();
     
@@ -52,6 +58,16 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
         areas.put("company_name", new Rectangle(576,2830,624,70));   
     }
 	
+    @Override
+    public int insertFile(Map<String, Object> map) {
+    	return dao.insertFile(map);
+    }
+    
+    @Override
+    public FileVo getFile(String fileRekPk) {
+    	return dao.getFile(fileRekPk);
+    }
+    
 	@SuppressWarnings("resource")
 	public Map<String, Object> fileSave(MultipartFile file, HttpServletRequest request) throws IOException {
 	        String originalFileName = file.getOriginalFilename();

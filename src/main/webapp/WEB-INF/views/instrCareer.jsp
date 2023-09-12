@@ -34,10 +34,10 @@
 							<input type="text" class="form-control" placeholder="타문타답_경력증명서.doc" readonly="readonly">
 							<button type="button" class="btn btn-info w-lg" onclick="location.href='./careerFileDownload.do'">다운로드</button>
 						</div>
-						<form class="was-validated">
+						<form class="was-validated" enctype="multipart/form-data">
 							<div style="width: 600px;">
 								<input type="file" class="form-control"
-									aria-label="file example" required>
+									aria-label="file example" name="file" required>
 								<div class="invalid-feedback">파일 첨부는 필수값입니다.</div>
 							</div>
 						</form>
@@ -53,6 +53,44 @@
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('form').on('submit', function(event) {
+        event.preventDefault(); // 기본 form 제출 동작 중단
+
+        var formData = new FormData(this); // form 데이터 생성
+        
+        if ($('input[type=file]')[0].files.length === 0) {
+            alert("파일을 선택해주세요.");
+            event.preventDefault(); 
+            return;
+        }
+
+        $.ajax({
+            url: './careerUpload.do',
+            type: 'POST',
+            data: formData,
+            processData: false,  // 필수 옵션
+            contentType: false,  // 필수 옵션
+            success: function(response) {
+            	$("#loading").hide();
+                if (response.errorMessage) {
+                    alert(response.errorMessage);  // 에러 메시지가 있다면 표시
+                } else {
+                    alert("관리자에게 승인 요청되었습니다");  // 성공 메시지 표시
+                    window.history.back();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            	$("#loading").hide();
+                console.error(textStatus + " " + errorThrown);
+                alert("오류가 발생했습니다");
+            }
+        });
+    });
+});
+
+</script>
 <style type="text/css">
 body {
 	padding: 30px;
