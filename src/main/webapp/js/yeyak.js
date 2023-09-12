@@ -9,10 +9,9 @@ $(document).ready(function(){
 function getGangeuisilSidoList(){
 	$.ajax({
 		type:"get",
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getGangeuisilSidoList.do",
 		success: function(data){
-			var html = '<div class="btn-group" id="btn-sido">'+
+/*			var html = '<div class="btn-group" id="btn-sido">'+
 					    '<button id="sido-title" class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+
 					        '전체('+data.count+')'+
 					    '</button>'+
@@ -41,7 +40,9 @@ function getGangeuisilSidoList(){
 					        '</div>'+
 					    '</div>'+
 					'</div>';
-			$("#yeyak-container").append(html);
+			$("#yeyak-container").append(html);*/
+			$("#sido-title").text("전체("+data.coount+")");
+			$("#sido-title").text("전체("+data.coount+")");
 			changePage(data.page.startPage, data.count, data.page.endPage, data.page.page);
 		},
 		error: function(){
@@ -56,7 +57,6 @@ function getGangeuisilSidoList(){
 function getGangeuisilList(page, type, sendData){
 	$.ajax({
 		type:"post",
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getGangeuisilList.do",
 		data:{
 			"page":page,
@@ -256,7 +256,6 @@ $(document).on('click', '.yeyak-btn', function(e){
 	$("#gyeolje-hour").val(gyeoljeHour);
 	$.ajax({
 		type:"post",
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getYeyakInfo.do",
 		data:{
 			"gagaId":gagaId,
@@ -284,7 +283,6 @@ $(document).on('click', '.yeyak-btn', function(e){
 $(document).on('change', '#dateInput', function(e){
 	$.ajax({
 		type:"post",
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		url:"./getYeyakInfo.do",
 		data:{
 			"gagaId":$("#gayeGagaId").text(),
