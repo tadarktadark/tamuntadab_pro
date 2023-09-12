@@ -17,7 +17,9 @@
 			<div class="card">
 				<input name="accountId" type="hidden" value="${accountId}">
 				<input name="list" type="hidden" value="${lists}">
-				<input name="firstOption" type="hidden" value="${vo.tupySeq}">
+				<input name="agreeTupyoOptionSeq" type="hidden" value="${lists[0].tuopSeq}">
+				<input name="tupyoSeq" type="hidden" value="${vo.tupySeq}">
+				<input name="tupyoClassId" type="hidden" value="${vo.tupyClasId}">
 				<div class="card-header" id="selectInstrTitle">
 					<b>강사님을 선택해주세요</b><br>
 				</div>
