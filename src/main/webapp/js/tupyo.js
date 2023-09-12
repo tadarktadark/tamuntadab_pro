@@ -150,10 +150,10 @@ function tupyoComplete() {
 				"tuusAccountId":userId,
 				"tuusAgree":selectedVote//셋 다 값 받아줘야함
 			},
-			success:function(response){
+			success:function(map){
 				
-				console.log(response.agreeCount);
-				console.log(response.disagreeCount);
+				console.log(map.agreeCount);
+				console.log(map.disagreeCount);
 				
 				
 				
@@ -213,13 +213,8 @@ function tupyoComplete() {
 
 function reTupyo() {
 
-	var userId = "TMTD1"
-
-//	if(	){
-		
-//	}	
-
 	var selectedTeacher = $("input[name='teacher']:checked").val();
+	var userId = "TMTD1"
 
 	$.ajax({
 		url: './reTupyo.do',
