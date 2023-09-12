@@ -1,4 +1,3 @@
-/* 여덟 여덟 */
 $(document).ready(function() {
 	var userId = "TMTD1"; // 현재 로그인된 유저 ID
 
@@ -149,61 +148,62 @@ function tupyoComplete() {
 			data:{
 				"tuusOptionSeq":4,
 				"tuusAccountId":userId,
-				"tuusAgree":selectedVote//  媛 諛以쇳
 				"tuusAgree":'A'//셋 다 값 받아줘야함
 			},
-			success:function(response){
+			success:function(map){
 				
-				console.log(response.agreeCount);
-				console.log(response.disagreeCount);
-				
-				
-				
-
-				console.log(selectedVote);
+				console.log(map.agreeCount);
+				console.log(map.disagreeCount);
 				
 				
-				$("#selectInstrTitle").css('display', 'none');
-				$("#tupyoResultTitle").css('display', 'block');
-
-
-				$("#tupyoList").css('display', 'none');
-				$("#tupyoResult").css('display', 'block');
-				$("#reTupyo").css('display', 'inline-block');
-
-				var userList = new Array();
-				userList.push(response.agreeCount);
-				userList.push(response.disagreeCount);
-				console.log(userList);
-				var ctx = document.getElementById("myChart").getContext('2d');
-
-				if (myChart != '') {
-					myChart.destroy();
-				}
 				
-				myChart = new Chart(ctx, {
-					type: 'bar',
-					data: {
-						labels: ["李ъ", "諛"],
-						datasets: [{
-							label: '',
-							data: userList,
-							backgroundColor: '#8977ad'
-						}]
-					},
-					options: {
-						indexAxis: 'y',
-						maintainAspectRatio: false,
-						scales: {
-							x: {
-								beginAtZero: true,
-								ticks: {
-									stepSize: 1 // X異 湲 ⑥ ㅼ
-								}
-							}
-						}
-					}
-				});
+//				console.log(selectedTeacher, userId);
+//				$("#tupyoList").css('display', 'none');
+//				$("#tupyoResult").css('display', 'block');
+//				$("#reTupyo").css('display', 'inline-block');
+//
+//				var tupyoInstrsArray = new Array();
+//				for (let i = 0; i < response.tupyoOptionList.length; i++) {
+//					tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr);
+//				}
+//
+//				var tupyoResultArray = new Array();
+//				for (let i = 0; i < response.tupyoOptionList.length; i++) {
+//					tupyoResultArray.push(response.resultList[i].count);
+//				}
+//
+//				console.log(tupyoInstrsArray);
+//				console.log(tupyoResultArray);
+//
+//				var ctx = document.getElementById("myChart").getContext('2d');
+//
+//				if (myChart != '') {
+//					myChart.destroy();
+//				}
+//
+//				myChart = new Chart(ctx, {
+//					type: 'bar',
+//					data: {
+//						labels: tupyoInstrsArray,
+//						datasets: [{
+//							label: '득표수',
+//							data: tupyoResultArray,
+//							backgroundColor: '#8977ad'
+//						}]
+//					},
+//					options: {
+//						indexAxis: 'y',
+//						maintainAspectRatio: false,
+//						scales: {
+//							x: {
+//								beginAtZero: true,
+//								ticks: {
+//									stepSize: 1 // X축의 눈금 단위 설정
+//								}
+//							}
+//						}
+//					}
+//				});
 			},
 			error:function(error){
 				console.log("오류");
@@ -216,13 +216,8 @@ function tupyoComplete() {
 
 function reTupyo() {
 
-	var userId = "TMTD1"
-
-//	if(	){
-		
-//	}	
-
 	var selectedTeacher = $("input[name='teacher']:checked").val();
+	var userId = "TMTD1"
 
 	$.ajax({
 		url: './reTupyo.do',
