@@ -32,7 +32,7 @@
 							경력 증명을 위해 타문타답의 전용 경력인증서 양식을 다운받아 작성 후 PDF로 업로드 해주세요.</div>
 						<div class="input-group" style="width: 400px;">
 							<input type="text" class="form-control" placeholder="타문타답_경력증명서.doc" readonly="readonly">
-							<button type="button" class="btn btn-info w-lg" onclick="location.href='./fileDownload.do'">다운로드</button>
+							<button type="button" class="btn btn-info w-lg" onclick="location.href='./careerFileDownload.do'">다운로드</button>
 						</div>
 						<form class="was-validated">
 							<div style="width: 600px;">
@@ -43,7 +43,7 @@
 						</form>
 							<div style="display: flex; justify-content: center;">
 								<button class="btn btn-primary" type="submit" disabled style="margin-right: 10px;">인증 요청</button>
-								<button class="btn btn-secondary" type="button" onclick="javascript:history.back(-1)">뒤로가기</button>
+								<button class="btn btn-secondary" type="button" onclick="location.href='./myCareerList.do'">기존 인증 요청 목록</button>
 							</div>
 					</div>
 				</div>
