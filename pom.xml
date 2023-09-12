@@ -218,6 +218,7 @@
 		    <groupId>javax.websocket</groupId>
 		    <artifactId>javax.websocket-api</artifactId>
 		    <version>1.1</version>
+		    <scope>provided</scope>
 		</dependency>
 		
 		<!-- datasource 객체를 위한 HikariCP 라이브러리 Datasource 객체를 생성 -->
