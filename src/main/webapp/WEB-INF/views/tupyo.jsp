@@ -16,8 +16,11 @@
 		<div class="container">
 			<div class="card">
 				<input name="list" type="hidden" value="${lists}">
-				<div class="card-header">
+				<div class="card-header" id="selectInstrTitle">
 					<b>강사님을 선택해주세요</b><br>
+				</div>
+				<div class="card-header" id="tupyoResultTitle" style="display: none;">
+					<b>투표 결과</b><br>
 				</div>
 				<div class="card-body">
 					<div id="tupyoList">
@@ -32,11 +35,11 @@
 						<div class="list-group" id="agree-disagree-group" style="display: none;">
 						<div>${lists[0].tuopInstr} 강사님 / 수업료 : ${lists[0].tuopFee}원</div>
 						    <label class="list-group-item">
-						        <input class="form-check-input me-1" name="vote" type="radio" value="agree">
+						        <input class="form-check-input me-1" name="vote" type="radio" value="A">
 						        찬성
 						    </label>
 						    <label class="list-group-item">
-						        <input class="form-check-input me-1" name="vote" type="radio" value="disagree">
+						        <input class="form-check-input me-1" name="vote" type="radio" value="D">
 						        반대
 						    </label>
 						</div>

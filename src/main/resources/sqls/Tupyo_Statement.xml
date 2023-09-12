@@ -81,6 +81,7 @@ UPDATE TUPYO
 SELECT TUUS_SEQ ,TUUS_OPTION_SEQ ,TUUS_ACCOUNT_ID ,TUUS_AGREE 
         FROM TUPYO_USER tu 
         WHERE TUUS_OPTION_SEQ =#{tuusOptionSeq} AND TUUS_AGREE =#{tuusAgree}
+        ORDER BY TUUS_SEQ DESC
 </select>
 <update id="updateAgreeTupyo" parameterType="java.util.Map">
 UPDATE TUPYO_USER 

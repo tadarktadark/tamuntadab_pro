@@ -1,3 +1,7 @@
+<%@page import="java.math.BigInteger"%>
+<%@page import="java.security.SecureRandom"%>
+<%@page import="com.tdtd.tmtd.vo.ClientVo"%>
+<%@page import="com.tdtd.tmtd.vo.URLVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -29,7 +33,7 @@
                                 		<div class="col-xl-12">
 									        <div class="card">
 									            <div class="card-header col-xl-12 row" style="margin-left: 0;">
-									            	<input class="form-check-input col-xl-1" type="checkbox" id="check1">
+									            	<input class="form-check-input col-xl-1" type="checkbox" id="check0">
 									                <h4 class="card-title mb-0 col-xl-11">이용약관 동의(필수)</h4>
 						           				 </div><!-- end card header -->
 									            <div class="card-body">
@@ -284,7 +288,7 @@
 									        <div class="card">
 									            <div class="card-header col-xl-12 row" style="margin-left: 0;">
 									            	<input class="form-check-input col-xl-1" type="checkbox" id="check1">
-									                <h4 class="card-title mb-0 col-xl-11">개인정보 수집 및 이용 동의</h4>
+									                <h4 class="card-title mb-0 col-xl-11">개인정보 수집 및 이용 동의(필수)</h4>
 						           				 </div><!-- end card header -->
 									            <div class="card-body">
 									                <div class="mx-n3">
@@ -436,7 +440,7 @@
 		                            <!--end col-->
 		                            <div>
 										<div class="mt-4 text-center">
-										        <button class="btn btn-primary col-7 " type="submit">회원가입 하러가기</button>
+										        <button class="btn btn-primary col-7" id="doRegist" type="button">회원가입 하러가기</button>
 									    </div>
 										    <div class="mt-4 text-center">
 										        <div class="signin-other-title">
@@ -444,14 +448,28 @@
 										        </div>
 										
 										        <div>
-										            <button type="button" class="btn btn-soft-primary btn-icon " style="background-image: url('./image/naver_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
-										            <button type="button" class="btn btn-soft-primary btn-icon " style="background-image: url('./image/kakao_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
-										            <button type="button" class="btn btn-soft-primary btn-icon " style="background-image: url('./image/google_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										        <%
+										        	URLVo uvo = new URLVo();
+													ClientVo cvo = new ClientVo();
+													SecureRandom random = new SecureRandom();
+													String state = new BigInteger(130, random).toString();
+										        %>
+										           <a href="<%=uvo.getNaverUrl()+"&client_id="+cvo.getNaverClientID()+"&redirect_uri="+uvo.getNaverRedirect()+"&state="+state%>">
+										           <button type="button" class="btn btn-ghost-dark btn-icon" id="naverRegist" 
+										            style="background-image: url('./image/naver_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            </a>
+										            
+										            <button type="button" class="btn btn-ghost-dark btn-icon" id="kakaoRegist" 
+										            style="background-image: url('./image/kakao_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            
+										            <button type="button" class="btn btn-ghost-dark btn-icon" id="googleRegist" 
+										            style="background-image: url('./image/google_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            
 										        </div>
 										    </div>
 										
 										<div class="text-center my-3">
-										    <p class="mb-0">이미 회원이신가요? <a href="#" class="fw-semibold text-primary text-decoration-underline"> 로그인 </a> </p>
+										    <p class="mb-0">이미 회원이신가요? <a href="login.do" class="fw-semibold text-primary text-decoration-underline"> 로그인 </a> </p>
 										</div>
 		                            </div>
 		                        <!--end row-->
@@ -467,5 +485,6 @@
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script src="./js/registPage.js"></script>
 	</body>
 </html>
