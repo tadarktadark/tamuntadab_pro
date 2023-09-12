@@ -9,7 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tdtd.tmtd.vo.FileVo;
+
 public interface IFileService {
+	
+	public int insertFile(Map<String, Object> map);
+	
+	public FileVo getFile(String fileRekPk);
 
 	 public Map<String, Object> fileSave(MultipartFile file, HttpServletRequest request) throws IOException;
 	 
