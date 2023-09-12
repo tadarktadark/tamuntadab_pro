@@ -26,6 +26,11 @@ public class CareerDaoImpl implements ICareerDao {
 	public int insertCareer(Map<String, Object> map) {
 		return sqlSession.insert(NS+"insertCareer", map);
 	}
+	
+	@Override
+	public int getMyCareerCount(String userAccountId) {
+		return sqlSession.selectOne(NS+"getMyCareerCount", userAccountId);
+	}
 
 	@Override
 	public List<CareerVo> getMyCareerList(Map<String, Object> map) {
