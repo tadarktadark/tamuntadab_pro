@@ -22,7 +22,7 @@
 					   				<h1>회원가입</h1>
 					   			</div>
 				        		<div class="col-lg-12">
-				        			<form action="./regist.do" method="post" class="row g-3 mt-1">
+				        			<form action="./registration.do" method="post" class="row g-3 mt-1">
 									    <div class="col-md-12 ">
 									   		<label for="email" class="form-label"><b>이메일</b></label>
 									   		<div class="input-group">
