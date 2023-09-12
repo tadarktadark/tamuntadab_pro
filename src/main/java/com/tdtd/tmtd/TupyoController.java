@@ -63,6 +63,7 @@ public class TupyoController {
 		return optionMap;
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "/agreeTupyo.do",method = RequestMethod.POST)
 	public Map<String, Object> agreeTupyo(int tuusOptionSeq,String tuusAccountId,String tuusAgree) {
 		
@@ -75,7 +76,6 @@ public class TupyoController {
 		tupyoMap.put("tuusAgree", "A");
 		List<TupyoUserVo> userList = service.getAgreeUser(tupyoMap);
 		int seq = userList.get(0).getTuusSeq();
-		
 		
 		//투표 입력을 먼저하고 그 seq를 업데이트에 넣어야함
 		Map<String, Object> dataMap = new HashMap<String, Object>();
