@@ -1,4 +1,4 @@
-/* ÀÏ°ö ÀÏ°ö */
+/* ï¿½Ï°ï¿½ ï¿½Ï°ï¿½ */
 const $form = document.querySelector('form');
 const $email = $("#confirmEmailCheck");
 const $name = $("#name");
@@ -10,61 +10,61 @@ const $auth = $("input:radio[name='userAuth']");
 const $birth = $("#birth");
 
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-const nameRegex = /^[A-Za-z°¡-ÆR]{2,}$/;
+const nameRegex = /^[A-Za-zê°€-í£]{2,}$/;
 const birthRegex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
 $form.addEventListener("submit", (event) => {
-    // ÀÌ¸ŞÀÏ È®ÀÎ
+    // ì´ë©”ì¼ í™•ì¸
     if (!$email.is(':checked')) {
-        print("ÀÌ¸ŞÀÏ ÀÎÁõÀ» ¿Ï·áÇØÁÖ¼¼¿ä.");
+        print("ì´ë©”ì¼ ì¸ì¦ì„ ì™„ë£Œí•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }
 
-    // ÀÌ¸§ È®ÀÎ
+    // ì´ë¦„ í™•ì¸
     if (!nameRegex.test($name.val())) {
-        print("¿Ã¹Ù¸¥ ÀÌ¸§À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+        print("ì˜¬ë°”ë¥¸ ì´ë¦„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }
 
-    // ºñ¹Ğ¹øÈ£ È®ÀÎ
+    // ë¹„ë°€ë²ˆí˜¸ í™•ì¸
     if (!passwordRegex.test($password.val())) {
-        print("¿Ã¹Ù¸¥ ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+        print("ì˜¬ë°”ë¥¸ ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }
 
-    // ºñ¹Ğ¹øÈ£ È®ÀÎ
+    // ë¹„ë°€ë²ˆí˜¸ í™•ì¸
     if ($password.val() !== $passwordconfirm.val()) {
-        print("ºñ¹Ğ¹øÈ£¿Í ºñ¹Ğ¹øÈ£ È®ÀÎÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+        print("ë¹„ë°€ë²ˆí˜¸ì™€ ë¹„ë°€ë²ˆí˜¸ í™•ì¸ì´ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
         event.preventDefault();
         return;
     }
 
-    // ÇÚµåÆù ÀÎÁõ È®ÀÎ
+    // í•¸ë“œí° ì¸ì¦ í™•ì¸
     if (!$confirmPhoneCheck.is(':checked')) {
-        print("ÇÚµåÆù ÀÎÁõÀ» ¿Ï·áÇØÁÖ¼¼¿ä.");
+        print("í•¸ë“œí° ì¸ì¦ì„ ì™„ë£Œí•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }
 
-    // ¼ºº° È®ÀÎ
+    // ì„±ë³„ í™•ì¸
     if ($gender.filter(':checked').length === 0) {
-        print("¼ºº°À» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+        print("ì„±ë³„ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }
-    // ±ÇÇÑ È®ÀÎ
+    // ê¶Œí•œ í™•ì¸
     if ($auth.filter(':checked').length === 0) {
-        print("±ÇÇÑÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+        print("ê¶Œí•œì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }
 
-    // »ı³â¿ùÀÏ È®ÀÎ
+    // ìƒë…„ì›”ì¼ í™•ì¸
     if (!birthRegex.test($birth.val())) {
-        print("¿Ã¹Ù¸¥ »ı³â¿ùÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+        print("ì˜¬ë°”ë¥¸ ìƒë…„ì›”ì¼ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
         event.preventDefault();
         return;
     }

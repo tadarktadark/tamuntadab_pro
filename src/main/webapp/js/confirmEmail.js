@@ -1,4 +1,4 @@
-/* µÑ µÑ */
+/* ï¿½ï¿½ ï¿½ï¿½ */
 window.onload = function() {
 	document.getElementById("email").addEventListener("click", function() {
 		Swal.fire({
@@ -9,13 +9,13 @@ window.onload = function() {
 				'</div>' +
 				'</div>' +
 				'<div class="mt-4 pt-2 fs-15">' +
-				'<h4 class="fs-20 fw-semibold">ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØ ÁÖ¼¼¿ä</h4>' +
+				'<h4 class="fs-20 fw-semibold">ì´ë©”ì¼ì€ ì…ë ¥í•´ì£¼ì„¸ìš”</h4>' +
 				'</div>' +
 				'</div>',
 			input: 'email',
 			showCancelButton: true,
-			confirmButtonText: 'Áßº¹È®ÀÎ',
-			cancelButtonText: 'Ãë¼Ò',
+			confirmButtonText: 'ì´ë©”ì¼ ì¤‘ë³µí™•ì¸',
+			cancelButtonText: 'ì·¨ì†Œ',
 			showLoaderOnConfirm: true,
 			customClass: {
 				confirmButton: 'btn btn-primary w-xs me-2',
@@ -25,30 +25,30 @@ window.onload = function() {
 			showCloseButton: true,
 			preConfirm: function(email) {
 				$.ajax({
-					url: "./searchEmail.do", // Å¬¶óÀÌ¾ğÆ®°¡ ¿äÃ»À» º¸³¾ ¼­¹öÀÇ URL ÁÖ¼Ò
-					data: { userEmail: email, site: "T" },                // HTTP ¿äÃ»°ú ÇÔ²² ¼­¹ö·Î º¸³¾ µ¥ÀÌÅÍ
-					type: "POST",                             // HTTP ¿äÃ» ¹æ½Ä(GET, POST)
-					dataType: "json",                        // ¼­¹ö¿¡¼­ º¸³»ÁÙ µ¥ÀÌÅÍÀÇ Å¸ÀÔ
+					url: "./searchEmail.do",
+					data: { userEmail: email, site: "T" },                
+					type: "POST",
+					dataType: "json",
 					success: function(result) {
 						if (result == true) {
 							Swal.fire({
 								icon: 'error',
-								title: '»ç¿ëÇÒ ¼ö ¾ø´Â ÀÌ¸ŞÀÏÀÔ´Ï´Ù.',
+								title: 'ì‚¬ìš©í•  ìˆ˜ ì—†ëŠ” ì´ë©”ì¼ì…ë‹ˆë‹¤.',
 								customClass: {
 									confirmButton: 'btn btn-primary w-xs',
 								},
 								buttonsStyling: false,
-								html: email + 'Àº »ç¿ëÇÒ ¼ö ¾ø´Â ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù.'
+								html: email + 'ëŠ” ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ì´ë©”ì¼ì…ë‹ˆë‹¤.'
 							})
 						} else {
 							Swal.fire({
 								icon: 'success',
-								title: '»ç¿ë °¡´ÉÇÑ ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù.',
+								title: 'ì‚¬ìš©ê°€ëŠ¥í•œ ì´ë©”ì¼ì…ë‹ˆë‹¤.',
 								customClass: {
 									confirmButton: 'btn btn-primary w-xs',
 								},
 								buttonsStyling: false,
-								html: email + 'Àº »ç¿ëÇÒ ¼ö ÀÖ´Â ÀÌ¸ŞÀÏ ÀÔ´Ï´Ù.',
+								html: email + 'ì€ ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ì´ë©”ì¼ì…ë‹ˆë‹¤.',
 								preConfirm: function() {
 									writeMail(email);
 								}
@@ -65,6 +65,7 @@ window.onload = function() {
 }
 function writeMail(email) {
 	document.getElementById("email").value = email;
+	document.getElementById("email").readOnly=true;
 }
 function confirmMail() {
 	var inputemail =document.getElementById("email");
@@ -74,7 +75,7 @@ function confirmMail() {
 		Swal.fire({
 			position: 'top-center',
 			icon: 'warning',
-			title: 'ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä',
+			title: 'ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½',
 			showConfirmButton: false,
 			timer: 1500,
 			showCloseButton: true
@@ -95,7 +96,7 @@ function confirmMail() {
 							'</div>' +
 							'</div>' +
 							'<div class="mt-4 pt-2 fs-15">' +
-							'<h4 class="fs-20 fw-semibold">ÀÎÁõ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä</h4>' +
+							'<h4 class="fs-20 fw-semibold">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½</h4>' +
 							'</div>' +
 							'</div>',
 						input: 'text',
@@ -104,7 +105,7 @@ function confirmMail() {
 						customClass: {
 							confirmButton: 'btn btn-primary w-xs mb-2',
 						},
-						confirmButtonText: 'ÀÎÁõ <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
+						confirmButtonText: 'ï¿½ï¿½ï¿½ï¿½ <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
 						buttonsStyling: false,
 						showCloseButton: true,
 						preConfirm: function(inputcode) {
@@ -113,10 +114,10 @@ function confirmMail() {
 								var checkboxLabel= document.getElementById("confirmEmail");
 								checkbox.checked=true;
 								checkbox.removeAttribute('hidden');
-								checkboxLabel.innerText='ÀÎÁõÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.';
+								checkboxLabel.innerText='ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.';
 								Swal.fire({
 									icon: 'info',
-									title: 'ÀÎÁõ¿¡ ¼º°øÇÏ¿´½À´Ï´Ù!',
+									title: 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!',
 									showConfirmButton: true,
 									timer: 1500,
 									showCloseButton: false
@@ -124,7 +125,7 @@ function confirmMail() {
 							} else {
 								Swal.fire({
 									icon: 'warning',
-									title: 'ÀÎÁõÀ» ½ÇÆĞÇÏ¿´½À´Ï´Ù.',
+									title: 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.',
 									showConfirmButton: false,
 									timer: 1500,
 									showCloseButton: true
@@ -137,7 +138,7 @@ function confirmMail() {
 					Swal.fire({
 						position: 'top-center',
 						icon: 'warning',
-						title: 'ÀÎÁõ¹øÈ£ Àü¼ÛÀ» ½ÇÆĞÇÏ¿´½À´Ï´Ù.',
+						title: 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.',
 						showConfirmButton: false,
 						timer: 1500,
 						showCloseButton: true
