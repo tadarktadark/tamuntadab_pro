@@ -1,8 +1,7 @@
-/* ¼Â ¼Â */
 function confirmPhone(){
 	console.log()
         var phoneNumber = document.getElementById("PhoneNumber").value;
-        // Á¤±Ô½ÄÀ» »ç¿ëÇÏ¿© ÆĞÅÏ Ã¼Å©
+        // ì •ê·œì‹ì„ ì‚¬ìš©í•˜ì—¬ íŒ¨í„´ ì²´í¬
         var pattern = /^01[016789]\d{7,8}$/;
 
 		if(phoneNumber ==""){
@@ -40,7 +39,7 @@ function confirmSMS(phoneNumber){
 							'</div>' +
 							'</div>' +
 							'<div class="mt-4 pt-2 fs-15">' +
-							'<h4 class="fs-20 fw-semibold">ÀÎÁõ¹øÈ£¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä</h4>' +
+							'<h4 class="fs-20 fw-semibold">ì¸ì¦ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”</h4>' +
 							'</div>' +
 							'</div>',
 						input: 'text',
@@ -49,7 +48,7 @@ function confirmSMS(phoneNumber){
 						customClass: {
 							confirmButton: 'btn btn-primary w-xs mb-2',
 						},
-						confirmButtonText: 'ÀÎÁõ <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
+						confirmButtonText: 'ì¸ì¦ <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
 						buttonsStyling: false,
 						showCloseButton: true,
 						preConfirm: function(inputcode) {
@@ -57,11 +56,11 @@ function confirmSMS(phoneNumber){
 						var checkboxLabel= document.getElementById("confirmPhone");
 						checkbox.checked=true;
 						checkbox.removeAttribute('hidden');
-						checkboxLabel.innerText='ÀÎÁõÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.';
+						checkboxLabel.innerText='ì¸ì¦ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.';
 							if (inputcode == result.code) {
 								Swal.fire({
 									icon: 'info',
-									title: 'ÀÎÁõ¿¡ ¼º°øÇÏ¿´½À´Ï´Ù!',
+									title: 'ì¸ì¦ì— ì„±ê³µí•˜ì˜€ìŠµë‹ˆë‹¤!',
 									showConfirmButton: true,
 									timer: 1500,
 									showCloseButton: false
@@ -69,7 +68,7 @@ function confirmSMS(phoneNumber){
 							} else {
 								Swal.fire({
 									icon: 'warning',
-									title: 'ÀÎÁõ¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.',
+									title: 'ì¸ì¦ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.',
 									showConfirmButton: false,
 									timer: 1500,
 									showCloseButton: true
@@ -81,12 +80,12 @@ function confirmSMS(phoneNumber){
 				}else if(result.isc=="false"){
 					Swal.fire({
 					icon: 'error',
-					title: 'ÀÎÁõ¹øÈ£ ¿äÃ»À» ½ÇÆĞÇÏ¿´½À´Ï´Ù..',
+					title: 'ì¸ì¦ë²ˆí˜¸ ìš”ì²­ì„ ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤..',
 					customClass: {
 						confirmButton: 'btn btn-danger w-xs',
 					},
 					buttonsStyling: false,
-					html:'°ü¸®ÀÚ¿¡°Ô ¹®ÀÇÇØÁÖ¼¼¿ä'
+					html:'ê´€ë¦¬ìì—ê²Œ ë¬¸ì˜í•´ì£¼ì„¸ìš”'
 					})
 					document.getElementById("PhoneNumber").value="";
 				}
@@ -94,12 +93,12 @@ function confirmSMS(phoneNumber){
 			error:function(){
 				Swal.fire({
 					icon: 'error',
-					title: 'Àß¸øµÈ ¿äÃ»ÀÔ´Ï´Ù.',
+					title: 'ì˜ëª»ëœ ìš”ì²­ì…ë‹ˆë‹¤.',
 					customClass: {
 						confirmButton: 'btn btn-danger w-xs',
 					},
 					buttonsStyling: false,
-					html:'Àß¸øµÈ ¿äÃ»ÀÔ´Ï´Ù.'
+					html:'ì˜ëª»ëœ ìš”ì²­ì…ë‹ˆë‹¤.'
 				})
 			}
 		})
@@ -107,23 +106,23 @@ function confirmSMS(phoneNumber){
 function failalert(){
 	Swal.fire({
 		icon: 'error',
-		title: 'Àß¸øµÈ Çü½ÄÀÇ ÀÔ·Â°ª ÀÔ´Ï´Ù.',
+		title: 'ì˜ëª»ëœ í˜•ì‹ì˜ ì…ë ¥ê°’ ì…ë‹ˆë‹¤.',
 		customClass: {
 			confirmButton: 'btn btn-primary w-xs',
 		},
 		buttonsStyling: false,
-		html:'ÀüÈ­¹øÈ£´Â - ¸¦ Á¦¿ÜÇÏ°í ÀÔ·ÂÇØÁÖ¼¼¿ä.'
+		html:'ì „í™”ë²ˆí˜¸ëŠ” - ë¥¼ ì œì™¸í•˜ê³  ì…ë ¥í•´ì£¼ì„¸ìš”.'
 	})
 }
 
 function writenum(){
 	Swal.fire({
 		icon: 'error',
-		title: 'ÀÔ·Â ÈÄ ÀÎÁõÇØÁÖ¼¼¿ä.',
+		title: 'ì…ë ¥ í›„ ì¸ì¦í•´ì£¼ì„¸ìš”.',
 		customClass: {
 			confirmButton: 'btn btn-danger w-xs',
 		},
 		buttonsStyling: false,
-		html:'ÀüÈ­¹øÈ£´Â - ¸¦ Á¦¿ÜÇÏ°í ÀÔ·ÂÇØÁÖ¼¼¿ä.'
+		html:'ì „í™”ë²ˆí˜¸ëŠ” - ë¥¼ ì œì™¸í•˜ê³  ì…ë ¥í•´ì£¼ì„¸ìš”.'
 	})
 }

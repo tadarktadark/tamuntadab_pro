@@ -1,13 +1,12 @@
-/* ¿©´ü ¿©´ü */
 $(document).ready(function() {
-	var userId = "TMTD1"; // ÇöÀç ·Î±×ÀÎµÈ À¯Àú ID
+	var userId = "TMTD1"; // í˜„ì¬ ë¡œê·¸ì¸ëœ ìœ ì € ID
 
 	$.ajax({
 		url: './checkVoted.do',
 		type: 'GET',
 		data: {
 			"tuusAccountId": userId,
-			"tuopTupySeq": 2,//ÅõÇ¥ seq ¹Ş¾Æ¾ßÇÔ
+			"tuopTupySeq": 2,//íˆ¬í‘œ seq ë°›ì•„ì•¼í•¨
 		},
 		success: function(response) {
 			if (response == "false") {
@@ -30,7 +29,7 @@ $(document).ready(function() {
 			}
 		},
 		error: function(error) {
-			console.log("¿À·ù");
+			console.log("ì˜¤ë¥˜");
 			console.log(error);
 		}
 	});
@@ -51,7 +50,7 @@ function tupyoComplete() {
 
 	var userId = "TMTD1";
 
-	if ($('#list-group').is(':visible')) { // °­»ç ¼±ÅÃ ÅõÇ¥ÀÏ ¶§
+	if ($('#list-group').is(':visible')) { // ê°•ì‚¬ ì„ íƒ íˆ¬í‘œì¼ ë•Œ
 		var radios = document.getElementsByName('teacher');
 		var isChecked = false;
 		for (var i = 0; i < radios.length; i++) {
@@ -62,7 +61,7 @@ function tupyoComplete() {
 		}
 
 		if (!isChecked) {
-			alert('°­»ç¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.');
+			alert('ê°•ì‚¬ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.');
 			return false;
 		}
 
@@ -104,7 +103,7 @@ function tupyoComplete() {
 					data: {
 						labels: tupyoInstrsArray,
 						datasets: [{
-							label: 'µæÇ¥¼ö',
+							label: 'ë“í‘œìˆ˜',
 							data: tupyoResultArray,
 							backgroundColor: '#8977ad'
 						}]
@@ -116,7 +115,7 @@ function tupyoComplete() {
 							x: {
 								beginAtZero: true,
 								ticks: {
-									stepSize: 1 // XÃàÀÇ ´«±İ ´ÜÀ§ ¼³Á¤
+									stepSize: 1 // Xì¶•ì˜ ëˆˆê¸ˆ ë‹¨ìœ„ ì„¤ì •
 								}
 							}
 						}
@@ -124,11 +123,11 @@ function tupyoComplete() {
 				});
 			},
 			error: function(error) {
-				console.log("¿À·ù");
+				console.log("ì˜¤ë¥˜");
 				console.log(error);
 			}
 		});
-	} else if ($('#agree-disagree-group').is(':visible')) {  // Âù¹İ ÅõÇ¥ÀÏ ¶§
+	} else if ($('#agree-disagree-group').is(':visible')) {  // ì°¬ë°˜ íˆ¬í‘œì¼ ë•Œ
 		var voteRadios = document.getElementsByName('vote');
 		var isVoteChecked = false;
 
@@ -140,7 +139,7 @@ function tupyoComplete() {
 		}
 
 		if (!isVoteChecked) {
-			alert('Âù¼º È¤Àº ¹İ´ë¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä.');
+			alert('ì°¬ì„± í˜¹ì€ ë°˜ëŒ€ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.');
 			return false;
 		}
 		$.ajax({
@@ -149,7 +148,7 @@ function tupyoComplete() {
 			data:{
 				"tuusOptionSeq":4,
 				"tuusAccountId":userId,
-				"tuusAgree":'A'//¼Â ´Ù °ª ¹Ş¾ÆÁà¾ßÇÔ
+				"tuusAgree":selectedVote//ì…‹ ë‹¤ ê°’ ë°›ì•„ì¤˜ì•¼í•¨
 			},
 			success:function(map){
 				
@@ -158,56 +157,53 @@ function tupyoComplete() {
 				
 				
 				
-//				console.log(selectedTeacher, userId);
-//				$("#tupyoList").css('display', 'none');
-//				$("#tupyoResult").css('display', 'block');
-//				$("#reTupyo").css('display', 'inline-block');
-//
-//				var tupyoInstrsArray = new Array();
-//				for (let i = 0; i < response.tupyoOptionList.length; i++) {
-//					tupyoInstrsArray.push(response.tupyoOptionList[i].tuopInstr);
-//				}
-//
-//				var tupyoResultArray = new Array();
-//				for (let i = 0; i < response.tupyoOptionList.length; i++) {
-//					tupyoResultArray.push(response.resultList[i].count);
-//				}
-//
-//				console.log(tupyoInstrsArray);
-//				console.log(tupyoResultArray);
-//
-//				var ctx = document.getElementById("myChart").getContext('2d');
-//
-//				if (myChart != '') {
-//					myChart.destroy();
-//				}
-//
-//				myChart = new Chart(ctx, {
-//					type: 'bar',
-//					data: {
-//						labels: tupyoInstrsArray,
-//						datasets: [{
-//							label: 'µæÇ¥¼ö',
-//							data: tupyoResultArray,
-//							backgroundColor: '#8977ad'
-//						}]
-//					},
-//					options: {
-//						indexAxis: 'y',
-//						maintainAspectRatio: false,
-//						scales: {
-//							x: {
-//								beginAtZero: true,
-//								ticks: {
-//									stepSize: 1 // XÃàÀÇ ´«±İ ´ÜÀ§ ¼³Á¤
-//								}
-//							}
-//						}
-//					}
-//				});
+				console.log(selectedVote);
+				
+				
+				$("#selectInstrTitle").css('display', 'none');
+				$("#tupyoResultTitle").css('display', 'block');
+
+
+				$("#tupyoList").css('display', 'none');
+				$("#tupyoResult").css('display', 'block');
+				$("#reTupyo").css('display', 'inline-block');
+
+				var userList = new Array();
+				userList.push(response.agreeCount);
+				userList.push(response.disagreeCount);
+				console.log(userList);
+				var ctx = document.getElementById("myChart").getContext('2d');
+
+				if (myChart != '') {
+					myChart.destroy();
+				}
+				
+				myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: ["ì°¬ì„±", "ë°˜ëŒ€"],
+						datasets: [{
+							label: 'ë“í‘œìˆ˜',
+							data: userList,
+							backgroundColor: '#8977ad'
+						}]
+					},
+					options: {
+						indexAxis: 'y',
+						maintainAspectRatio: false,
+						scales: {
+							x: {
+								beginAtZero: true,
+								ticks: {
+									stepSize: 1 // Xì¶•ì˜ ëˆˆê¸ˆ ë‹¨ìœ„ ì„¤ì •
+								}
+							}
+						}
+					}
+				});
 			},
 			error:function(error){
-				console.log("¿À·ù");
+				console.log("ì˜¤ë¥˜");
 				console.log(error);
 			}
 		});
@@ -234,7 +230,7 @@ function reTupyo() {
 
 		},
 		error: function(error) {
-			console.log("¿À·ù");
+			console.log("ì˜¤ë¥˜");
 			console.log(error);
 		}
 	});
