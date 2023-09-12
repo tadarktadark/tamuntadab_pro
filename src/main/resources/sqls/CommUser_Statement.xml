@@ -78,5 +78,4 @@
 				 CURRENT_DATE,CURRENT_DATE , #{userGender}, 
 				 'T', #{userBirth}, '기본경로 잡아주기' , 'N')
 	</insert>
-
 </mapper>

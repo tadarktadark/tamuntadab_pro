@@ -12,10 +12,12 @@
 </head>
 <body class="twocolumn-panel">
 <div id="layout-wrapper">
-	<div class="main-content">
+	<div>
 		<div class="container">
 			<div class="card">
+				<input name="accountId" type="hidden" value="${accountId}">
 				<input name="list" type="hidden" value="${lists}">
+				<input name="firstOption" type="hidden" value="${vo.tupySeq}">
 				<div class="card-header" id="selectInstrTitle">
 					<b>강사님을 선택해주세요</b><br>
 				</div>
@@ -33,7 +35,7 @@
 						    </c:forEach>
 						</div>
 						<div class="list-group" id="agree-disagree-group" style="display: none;">
-						<div>${lists[0].tuopInstr} 강사님 / 수업료 : ${lists[0].tuopFee}원</div>
+						<div style="margin-bottom: 10px;">${lists[0].tuopInstr} 강사님 / 수업료 : ${lists[0].tuopFee}원</div>
 						    <label class="list-group-item">
 						        <input class="form-check-input me-1" name="vote" type="radio" value="A">
 						        찬성

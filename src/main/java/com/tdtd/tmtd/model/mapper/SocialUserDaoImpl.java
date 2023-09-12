@@ -15,7 +15,7 @@ public class SocialUserDaoImpl implements ISocialUserDao {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public int registNaverUser(Map<String, Object> userProfile) {
+	public int registNaverUser(Map<String, String> userProfile) {
 		return sqlSession.insert(NS+"naverRegist",userProfile);
 	}
 

@@ -12,6 +12,8 @@ public interface ICareerService {
 		//TDT008 insertCareer
 		public int insertCareer(Map<String, Object> map);
 		
+		public int getMyCareerCount(String userAccountId);
+		
 		//TDT009 getMyCareerList
 		public List<CareerVo> getMyCareerList(Map<String, Object> map);
 		
