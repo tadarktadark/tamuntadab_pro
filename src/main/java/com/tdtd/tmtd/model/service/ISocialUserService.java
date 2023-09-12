@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.model.service;
 
-public interface ISocialUserService {
+import java.util.Map;
 
+public interface ISocialUserService {
+	public int naverRegist(Map<String, String> userProfile);
 }

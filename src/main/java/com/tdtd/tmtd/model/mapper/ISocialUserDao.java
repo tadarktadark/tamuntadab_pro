@@ -18,7 +18,7 @@ public interface ISocialUserDao {
 	* @author : 임정운
 	* @since : 2023.09.09
 	*/
-	public int registNaverUser(Map<String,Object> userProfile);
+	public int registNaverUser(Map<String,String> userProfile);
 	
 	/**
 	* NOTE 입력 값을 받아 해당 입력 값을 KAKAO_USER_PROFILE DB에 저장시키는 메소드
