@@ -1,15 +1,14 @@
-/* ¿©¼¸ ¿©¼¸ */
 function addEduLevel(){
 	var url = "./eduLevelForm.do";
-	var title = "ÇĞ·Â Á¤º¸ ÀÔ·Â";
+	var title = "í•™ë ¥ ì •ë³´ ì…ë ¥";
 	var width = 700;
     var height = 700;
 
-    // È­¸é Áß¾Ó¿¡ À§Ä¡½ÃÅ°±â À§ÇÑ ÁÂÇ¥ °è»ê
+    // í™”ë©´ ì¤‘ì•™ì— ìœ„ì¹˜ì‹œí‚¤ê¸° ìœ„í•œ ì¢Œí‘œ ê³„ì‚°
     var left = (screen.width/2)-(width/2);
     var top = (screen.height/2)-(height/2);
 
-    // window.open ÇÔ¼ö¿¡ À§Ä¡¿Í Å©±â¸¦ ÁöÁ¤
+    // window.open í•¨ìˆ˜ì— ìœ„ì¹˜ì™€ í¬ê¸°ë¥¼ ì§€ì •
     window.open(url, title, 'width='+width+', height='+height+', top='+top+', left='+left);
     
 
@@ -67,16 +66,16 @@ function addEduLevel(){
 							select : function(event, ui) {
 								this.value = '';
 
-								// ¼±ÅÃµÈ °ªµéÀÌ Ãß°¡µÉ div ¿ä¼Ò
+								// ì„ íƒëœ ê°’ë“¤ì´ ì¶”ê°€ë  div ìš”ì†Œ
 								var $selectedSubjects = $('#selectedSubjects');
 
-								// ÀÌ¹Ì Ãß°¡µÈ °ªÀÎÁö È®ÀÎ
+								// ì´ë¯¸ ì¶”ê°€ëœ ê°’ì¸ì§€ í™•ì¸
 								if ($selectedSubjects.find('li[data-value="'
 										+ ui.item.value + '"]').length > 0) {
 									return false;
 								}
 
-								// »õ·Î¿î div ¿ä¼Ò »ı¼º ¹× Ãß°¡
+								// ìƒˆë¡œìš´ div ìš”ì†Œ ìƒì„± ë° ì¶”ê°€
 								var $div = $('<div>')
 										.addClass(
 												'choices choices__item choices__item--selectable')
@@ -85,7 +84,7 @@ function addEduLevel(){
 										.text(ui.item.label).appendTo(
 												$selectedSubjects);
 
-								// »èÁ¦ ¹öÆ° »ı¼º ¹× Ãß°¡
+								// ì‚­ì œ ë²„íŠ¼ ìƒì„± ë° ì¶”ê°€
 								var $removeButton = $('<button>').addClass(
 										'choices__button').attr('aria-label',
 										"Remove item: '" + ui.item.label + "'")
@@ -161,17 +160,17 @@ function addEduLevel(){
 	});
 
 $(function(){
-	// ±ÛÀÚ¼ö Á¦ÇÑÇÏ±â
+	// ê¸€ììˆ˜ ì œí•œí•˜ê¸°
 	$("#inprIntro").on('input', function () {
         var text_length = $(this).val().length;
         if(text_length > 100) {
-            alert('100ÀÚ±îÁö¸¸ ÀÛ¼º °¡´ÉÇÕ´Ï´Ù.');
+            alert('100ìê¹Œì§€ë§Œ ì‘ì„± ê°€ëŠ¥í•©ë‹ˆë‹¤.');
             $(this).val($(this).val().substring(0, 100));
         } else {
             $(".introSpan").text(text_length);
         }
     });
-    //ÃÖ¼Ò ¼ö¾÷·á Á¦ÇÑ
+    //ìµœì†Œ ìˆ˜ì—…ë£Œ ì œí•œ
     $('#inprFee').on('input', function () {
         if ($(this).val().length > 4) {
             $(this).val($(this).val().slice(0, 4));

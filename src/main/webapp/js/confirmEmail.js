@@ -1,4 +1,4 @@
-/* �� �� */
+
 window.onload = function() {
 	document.getElementById("email").addEventListener("click", function() {
 		Swal.fire({
@@ -9,12 +9,15 @@ window.onload = function() {
 				'</div>' +
 				'</div>' +
 				'<div class="mt-4 pt-2 fs-15">' +
-				'<h4 class="fs-20 fw-semibold">이메일은 입력해주세요</h4>' +
+
+				'<h4 class="fs-20 fw-semibold">이메일을 입력해 주세요</h4>' +
 				'</div>' +
 				'</div>',
 			input: 'email',
 			showCancelButton: true,
-			confirmButtonText: '이메일 중복확인',
+
+			confirmButtonText: '중복확인',
+
 			cancelButtonText: '취소',
 			showLoaderOnConfirm: true,
 			customClass: {
@@ -25,10 +28,11 @@ window.onload = function() {
 			showCloseButton: true,
 			preConfirm: function(email) {
 				$.ajax({
-					url: "./searchEmail.do",
-					data: { userEmail: email, site: "T" },                
-					type: "POST",
-					dataType: "json",
+					url: "./searchEmail.do", // 클라이언트가 요청을 보낼 서버의 URL 주소
+					data: { userEmail: email, site: "T" },                // HTTP 요청과 함께 서버로 보낼 데이터
+					type: "POST",                             // HTTP 요청 방식(GET, POST)
+					dataType: "json",                        // 서버에서 보내줄 데이터의 타입
+
 					success: function(result) {
 						if (result == true) {
 							Swal.fire({
@@ -38,17 +42,23 @@ window.onload = function() {
 									confirmButton: 'btn btn-primary w-xs',
 								},
 								buttonsStyling: false,
-								html: email + '는 이미 사용중인 이메일입니다.'
+
+								html: email + '은 사용할 수 없는 이메일 입니다.'
+
 							})
 						} else {
 							Swal.fire({
 								icon: 'success',
-								title: '사용가능한 이메일입니다.',
+
+								title: '사용 가능한 이메일 입니다.',
+
 								customClass: {
 									confirmButton: 'btn btn-primary w-xs',
 								},
 								buttonsStyling: false,
-								html: email + '은 사용할 수 있는 이메일입니다.',
+
+								html: email + '은 사용할 수 있는 이메일 입니다.',
+
 								preConfirm: function() {
 									writeMail(email);
 								}
@@ -75,7 +85,8 @@ function confirmMail() {
 		Swal.fire({
 			position: 'top-center',
 			icon: 'warning',
-			title: '�̸����� �Է����ּ���',
+
+			title: '이메일을 입력해주세요',
 			showConfirmButton: false,
 			timer: 1500,
 			showCloseButton: true
@@ -96,7 +107,9 @@ function confirmMail() {
 							'</div>' +
 							'</div>' +
 							'<div class="mt-4 pt-2 fs-15">' +
-							'<h4 class="fs-20 fw-semibold">������ȣ�� �Է����ּ���</h4>' +
+
+							'<h4 class="fs-20 fw-semibold">인증번호를 입력해주세요</h4>' +
+
 							'</div>' +
 							'</div>',
 						input: 'text',
@@ -105,7 +118,9 @@ function confirmMail() {
 						customClass: {
 							confirmButton: 'btn btn-primary w-xs mb-2',
 						},
-						confirmButtonText: '���� <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
+
+						confirmButtonText: '인증 <i class="ri-arrow-right-line ms-1 align-bottom"></i>',
+
 						buttonsStyling: false,
 						showCloseButton: true,
 						preConfirm: function(inputcode) {
@@ -114,10 +129,12 @@ function confirmMail() {
 								var checkboxLabel= document.getElementById("confirmEmail");
 								checkbox.checked=true;
 								checkbox.removeAttribute('hidden');
-								checkboxLabel.innerText='������ �Ϸ�Ǿ����ϴ�.';
+
+								checkboxLabel.innerText='인증이 완료되었습니다.';
 								Swal.fire({
 									icon: 'info',
-									title: '������ �����Ͽ����ϴ�!',
+									title: '인증에 성공하였습니다!',
+
 									showConfirmButton: true,
 									timer: 1500,
 									showCloseButton: false
@@ -125,7 +142,9 @@ function confirmMail() {
 							} else {
 								Swal.fire({
 									icon: 'warning',
-									title: '������ �����Ͽ����ϴ�.',
+
+									title: '인증을 실패하였습니다.',
+
 									showConfirmButton: false,
 									timer: 1500,
 									showCloseButton: true
@@ -138,7 +157,9 @@ function confirmMail() {
 					Swal.fire({
 						position: 'top-center',
 						icon: 'warning',
-						title: '������ȣ ������ �����Ͽ����ϴ�.',
+
+						title: '인증번호 전송을 실패하였습니다.',
+
 						showConfirmButton: false,
 						timer: 1500,
 						showCloseButton: true

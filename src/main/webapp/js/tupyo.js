@@ -1,4 +1,3 @@
-/* 여덟 여덟 */
 $(document).ready(function() {
 	var userId = "TMTD1"; // 현재 로그인된 유저 ID
 
@@ -149,17 +148,15 @@ function tupyoComplete() {
 			data:{
 				"tuusOptionSeq":4,
 				"tuusAccountId":userId,
-				"tuusAgree":selectedVote//  媛 諛以쇳
-				"tuusAgree":'A'//셋 다 값 받아줘야함
+				"tuusAgree":selectedVote//셋 다 값 받아줘야함
 			},
-			success:function(response){
+			success:function(map){
 				
-				console.log(response.agreeCount);
-				console.log(response.disagreeCount);
+				console.log(map.agreeCount);
+				console.log(map.disagreeCount);
 				
 				
 				
-
 				console.log(selectedVote);
 				
 				
@@ -184,9 +181,9 @@ function tupyoComplete() {
 				myChart = new Chart(ctx, {
 					type: 'bar',
 					data: {
-						labels: ["李ъ", "諛"],
+						labels: ["찬성", "반대"],
 						datasets: [{
-							label: '',
+							label: '득표수',
 							data: userList,
 							backgroundColor: '#8977ad'
 						}]
@@ -198,7 +195,7 @@ function tupyoComplete() {
 							x: {
 								beginAtZero: true,
 								ticks: {
-									stepSize: 1 // X異 湲 ⑥ ㅼ
+									stepSize: 1 // X축의 눈금 단위 설정
 								}
 							}
 						}
@@ -216,13 +213,8 @@ function tupyoComplete() {
 
 function reTupyo() {
 
-	var userId = "TMTD1"
-
-//	if(	){
-		
-//	}	
-
 	var selectedTeacher = $("input[name='teacher']:checked").val();
+	var userId = "TMTD1"
 
 	$.ajax({
 		url: './reTupyo.do',

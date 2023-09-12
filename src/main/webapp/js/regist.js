@@ -1,4 +1,4 @@
-/* �ϰ� �ϰ� */
+
 const $form = document.querySelector('form');
 const $email = $("#confirmEmailCheck");
 const $name = $("#name");
