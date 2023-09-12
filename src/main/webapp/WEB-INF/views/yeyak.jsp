@@ -22,7 +22,31 @@
 			<div class="page-content">
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
-					<div id="yeyak-container"></div>
+					<div class="btn-group" id="btn-sido">
+					    <button id="sido-title" class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    </button>
+					    <div class="dropdown-menu dropdownmenu-primary sido-group" data-simplebar data-simplebar-track="primary">
+					        <a class="dropdown-item sido-dropdown click-btn"></a>
+							</div>
+					</div>
+					<br>
+					<br>
+					<div class="row">
+					    <div class="col">
+	 						<div class="accordion custom-accordionwithicon-plus collapse multi-collapse show" id="accordionWithplusicon">
+							</div>
+							<br>
+							<ul id="pagination" class="pagination pagination-rounded justify-content-center">
+							</ul>
+					    </div>
+					    <div class="col">
+					        <div class="collapse multi-collapse" id="multiCollapseExample2">
+					            <div class="card card-body mb-0" id="multiCollapseExample2-content">
+					            <div>hi</div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp" %>
