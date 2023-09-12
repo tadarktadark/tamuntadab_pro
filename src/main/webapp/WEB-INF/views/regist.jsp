@@ -450,21 +450,27 @@
 										        <div>
 										        <%
 										        	URLVo uvo = new URLVo();
-													ClientVo cvo = new ClientVo();
 													SecureRandom random = new SecureRandom();
 													String state = new BigInteger(130, random).toString();
+													ClientVo cvo = new ClientVo();
 										        %>
+										        	<!-- 네이버 -->
 										           <a href="<%=uvo.getNaverUrl()+"&client_id="+cvo.getNaverClientID()+"&redirect_uri="+uvo.getNaverRedirect()+"&state="+state%>">
 										           <button type="button" class="btn btn-ghost-dark btn-icon" id="naverRegist" 
 										            style="background-image: url('./image/naver_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
 										            </a>
 										            
+										            <!-- 카카오 -->
+										            <a href="<%= uvo.getKakaoUrl()+"&redirect_uri="+uvo.getKakaoRedirect()+"&state="+state+"&client_id="+cvo.getKakaoClientID()%>">
 										            <button type="button" class="btn btn-ghost-dark btn-icon" id="kakaoRegist" 
 										            style="background-image: url('./image/kakao_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
+										            </a>
 										            
+										            <!-- 구글 -->
+										            <a>
 										            <button type="button" class="btn btn-ghost-dark btn-icon" id="googleRegist" 
 										            style="background-image: url('./image/google_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
-										            
+										            </a>
 										        </div>
 										    </div>
 										
@@ -479,7 +485,7 @@
 		            </div>
 		        </div><!--end container-->
 		    </section>
-		<%@ include file="./shared/_footer.jsp" %>
+		<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>	
 	<%@ include file="./shared/_vender_scripts.jsp" %>

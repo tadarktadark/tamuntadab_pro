@@ -76,6 +76,4 @@ public class SocialVo {
 				+ ", gender=" + gender + ", birth=" + birth + "]";
 	}
 	
-	
-	
 }

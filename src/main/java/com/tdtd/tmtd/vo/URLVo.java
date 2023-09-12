@@ -6,8 +6,6 @@ import java.text.Format;
 
 public class URLVo {
 	
-	private ClientVo vo = new ClientVo();
-	
 	//oAuth접근 URL
 	private String naverUrl="https://nid.naver.com/oauth2.0/authorize?response_type=code";
 	private String kakaoUrl="https://kauth.kakao.com/oauth/authorize?response_type=code";
@@ -15,8 +13,8 @@ public class URLVo {
 	
 	//리다이렉트 URL
 	private String naverRedirect = "http://localhost:8090/tamuntadab_pro/naverRedirect.do";
-	private String kakaoRedirect = "http://localhost:8080/oAuthModeul/callBackKAKAOLogin.do";
-	private String googleRedirect = "http://localhost:8080/oAuthModeul/callbackgoogle.do";
+	private String kakaoRedirect = "http://localhost:8090/tamuntadab_pro/kakaoRedirect.do";
+	private String googleRedirect = "http://localhost:8090/tamuntadab_pro/googleRedirect.do";
 
 	//토큰 요청 URL
 	private String getNaverTokenUrl="https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
