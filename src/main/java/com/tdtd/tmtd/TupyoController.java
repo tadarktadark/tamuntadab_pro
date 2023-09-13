@@ -90,7 +90,6 @@ public class TupyoController {
 	@ResponseBody
 	@RequestMapping(value = "/agreeTupyoResult.do",method = RequestMethod.GET)
 	public Map<String, Object> agreeUserResult(@RequestParam int tupySeq, @RequestParam int tuusOptionSeq){
-//		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tupySeq);
 		
 		Map<String, Object> agreeMap = new HashMap<String, Object>();
 		agreeMap.put("tuusOptionSeq", tuusOptionSeq);
@@ -106,8 +105,6 @@ public class TupyoController {
 		optionMap.put("agreeCount", agreeList.size());
 		optionMap.put("disagreeCount", disagreeList.size());
 		System.out.println(optionMap);
-//		optionMap.put("tupyoOptionList",tupyoOptionList);
-		
 		return optionMap;
 	}
 	
@@ -150,7 +147,12 @@ public class TupyoController {
 		return result;
 	}
 	
-
+	@ResponseBody
+	@GetMapping("/finishTupyo.do")
+	public void finishTupyo(int tupySeq) {
+		service.endTupyo(tupySeq);
+	}
+	
 
 
 }
