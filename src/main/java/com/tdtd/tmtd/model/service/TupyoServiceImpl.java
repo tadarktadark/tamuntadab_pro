@@ -100,6 +100,11 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.getAllInstr(clchClasId);
 	}
 
+	@Override
+	public List<ChamyeoVo> getAllClassMember(int clchClasId) {
+		return dao.getAllClassMember(clchClasId);
+	}
+
 	
 
 

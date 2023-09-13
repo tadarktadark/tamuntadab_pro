@@ -179,6 +179,12 @@ public class TupyoController {
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
 	public void finishTupyo(int tupySeq) {
+		TupyoVo vo = service.getTupyo(tupySeq);
+		List<ChamyeoVo> allClassUserVo = service.getAllClassMember(vo.getTupyClasId());
+		System.out.println(allClassUserVo);
+		int studentCount = allClassUserVo.size();//참여자 학생 수
+		
+		
 		service.endTupyo(tupySeq);
 		//투표를 안한 인원은 반대, 또는 무효표로 처리
 		//결과에 맞는 강사가 클래스 accountId에 추가되고 매칭 완료로 상태 변경

@@ -22,6 +22,8 @@ public interface ITupyoService {
 	public int insertTupyoOption(Map<String, Object> map);
 	//클래스 개설자 조회
 	public ChamyeoVo getClassMaster(int clchClasId);
+	//클래스 모든 참여자 조회
+	public List<ChamyeoVo> getAllClassMember(int clchClasId);
 	//클래스 참여 중인 학생인지 판단
 	public List<ChamyeoVo> getClassMember(Map<String, Object> map);
 	//클래스 참여 중인 학생 수 계산
