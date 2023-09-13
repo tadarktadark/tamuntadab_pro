@@ -25,5 +25,6 @@ public class SubjectVo {
 	private String subjSujeongSayu;
 	private String subjDelflag;
 	private String subjCode;
+	private int clasCount;
 
 }
