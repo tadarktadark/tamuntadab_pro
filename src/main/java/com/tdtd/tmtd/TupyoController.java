@@ -46,6 +46,8 @@ public class TupyoController {
 	public void insertTupyo(@RequestBody TupyoUserVo vo) {
 		int tuusOptionSeq = vo.getTuusOptionSeq();
 		String tuusAccountId = vo.getTuusAccountId();
+		System.out.println("웨엥웨웨웨웽엥"+tuusOptionSeq);
+		System.out.println(""+tuusAccountId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
 		map.put("tuusAccountId", tuusAccountId);
@@ -120,6 +122,7 @@ public class TupyoController {
 		userMap.put("tuusAccountId", tuusAccountId);
 		userMap.put("tuopTupySeq", tupySeq);
 		List<TupyoUserVo> userList = service.tupyoUserChk(userMap);
+		System.out.println(userList);
 		TupyoVo vo = service.getTupyo(tupyClasId);
 		TupyoUserVo tupyoUserVo = new TupyoUserVo();
 		tupyoUserVo.setTuusAccountId(tuusAccountId);
