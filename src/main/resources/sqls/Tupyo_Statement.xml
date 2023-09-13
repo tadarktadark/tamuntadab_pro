@@ -33,13 +33,13 @@ INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE)
 <select id="getClassMaster" parameterType="Integer" resultType="chamyeoVo">
 SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL 
         FROM CLASS_CHAMYEOJA
-        WHERE CLCH_CLAS_ID ='1000000033' AND CLCH_YEOKAL ='M' AND  CLCH_STATUS ='Y';
+        WHERE CLCH_CLAS_ID ='1000000033' AND CLCH_YEOKAL ='M' AND  CLCH_STATUS ='Y'
 </select>
 
 <select id="getClassMember" parameterType="Map" resultType="chamyeoVo">
 SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL
         FROM CLASS_CHAMYEOJA cc
-        WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_ACCOUNT_ID =#{clchAccountId} AND CLCH_STATUS ='Y' AND CLCH_YEOKAL IN ('M','S');
+        WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_ACCOUNT_ID =#{clchAccountId} AND CLCH_STATUS ='Y' AND CLCH_YEOKAL IN ('M','S')
 </select>
 
 

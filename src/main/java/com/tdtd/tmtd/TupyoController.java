@@ -1,5 +1,6 @@
 package com.tdtd.tmtd;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.model.service.ITupyoService;
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
@@ -33,19 +35,24 @@ public class TupyoController {
 	public String tupyoPage(int clasId,String accountId,Model model) {
 		TupyoVo vo = service.getTupyo(clasId);
 		if(vo==null) {
-			System.out.println("vo는 널이야"+vo);
 			model.addAttribute("hasTupyo", "false");
 			model.addAttribute("accountId",accountId);
 			return "tupyo";
 		}
 		model.addAttribute("hasTupyo", "true");
+		
 		List<TupyoOptionVo> lists = service.getAllTupyoOption(vo.getTupySeq());
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
-		
+		ChamyeoVo masterVo = service.getClassMaster(clasId);
+		String masterId = masterVo.getClchAccountId();
+		String isMaster ="false";
+		if(masterId.equals(accountId)) {
+			isMaster = "true";
+		}
+		model.addAttribute("isMaster", isMaster);
 		model.addAttribute("accountId",accountId);
-		
 		return "tupyo";
 	}
 	
@@ -173,6 +180,20 @@ public class TupyoController {
 	@GetMapping("/finishTupyo.do")
 	public void finishTupyo(int tupySeq) {
 		service.endTupyo(tupySeq);
+	}
+	
+	@PostMapping("/makeTupyo.do")
+	public String makeTupyo(int tupyClasId,Date tupyEnddate) {
+		Map<String, Object> map= new HashMap<String, Object>();
+		int tupyTotalUser = service.countTotalClassMember(tupyClasId);
+		map.put("tupyClasId", tupyClasId);
+		map.put("tupyTotalUser", tupyTotalUser);
+		map.put("tupyEnddate", tupyEnddate);
+		service.insertTupyo(map);
+		
+		// 투두 선생들 조회해서 옵션으로 삽입
+		
+		return "redirect:/tupyoPage.do";
 	}
 	
 
