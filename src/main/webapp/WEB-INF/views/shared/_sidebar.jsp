@@ -78,7 +78,7 @@
                                     <a href="./fagList.do" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./tupyoPage.do" class="nav-link" data-key="t-tupyo">투표 </a>
+                                    <a href="./tupyoPage.do?accountId=TMTD1&clasId=1000000033" class="nav-link" data-key="t-tupyo">투표 </a>
                                 </li>
                             </ul>
                         </div>

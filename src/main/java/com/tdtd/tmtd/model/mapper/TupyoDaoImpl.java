@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
@@ -37,6 +38,22 @@ public class TupyoDaoImpl implements ITupyoDao {
 	@Override
 	public int insertTupyoOption(Map<String, Object> map) {
 		return sqlSession.insert(NS+"insertTupyoOption",map);
+	}
+	
+	
+	@Override
+	public ChamyeoVo getClassMaster(int clchClasId) {
+		return sqlSession.selectOne(NS+"getClassMaster",clchClasId);
+	}
+
+	@Override
+	public List<ChamyeoVo> getClassMember(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getClassMember",map);
+	}
+
+	@Override
+	public int countTotalClassMember(int clchClasId) {
+		return sqlSession.selectOne(NS+"countTotalClassMember",clchClasId);
 	}
 	
 	@Override
@@ -78,6 +95,8 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int updateAgreeTupyo(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateAgreeTupyo",map);
 	}
+
+	
 
 	
 

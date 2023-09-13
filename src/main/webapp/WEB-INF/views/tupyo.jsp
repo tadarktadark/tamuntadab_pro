@@ -14,6 +14,9 @@
 <div id="layout-wrapper">
 	<div>
 		<div class="container">
+		<input name="hasTupyo" type="hidden" value="${hasTupyo}">
+		<c:choose>
+		<c:when test="${hasTupyo eq 'true'}">
 			<div class="card">
 				<input name="accountId" type="hidden" value="${accountId}">
 				<input name="list" type="hidden" value="${lists}">
@@ -59,6 +62,13 @@
 					</div>
 				</div>
 			</div>
+		</c:when>
+		<c:otherwise>
+			<div class="card">
+				<button id="makeTupyo" class="btn btn-primary" onclick="makeTupyo()">투표 생성하기</button>
+			</div>
+		</c:otherwise>
+		</c:choose>
 		</div>
 	</div>
 </div>

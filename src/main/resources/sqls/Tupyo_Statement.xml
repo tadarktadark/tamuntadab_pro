@@ -30,6 +30,25 @@ INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE)
 	VALUES(TUOP_SEQ.NEXTVAL, #{tuopTupySeq}, #{tuopInstr}, #{tuopFee})
 </insert>
 
+<select id="getClassMaster" parameterType="Integer" resultType="chamyeoVo">
+SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL 
+        FROM CLASS_CHAMYEOJA
+        WHERE CLCH_CLAS_ID ='1000000033' AND CLCH_YEOKAL ='M' AND  CLCH_STATUS ='Y';
+</select>
+
+<select id="getClassMember" parameterType="Map" resultType="chamyeoVo">
+SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL
+        FROM CLASS_CHAMYEOJA cc
+        WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_ACCOUNT_ID =#{clchAccountId} AND CLCH_STATUS ='Y' AND CLCH_YEOKAL IN ('M','S');
+</select>
+
+
+<select id="countTotalClassMember" parameterType="Integer" resultType="Integer">
+SELECT COUNT(*)  
+        FROM CLASS_CHAMYEOJA cc
+        WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_YEOKAL IN ('M','S') AND  CLCH_STATUS ='Y'
+</select>
+
 <select id="tupyoUserChk" parameterType="java.util.Map" resultType="tupyoUserVo">
 SELECT TUUS_SEQ ,TUUS_OPTION_SEQ,TUUS_ACCOUNT_ID,TUUS_AGREE
     FROM TUPYO_USER 

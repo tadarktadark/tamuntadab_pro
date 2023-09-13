@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,17 +30,38 @@ public class TupyoController {
 	
 	//투표 페이지로 이동
 	@RequestMapping(value = "/tupyoPage.do")
-	public String tupyoPage(Model model) {
-		TupyoVo vo = service.getTupyo(1000000017);//classId 받아야함
-		List<TupyoOptionVo> lists = service.getAllTupyoOption(2);//tupySeq받아야함
+	public String tupyoPage(int clasId,String accountId,Model model) {
+		TupyoVo vo = service.getTupyo(clasId);
+		if(vo==null) {
+			System.out.println("vo는 널이야"+vo);
+			model.addAttribute("hasTupyo", "false");
+			model.addAttribute("accountId",accountId);
+			return "tupyo";
+		}
+		model.addAttribute("hasTupyo", "true");
+		List<TupyoOptionVo> lists = service.getAllTupyoOption(vo.getTupySeq());
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
 		
-		model.addAttribute("accountId","TMTD1");//accountId 세션에서 받아야함
+		model.addAttribute("accountId",accountId);
 		
 		return "tupyo";
 	}
+	
+	
+	@PostMapping("/insertTupyoOption.do")
+	public void insertTupyoOption(int clasId, String tuopInstr, int tuopFee) {
+		TupyoVo vo = service.getTupyo(clasId);
+		int tuopTupySeq = vo.getTupySeq(); 
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tuopTupySeq", tuopTupySeq);
+		map.put("tuopInstr", tuopInstr);
+		map.put("tuopFee", tuopFee);
+		service.insertTupyoOption(map);
+	}
+	
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)

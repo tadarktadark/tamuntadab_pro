@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
@@ -17,6 +18,12 @@ public interface ITupyoDao {
 	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq);
 	//선택지 생성
 	public int insertTupyoOption(Map<String, Object> map);
+	//클래스 개설자 조회
+	public ChamyeoVo getClassMaster(int clchClasId);
+	//클래스 참여 중인 학생인지 판단
+	public List<ChamyeoVo> getClassMember(Map<String, Object> map);
+	//클래스 참여 중인 학생 수 계산
+	public int countTotalClassMember(int clchClasId);
 	//투표 진행
 	public int insertTupyoUser(Map<String, Object> map);
 	//투표 유무 판단
