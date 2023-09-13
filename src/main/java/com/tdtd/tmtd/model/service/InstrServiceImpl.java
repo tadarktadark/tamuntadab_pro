@@ -83,8 +83,8 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public InstrVo getOneInstrSimple(String userAccountId) {
-		return dao.getOneInstrSimple(userAccountId);
+	public InstrVo getOneInstrSimple(Map<String, Object> map) {
+		return dao.getOneInstrSimple(map);
 	}
 
 	@Override

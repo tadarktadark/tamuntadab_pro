@@ -2,6 +2,8 @@ package com.tdtd.tmtd;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +18,28 @@ import com.tdtd.tmtd.model.service.IInstrService;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class InstrController {
 	
 	@Autowired
 	private IInstrService service;
 	
+	@GetMapping("/instrList.do")
+	public String instrList(Model model) {
+		log.info("InstrController instrList 이동");
+		List<InstrVo> lists = service.getAllInstr("like");
+		model.addAttribute("title","강사 조회");
+		model.addAttribute("pageTitle", "강사 전체 리스트");
+		model.addAttribute("lists", lists);
+		return null;
+	}
+	
 	@GetMapping("/instrProfileForm.do")
 	public String instrProfileForm(HttpSession session, Model model, String accountId) {
-//		String accountId = (String)session.getAttribute("userAccountId");
+//		String accountId = (String)session.getAttribute("userInfo").getAccountId;
 		InstrVo vo = service.getMyInstrProfile(accountId);
 		if(vo != null) {
 			

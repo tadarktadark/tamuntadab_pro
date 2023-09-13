@@ -51,7 +51,7 @@ public class CareerController {
 	
 	@GetMapping("/myCareerList.do")
 	public String myCareerList(Model model, HttpSession session, String page) {
-//		String accountId = (String)session.getAttribute("userAccountId");
+//		String accountId = (String)session.getAttribute("userInfo").getAccountId;
 		String accountId = "TMTD101";
 		
 		int totalCount = service.getMyCareerCount(accountId);

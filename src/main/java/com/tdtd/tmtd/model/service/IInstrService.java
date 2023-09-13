@@ -30,7 +30,7 @@ public interface IInstrService {
 		public int updateInstrView(InstrVo vo);
 		
 		//TDT021 getOneInstrSimple
-		public InstrVo getOneInstrSimple(String userAccountId);
+		public InstrVo getOneInstrSimple(Map<String, Object> map);
 		 
 		//TDT022 getOneInstrProfile
 		public InstrVo getOneInstrProfile(String userAccountId);
