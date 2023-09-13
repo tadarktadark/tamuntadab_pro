@@ -12,6 +12,8 @@ public interface ITupyoService {
 
 	//TDT066 투표 생성
 	public int insertTupyo(Map<String, Object> map);
+	//클래스 참여 중인 강사 조회
+	public List<ChamyeoVo> getAllInstr(int clchClasId);
 	//TDT067 투표 조회
 	public TupyoVo getTupyo(int tupyClasId);
 	//TDT068 선택지 조회

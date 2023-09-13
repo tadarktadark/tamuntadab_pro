@@ -180,6 +180,8 @@ public class TupyoController {
 	@GetMapping("/finishTupyo.do")
 	public void finishTupyo(int tupySeq) {
 		service.endTupyo(tupySeq);
+		//투표를 안한 인원은 반대, 또는 무효표로 처리
+		//결과에 맞는 강사가 클래스 accountId에 추가되고 매칭 완료로 상태 변경
 	}
 	
 	@PostMapping("/makeTupyo.do")
@@ -190,9 +192,18 @@ public class TupyoController {
 		map.put("tupyTotalUser", tupyTotalUser);
 		map.put("tupyEnddate", tupyEnddate);
 		service.insertTupyo(map);
-		
+		int tuopTupySeq = service.getTupyo(tupyClasId).getTupySeq();
 		// 투두 선생들 조회해서 옵션으로 삽입
+		List<ChamyeoVo> instrList = service.getAllInstr(tupyClasId);
+		System.out.println(instrList);
 		
+		// 투두 아니 비용 받는거 어디에 저장했어 김기훈 해명해ㅐ해ㅐㅐ
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("tuopTupySeq", tuopTupySeq);
+//		insertMap.put("tuopInstr", tuopInstr);
+//		insertMap.put("tuopFee", tuopFee);
+		
+		service.insertTupyoOption(null);
 		return "redirect:/tupyoPage.do";
 	}
 	

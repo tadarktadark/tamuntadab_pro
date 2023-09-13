@@ -96,6 +96,11 @@ public class TupyoDaoImpl implements ITupyoDao {
 		return sqlSession.update(NS+"updateAgreeTupyo",map);
 	}
 
+	@Override
+	public List<ChamyeoVo> getAllInstr(int clchClasId) {
+		return sqlSession.selectList(NS+"getAllInstr",clchClasId);
+	}
+
 	
 
 	

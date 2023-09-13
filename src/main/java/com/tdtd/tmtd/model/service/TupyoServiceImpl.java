@@ -95,6 +95,11 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.updateAgreeTupyo(map);
 	}
 
+	@Override
+	public List<ChamyeoVo> getAllInstr(int clchClasId) {
+		return dao.getAllInstr(clchClasId);
+	}
+
 	
 
 
