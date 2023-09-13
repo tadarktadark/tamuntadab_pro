@@ -34,6 +34,12 @@
 						data-bs-toggle="modal" data-bs-target="#addmemberModal" onclick="location.href='./classWrite.do'">
 						<i class="bx bx-plus fs-16 align-middle me-1"></i> 새 클래스 개설
 					</button>
+					
+					<!-- 임시 화면 -->
+					<button class="btn btn-primary addMembers-modal"
+						data-bs-toggle="modal" data-bs-target="#addmemberModal" onclick="location.href='./subjectManage.do'">
+						<i class="bx bx-plus fs-16 align-middle me-1"></i> 과목 관리 화면
+					</button>
 				</div>
 
 				<div class="col-sm-auto ms-auto">

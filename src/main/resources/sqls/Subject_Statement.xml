@@ -4,17 +4,33 @@
 	
 	<!-- 페이징 할 과목 리스트 조회 -->
 	<select id="getSubjectList" parameterType="java.util.Map" resultType="subjectVo">
-		SELECT SUBJ_TITLE, SUBJ_STUD_ID, SUBJ_STATUS, SUBJ_SUJEONGIL, SUBJ_DELFLAG, SUBJ_CODE
-			FROM (
-					SELECT SUBJ_TITLE, SUBJ_STUD_ID, SUBJ_STATUS, SUBJ_SUJEONGIL, SUBJ_DELFLAG, SUBJ_CODE,
-					ROW_NUMBER() OVER (ORDER BY SUBJ_CODE DESC) AS RN
-					FROM TMTD.SUBJECT
-				)
-		WHERE RN BETWEEN {first} AND {last}
+		SELECT SUBJ_ID, SUBJ_TITLE, SUBJ_REGDATE, SUBJ_STATUS, SUBJ_SUJEONGIL,
+		       SUBJ_DELFLAG, CLAS_COUNT
+		FROM (
+			SELECT 	s.SUBJ_ID,
+					s.SUBJ_TITLE,
+					s.SUBJ_REGDATE,
+		         	s.SUBJ_STATUS,
+		         	s.SUBJ_SUJEONGIL,
+		         	s.SUBJ_DELFLAG,
+		         	c.CLAS_COUNT,
+		         	ROW_NUMBER() OVER (ORDER BY s.SUBJ_CODE DESC) AS RN
+		    FROM TMTD.SUBJECT s 
+		    LEFT JOIN (
+		    			SELECT j.SUBJECT_ID AS "SUBJ_ID", COUNT(*) AS "CLAS_COUNT"
+						FROM CLASS c,
+		     				JSON_TABLE(c.CLAS_SUBJECT_JEONGBO , '$[*]'
+		                	COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$.SUBJ_ID')) J
+						GROUP BY j.SUBJECT_ID
+						ORDER BY j.SUBJECT_ID
+						) c
+			ON c.SUBJ_ID = s.SUBJ_ID
+			)
+		WHERE RN BETWEEN #{first} AND #{last}
 	</select>
 	
 	<!-- 페이징 할 과목 갯수 조회 -->
-	<select id="getSubjectTagListCount">
+	<select id="getSubjectListCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM TMTD.SUBJECT s
 	</select>

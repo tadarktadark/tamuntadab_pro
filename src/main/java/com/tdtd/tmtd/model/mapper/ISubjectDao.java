@@ -12,14 +12,14 @@ public interface ISubjectDao {
 	 * @author 김기훈
 	 * @since 2023-09-10
 	 */
-	public List<SubjectVo> getSubjectList();
+	public List<SubjectVo> getSubjectList(Map<String, Object> map);
 	
 	/**
 	 * @return 페이징 처리할 전체 과목 갯수
 	 * @author 김기훈
 	 * @since 2023-09-10
 	 */
-	public int getSubjectTagListCount();
+	public int getSubjectListCount();
 	
 	/**
 	 * @return 업데이트에 성공한 과목 갯수 int

@@ -23,8 +23,8 @@ public class SubjectDaoImpl implements ISubjectDao {
 	 * @since 2023-09-10
 	 */
 	@Override
-	public List<SubjectVo> getSubjectList() {
-		return sqlSession.selectList(NS+"getSubjectList");
+	public List<SubjectVo> getSubjectList(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getSubjectList", map);
 	}
 
 	/**
@@ -33,8 +33,8 @@ public class SubjectDaoImpl implements ISubjectDao {
 	 * @since 2023-09-10
 	 */
 	@Override
-	public int getSubjectTagListCount() {
-		return sqlSession.selectOne(NS+"getSubjectTagListCount");
+	public int getSubjectListCount() {
+		return sqlSession.selectOne(NS+"getSubjectListCount");
 	}
 
 	/**
