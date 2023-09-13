@@ -25,7 +25,7 @@ public class SocialUserServiceImpl implements ISocialUserService {
 
 	@Override
 	public int googleRegist(Map<String, String> userProfile) {
-		return 0;
+		return sdao.registGoogleUser(userProfile);
 	}
 
 	@Override

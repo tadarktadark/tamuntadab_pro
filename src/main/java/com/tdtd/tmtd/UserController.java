@@ -87,9 +87,9 @@ public class UserController {
 		Random ran = new Random();
 		sendMap.put("code", ""+ran.nextInt(10000));
 		//coolSMS API사용
-		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLBXKI8KF3NOKC", "4RC5BBKPJOLNURRUZA1ARTZQXPH7ZAHQ", "https://api.coolsms.co.kr");
+		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLH5XMRHNML98D", "SCDV2ABM6KXGAUPYYEWZEL1C92RU0NOJ", "https://api.coolsms.co.kr");
 		Message message = new Message();
-		message.setFrom("01066389809");
+		message.setFrom("01022546438");
 		message.setTo(phoneNumber);
 		message.setText("타문타답 문자 인증 번호 : "+sendMap.get("code"));
 		try {
