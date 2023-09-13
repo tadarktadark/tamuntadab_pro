@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
@@ -22,6 +23,7 @@ import com.tdtd.tmtd.model.service.ICommUserService;
 import com.tdtd.tmtd.model.service.ISocialUserService;
 import com.tdtd.tmtd.vo.ClientVo;
 import com.tdtd.tmtd.vo.URLVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,12 +41,16 @@ public class SocialUserController {
 	@Autowired
 	private ISocialUserService socialUserService;
 	
-	//네이버 유저 전용
+	/**
+	 * 사용자가 소셜을 통해 후 Redirect 했을 때 임의로 발급한 code와 state 를 통해서 AccessToken과 RefreshToken을 받아오는 메소드
+	 * @param code 소셜에서 발급해준 code
+	 * @param state 소셜에 code를 요청 할 때 입력했던 랜덤 Number
+	 * @param session 사용자의 정보를 통해 해당 정보가 DB에 있을 경우 Session에 담아 로그인처리 해준다.
+	 * @return 
+	 */
 	@RequestMapping(value = "naverRedirect.do")
 	public String naverCallback(String code, String state,HttpSession session) {
-		log.info("naverCallback");
 		String tokenUrl = uvo.getGetNaverTokenUrl();
-		
 		try {
 			URL url = new URL(tokenUrl);
 			
@@ -71,7 +77,6 @@ public class SocialUserController {
 			int resCode = con.getResponseCode();
 			
 			BufferedReader br;
-			
 			if(resCode==200) {
 				br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 			}else {
@@ -86,31 +91,58 @@ public class SocialUserController {
 			br.close();
 			if(resCode==200) { //200일 때 정보 받아오기
 				JsonObject jsonObject = JsonParser.parseString(res.toString()).getAsJsonObject();
-				String accToken = jsonObject.get("access_token").getAsString();
-				String refToken = jsonObject.get("refresh_token").getAsString();
-				JsonObject userInfoJSON = getNaverInfo(accToken);
-				if(userInfoJSON == null) {
-					return "";
+				String accToken = jsonObject.get("access_token").getAsString(); //액세스 토큰 받아오기
+				String refToken = jsonObject.get("refresh_token").getAsString();//리프레쉬 토큰 받아오기
+				JsonObject userInfoJSON = getNaverInfo(accToken);//엑세스 토큰을 이용해 정보를 받아오기
+				if(userInfoJSON == null) {//받아온 정보가 없을 때 에러페이지로 보내기
+					return "redirect:/";
 				}
 				
-				Map<String,String> userinfo = JSONToMap(userInfoJSON, "N",refToken);
+				Map<String,String> userinfo = JSONToMap(userInfoJSON,"N",refToken); //받아온 JSON 값을 MAP으로 바꾸기
 				Boolean isc = commUserService.searchEmailService(userinfo);//이메일에 대한 정보가 있는지 확인한다.
 				if(isc) {
-					System.out.println("가입 정보 있음");
-				}else{//가입정보가 없을 때 해당 메일로 조회된 정보를 가져와 파싱 해해서 맵에 넣어준다..
+					//이메일에 대한 정보를 받아와 만약 그 정보가 있을 경우 조회된 정보를 바탕으로 user정보를 받아온다.
+					UserProfileVo uservo = socialUserService.socialLogin(userinfo);
+					//해당 유저의 refresh토큰이 다를 경우
+					if(!uservo.getUserRefreshToken().equals(userinfo.get("userRefreshToken"))) {
+						//리프레쉬 토큰을 갱신해준다.
+						socialUserService.updateRefToken(userinfo);
+					}
+					//사용자의 정지 여부 판단하기
+					int cnt = commUserService.searchJeongJi(uservo);
+					if(cnt!=0) {
+						//정지 상태일 경우 어떤 처리를 해준다.
+						log.info("정지 상태임");
+					}
+					//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
+					session.setAttribute("userInfo", uservo);
+					return "redirect:/";
+				}else{
+					//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
 					int n = socialUserService.naverRegist(userinfo);
 					if(n >0) {
-						System.out.println("회원가입 성공");
+						//insert에 성공 했을 경우 해당 유저의 정보를 받아온다.
+						UserProfileVo uservo = socialUserService.socialLogin(userinfo);
+						//세션에 정보 저장 후
+						session.setAttribute("userInfo", uservo);
+						//메인으로 이동
+						return "redirect:/";
 					}
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "";
+		//토큰 받아오기를 실패 했을 경우 에러페이지로 이동
+		return "redirect:/";
 	}
 	
-	public JsonObject getNaverInfo(String accToken) { // 토큰을 이용해 해당 토큰에 정보를 가져온다.
+	/**
+	 * 사용자의 Accesstoken을 이용해 사용자의 정보를 받아오는 리턴해주는 메소드
+	 * @param accToken 사용자의 정보에 접근하기 위한 accessToken
+	 * @return jsonObject 사용자의 정보가 담긴 JSONObject
+	 */
+	public JsonObject getNaverInfo(String accToken) {
 		try {
 			URL url = new URL(uvo.getGetNaverInfo());
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -139,9 +171,15 @@ public class SocialUserController {
 		return null;
 	}
 	
+	/**
+	 * 사용자가 소셜을 통해 후 Redirect 했을 때 임의로 발급한 code와 state 를 통해서 AccessToken과 RefreshToken을 받아오는 메소드
+	 * @param code 소셜에서 발급해준 code
+	 * @param state 소셜에 code를 요청 할 때 입력했던 랜덤 Number
+	 * @param session 사용자의 정보를 통해 해당 정보가 DB에 있을 경우 Session에 담아 로그인처리 해준다.
+	 * @return 
+	 */
 	@RequestMapping(value = "kakaoRedirect.do")
 	public String kakaoCallback(String code, String state, HttpSession session) {
-		
 		try {
 			URL url = new URL(uvo.getGetKakaoTokenUrl());
 			 HttpURLConnection kakaoConn = (HttpURLConnection) url.openConnection();
@@ -182,19 +220,55 @@ public class SocialUserController {
 					String accToken = jsonObject.get("access_token").getAsString();
 					String refToken = jsonObject.get("refresh_token").getAsString();
 					JsonObject kakaoinfo = getKakaoInfo(accToken);
-//					log.info(kakaoinfo.toString());
-					Map<String,String> userinfo = JSONToMap(kakaoinfo,"K",refToken);
 					
-					System.out.println(userinfo.toString());
-					
+					if(kakaoinfo==null) {
+						return "";
+					}
 					kakaoConn.disconnect();
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
-		    return "";
-		}	 
-	
-		public JsonObject getKakaoInfo(String accToken) {
+					Map<String,String> userinfo = JSONToMap(kakaoinfo,"K",refToken);
+					Boolean isc = commUserService.searchEmailService(userinfo);//이메일에 대한 정보가 있는지 확인한다.
+					if(isc) {
+						//이메일에 대한 정보를 받아와 만약 그 정보가 있을 경우 조회된 정보를 바탕으로 user정보를 받아온다.
+						UserProfileVo uservo = socialUserService.socialLogin(userinfo);
+						//해당 유저의 refresh토큰이 다를 경우
+						if(!uservo.getUserRefreshToken().equals(userinfo.get("userRefreshToken"))) {
+							//리프레쉬 토큰을 갱신해준다.
+							socialUserService.updateRefToken(userinfo);
+						}
+						//사용자의 정지 여부 판단하기
+						int cnt = commUserService.searchJeongJi(uservo);
+						if(cnt!=0) {
+							//정지 상태일 경우 어떤 처리를 해준다.
+							log.info("정지 상태임");
+						}
+						//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
+						session.setAttribute("userInfo", uservo);
+						return "redirect:/";
+					}else{
+						//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
+						int n = socialUserService.kakaoRegist(userinfo);
+						if(n >0) {
+							//insert에 성공 했을 경우 해당 유저의 정보를 받아온다.
+							UserProfileVo uservo = socialUserService.socialLogin(userinfo);
+							//세션에 정보 저장 후
+							session.setAttribute("userInfo", uservo);
+							//메인으로 이동
+							return "redirect:/";
+						}
+					}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//토큰 받아오기를 실패 했을 경우 에러페이지로 이동
+			return "redirect:/";
+		}
+					
+		/**
+	 * 사용자의 Accesstoken을 이용해 사용자의 정보를 받아오는 리턴해주는 메소드
+	 * @param accToken 사용자의 정보에 접근하기 위한 accessToken
+	 * @return jsonObject 사용자의 정보가 담긴 JSONObject
+	 */
+	public JsonObject getKakaoInfo(String accToken) {
 			try {
 				URL url = new URL(uvo.getGetKakaorInfo());
 				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -222,7 +296,61 @@ public class SocialUserController {
 			return null;
 		}
 		
+	@RequestMapping(value="/googleRedirect.do")
+	public String googleCallback(String code,String state, Model mode) {
 		
+		try {
+			URL url = new URL(uvo.getGetGoogleTokenUrl());
+			HttpURLConnection googleConn = (HttpURLConnection)url.openConnection();
+			googleConn.setRequestMethod("POST");
+			googleConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			googleConn.setDoOutput(true);
+			
+			String postData="grant_type=authorization_code"
+	                + "&client_id=" + cvo.getGoogleClientID()
+	                + "&redirect_uri=" + uvo.getGoogleRedirect()
+	                + "&code=" + code
+	                + "&state="+state
+	                + "&client_secret=" + cvo.getGoogleSecretCode();
+			 try (OutputStream os = googleConn.getOutputStream()) {
+		            byte[] input = postData.getBytes("UTF-8");
+		            os.write(input, 0, input.length);
+		        }
+			 
+			   int responseCode = googleConn.getResponseCode();
+		        BufferedReader br;
+			      if (responseCode == 200) { // 정상 호출
+			        br = new BufferedReader(new InputStreamReader(googleConn.getInputStream(),"UTF-8"));
+			      } else {  // 에러 발생
+			        br = new BufferedReader(new InputStreamReader(googleConn.getErrorStream(),"UTF-8"));
+			      }
+			      String inputLine;
+			      StringBuilder res = new StringBuilder();
+			      while ((inputLine = br.readLine()) != null) {
+			        res.append(inputLine);
+			      }
+			      br.close();
+			      if (responseCode == 200) {
+			    		JsonObject jsonObject = JsonParser.parseString(res.toString()).getAsJsonObject();
+						String accToken = jsonObject.get("access_token").getAsString();
+						String refToken = jsonObject.get("id_token").getAsString();
+						log.info("####\n{}",res.toString());
+			    	 }
+			      googleConn.disconnect();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/";//errorpage
+	}
+	
+		
+		/**
+		 * 
+		 * @param obj 사용자의 정보가 담겨있는 JSON Object
+		 * @param site 사용자의 정보를 받아온 소셜 사이트
+		 * @param refToken 사용자의 refreshToken
+		 * @return Map 사용자의 정보를 Map으로 변환함
+		 */
 		public Map<String,String> JSONToMap(JsonObject obj , String site,String refToken){
 			Map<String,String> userinfo = new HashMap<String, String>();
 			if(site.equals("N")) {
@@ -245,13 +373,16 @@ public class SocialUserController {
 				
 				userinfo.put("userName", obj.getAsJsonObject("kakao_account").get("name").getAsString());
 				
-				userinfo.put("userGender", obj.getAsJsonObject("kakao_account").get("gender").getAsString());
-			
+				if(obj.getAsJsonObject("kakao_account").get("gender").getAsString().equals("male")) {
+					userinfo.put("userGender","M" );
+				}else {
+					userinfo.put("userGender","F" );
+				}
 				userinfo.put("userBirth", (obj.getAsJsonObject("kakao_account").get("birthyear").getAsString())+"-"
 						+(obj.getAsJsonObject("kakao_account").get("birthday").getAsString().substring(0,2)+"-")
 						+(obj.getAsJsonObject("kakao_account").get("birthday").getAsString().substring(2,4)));
 				userinfo.put("userPhoneNumber", (obj.getAsJsonObject("kakao_account").get("phone_number").getAsString()).replace("+82","0").replace("-","").replace(" ",""));
-				userinfo.put("userProfileFile", obj.getAsJsonObject("kakao_account").get("profile_image_url").getAsString());
+				userinfo.put("userProfileFile", obj.getAsJsonObject("properties").get("profile_image").getAsString());
 			}else if(site.equals("G")) {
 				
 			}

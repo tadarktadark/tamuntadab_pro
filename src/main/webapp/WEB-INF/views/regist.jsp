@@ -467,7 +467,7 @@
 										            </a>
 										            
 										            <!-- 구글 -->
-										            <a>
+										            <a href ="<%=uvo.getGoogleUrl()+"?response_type=code&scope=profile%20email&access_type=offline"+"&client_id="+cvo.getGoogleClientID()+"&redirect_uri="+uvo.getGoogleRedirect()+"&state="+state%>">
 										            <button type="button" class="btn btn-ghost-dark btn-icon" id="googleRegist" 
 										            style="background-image: url('./image/google_icon.png'); background-repeat: no-repeat; background-size: cover; "></button>
 										            </a>

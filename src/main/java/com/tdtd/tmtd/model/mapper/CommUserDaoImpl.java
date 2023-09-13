@@ -20,14 +20,17 @@ public class CommUserDaoImpl implements ICommUserDao {
 	public Boolean emailCheck(Map<String,String> map) {
 		return sqlSession.selectOne(NS+"searchEmail",map);
 	}
-
 	@Override
-	public Boolean searchNickName(String userNickName) {
+	public boolean searchNickName(String userNickName) {
 		return sqlSession.selectOne(NS+"searchNickName",userNickName);
 	}
 
 	@Override
 	public int registCommUser(Map<String,Object> userprofile) {
 		return sqlSession.insert(NS+"commRegist",userprofile);
+	}
+	@Override
+	public int searchJeongJi(UserProfileVo userInfo) {
+		return sqlSession.selectOne(NS+"searchJeongJi",userInfo);
 	}
 }

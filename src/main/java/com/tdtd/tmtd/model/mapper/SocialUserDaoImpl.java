@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.UserProfileVo;
+
 @Repository
 public class SocialUserDaoImpl implements ISocialUserDao {
 	
@@ -20,13 +22,23 @@ public class SocialUserDaoImpl implements ISocialUserDao {
 	}
 
 	@Override
-	public int registKakaoUser(Map<String, Object> userProfile) {
+	public int registKakaoUser(Map<String, String> userProfile) {
 		return sqlSession.insert(NS+"kakaoRegist",userProfile);
 	}
 
 	@Override
-	public int registGoogleUser(Map<String, Object> userProfile) {
+	public int registGoogleUser(Map<String, String> userProfile) {
 		return sqlSession.insert(NS+"googleRegist",userProfile);
+	}
+
+	@Override
+	public int updateRefToken(Map<String, String> userProfile) {
+		return sqlSession.update(NS+"updateRefreshToken",userProfile);
+	}
+
+	@Override
+	public UserProfileVo SocialLogin(Map<String, String> userProfile) {
+		return sqlSession.selectOne(NS+"socialLogin",userProfile);
 	}
 
 }

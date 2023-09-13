@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.SocialUserDaoImpl">
-
+	
+	<resultMap type="userProfileVo" id="userProfileMap">
+		<result column="USER_ACCOUNT_ID" property="userAccountId"/>
+		<result column="USER_EMAIL" property="userEmail"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="USER_NICKNAME" property="userNickname"/>
+		<result column="USER_AUTH" property="userAuth"/>
+		<result column="USER_PHONE_NUMBER" property="userPhoneNumber"/>
+		<result column="USER_REFRESH_TOKEN" property="userRefreshToken"/>
+		<result column="USER_GENDER" property="userGender"/>
+		<result column="USER_SITE" property="userSite"/>
+		<result column="USER_BIRTH" property="userBirth"/>
+		<result column="USER_PROFILE_FILE" property="userProfileFile"/>
+		<result column="USER_DELFLAG" property="userDelflag"/>
+	</resultMap>
 	<!-- 	NOTE [소셜 회원관리 : 네이버 가입 유저 회원 등록 쿼리] -->
 	<insert id="naverRegist" parameterType="java.util.Map">
 	INSERT INTO NAVER_USER_PROFILE nup2
@@ -67,8 +81,8 @@
 					 UNION 
 					 SELECT USER_ACCOUNT_ID FROM GOOGLE_USER_PROFILE gup)))),
 		 CURRENT_DATE , CURRENT_DATE , #{userGender}, 
-		 #{userBirth}, #{userPhoneNumber}, 'N' , 
-		 'N' , #{userProfileFile}, 'K')
+		 TO_DATE(#{userBirth},'YYYY-MM-DD'), #{userPhoneNumber}, #{site} ,
+		 'N' , #{userProfileFile}, 'S')
 	</insert>
 	<!-- 	NOTE [소셜 회원관리 : 구글 가입 유저 회원 등록 쿼리] -->
 	<insert id="googleRegist" parameterType="java.util.Map">
@@ -104,9 +118,44 @@
 		 #{userBirth}, #{userPhoneNumber}, 'N' , 
 		 'N' , #{userProfileFile}, 'G')
 	</insert>
-	
-<!-- 	NOTE [소셜 회원관리 : ] -->
-	<update id="">
-	
+	<!-- NOTE [소셜 회원관리 : 해당 사용자의 RefreshToken을 갱신 해주는 쿼리 ] -->
+	<update id="updateRefreshToken">
+		UPDATE 
+			<choose>
+				<when test='site == "N"'>
+					NAVER_USER_PROFILE
+				</when>
+				
+				<when test='site == "K"'>
+					KAKAO_USER_PROFILE
+				</when>
+				
+				<when test='site == "G"'>
+					GOOGLE_USER_PROFILE
+				</when>
+				
+			</choose>
+			SET USER_REFRESH_TOKEN = #{userRefreshToken}
+			WHERE USER_EMAIL = #{userEmail}
+			AND USER_REFRESH_TOKEN != #{userRefreshToken}
 	</update>
+
+	<!-- NOTE[소셜 회원관리 : 로그인 시 사용자의 정보를 가져오는 쿼리 -->
+	<select id="socialLogin" resultMap="userProfileMap">
+	SELECT USER_ACCOUNT_ID , USER_EMAIL, USER_NAME, USER_NICKNAME, USER_AUTH, USER_PHONE_NUMBER, USER_REFRESH_TOKEN, USER_GENDER, USER_SITE,USER_BIRTH,USER_DELFLAG,
+		<![CDATA['<img id=profile_img src='''||]]>USER_PROFILE_FILE <![CDATA[||''' alt='''||USER_NICKNAME||'님의 프로필사진''></img>']]>AS USER_PROFILE_FILE
+			<choose>
+				<when test='site == "N"'>
+			 		FROM NAVER_USER_PROFILE
+				</when>
+				<when test='site == "K"'>
+			 		FROM KAKAO_USER_PROFILE
+				</when>
+				<when test='site == "G"'>
+			 		FROM GOOGLE_USER_PROFILE
+				</when>
+		 	</choose> 
+	 		WHERE USER_EMAIL =#{userEmail}
+ 	</select>
+ 
 </mapper>

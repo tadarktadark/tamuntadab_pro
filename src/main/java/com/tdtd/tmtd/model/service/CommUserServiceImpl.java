@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Service
 public class CommUserServiceImpl implements ICommUserService {
@@ -13,13 +14,18 @@ public class CommUserServiceImpl implements ICommUserService {
 	@Autowired
 	private ICommUserDao cdao;
 	
-	public boolean searchEmailService(Map<String, String> map) {
+	public Boolean searchEmailService(Map<String, String> map) {
 		return cdao.emailCheck(map);
 	}
 
 	@Override
 	public int registCommUser(Map<String, Object> userprofile) {
 		return cdao.registCommUser(userprofile);
+	}
+
+	@Override
+	public int searchJeongJi(UserProfileVo userInfo) {
+		return cdao.searchJeongJi(userInfo);
 	}
 	
 }

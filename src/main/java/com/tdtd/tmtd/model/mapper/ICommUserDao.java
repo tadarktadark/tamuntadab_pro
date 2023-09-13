@@ -28,7 +28,7 @@ public interface ICommUserDao {
 	* @author : 임정운
 	* @since : 2023.09.08
 	*/
-	public Boolean searchNickName(String userNickName);
+	public boolean searchNickName(String userNickName);
 	
 	/**
 	* NOTE 입력 값을 받아 해당 입력 값을 USER_PROFILE DB에 저장시키는 메소드
@@ -38,4 +38,11 @@ public interface ICommUserDao {
 	* @since : 2023.09.09
 	*/
 	public int registCommUser(Map<String,Object> userprofile);
+	
+	/**
+	 * NOTE 사용자의 정보를 바탕으로 해당 유저의 정지 여부를 가져오는 메소드
+	 * @param userInfo 사용자 정보가 담긴 vo
+	 * @return 정지 갯수
+	 */
+	public int searchJeongJi(UserProfileVo userInfo);
 }
