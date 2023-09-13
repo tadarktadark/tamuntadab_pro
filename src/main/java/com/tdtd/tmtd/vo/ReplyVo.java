@@ -22,4 +22,5 @@ public class ReplyVo {
 	private String chaetaek;
 	private String regdate;
 	private String update;
+	private String state; 
 }

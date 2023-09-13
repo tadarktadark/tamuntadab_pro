@@ -30,4 +30,5 @@ public class BoardVo {
 	private String regdate;
 	private String update;
 	private String delflag;
+	private String state;
 }
