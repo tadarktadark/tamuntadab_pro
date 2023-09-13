@@ -13,6 +13,12 @@ INSERT INTO TUPYO(TUPY_SEQ, TUPY_CLAS_ID, TUPY_TOTAL_USER, TUPY_STARTDATE, TUPY_
         VALUES(TUPY_SEQ.NEXTVAL,#{tupyClasId}, #{tupyTotalUser}, CURRENT_DATE , #{tupyEnddate}, 'P')
 </insert>
 
+<select id="getAllInstr" parameterType="Integer" resultType="chamyeoVo">
+SELECT CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL 
+	FROM CLASS_CHAMYEOJA cc 
+	WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_YEOKAL ='I'
+</select>
+
 <select id="getTupyo" parameterType="java.lang.Integer" resultType="tupyoVo">
 SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TO_CHAR(TUPY_STARTDATE,'YYYY-MM-DD')  ,TO_CHAR(TUPY_ENDDATE,'YYYY-MM-DD') ,TUPY_STATUS
         FROM TUPYO t
