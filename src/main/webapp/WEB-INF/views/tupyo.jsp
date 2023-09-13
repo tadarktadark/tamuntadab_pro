@@ -20,6 +20,7 @@
 				<input name="agreeTupyoOptionSeq" type="hidden" value="${lists[0].tuopSeq}">
 				<input name="tupyoSeq" type="hidden" value="${vo.tupySeq}">
 				<input name="tupyoClassId" type="hidden" value="${vo.tupyClasId}">
+				<input name="tupyoStatus" type="hidden" value="${vo.tupyStatus}">
 				<div class="card-header" id="selectInstrTitle">
 					<b>강사님을 선택해주세요</b><br>
 				</div>
@@ -47,15 +48,14 @@
 						        반대
 						    </label>
 						</div>
-						<div style="text-align: center;">
-							<button class="btn btn-primary" onclick="tupyoComplete()" style="margin-top: 10px;">선택완료</button>
-						</div>
 					</div>
 					<div id="tupyoResult" style="display: none;">
 						<canvas id="myChart"></canvas>
 					</div>
 					<div style="text-align: center;">
+						<button id="selectComplete" class="btn btn-primary" onclick="tupyoComplete()" style="margin-top: 10px;">선택완료</button>
 						<button id="reTupyo" class="btn btn-primary" onclick="reTupyo()" style="display: none;margin-top: 10px;">재투표</button>
+						<button id="finishTupyo" class="btn btn-danger" onclick="finishTupyo()" style="margin-top: 10px;">투표 종료</button>
 					</div>
 				</div>
 			</div>
