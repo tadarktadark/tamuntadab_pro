@@ -58,14 +58,18 @@
 					<div style="text-align: center;">
 						<button id="selectComplete" class="btn btn-primary" onclick="tupyoComplete()" style="margin-top: 10px;">선택완료</button>
 						<button id="reTupyo" class="btn btn-primary" onclick="reTupyo()" style="display: none;margin-top: 10px;">재투표</button>
+						<c:if test="${isMaster eq 'true'}">
 						<button id="finishTupyo" class="btn btn-danger" onclick="finishTupyo()" style="margin-top: 10px;">투표 종료</button>
+						</c:if>
 					</div>
 				</div>
 			</div>
 		</c:when>
 		<c:otherwise>
 			<div class="card">
+				<c:if test="${isMaster eq 'true'}">
 				<button id="makeTupyo" class="btn btn-primary" onclick="makeTupyo()">투표 생성하기</button>
+				</c:if>
 			</div>
 		</c:otherwise>
 		</c:choose>
