@@ -9,7 +9,7 @@ public class URLVo {
 	//oAuth접근 URL
 	private String naverUrl="https://nid.naver.com/oauth2.0/authorize?response_type=code";
 	private String kakaoUrl="https://kauth.kakao.com/oauth/authorize?response_type=code";
-	private String googleUrl="https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=profile%20email&access_type=offline";
+	private String googleUrl="https://accounts.google.com/o/oauth2/auth";
 	
 	//리다이렉트 URL
 	private String naverRedirect = "http://localhost:8090/tamuntadab_pro/naverRedirect.do";

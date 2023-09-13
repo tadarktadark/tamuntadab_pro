@@ -33,7 +33,7 @@ public class UserProfileVo {
 	private String userBirth;
 	private String userProfileFile;
 	private String userDelflag;
-	private int userChadanCount;
+	private String userChadanCount;
 	private String userChadanRegistDate;
 }
 

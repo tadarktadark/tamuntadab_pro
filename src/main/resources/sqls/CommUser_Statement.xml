@@ -20,7 +20,7 @@
 				FROM GOOGLE_USER_PROFILE
 			</when>
 		</choose>
-				WHERE USER_EMAIL =#{userEmail}
+				WHERE USER_EMAIL=#{userEmail}
 	</select>
 	
 	
@@ -43,7 +43,7 @@
 			WHERE USER_NICKNAME=#{userNickname}
 	</select>
 	
-<!-- 	NOTE [회원관리 : 일반유저 회원등록 쿼리] -->
+	<!--NOTE [회원관리 : 일반유저 회원등록 쿼리] -->
 	<insert id="commRegist" parameterType="java.util.Map">
 			INSERT INTO USER_PROFILE
 			 (USER_ACCOUNT_ID, 
@@ -78,4 +78,13 @@
 				 CURRENT_DATE,CURRENT_DATE , #{userGender}, 
 				 'T', #{userBirth}, '기본경로 잡아주기' , 'N')
 	</insert>
+
+	<!-- NOTE [회원관리 : 해당 USERID를 이용해 정지여부 판단]-->
+	<select id="searchJeongJi" resultType="java.lang.Integer">
+		SELECT COUNT(USJE_JEONGJI_SANGTAE)
+			 FROM USER_JEONGJI uj 
+			 WHERE USJE_ACCOUNT_ID = #{userAccountId}
+			 AND NOT USJE_JEONGJI_SANGTAE IN ('N')
+	</select>
+	
 </mapper>

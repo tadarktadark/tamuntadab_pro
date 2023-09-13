@@ -122,5 +122,10 @@ public class UserController {
 		return "registform";
 	}
 	
+	@RequestMapping(value="/mypage.do")
+	public String mypage() {
+		return "myPage";
+	}
+	
 	
 }
