@@ -115,8 +115,8 @@
 						 UNION 
 						 SELECT USER_ACCOUNT_ID FROM GOOGLE_USER_PROFILE gup)))),
 		 CURRENT_DATE , CURRENT_DATE , #{userGender}, 
-		 #{userBirth}, #{userPhoneNumber}, 'N' , 
-		 'N' , #{userProfileFile}, 'G')
+		 TO_DATE(#{userBirth},'YYYY-MM-DD'), #{userPhoneNumber}, #{site} , 
+		 'N' , #{userProfileFile}, 'S')
 	</insert>
 	<!-- NOTE [소셜 회원관리 : 해당 사용자의 RefreshToken을 갱신 해주는 쿼리 ] -->
 	<update id="updateRefreshToken">

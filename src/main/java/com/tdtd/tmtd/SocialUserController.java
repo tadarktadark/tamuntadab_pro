@@ -11,10 +11,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -297,7 +301,7 @@ public class SocialUserController {
 		}
 		
 	@RequestMapping(value="/googleRedirect.do")
-	public String googleCallback(String code,String state, Model mode) {
+	public String googleCallback(String code,String state, Model model, HttpSession session) {
 		
 		try {
 			URL url = new URL(uvo.getGetGoogleTokenUrl());
@@ -334,7 +338,35 @@ public class SocialUserController {
 			    		JsonObject jsonObject = JsonParser.parseString(res.toString()).getAsJsonObject();
 						String accToken = jsonObject.get("access_token").getAsString();
 						String refToken = jsonObject.get("id_token").getAsString();
-						log.info("####\n{}",res.toString());
+						JsonObject googleinfo = getGoogleInfo(accToken);
+						log.info("{}",googleinfo);
+						if(googleinfo==null) {
+							return "";
+						}
+						Map<String,String> userinfo = JSONToMap(googleinfo,"G",refToken);
+						Boolean isc = commUserService.searchEmailService(userinfo);//이메일에 대한 정보가 있는지 확인한다.
+						if(isc) {
+							//이메일에 대한 정보를 받아와 만약 그 정보가 있을 경우 조회된 정보를 바탕으로 user정보를 받아온다.
+							UserProfileVo uservo = socialUserService.socialLogin(userinfo);
+							//해당 유저의 refresh토큰이 다를 경우
+							if(!uservo.getUserRefreshToken().equals(userinfo.get("userRefreshToken"))) {
+								//리프레쉬 토큰을 갱신해준다.
+								socialUserService.updateRefToken(userinfo);
+							}
+							//사용자의 정지 여부 판단하기
+							int cnt = commUserService.searchJeongJi(uservo);
+							if(cnt!=0) {
+								//정지 상태일 경우 어떤 처리를 해준다.
+								log.info("정지 상태임");
+							}
+							//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
+							session.setAttribute("userInfo", uservo);
+							return "redirect:/";
+						}else{
+							//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
+							model.addAttribute("userInfo",userinfo);
+							return "registGoogle";
+						}
 			    	 }
 			      googleConn.disconnect();
 		} catch (IOException e) {
@@ -343,7 +375,48 @@ public class SocialUserController {
 		return "redirect:/";//errorpage
 	}
 	
-		
+	public JsonObject getGoogleInfo(String accToken) {
+		try {
+			URL url = new URL(uvo.getGetGoogleInfo());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Authorization", "Bearer "+accToken);
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			
+			int responseCode = conn.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = br.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                br.close();
+                
+                return JsonParser.parseString(response.toString()).getAsJsonObject();
+            } else {
+                System.out.println("Error: Response code " + responseCode);
+            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/GoogleRegist.do",method=RequestMethod.POST)
+	public String googleRegist(@RequestParam Map<String, String> userProfile, HttpSession session) {
+		log.info("{}",userProfile.toString());
+		int n = socialUserService.googleRegist(userProfile);
+		if(n>0) {
+			UserProfileVo uservo = socialUserService.socialLogin(userProfile);
+			session.setAttribute("userInfo", uservo);
+			return "redirect : /";
+		}else {
+			return "redirect : /";//에러처리하기
+		}
+	}
+	
 		/**
 		 * 
 		 * @param obj 사용자의 정보가 담겨있는 JSON Object
@@ -384,7 +457,11 @@ public class SocialUserController {
 				userinfo.put("userPhoneNumber", (obj.getAsJsonObject("kakao_account").get("phone_number").getAsString()).replace("+82","0").replace("-","").replace(" ",""));
 				userinfo.put("userProfileFile", obj.getAsJsonObject("properties").get("profile_image").getAsString());
 			}else if(site.equals("G")) {
-				
+				userinfo.put("site","G");
+				userinfo.put("userName", obj.get("name").getAsString());
+				userinfo.put("userEmail", obj.get("email").getAsString());
+				userinfo.put("userProfileFile", obj.get("picture").getAsString());
+				userinfo.put("userRefreshToken", refToken);
 			}
 			return userinfo;
 		}
