@@ -45,4 +45,16 @@ public interface ICommUserDao {
 	 * @return 정지 갯수
 	 */
 	public int searchJeongJi(UserProfileVo userInfo);
+	
+	public UserProfileVo commLogin(Map<String,String> userInput);
+	
+	public int updateChadanCnt(String userEmail);
+	
+	public int checkUserChadanCount(String userEmail);
+	
+	public int updateUserChadanDate(String userEmail);
+	
+	public String checkUserChadanDate(String userEmail);
+	
+	public int restoreUserChadanDate(String userEmail);
 }
