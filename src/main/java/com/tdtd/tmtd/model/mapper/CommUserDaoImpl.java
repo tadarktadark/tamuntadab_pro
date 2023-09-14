@@ -33,4 +33,32 @@ public class CommUserDaoImpl implements ICommUserDao {
 	public int searchJeongJi(UserProfileVo userInfo) {
 		return sqlSession.selectOne(NS+"searchJeongJi",userInfo);
 	}
+	@Override
+	public UserProfileVo commLogin(Map<String, String> userInput) {
+		return sqlSession.selectOne(NS+"commLogin",userInput);
+	}
+	@Override
+	public int updateChadanCnt(String userEmail) {
+		return sqlSession.update(NS+"updatechadanCnt",userEmail);
+	}
+	@Override
+	public int checkUserChadanCount(String userEmail) {
+		return sqlSession.selectOne(NS+"checkUserChadanCount",userEmail);
+	}
+	@Override
+	public int updateUserChadanDate(String userEmail) {
+		return sqlSession.update(userEmail);
+	}
+	@Override
+	public String checkUserChadanDate(String userEmail) {
+		return sqlSession.selectOne(NS+"checkUserChadanDate",userEmail);
+	}
+	@Override
+	public int restoreUserChadanDate(String userEmail) {
+		return sqlSession.update(NS+"restoreUserChadanDate",userEmail);
+	}
+	
+	
+
+	
 }

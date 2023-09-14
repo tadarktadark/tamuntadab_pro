@@ -44,7 +44,6 @@ public class UserController {
 	@Autowired
 	private ICommUserService commUserService;
 	
-	
 	@Autowired
 	private JavaMailSender mailsender;
 	
@@ -53,10 +52,13 @@ public class UserController {
 		return "loginForm";
 	}
 	@RequestMapping(value="login.do", method=RequestMethod.POST)
-	public String login(@RequestParam Map<String, Object> map) {
-		log.info("map: {}",map);
-		
-		return "";
+	@ResponseBody
+	public String login(@RequestParam Map<String, String> map, HttpSession session) {
+		Map<String,Object>  result = commUserService.commLogin(map);
+		if(result.get("status").equals("success")) {
+			session.setAttribute("userInfo", result.get("userInfo"));
+		}
+		return result.toString();
 	}
 	
 	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
