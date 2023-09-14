@@ -1,6 +1,9 @@
 package com.tdtd.tmtd.vo;
 
-import java.util.Date;
+
+
+
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +26,7 @@ public class TupyoVo {
 	private Date tupyStartdate;
 	private Date tupyEnddate;
 	private String tupyStatus;
+	
+
 
 }
