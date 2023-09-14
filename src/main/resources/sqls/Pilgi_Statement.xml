@@ -1,4 +1,375 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.PilgiDaoImpl">
+
+	<!-- 필기 조회가능한 게시글 개수 -->
+	<select id="getPilgiCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM (SELECT PIBO_ID
+					FROM PILGI_BOARD
+					WHERE PIBO_STATE IN ('N', 'P')
+						AND PIBO_VIEW_GROUP = 'C'
+						AND PIBO_CLAS_ID IN (SELECT CLCH_CLAS_ID
+												FROM CLASS_CHAMYEOJA
+												WHERE CLCH_ACCOUNT_ID=#{accountId})
+				UNION ALL
+				SELECT PIBO_ID
+					FROM PILGI_BOARD
+					WHERE PIBO_STATE IN ('N', 'P')
+						AND PIBO_VIEW_GROUP = 'A')
+	</select>
+	
+	<!-- 필기 목록 조회(정렬) -->
+	<select id="getPilgiList" resultType="boardVo">
+		SELECT ID, WRITER_ID , TITLE, REPLY_COUNT, CLAS_SUBJECT_JEONGBO AS SUBJECT_CODE, LIKE_USER, LIKE_COUNT, VIEW_COUNT, REGDATE ,PIBO_STATE AS STATE
+			FROM (SELECT ID, WRITER_ID , TITLE, REPLY_COUNT, PIBO_CLAS_ID, LIKE_USER, LIKE_COUNT, VIEW_COUNT, REGDATE,PIBO_STATE,
+					<choose>
+						<when test='"like".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY LIKE_COUNT DESC, ID DESC) rn					
+						</when>
+						<when test='"view".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY VIEW_COUNT DESC, ID DESC) rn											
+						</when>
+						<when test='"reply".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY REPLY_COUNT DESC, ID DESC) rn																	
+						</when>
+						<otherwise>
+							ROW_NUMBER() OVER(ORDER BY ID DESC) rn					
+						</otherwise>
+					</choose>
+					FROM (SELECT PIBO_ID AS ID, USER_NICKNAME AS WRITER_ID , CLAS_TITLE || ' [' || PIBO_REPLY_COUNT || ']' AS TITLE, 
+								PIBO_REPLY_COUNT AS REPLY_COUNT, PIBO_CLAS_ID, 
+								CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+								PIBO_LIKE_COUNT AS LIKE_COUNT, PIBO_VIEW_COUNT AS VIEW_COUNT, 
+								CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI') ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE,
+								PIBO_STATE
+							FROM PILGI_BOARD JOIN USER_PROFILE 
+							ON PIBO_WRITER_ID = USER_ACCOUNT_ID 
+							JOIN CLASS
+							ON PIBO_CLAS_ID = CLAS_ID
+							WHERE PIBO_STATE IN ('N', 'P')
+								AND PIBO_VIEW_GROUP = 'C'
+								AND PIBO_CLAS_ID IN (SELECT CLCH_CLAS_ID
+														FROM CLASS_CHAMYEOJA
+														WHERE CLCH_ACCOUNT_ID=#{accountId})
+						UNION ALL
+						SELECT PIBO_ID AS ID, USER_NICKNAME AS WRITER_ID , CLAS_TITLE || ' [' || PIBO_REPLY_COUNT || ']' AS TITLE, 
+								PIBO_REPLY_COUNT AS REPLY_COUNT, PIBO_CLAS_ID, 
+								CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+								PIBO_LIKE_COUNT AS LIKE_COUNT, PIBO_VIEW_COUNT AS VIEW_COUNT, 
+								CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE,
+								PIBO_STATE
+							FROM PILGI_BOARD JOIN USER_PROFILE 
+							ON PIBO_WRITER_ID = USER_ACCOUNT_ID 
+							JOIN CLASS
+							ON PIBO_CLAS_ID = CLAS_ID
+							WHERE PIBO_STATE IN ('N', 'P')
+								AND PIBO_VIEW_GROUP = 'A'))
+			JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+								     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+								     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+											FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																     JOIN SUBJECT_TAG s1 
+																     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+													FROM SUBJECT)) s 
+								     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+					FROM CLASS)
+			ON PIBO_CLAS_ID = CLAS_ID
+			WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 필기 상세 조회 -->
+	<select id="getPilgiDetail" resultType="boardVo">
+		SELECT PIBO_ID AS ID, USER_NICKNAME AS WRITER_ID , CLAS_TITLE || ' [' || PIBO_REPLY_COUNT || ']' AS TITLE, 
+			PIBO_CONTENT AS CONTENT, PIBO_REPLY_COUNT AS REPLY_COUNT, c2.CLAS_SUBJECT_JEONGBO AS SUBJECT_CODE, 
+			CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+			PIBO_LIKE_COUNT AS LIKE_COUNT, PIBO_VIEW_COUNT AS VIEW_COUNT, 
+			CASE WHEN PIBO_CLAS_ID IN (SELECT CLCH_CLAS_ID
+									FROM CLASS_CHAMYEOJA
+									WHERE CLCH_ACCOUNT_ID=#{accountId}) THEN '1' ELSE '0' END AS DOWNLOAD_GROUP,
+			CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+			CASE TO_CHAR(PIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE",
+			PIBO_STATE AS STATE
+		FROM PILGI_BOARD JOIN USER_PROFILE 
+		ON PIBO_WRITER_ID = USER_ACCOUNT_ID 
+		JOIN CLASS c1
+		ON PIBO_CLAS_ID = c1.CLAS_ID
+		JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+							     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+							     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+										FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+															     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+															     JOIN SUBJECT_TAG s1 
+															     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+												FROM SUBJECT)) s 
+							     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+				FROM CLASS) c2
+		ON PIBO_CLAS_ID = c2.CLAS_ID
+		WHERE PIBO_ID=#{id}
+	</select>
+	
+	<!-- 연관 필기/질문 목록 조회 -->
+	<select id="getYeongwanList" resultType="boardVo">
+		SELECT ID, TITLE
+			FROM (SELECT PIBO_ID AS ID, CLAS_TITLE AS TITLE, 
+							PIBO_STATE
+						FROM PILGI_BOARD JOIN USER_PROFILE 
+						ON PIBO_WRITER_ID = USER_ACCOUNT_ID 
+						JOIN CLASS
+						ON PIBO_CLAS_ID = CLAS_ID
+						WHERE PIBO_STATE = 'N'
+							AND PIBO_VIEW_GROUP = 'C'
+							AND PIBO_CLAS_ID IN (SELECT CLCH_CLAS_ID
+													FROM CLASS_CHAMYEOJA
+													WHERE CLCH_ACCOUNT_ID=#{accountId})
+					UNION ALL
+					SELECT PIBO_ID AS ID, CLAS_TITLE AS TITLE, 
+							PIBO_STATE
+						FROM PILGI_BOARD JOIN USER_PROFILE 
+						ON PIBO_WRITER_ID = USER_ACCOUNT_ID 
+						JOIN CLASS
+						ON PIBO_CLAS_ID = CLAS_ID
+						WHERE PIBO_STATE = 'N'
+							AND PIBO_VIEW_GROUP = 'A')
+			WHERE ID IN (SELECT p2.PIBO_ID
+								FROM (SELECT PIBO_ID, CLAS_SUBJECT_JEONGBO
+										FROM PILGI_BOARD
+										JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+															     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+															     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+																		FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																							     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																							     JOIN SUBJECT_TAG s1 
+																							     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+																				FROM SUBJECT)) s 
+															     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+												FROM CLASS)
+										ON PIBO_CLAS_ID = CLAS_ID
+										WHERE PIBO_ID =#{id}) p1
+								LEFT OUTER JOIN (SELECT #{id} AS JOIN_ID, PIBO_ID, CLAS_SUBJECT_JEONGBO
+													FROM PILGI_BOARD
+													JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+																		     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+																		     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+																					FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																										     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																										     JOIN SUBJECT_TAG s1 
+																										     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+																							FROM SUBJECT)) s 
+																		     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+															FROM CLASS)
+													ON PIBO_CLAS_ID = CLAS_ID
+													WHERE NOT PIBO_ID =#{id}) p2
+								ON p1.PIBO_ID = JOIN_ID
+								WHERE UTL_MATCH.EDIT_DISTANCE_SIMILARITY(p2.CLAS_SUBJECT_JEONGBO, p1.CLAS_SUBJECT_JEONGBO) > 80
+							UNION
+							SELECT PIBO_ID
+								FROM PILGI_BOARD
+								WHERE PIBO_CLAS_ID IN (SELECT PIBO_CLAS_ID
+															FROM PILGI_BOARD
+															WHERE PIBO_ID=#{id}))
+				<![CDATA[AND ROWNUM < 5]]>
+	</select>
+	
+	<!-- 필기 좋아요 조회 -->
+	<select id="getPilgiLikeUser" resultType="java.lang.String">
+		SELECT PIBO_LIKE_USER AS LIKE_USER
+			FROM PILGI_BOARD
+			WHERE PIBO_ID=#{id}
+	</select>
+	
+	<!-- 필기 좋아요 업데이트 -->
+	<update id="updatePilgiLikeUser">
+		UPDATE PILGI_BOARD SET PIBO_LIKE_USER = #{likeUser}, PIBO_LIKE_COUNT = PIBO_LIKE_COUNT+1
+			WHERE PIBO_ID=#{id}
+	</update>
+	
+	<!-- 필기 조회수 조회 -->
+	<select id="getPilgiViewUser" resultType="java.lang.String">
+		SELECT PIBO_VIEW_USER AS VIEW_USER
+			FROM PILGI_BOARD
+			WHERE PIBO_ID=#{id}
+	</select>
+	
+	<!-- 필기 조회수 업데이트 -->
+	<update id="updatePilgiViewUser">
+		UPDATE PILGI_BOARD SET PIBO_VIEW_USER = #{viewUser}, PIBO_VIEW_COUNT = PIBO_VIEW_COUNT+1
+			WHERE PIBO_ID=#{id}
+	</update>
+	
+	<!-- (마이페이지)내가 쓴 필기 개수 -->
+	<select id="getMyPilgiCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM PILGI_BOARD
+			WHERE PIBO_WRITER_ID =#{accountId};
+	</select>
+	
+	<!-- (마이페이지)내가 쓴 필기 목록 조회 -->
+	<select id="getMyPilgiList" resultType="boardVo">
+		SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, DELFLAG, VIEW_COUNT, "UPDATE",PIBO_STATE AS STATE, SUBJECT_CODE
+			FROM (SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT, REGDATE, "UPDATE",PIBO_STATE, SUBJECT_CODE ,
+					ROW_NUMBER() OVER(ORDER BY ID DESC) rn
+					FROM (SELECT PIBO_ID AS ID, CLAS_TITLE AS TITLE, PIBO_REPLY_COUNT AS REPLY_COUNT, PIBO_LIKE_COUNT AS LIKE_COUNT, 
+								CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, PIBO_VIEW_COUNT AS VIEW_COUNT,
+								CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+								CASE TO_CHAR(PIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE",
+								PIBO_STATE, c2.CLAS_SUBJECT_JEONGBO AS SUBJECT_CODE
+							FROM PILGI_BOARD JOIN CLASS c1
+							ON PIBO_CLAS_ID = c1.CLAS_ID
+							JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+													     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+													     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+																FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																					     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																					     JOIN SUBJECT_TAG s1 
+																					     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+																		FROM SUBJECT)) s 
+													     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+									FROM CLASS) c2
+							ON PIBO_CLAS_ID = c2.CLAS_ID 
+							WHERE PIBO_WRITER_ID=#{accountId}))
+			WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- (마이페이지)좋아요한 필기 개수 -->
+	<select id="getLikePilgiCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM (SELECT PIBO_ID, PIBO_STATE, PIBO_LIKE_USER
+						FROM PILGI_BOARD
+						WHERE PIBO_VIEW_GROUP = 'A'
+					UNION ALL
+					SELECT PIBO_ID, PIBO_STATE, PIBO_LIKE_USER
+						FROM PILGI_BOARD
+						WHERE PIBO_VIEW_GROUP = 'C'
+							AND PIBO_CLAS_ID IN (SELECT CLCH_CLAS_ID
+												FROM CLASS_CHAMYEOJA
+												WHERE CLCH_ACCOUNT_ID=#{accountId})) p
+			WHERE PIBO_STATE IN ('N', 'P')
+				AND NOT JSON_VALUE(p.PIBO_LIKE_USER,'$.${accountId}') IS NULL
+	</select>
+	
+	<!-- (마이페이지)좋아요한 필기 목록 조회 -->
+	<select id="getLikePilgiList" resultType="boardVo">
+		SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT, REGDATE, "UPDATE",PIBO_STATE AS STATE, c2.CLAS_SUBJECT_JEONGBO AS SUBJECT_CODE
+			FROM (SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT, REGDATE, "UPDATE",PIBO_STATE, PIBO_CLAS_ID,
+					ROW_NUMBER() OVER(ORDER BY ID DESC) rn
+					FROM (SELECT PIBO_ID AS ID, CLAS_TITLE AS TITLE, PIBO_REPLY_COUNT AS REPLY_COUNT, PIBO_LIKE_COUNT AS LIKE_COUNT, 
+								CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.TMTD2'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, PIBO_VIEW_COUNT AS VIEW_COUNT,
+								CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+								CASE TO_CHAR(PIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE",
+								PIBO_STATE, PIBO_CLAS_ID
+							FROM PILGI_BOARD JOIN CLASS
+							ON PIBO_CLAS_ID = CLAS_ID
+							WHERE NOT JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}') IS NULL
+								AND PIBO_STATE IN ('N','P')
+								AND PIBO_VIEW_GROUP='C'
+								AND PIBO_CLAS_ID IN (SELECT CLCH_CLAS_ID
+														FROM CLASS_CHAMYEOJA
+														WHERE CLCH_ACCOUNT_ID=#{accountId})
+						UNION ALL
+						SELECT PIBO_ID AS ID, CLAS_TITLE AS TITLE, PIBO_REPLY_COUNT AS REPLY_COUNT, PIBO_LIKE_COUNT AS LIKE_COUNT, 
+								CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.TMTD2'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, PIBO_VIEW_COUNT AS VIEW_COUNT,
+								CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+								CASE TO_CHAR(PIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE",
+								PIBO_STATE, PIBO_CLAS_ID
+							FROM PILGI_BOARD JOIN CLASS
+							ON PIBO_CLAS_ID = CLAS_ID
+							WHERE NOT JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}') IS NULL
+								AND PIBO_STATE IN ('N','P')
+								AND PIBO_VIEW_GROUP='A'))
+			JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+									     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+									     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+												FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																	     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																	     JOIN SUBJECT_TAG s1 
+																	     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+														FROM SUBJECT)) s 
+									     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+					FROM CLASS) c2
+			ON PIBO_CLAS_ID = CLAS_ID
+			WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 필기 작성시 기본 정보 조회 -->
+	<select id="getPilgiClassDetail" resultType="classVo">
+		SELECT c1.CLAS_ID AS CLAS_ID,c1.CLAS_TITLE AS CLAS_TITLE, c2.CLAS_SUBJECT_JEONGBO AS CLAS_SUBJECT_JEONGBO  
+			FROM CLASS c1 JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+												     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+												     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+															FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																				     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																				     JOIN SUBJECT_TAG s1 
+																				     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+																	FROM SUBJECT)) s 
+												     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+								FROM CLASS) c2
+			ON c1.CLAS_ID = c2.CLAS_ID
+			WHERE c1.CLAS_ID=#{clasId}
+	</select>
+	
+	<!-- 필기 작성 -->
+	<insert id="insertPilgi">
+		INSERT INTO PILGI_BOARD(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, 
+						PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP)
+			VALUES((SELECT 'PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(MAX(TO_NUMBER(SUBSTR(PIBO_ID,11)))+1,4,'0')
+						FROM PILGI_BOARD
+						WHERE SUBSTR(PIBO_ID,1,10)='PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{accountId}, #{clasId}, 
+					#{content}, #{viewGroup}, #{downloadGroup})
+	</insert>
+	
+	<!-- 필기 임시저장 -->
+	<insert id="insertPilgiImsi">
+		INSERT INTO PILGI_IMSIJEOJANG(PIIM_SEQ, PIIM_WRITER_ID, PIIM_CLAS_ID, 
+							PIIM_CONTENT, PIIM_VIEW_GROUP, PIIM_DOWNLOAD_GROUP)
+						VALUES(PILGI_IMSIJEOJANG_SEQ.NEXTVAL, #{accountId}, #{clasId}, 
+							#{content}, #{viewGroup}, #{downloadGroup})
+	</insert>
+	
+	<!-- 필기 임시저장 목록 조회 -->
+	<select id="getPilgiImsiList" resultType="boardVo">
+		SELECT PIIM_SEQ AS ID, SUBSTR(PIIM_CONTENT,1,15)||'...' AS CONTENT
+			FROM PILGI_IMSIJEOJANG
+			WHERE PIIM_WRITER_ID =#{accountId}
+				AND PIIM_CLAS_ID=#{clasId}
+	</select>
+	
+	<!-- 필기 임시저장 데이터 가져오기 -->
+	<select id="getPilgiImsiDetail" resultType="boardVo">
+		SELECT PIIM_CONTENT AS CONTENT, PIIM_VIEW_GROUP AS VIEW_GROUP, PIIM_DOWNLOAD_GROUP AS DOWNLOAD_GROUP
+			FROM PILGI_IMSIJEOJANG
+			WHERE PIIM_SEQ =#{id}
+	</select>
+	
+	<!-- 필기 임시저장 삭제하기 -->
+	<delete id="deletePilgiImsi">
+		DELETE FROM PILGI_IMSIJEOJANG
+			WHERE PIIM_SEQ =#{id}
+	</delete>
+	
+	<!-- 필기 수정 -->
+	<update id="updatePilgi">
+		UPDATE PILGI_BOARD SET PIBO_CONTENT=#{content}, PIBO_VIEW_GROUP=#{viewGroup}, PIBO_DOWNLOAD_GROUP=#{downLoadGroup}
+			WHERE PIBO_ID=#{id}
+	</update>
+	
+	<!-- 필기 임시 삭제 -->
+	<update id="updatePilgiDel">
+		UPDATE PILGI_BOARD SET PIBO_STATE = 'Y'
+			WHERE PIBO_ID=#{id}
+	</update>
+	
+	<!-- 필기 복원 -->
+	<update id="updatePilgiGesi">
+		UPDATE PILGI_BOARD SET PIBO_STATE = 'N'
+			WHERE PIBO_ID=#{id}
+	</update>
+	
+	<!-- 필기 완전 삭제 -->
+	<delete id="deletePilgi">
+		DELETE PILGI_BOARD
+			WHERE PIBO_ID=#{id}
+	</delete>
+	
 </mapper>

@@ -18,12 +18,12 @@ public class YeyakDaoImpl implements IYeyakDao {
 	@Autowired
 	private SqlSessionTemplate session;
 	
+	private final String NS = "com.tdtd.tmtd.model.mapper.YeyakDaoImpl.";
+	
 	@Override
 	public int getGangeuisilCount(Map<String, Object> map) {
 		return session.selectOne(NS+"getGangeuisilCount",map);
 	}
-
-	private final String NS = "com.tdtd.tmtd.model.mapper.YeyakDaoImpl.";
 	
 	@Override
 	public List<String> getGangeuisilSidoList() {
