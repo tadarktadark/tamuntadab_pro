@@ -2,6 +2,7 @@ package com.tdtd.tmtd;
 
 
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tdtd.tmtd.model.service.ElasticsearchService;
 import com.tdtd.tmtd.model.service.IInstrService;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
@@ -34,6 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class InstrController {
+	
+	@Autowired
+	ElasticsearchService searchService;
 	
 	@Autowired
 	private IInstrService service;
@@ -105,6 +110,39 @@ public class InstrController {
 		return gson.toJson(lists);		
 	}
 	
+	@ResponseBody
+	@PostMapping(value ="/instrSearch.do", produces = "application/json;charset=UTF-8")
+	public String instrSearch(@RequestBody Map<String, Object> formData, HttpSession session) throws IOException {
+		log.info("########### instrSearch.do 받아온 값: {}", formData); 
+		log.info("########### instrSearch.do 받아온 값 String: {}", formData.toString());
+		List<Map<String, Object>> resultList = searchService.search(formData, "instr_profile", 8);
+		 
+		Object userInfo = session.getAttribute("userInfo");
+		
+		for (Map<String,Object> result : resultList) {
+		    if(result.containsKey("_source")) {
+		        Map<String, Object> source = (Map<String, Object>) result.get("_source");
+		        log.info("%%%%%%%%%%%%%%%%%%%%%% _source : {}", source);
+		        if(source != null && source.containsKey("user_birth")) {
+		            String birthDateStr = (String) source.get("user_birth");
+		            if(birthDateStr != null){
+		                birthDateStr= birthDateStr.split("T")[0]; //날짜 부분만 추출
+		                int age = calculateAge(birthDateStr);
+		                source.put("user_age", age);
+		            }
+		        }
+
+		        // login_info 필드 추가
+		        result.put("login_info", userInfo);
+		    }
+		}
+		
+		 Gson gson = new Gson();
+		 
+		 log.info("########### instrSearch.do 반환할 값: {}", gson.toJson(resultList)); 
+		 return gson.toJson(resultList);
+	}
+	
 	@GetMapping("/instrProfileForm.do")
 	public String instrProfileForm(HttpSession session, Model model, String accountId) {
 //		String accountId = (String)session.getAttribute("userInfo").getAccountId;
@@ -157,6 +195,16 @@ public class InstrController {
 	public String deleteInstrEdulevel(String inedSeq) {
 		int n = service.deleteInstrEdulevel(inedSeq);
 		return (n>0)?"true":"false";
+	}
+	
+	private int calculateAge(String birthDate) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    LocalDate dob = LocalDate.parse(birthDate, formatter);
+	    LocalDate now = LocalDate.now();
+	    
+	    Period period = Period.between(dob, now);
+	    
+	    return period.getYears();
 	}
 	
 }
