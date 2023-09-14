@@ -50,6 +50,11 @@ public interface ITupyoDao {
 	public List<TupyoUserVo> getAllVotedStudents(int tuopTupySeq);
 	//강사 확정
 	public int updateClasAccountId(Map<String, Object> map);
-
+	//투표 삭제
+	public int delTupyo(int tupySeq);
+	//투표옵션 삭제
+	public int delTupyoOption(int tupySeq);
+	//투표유저 삭제
+	public int delAllTupyoUser(int tupySeq);
 	
 }

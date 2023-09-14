@@ -146,10 +146,24 @@ UPDATE CLASS
 	WHERE CLAS_ID = #{clasId}
 </update>
 
+<delete id="delTupyo" parameterType="Integer">
+DELETE FROM TUPYO t 
+WHERE TUPY_SEQ =#{tupySeq}
+</delete>
 
+<delete id="delTupyoOption" parameterType="Integer">
+DELETE FROM TUPYO_OPTION 
+WHERE TUOP_TUPY_SEQ =#{tupySeq}
+</delete>
 
-
-
+<delete id="delAllTupyoUser" parameterType="Integer">
+DELETE FROM TUPYO_USER 
+WHERE TUUS_OPTION_SEQ IN (
+    SELECT TUOP_SEQ 
+    FROM TUPYO_OPTION 
+    WHERE TUOP_TUPY_SEQ = #{tupySeq}
+);
+</delete>
 
 
 
