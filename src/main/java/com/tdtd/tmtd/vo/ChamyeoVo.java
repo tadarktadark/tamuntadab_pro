@@ -15,11 +15,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ChamyeoVo {
 
-	private int clchId           ;
-	private String clchAccountId    ;
-	private int clchClasId       ;
-	private String clchStatus       ;
-	private String clchGyeoljeStatus;
-	private String clchYeokal;
+	
+	private int clchId            ;
+	private String clchAccountId     ;
+	private int clchClasId        ;
+	private String clchStatus        ;
+	private String clchGyeoljeStatus ;
+	private String clchYeokal        ;
+	private String clchPilgiStatus   ;
+	private String clchReviewStatus  ;
+	private int clchInstrSugangryo;
+	
 	
 }

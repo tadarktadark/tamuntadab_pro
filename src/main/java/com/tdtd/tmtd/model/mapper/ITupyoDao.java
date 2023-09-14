@@ -18,6 +18,8 @@ public interface ITupyoDao {
 	public TupyoVo getTupyo(int tupyClasId);
 	//선택지 조회
 	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq);
+	//특정 선택지 조회
+	public TupyoOptionVo getTupyoOption(int tuopSeq);
 	//선택지 생성
 	public int insertTupyoOption(Map<String, Object> map);
 	//클래스 개설자 조회
@@ -46,5 +48,8 @@ public interface ITupyoDao {
 	public int updateAgreeTupyo(Map<String, Object> map);
 	//투표한 참가자 조회
 	public List<TupyoUserVo> getAllVotedStudents(int tuopTupySeq);
+	//강사 확정
+	public int updateClasAccountId(Map<String, Object> map);
 
+	
 }

@@ -180,6 +180,7 @@ public class TupyoController {
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
 	public boolean finishTupyo(int tupySeq) {
+		TupyoVo vo = service.getTupyo(tupySeq);
 		List<TupyoUserVo> resultList = service.getTupyoResult(tupySeq);
 		if(resultList.size()==1) {
 			//찬반 수 계산해서 확정 후 종료
@@ -202,13 +203,18 @@ public class TupyoController {
 			}
 			System.out.println(maxOptionList);
 			if(maxOptionList.size() > 1) {
+				System.out.println("동률 발생 재투표 진행");
 				return false;
 			}
 			//아래의 option seq로 선생 정보를 받아와서 accountId를 확정 강사에 넣어준다
 			int optionSeq = maxOptionList.get(0).getTuusOptionSeq();
-			
-			
-			
+			TupyoOptionVo maxOptionVo = service.getTupyoOption(optionSeq);
+			String clasAccountId = maxOptionVo.getTuopInstr();
+			int clasId = vo.getTupyClasId();
+			Map<String, Object> insertMap = new HashMap<String, Object>();
+			insertMap.put("clasAccountId", clasAccountId);
+			insertMap.put("clasId", clasId);
+			service.updateClasAccountId(insertMap);
 			service.endTupyo(tupySeq);
 			
 		}
@@ -219,7 +225,6 @@ public class TupyoController {
 		
 		
 		//투표 상태 '종료'로 변경
-		service.endTupyo(tupySeq);
 		return true;
 		
 		
@@ -230,24 +235,31 @@ public class TupyoController {
 	
 	@PostMapping("/makeTupyo.do")
 	public String makeTupyo(int tupyClasId,Date tupyEnddate) {
+		
 		Map<String, Object> map= new HashMap<String, Object>();
 		int tupyTotalUser = service.countTotalClassMember(tupyClasId);
 		map.put("tupyClasId", tupyClasId);
 		map.put("tupyTotalUser", tupyTotalUser);
 		map.put("tupyEnddate", tupyEnddate);
 		service.insertTupyo(map);
+		
+		
 		int tuopTupySeq = service.getTupyo(tupyClasId).getTupySeq();
-		// 투두 선생들 조회해서 옵션으로 삽입
+		
 		List<ChamyeoVo> instrList = service.getAllInstr(tupyClasId);
 		System.out.println(instrList);
+		for (ChamyeoVo chamyeoVo : instrList) {
+			String tuopInstr = chamyeoVo.getClchAccountId();
+			int tuopFee = chamyeoVo.getClchInstrSugangryo();
 		
-		// 투두 아니 비용 받는거 어디에 저장했어 김기훈 해명해ㅐ해ㅐㅐ
-		Map<String, Object> insertMap = new HashMap<String, Object>();
-		insertMap.put("tuopTupySeq", tuopTupySeq);
-//		insertMap.put("tuopInstr", tuopInstr);
-//		insertMap.put("tuopFee", tuopFee);
+			Map<String, Object> insertMap = new HashMap<String, Object>();
+			insertMap.put("tuopTupySeq", tuopTupySeq);
+			insertMap.put("tuopInstr", tuopInstr);
+			insertMap.put("tuopFee", tuopFee);
+			service.insertTupyoOption(insertMap);
+		}
 		
-		service.insertTupyoOption(null);
+		
 		return "redirect:/tupyoPage.do";
 	}
 	

@@ -42,6 +42,12 @@ SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE
 	WHERE TUOP_TUPY_SEQ =#{tuopTupySeq}
 </select>
 
+<select id="getTupyoOption" parameterType="Integer" resultType="tupyoOptionVo">
+SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE 
+	FROM TUPYO_OPTION to2 
+	WHERE TUOP_SEQ =#{tuopSeq}
+</select>
+
 <insert id="insertTupyoOption" parameterType="java.util.Map">
 INSERT INTO TUPYO_OPTION(TUOP_SEQ, TUOP_TUPY_SEQ, TUOP_INSTR, TUOP_FEE) 
 	VALUES(TUOP_SEQ.NEXTVAL, #{tuopTupySeq}, #{tuopInstr}, #{tuopFee})
@@ -132,4 +138,21 @@ UPDATE TUPYO_USER
         SET TUUS_AGREE = #{tuusAgree}
         WHERE TUUS_SEQ =#{tuusSeq}
 </update>
+
+
+<update id="updateClasAccountId" parameterType="Map">
+UPDATE CLASS 
+	SET CLAS_ACCOUNT_ID = #{clasAccountId}
+	WHERE CLAS_ID = #{clasId}
+</update>
+
+
+
+
+
+
+
+
+
+
 </mapper>

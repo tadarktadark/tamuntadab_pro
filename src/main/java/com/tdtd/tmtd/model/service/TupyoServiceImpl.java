@@ -110,6 +110,16 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.getAllVotedStudents(tuopTupySeq);
 	}
 
+	@Override
+	public TupyoOptionVo getTupyoOption(int tuopSeq) {
+		return dao.getTupyoOption(tuopSeq);
+	}
+
+	@Override
+	public int updateClasAccountId(Map<String, Object> map) {
+		return dao.updateClasAccountId(map);
+	}
+
 	
 
 
