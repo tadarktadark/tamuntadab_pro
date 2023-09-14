@@ -12,7 +12,6 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class BoardVo {
-	private int seq;
 	private String id;
 	private String writerId;
 	private String title;
@@ -29,6 +28,5 @@ public class BoardVo {
 	private String chaetaek;
 	private String regdate;
 	private String update;
-	private String delflag;
 	private String state;
 }
