@@ -50,13 +50,13 @@
                         <div class="collapse menu-dropdown" id="sidebarComm">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="./pilgiList.do" class="nav-link" data-key="t-pilgi">필기 </a>
+                                    <a href="./pilgi.do" class="nav-link" data-key="t-pilgi">필기 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./jilmunList.do" class="nav-link" data-key="t-jilmun">질문 </a>
+                                    <a href="./jilmun.do" class="nav-link" data-key="t-jilmun">질문 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./jayuList.do" class="nav-link" data-key="t-jayu">자유 </a>
+                                    <a href="./jayu.do" class="nav-link" data-key="t-jayu">자유 </a>
                                 </li>
                             </ul>
                         </div>
