@@ -149,23 +149,23 @@
                                 
                                 	<!-- first 버튼 구현 -->
                            			<c:choose>
-					                    <c:when test="${pVo.page <= 1}">
+					                    <c:when test="${param.page > pVo.countPage}">
 					                        <li class="page-item disabled">
 					                            <span class="page-link">first</span>
 					                        </li>
 					                    </c:when>
 					                    <c:otherwise>
 					                        <li class="page-item">
-					                            <a href="./subjectManage.do?page=1">first</a>
+					                            <a class="page-link" href="./subjectManage.do?page=1">first</a>
 					                        </li>
 					                    </c:otherwise>
 					                </c:choose>
 					                
 					                <!-- privious버튼 구현 -->
 					                <c:choose>
-							          	<c:when test="${pVo.page > pVo.countPage}">
+							          	<c:when test="${param.page > pVo.countPage}">
 							          		<li class="page-item disabled">
-			                                   	<a class="page-link" href="./subjectManage.do?page=1">Previous</a>
+			                                   	<a class="page-link" href="./subjectManage.do?page="${(param.page/pVo.countPage)-1}>Previous</a>
 			                                </li>
 							          	</c:when>
 							          	<c:otherwise>
@@ -178,7 +178,7 @@
 									<!-- 페이지 버튼 구현 -->
 									<c:forEach var="i" begin="${pVo.startPage}" end="${pVo.endPage}">
 								        <c:choose>
-								            <c:when test="${i == pVo.page}">
+								            <c:when test="${param.page eq i}">
 								                <li class="page-item active">
 								                    <span class="page-link">${i}</span>
 								                </li>
@@ -191,30 +191,29 @@
 								        </c:choose>        
 								    </c:forEach>
 								    
-								    <!-- NEXT 버튼 구현 -->
-	                                <c:choose>
-							          	<c:when test="${pVo.page > pVo.countPage}">
-							          		<li class="page-item disabled">
-			                                   	<a class="page-link" href="./subjectManage.do?page=5">NEXT</a>
-			                                </li>
-							          	</c:when>
-							          	<c:otherwise>
-											<li class="page-item disabled">
-			                                   	<span class="page-link">NEXT</span>
-			                                </li>							          	
-							          	</c:otherwise>
-					                </c:choose>
+								    <c:choose>
+									    <c:when test="${param.page <= (pVo.totalPage/pVo.countList)*pVo.countList}">
+									        <li class="page-item disabled">
+									            <a class="page-link" href="./subjectManage.do?page=${pVo.page}">NEXT</a>
+									        </li>
+									    </c:when>
+									    <c:otherwise>
+									        <li class="page-item disabled">
+									            <span class="page-link">NEXT</span>
+									        </li>
+									    </c:otherwise>
+									</c:choose> 
 					                
 					                <!-- End 버튼 구현 -->
 	                                <c:choose>
-					                    <c:when test="${pVo.page <= 1}">
-					                        <li class="page-item disabled">
-					                            <span class="page-link">End</span>
+					                    <c:when test="${param.page <= (pVo.totalPage/pVo.countList)*pVo.countList}">
+					                        <li class="page-item">
+					                            <a class="page-link" href="./subjectManage.do?page="${pVo.totalPage}-1>End</a>
 					                        </li>
 					                    </c:when>
 					                    <c:otherwise>
-					                        <li class="page-item">
-					                            <a href="./subjectManage.do?page=32">End</a>
+					                        <li class="page-item disabled">
+					                            <span class="page-link">End</span>
 					                        </li>
 					                    </c:otherwise>
 					                </c:choose>

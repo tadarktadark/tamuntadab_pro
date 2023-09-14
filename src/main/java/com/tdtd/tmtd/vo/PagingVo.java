@@ -33,7 +33,7 @@ public class PagingVo {
 	public void setPage(int page) {
 		// page의 갯수보다 큰 값을 url에 parameter로 전송받는다면 끝 page로 이동
 		// 끝 페이지는 totalPage
-		if(page<1) {
+		if(page<=1) {
 			this.page = 1;
 		} else if(page>totalPage) {
 			this.page = totalPage;

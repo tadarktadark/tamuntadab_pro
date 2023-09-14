@@ -14,19 +14,19 @@
 		         	s.SUBJ_SUJEONGIL,
 		         	s.SUBJ_DELFLAG,
 		         	c.CLAS_COUNT,
-		         	ROW_NUMBER() OVER (ORDER BY s.SUBJ_CODE DESC) AS RN
+		         	ROW_NUMBER() OVER (ORDER BY s.SUBJ_ID DESC) AS RNN
 		    FROM TMTD.SUBJECT s 
 		    LEFT JOIN (
-		    			SELECT j.SUBJECT_ID AS "SUBJ_ID", COUNT(*) AS "CLAS_COUNT"
-						FROM CLASS c,
-		     				JSON_TABLE(c.CLAS_SUBJECT_JEONGBO , '$[*]'
-		                	COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$.SUBJ_ID')) J
-						GROUP BY j.SUBJECT_ID
-						ORDER BY j.SUBJECT_ID
+		    			SELECT j.SUBJECT_ID AS "SUBJ_ID", COUNT(*) AS "CLAS_COUNT", ROW_NUMBER() OVER (ORDER BY j.SUBJECT_ID DESC) AS RN
+							FROM CLASS c,
+							     JSON_TABLE(c.CLAS_SUBJECT_JEONGBO , '$[*]'
+							                COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) J
+							GROUP BY j.SUBJECT_ID
+							ORDER BY j.SUBJECT_ID DESC
 						) c
 			ON c.SUBJ_ID = s.SUBJ_ID
 			)
-		WHERE RN BETWEEN #{first} AND #{last}
+		WHERE RNN BETWEEN #{first} AND #{last}
 	</select>
 	
 	<!-- 페이징 할 과목 갯수 조회 -->
