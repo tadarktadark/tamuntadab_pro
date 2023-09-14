@@ -22,7 +22,6 @@
 		            <div class="row rounded-pill ">
 		                <div class="col-lg-12">
 		                    <div class="card overflow-hidden">
-		                    <form action="./login.do" method="post">
 		                        <div class="row g-0 px-5">
 		                        <div class="mt-4">
 		                        	<div class="text-center mt-2">
@@ -34,7 +33,7 @@
                                 		<div class="col-xl-12">
 												<div class="">
 												    <label for="email" class="form-label"><b>이메일</b></label>
-												    <input type="text" name="email" class="form-control rounded-pill" id="email" placeholder="이메일을 입력해주세요">
+												    <input type="text" name="userEmail" class="form-control rounded-pill" id="email" placeholder="이메일을 입력해주세요">
 												</div>
 							  			  </div>
                                		 </div>
@@ -53,8 +52,8 @@
 	                                <div class="mb-0 border-0 shadow-none mt-3">
                                 		<div class="col-xl-6">
 											<div class="form-check form-switch text-right">
-											    <input class="form-check-input" name="autoLogin" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-											    <label class="form-check-label" for="flexSwitchCheckDefault"><b>자동 로그인</b></label>
+											    <input class="form-check-input" name="autoLogin" type="checkbox" role="switch" id="autoLoginCheckBox">
+											    <label class="form-check-label" for="autoLoginCheckBox"><b>자동 로그인</b></label>
 											</div>
 							  			  </div>
                                		 </div>
@@ -63,7 +62,7 @@
 		                            <!--end col-->
 		                            <div>
 										<div class="mt-4 text-center px-5">
-										        <button class="btn btn-primary col-12 rounded-pill" id="doRegist" type="submit">로그인 하러가기</button>
+										        <button class="btn btn-primary col-12 rounded-pill" id="doLogin" type="button">로그인 하러가기</button>
 									    </div>
 										    <div class="mt-4 text-center">
 										        <div class="signin-other-title">
@@ -103,7 +102,6 @@
 										</div>
 		                            </div>
 		                        <!--end row-->
-		                        </form>
 		                    </div>
 		                </div>
 		                <!--end col-->

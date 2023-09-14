@@ -34,7 +34,9 @@
 							<input type="text" class="form-control"
 								placeholder="타문타답_경력증명서.doc" readonly="readonly">
 							<button type="button" class="btn btn-info w-lg"
-								onclick="location.href='./careerFileDownload.do'">다운로드</button>
+								onclick="location.href='./careerFileDownload.do'">다운로드 
+								<i class="mdi mdi-tray-arrow-down"></i>
+								</button>
 						</div>
 						<form class="was-validated" action="./careerUpload.do"
 							method="post" enctype="multipart/form-data">
