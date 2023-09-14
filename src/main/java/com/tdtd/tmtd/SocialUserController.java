@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonNode;
@@ -19,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -53,7 +56,7 @@ public class SocialUserController {
 	 * @return 
 	 */
 	@RequestMapping(value = "naverRedirect.do")
-	public String naverCallback(String code, String state,HttpSession session) {
+	public String naverCallback(String code, String state,HttpSession session, HttpServletResponse resp) {
 		String tokenUrl = uvo.getGetNaverTokenUrl();
 		try {
 			URL url = new URL(tokenUrl);
@@ -112,15 +115,7 @@ public class SocialUserController {
 						//리프레쉬 토큰을 갱신해준다.
 						socialUserService.updateRefToken(userinfo);
 					}
-					//사용자의 정지 여부 판단하기
-					int cnt = commUserService.searchJeongJi(uservo);
-					if(cnt!=0) {
-						//정지 상태일 경우 어떤 처리를 해준다.
-						log.info("정지 상태임");
-					}
-					//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
 					session.setAttribute("userInfo", uservo);
-					return "redirect:/";
 				}else{
 					//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
 					int n = socialUserService.naverRegist(userinfo);
@@ -361,6 +356,7 @@ public class SocialUserController {
 							}
 							//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
 							session.setAttribute("userInfo", uservo);
+							
 							return "redirect:/";
 						}else{
 							//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.

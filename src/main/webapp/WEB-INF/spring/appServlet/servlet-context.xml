@@ -39,4 +39,11 @@
 	<task:scheduled ref="cronServiceImpl" method="registHuman" cron="0 0 * * * *"/>
 </task:scheduled-tasks> -->
 	
+<mvc:interceptors>
+	<mvc:interceptor>
+		<mvc:mapping path="/**"/>
+		<beans:bean class="com.tdtd.tmtd.interceptor.mainInterceptor" />
+	</mvc:interceptor>	
+</mvc:interceptors>
+	
 </beans:beans>

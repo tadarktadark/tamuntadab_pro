@@ -1,5 +1,7 @@
 package com.tdtd.tmtd;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -7,14 +9,20 @@ import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.service.ICommUserService;
@@ -113,7 +121,7 @@ public class UserController {
 			if(n!=1) {
 				return "redirect:/regist.do";
 			}else {
-				return "redirect:/home.do";
+				return "redirect:/";
 			}
 	}
 	
@@ -127,5 +135,23 @@ public class UserController {
 		return "myPage";
 	}
 	
+	@RequestMapping(value="jeongji.do")
+	public String jeongji(HttpServletResponse resp, HttpSession session) throws IOException {
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print("<script>alert('정지된 계정입니다.');</script>");
+		out.flush();
+		session.removeAttribute("userInfo");
+		return "index";
+	}
 	
+	@RequestMapping(value="human.do")
+	public String human(HttpServletResponse resp, HttpSession session) throws IOException {
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print("<script>alert('휴면 정지된 계정입니다.');</script>");
+		out.flush();
+		session.removeAttribute("userInfo");
+		return "human";
+	}
 }
