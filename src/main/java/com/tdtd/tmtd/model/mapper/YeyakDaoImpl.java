@@ -56,10 +56,20 @@ public class YeyakDaoImpl implements IYeyakDao {
 //	}
 	
 	@Override
+	public int updateYeoyuTime(Map<String, Object> map) {
+		return session.update(NS+"updateYeoyuTime",map);
+	}
+	
+	@Override
 	public GangeuisilVo getYeoyuTime(String gagaId) {
 		return session.selectOne(NS+"getYeoyuTime",gagaId);
 	}
 
+	@Override
+	public List<ClassVo> getchamyeoClassList(String accountId) {
+		return session.selectList(NS+"getchamyeoClassList",accountId);
+	}
+	
 	@Override
 	public int insertYeakInfo(YeyakVo vo) {
 		return session.insert(NS+"insertYeakInfo",vo);
@@ -83,16 +93,6 @@ public class YeyakDaoImpl implements IYeyakDao {
 	@Override
 	public int updateYeyakDelflag(String gayeId) {
 		return session.update(NS+"updateYeyakDelflag",gayeId);
-	}
-	
-	@Override
-	public int updateYeoyuTime(Map<String, Object> map) {
-		return session.update(NS+"updateYeoyuTime",map);
-	}
-	
-	@Override
-	public List<ClassVo> getchamyeoClassList(String accountId) {
-		return session.selectList(NS+"getchamyeoClassList",accountId);
 	}
 	
 	
