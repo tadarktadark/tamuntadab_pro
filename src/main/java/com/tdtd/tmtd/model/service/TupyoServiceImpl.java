@@ -120,6 +120,14 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.updateClasAccountId(map);
 	}
 
+	@Override
+	public int delTupyo(int tupySeq) {
+		int a =dao.delTupyo(tupySeq);
+		int b =dao.delTupyoOption(tupySeq);
+		int c =dao.delAllTupyoUser(tupySeq);
+		return a+b+c;
+	}
+
 	
 
 

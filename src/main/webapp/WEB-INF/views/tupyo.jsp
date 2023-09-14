@@ -14,6 +14,7 @@
 <div id="layout-wrapper">
 	<div>
 		<div class="container">
+		<input name="clasId" type="hidden" value="${clasId}">
 		<input name="hasTupyo" type="hidden" value="${hasTupyo}">
 		<c:choose>
 		<c:when test="${hasTupyo eq 'true'}">
@@ -66,9 +67,21 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<div class="card">
+			<div id="masterBtn" class="card">
 				<c:if test="${isMaster eq 'true'}">
-				<button id="makeTupyo" class="btn btn-primary" onclick="makeTupyo()">투표 생성하기</button>
+				<div class="row mb-3" style="text-align: center;">
+					<div class="col-lg-3">
+					</div>
+				     <div class="col-lg-3" style="margin-top: 15px;">
+				         <label for="dateInput" class="form-label"><b>종료 일자</b></label>
+				     </div>
+				     <div class="col-lg-3" style="padding-top: 5px;">
+				         <input type="date" class="form-control flatpickr" id="dateInput" placeholder="날짜를 선택해주세요.">
+				     </div>
+				     <div style="margin-top: 10px;">
+						<button id="makeTupyo" class="btn btn-primary" onclick="makeTupyo()">투표 생성하기</button>
+				     </div>
+				 </div>
 				</c:if>
 			</div>
 		</c:otherwise>
