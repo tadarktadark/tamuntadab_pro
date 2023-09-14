@@ -19,4 +19,6 @@ public class TupyoUserVo {
 	private int tuusOptionSeq;
 	private String tuusAccountId;
 	private String tuusAgree;
+	
+	private int count;
 }

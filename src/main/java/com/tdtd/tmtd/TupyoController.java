@@ -179,11 +179,37 @@ public class TupyoController {
 	
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
-	public void finishTupyo(int tupySeq) {
+	public boolean finishTupyo(int tupySeq) {
 		List<TupyoUserVo> resultList = service.getTupyoResult(tupySeq);
 		if(resultList.size()==1) {
 			//찬반 수 계산해서 확정 후 종료
 		}else {
+			
+			int maxCount = 0;
+			for (TupyoUserVo result : resultList) {
+			    int count = result.getCount();
+			    if (count > maxCount) {
+			        maxCount = count;
+			    }
+			}
+			System.out.println(maxCount);
+			List<TupyoUserVo> maxOptionList = new ArrayList<TupyoUserVo>();
+			for (TupyoUserVo result : resultList) {
+				int count = result.getCount();
+				if(count==maxCount) {
+					maxOptionList.add(result);
+				}
+			}
+			System.out.println(maxOptionList);
+			if(maxOptionList.size() > 1) {
+				return false;
+			}
+			//아래의 option seq로 선생 정보를 받아와서 accountId를 확정 강사에 넣어준다
+			int optionSeq = maxOptionList.get(0).getTuusOptionSeq();
+			
+			
+			
+			service.endTupyo(tupySeq);
 			
 		}
 		
@@ -194,7 +220,7 @@ public class TupyoController {
 		
 		//투표 상태 '종료'로 변경
 		service.endTupyo(tupySeq);
-		
+		return true;
 		
 		
 		
