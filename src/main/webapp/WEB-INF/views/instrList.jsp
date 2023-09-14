@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
@@ -12,6 +14,7 @@
 	charset="UTF-8"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	charset="UTF-8"></script>
+<script type="text/javascript" src="./js/instrList.js"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body class="twocolumn-panel">
@@ -20,29 +23,11 @@
 		<%@ include file="./shared/_sidebar.jsp"%>
 		<div class="main-content">
 			<div class="page-content">
-				<div class="container-fluid">
+				<div class="container-fluid" style="margin: auto 150px;">
 					<%@ include file="./shared/_page_title.jsp"%>
-				</div>
-			</div>
-			<!-- 			<form id="searchForm"> -->
-			<!-- 				<div class="ageRange choices__inner choices hstack gap-3" -->
-			<!-- 					style="width: 600px; display: inline-flex; justify-content: space-evenly;"> -->
-			<!-- 						<label for="age"> 나이 </label> -->
-			<!-- 					<div class="nameSearch form-floating" style="width: 100px;"> -->
-			<!-- 						<input type="number" class="form-control" id="ageGt" name="ageGt"> -->
-			<!-- 						<label for="ageGt">최소</label> -->
-			<!-- 					</div> -->
-			<!-- 					~ -->
-			<!-- 					<div class="nameSearch form-floating" style="width: 100px;"> -->
-			<!-- 						<input type="number" class="form-control" id="ageLt" name="ageLt"> -->
-			<!-- 						<label for="ageLt">최대</label> -->
-			<!-- 					</div> -->
-			<!-- 				</div> -->
-			<!-- 				<input type="submit" value="검색"> -->
-			<!-- 			</form> -->
 			<div class="card">
 			<div class="card-body">
-			<form action="javascript:void(0);" class="row g-3">
+			<form action="javascript:void(0);" class="row g-3 search-form">
 				<div class="subjectsAuto col-md-6">
 					<label for="inprSubjects" class="form-label">과목</label> 
 					<div id="selectedSubjects"
@@ -87,73 +72,91 @@
 			</form>
 			</div>
 			</div>
+			 <select id="orderSelect" class="form-select rounded-pill mb-3" aria-label="Default select example">
+			    <option selected>인기순</option>
+			    <option value="view">조회순</option>
+			    <option value="reg">등록일순</option>
+			</select>
 
-			<div class="row">
+			<div class="row output-area" style="width: 1680px; height: 500px; overflow: auto;">
+			<c:forEach var="instr" items="${lists}" varStatus="vs">
 				<div class="col-xxl-3 col-md-6">
 					<div class="card team-box">
 						<div class="card-body p-4">
-							<div class="row mb-3">
+							<div class="row output-area mb-3">
 								<div class="col">
 									<div class="flex-shrink-0 me-2">
+									<c:if test="${instr.inprCert eq 'S'}">
 										<span
 											class="badge bg-success-subtle text-success member-designation me-2">
-											<i class=" bx bxs-user-check" style="font-size: 15px;"></i>
+											<i class=" bx bxs-user-check" style="font-size: 20px;"></i>
 										</span>
+									</c:if>
 									</div>
 								</div>
 
 								<div class="col-auto text-end dropdown">
+								<span>&nbsp;</span>
+								<c:if test="${instr.ingi eq 'HOT'}">
 									<span
-										class="badge bg-danger-subtle text-danger   member-designation me-2">HOT</span>
+										class="badge bg-danger-subtle text-danger   member-designation me-2" style="font-size: 15px;">HOT</span>
+								</c:if>
+								<c:if test="${instr.reviewCount > 0}">
 									<span
-										class="badge bg-info-subtle text-info   member-designation me-2">후기있음</span>
+										class="badge bg-info-subtle text-info   member-designation me-2" style="font-size: 15px;">후기있음</span>
+								</c:if>
 								</div>
 							</div>
-
 							<div class="text-center mb-3">
 								<div class="avatar-md mx-auto">
-									<img src="assets/images/users/avatar-9.jpg" alt=""
+									<img src="${not empty userInfo? inst.userProfileVo[0].userProfileFile : 'assets/images/users/avatar-9.jpg'}" alt=""
 										class="member-img img-fluid d-block rounded-circle">
 								</div>
 							</div>
 
 							<div class="text-center">
 								<a href="" class="member-name">
-									<h5 class="fs-16 mb-1">Ross Jordan</h5>
+									<h5 class="fs-16 mb-1">${instr.userProfileVo[0].userNickname}</h5>
 								</a>
-								<p class="text-muted mb-0">Project Manager</p>
-
-								<div class="row">
+								<c:set var="subjectsMajorTitleList" value='${fn:split(instr.subjectsMajorTitle, ",")}'/>
+								<div class="row output-area">
 									<div class="col-6">
 										<div class="mt-3">
-											<p class="mb-0 text-muted">Department</p>
-											<h5 class="mt-1 fs-16 mb-0 text-truncate">Development</h5>
+											<p class="mb-0 text-muted">전문분야</p>
+											<h5 class="mt-1 fs-16 mb-0 text-truncate">${fn:trim(subjectsMajorTitleList[0])}</h5>
 										</div>
 									</div>
 
 									<div class="col-6">
 										<div class="mt-3">
-											<p class="mb-0 text-muted">Join Date</p>
-											<h5 class="mt-1 fs-16 mb-0 text-truncate">17 Oct, 2022</h5>
+											<p class="mb-0 text-muted">나이</p>
+											<h5 class="mt-1 fs-16 mb-0 text-truncate">${instr.inprAge}</h5>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="card-footer pt-3 border-top px-4">
+						
 							<p class="mb-1 text-muted text-truncate">
-								<i class="bx bx-envelope fs-18 align-middle me-2 pe-1"></i>Rossjordan@gmail.com
+								<i class="mdi mdi-book"></i>전문분야: 
+							<c:forEach var="major" items="${subjectsMajorTitleList}">
+								${fn:trim(major)}
+							</c:forEach>
 							</p>
-							<p class="mb-0 text-muted">
-								<i class="bx bx-phone fs-18 align-middle me-2 pe-1"></i>+31
-								509-329-3984
+							<p class="mb-1 text-muted text-truncate">
+								<i class="mdi mdi-book"></i>가능한 과목: 
+						<c:forEach var="subject" items="${instr.subjectsTitle}">
+								${subject}
+						</c:forEach>
 							</p>
 						</div>
 					</div>
 				</div>
+				</c:forEach>
 			</div>
-
-
+			</div>
+			</div>
 			<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>
@@ -254,6 +257,8 @@
 		});
 
 	});
+
+	
 </script>
 <style type="text/css">
 .ui-autocomplete {
@@ -267,6 +272,7 @@
 .ui-autocomplete li {
 	list-style-type: none;
 }
+
 </style>
 
 </html>

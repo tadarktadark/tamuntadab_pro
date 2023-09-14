@@ -144,4 +144,18 @@ public class ClassController {
 		
 		return "subjectManage";
 	}
+	
+	@GetMapping("/classDetail.do")
+	public String classDetail(Model model) {
+		model.addAttribute("title", "클래스");
+		model.addAttribute("pageTitle", "클래스 상세");
+		return "classDetail";
+	}
+	
+	@GetMapping("/myClass.do")
+	public String myClass(Model model) {
+		model.addAttribute("title", "클래스");
+		model.addAttribute("pageTitle", "참여 중인 클래스");
+		return "myClass";
+	}
 }
