@@ -11,6 +11,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchPhrasePrefixQueryBuilder;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -112,21 +113,21 @@ public class ElasticsearchService {
 			}
 		 
 		 private void applySortCondition(SearchSourceBuilder builder,
-                 String sortType){
-					if(sortType!=null && !sortType.equals("")){
-					switch(sortType){
-					case "인기순":
+                 String sort){
+					if(sort!=null && !sort.equals("")){
+					switch(sort){
+					case "like":
 					 builder.sort("like_count", SortOrder.DESC);
 					 break;
-					case "최신순":
+					case "reg":
 					 builder.sort("regdate", SortOrder.DESC);
 					 break;
-					case "정확도순":
+					case "basic":
 					 // Elasticsearch 기본 정확도 점수(_score)로 정렬
 					 builder.sort("_score", SortOrder.DESC);
 					 break;
 					default:
-						logger.warn("Unknown sort type: {}", sortType);
+						logger.warn("Unknown sort type: {}", sort);
 						break;
 					}
 				}
@@ -215,8 +216,8 @@ public class ElasticsearchService {
 		private void applyGenderCondition(BoolQueryBuilder queryBuilder,
 	                                      String gender){
 		   if(gender!=null && !gender.equals("") && !gender.equals(("All"))){
-		       TermQueryBuilder termQB=QueryBuilders.termQuery("gender",gender);
-		       queryBuilder.filter(termQB);
+			   MatchQueryBuilder matchQB = QueryBuilders.matchQuery("gender", gender.trim());
+			   queryBuilder.filter(matchQB);
 		   }
 		}
 

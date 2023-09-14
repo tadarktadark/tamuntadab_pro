@@ -31,4 +31,9 @@ public interface ICommUserService {
 	 * @return 정지 갯수
 	 */
 	public int searchJeongJi(UserProfileVo userInfo);
+	
+	/**
+	 * 로그인 시 기능이 합쳐진 메소드
+	 */
+	public Map<String,Object>commLogin(Map<String,String> userInput);
 }
