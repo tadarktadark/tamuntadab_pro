@@ -34,7 +34,7 @@
 
                 <ul class="navbar-nav" id="navbar-nav">
                     <li class="nav-item">
-                        <a href="./classList.do" class="nav-link menu-link"> <i class="ri-apps-2-line"></i> <span data-key="t-class">클래스</span> </a>
+                        <a href="./classList.do?page=1" class="nav-link menu-link"> <i class="ri-apps-2-line"></i> <span data-key="t-class">클래스</span> </a>
                     </li>
                     <li class="nav-item">
                         <a href="./instrList.do" class="nav-link menu-link"> <i class="ri-account-circle-line"></i> <span data-key="t-instr">강사</span> </a>
