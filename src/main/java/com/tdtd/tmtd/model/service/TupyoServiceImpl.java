@@ -105,6 +105,11 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.getAllClassMember(clchClasId);
 	}
 
+	@Override
+	public List<TupyoUserVo> getAllVotedStudents(int tuopTupySeq) {
+		return dao.getAllVotedStudents(tuopTupySeq);
+	}
+
 	
 
 

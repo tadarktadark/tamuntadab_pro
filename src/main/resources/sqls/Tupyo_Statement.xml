@@ -13,6 +13,17 @@ INSERT INTO TUPYO(TUPY_SEQ, TUPY_CLAS_ID, TUPY_TOTAL_USER, TUPY_STARTDATE, TUPY_
         VALUES(TUPY_SEQ.NEXTVAL,#{tupyClasId}, #{tupyTotalUser}, CURRENT_DATE , #{tupyEnddate}, 'P')
 </insert>
 
+
+<select id="getAllVotedStudents" parameterType="Integer" resultType="tupyoUserVo">
+SELECT TUUS_ACCOUNT_ID 
+	FROM TUPYO_USER tu 
+	WHERE TUUS_OPTION_SEQ  IN (
+					SELECT TUOP_SEQ 
+						FROM TUPYO_OPTION to2 
+						WHERE TUOP_TUPY_SEQ =#{tuopTupySeq})
+</select>
+
+
 <select id="getAllInstr" parameterType="Integer" resultType="chamyeoVo">
 SELECT CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL 
 	FROM CLASS_CHAMYEOJA cc 
@@ -94,6 +105,26 @@ LEFT JOIN (
 WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =#{tuopTupySeq})
 ORDER BY TUOP_SEQ 
 </select>
+
+<select id="getMaxTupyoCount">
+SELECT ot.TUOP_SEQ, NVL(tu.count, 0) as COUNT
+FROM TUPYO_OPTION ot 
+LEFT JOIN (
+    SELECT TUUS_OPTION_SEQ, COUNT(*) as count
+        FROM TUPYO_USER 
+        WHERE TUUS_OPTION_SEQ IN (
+                                                        SELECT TUOP_SEQ 
+                                                        FROM TUPYO_OPTION to2 
+                                                        WHERE TUOP_TUPY_SEQ =(
+                                                                                                SELECT TUOP_TUPY_SEQ 
+                                                                                                        FROM TUPYO_OPTION to2 
+                                                                                                        WHERE TUOP_SEQ =#{tuopTupySeq}
+                                                                                                )
+                                                )
+        GROUP BY TUUS_OPTION_SEQ) tu ON ot.TUOP_SEQ = tu.TUUS_OPTION_SEQ
+WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =#{tuopTupySeq})
+</select>
+
 <delete id="delTupyoUser" parameterType="tupyoUserVo">
 DELETE FROM TUPYO_USER tu 
 	WHERE TUUS_ACCOUNT_ID =#{tuusAccountId} AND TUUS_OPTION_SEQ =#{tuusOptionSeq}

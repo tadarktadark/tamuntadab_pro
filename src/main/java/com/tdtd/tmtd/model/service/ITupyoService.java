@@ -44,5 +44,7 @@ public interface ITupyoService {
 	public List<TupyoUserVo> getAgreeUser(Map<String, Object> map);
 	//TDT076 찬반 투표 반영
 	public int updateAgreeTupyo(Map<String, Object> map);
+	//투표한 참가자 조회
+	public List<TupyoUserVo> getAllVotedStudents(int tuopTupySeq);
 	
 }
