@@ -1,5 +1,131 @@
 package com.tdtd.tmtd.model.mapper;
 
+import java.util.List;
+import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.tdtd.tmtd.vo.BoardVo;
+import com.tdtd.tmtd.vo.ClassVo;
+
+@Repository
 public class PilgiDaoImpl implements IPilgiDao {
+
+	@Autowired
+	private SqlSessionTemplate session;
+	
+	private final String NS = "com.tdtd.tmtd.model.mapper.PilgiDaoImpl.";
+	
+	@Override
+	public int getPilgiCount(String accountId) {
+		return session.selectOne(NS+"getPilgiCount",accountId);
+	}
+
+	@Override
+	public List<BoardVo> getPilgiList(Map<String, Object> map) {
+		return session.selectList(NS+"getPilgiList",map);
+	}
+
+	@Override
+	public BoardVo getPilgiDetail(Map<String, Object> map) {
+		return session.selectOne(NS+"getPilgiDetail",map);
+	}
+
+	@Override
+	public List<BoardVo> getYeongwanList(Map<String, Object> map) {
+		return session.selectList(NS+"getYeongwanList",map);
+	}
+
+	@Override
+	public String getPilgiLikeUser(String id) {
+		return session.selectOne(NS+"getPilgiLikeUser",id);
+	}
+
+	@Override
+	public int updatePilgiLikeUser(Map<String, Object> map) {
+		return session.update(NS+"updatePilgiLikeUser",map);
+	}
+
+	@Override
+	public String getPilgiViewUser(String id) {
+		return session.selectOne(NS+"getPilgiViewUser",id);
+	}
+
+	@Override
+	public int updatePilgiViewUser(Map<String, Object> map) {
+		return session.update(NS+"updatePilgiViewUser",map);
+	}
+
+	@Override
+	public int getMyPilgiCount(String accountId) {
+		return session.selectOne(NS+"getMyPilgiCount",accountId);
+	}
+
+	@Override
+	public List<BoardVo> getMyPilgiList(Map<String, Object> map) {
+		return session.selectList(NS+"getMyPilgiList",map);
+	}
+
+	@Override
+	public int getLikePilgiCount(String accountId) {
+		return session.selectOne(NS+"getLikePilgiCount",accountId);
+	}
+
+	@Override
+	public List<BoardVo> getLikePilgiList(Map<String, Object> map) {
+		return session.selectList(NS+"getLikePilgiList",map);
+	}
+
+	@Override
+	public ClassVo getPilgiClassDetail(String clasId) {
+		return session.selectOne(NS+"getPilgiClassDetail",clasId);
+	}
+
+	@Override
+	public int insertPilgi(BoardVo vo) {
+		return session.insert(NS+"insertPilgi",vo);
+	}
+
+	@Override
+	public int insertPilgiImsi(BoardVo vo) {
+		return session.insert(NS+"insertPilgiImsi",vo);
+	}
+
+	@Override
+	public List<BoardVo> getPilgiImsiList(Map<String, Object> map) {
+		return session.selectList(NS+"getPilgiImsiList",map);
+	}
+
+	@Override
+	public BoardVo getPilgiImsiDetail(String id) {
+		return session.selectOne(NS+"getPilgiImsiDetail",id);
+	}
+
+	@Override
+	public int deletePilgiImsi(String id) {
+		return session.delete(NS+"deletePilgiImsi",id);
+	}
+
+	@Override
+	public int updatePilgi(BoardVo vo) {
+		return session.update(NS+"updatePilgi",vo);
+	}
+
+	@Override
+	public int updatePilgiDel(String id) {
+		return session.update(NS+"updatePilgiDel",id);
+	}
+
+	@Override
+	public int updatePilgiGesi(String id) {
+		return session.update(NS+"updatePilgiGesi",id);
+	}
+
+	@Override
+	public int deletePilgi(String id) {
+		return session.delete(NS+"deletePilgi",id);
+	}
 
 }

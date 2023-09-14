@@ -12,6 +12,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchPhrasePrefixQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
@@ -24,7 +25,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class ElasticsearchService {
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -45,7 +49,7 @@ public class ElasticsearchService {
 		 	BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
 		 	
 		 	
-	        List<String> subjects = (List<String>) formData.get("subject");
+	        List<String> subjects = (List<String>) formData.get("subjects");
 	        applySubjectCondition(boolQueryBuilder, subjects);
 
 	        String nickname = (String) formData.get("nickname");
@@ -88,6 +92,7 @@ public class ElasticsearchService {
 					throw new RuntimeException("Search failed", e);
 				}
 		        
+				log.info("$$$$$$$$$$$Elasticsearch Sevice 반환값 {}", searchResponse);
 				return getSearchResult(searchResponse);
 	    }
 	 
@@ -111,7 +116,7 @@ public class ElasticsearchService {
 					if(sortType!=null && !sortType.equals("")){
 					switch(sortType){
 					case "인기순":
-					 builder.sort("like", SortOrder.DESC);
+					 builder.sort("like_count", SortOrder.DESC);
 					 break;
 					case "최신순":
 					 builder.sort("regdate", SortOrder.DESC);
@@ -134,7 +139,7 @@ public class ElasticsearchService {
 	            BoolQueryBuilder boolSubjectQueryBulider = QueryBuilders.boolQuery();
 	            for(String subject : subjects){
 	                MultiMatchQueryBuilder multiMatchQueryStringBuilder =
-	                        QueryBuilders.multiMatchQuery(subject).field("subject").field("introduction");
+	                        QueryBuilders.multiMatchQuery(subject).field("subjects").field("inpr_subjects_major");
 	                boolSubjectQueryBulider.should(multiMatchQueryStringBuilder);
 	            }
 	            boolQueryBuilder.filter(boolSubjectQueryBulider);
@@ -144,9 +149,11 @@ public class ElasticsearchService {
 		private void applyNicknameCondition(BoolQueryBuilder boolQueryBuilder,
 	                                        String nickname) {
 	    	if(nickname != null && !nickname.equals("")) {
-	    	   MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
-	               QueryBuilders.matchPhrasePrefixQuery("nickname", nickname).maxExpansions(5);
-	    	   boolQueryBuilder.filter(matchPhrasePrefixQB);
+//	    		MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
+//	    	               QueryBuilders.matchPhrasePrefixQuery("nickname", nickname).maxExpansions(5);
+//	            boolQueryBuilder.filter(matchQB);
+	    		 QueryBuilder qb = QueryBuilders.wildcardQuery("nickname", "*" + nickname + "*");
+	    	     boolQueryBuilder.must(qb);
 	       }
 	    }
 		
@@ -161,49 +168,53 @@ public class ElasticsearchService {
 
 		private void applyAgeCondition(BoolQueryBuilder queryBuilder,
 	                                   Map<String,Object> ageMap){
-		    Integer ageGt=ageMap.get("gt")==null || ageMap.get("gt").toString().isEmpty() ? 
-		                    null : Integer.valueOf(ageMap.get("gt").toString());
-		    Integer ageLt=ageMap.get("lt")==null || ageMap.get("lt").toString().isEmpty() ? 
-		                    null : Integer.valueOf(ageMap.get("lt").toString());
-		    
-		    RangeQueryBuilder rangeQB= QueryBuilders.rangeQuery(("age"));
-		    
-		    if(ageGt!=null){
-		        rangeQB.gte(ageGt);    
+			if(ageMap != null) {
+		        Integer ageGt=ageMap.get("gt")==null || ageMap.get("gt").toString().isEmpty() ? 
+		                        null : Integer.valueOf(ageMap.get("gt").toString());
+		        Integer ageLt=ageMap.get("lt")==null || ageMap.get("lt").toString().isEmpty() ? 
+		                        null : Integer.valueOf(ageMap.get("lt").toString());
+
+		        RangeQueryBuilder rangeQB= QueryBuilders.rangeQuery(("age"));
+
+		        if(ageGt!=null){
+		            rangeQB.gte(ageGt);    
+		        }
+
+		        if(ageLt!=null){
+		            rangeQB.lte(ageLt);    
+		        }
+
+		       queryBuilder.filter(rangeQB);
 		    }
-		    
-		    if(ageLt!=null){
-		        rangeQB.lte(ageLt);    
-		    }
-		    
-		   queryBuilder.filter(rangeQB);
 		
 		}
 		
 		private void applyFeeCondition(BoolQueryBuilder queryBuilder,
 												Map<String,Object> feeMap){
-			Integer feeGt=feeMap.get("gt")==null || feeMap.get("gt").toString().isEmpty() ? 
-			     null : Integer.valueOf(feeMap.get("gt").toString());
-			Integer feeLt=feeMap.get("lt")==null || feeMap.get("lt").toString().isEmpty() ? 
-			     null : Integer.valueOf(feeMap.get("lt").toString());
-			
-			RangeQueryBuilder rangeQB= QueryBuilders.rangeQuery(("fee"));
-			
-			if(feeGt!=null){
-			rangeQB.gte(feeGt);    
-			}
-			
-			if(feeLt!=null){
-			rangeQB.lte(feeLt);    
-			}
-			
-			queryBuilder.filter(rangeQB);
+			if(feeMap != null) {
+			    Integer feeGt=feeMap.get("gt")==null || feeMap.get("gt").toString().isEmpty() ? 
+			         null : Integer.valueOf(feeMap.get("gt").toString());
+			    Integer feeLt=feeMap.get("lt")==null || feeMap.get("lt").toString().isEmpty() ? 
+			         null : Integer.valueOf(feeMap.get("lt").toString());
+
+			    RangeQueryBuilder rangeQB= QueryBuilders.rangeQuery(("fee"));
+
+			    if(feeGt!=null){
+			        rangeQB.gte(feeGt);    
+			    }
+
+			    if(feeLt!=null){
+			        rangeQB.lte(feeLt);    
+			    }
+
+				queryBuilder.filter(rangeQB);
+		    }
 		
 		}
 
 		private void applyGenderCondition(BoolQueryBuilder queryBuilder,
 	                                      String gender){
-		   if(gender!=null && !gender.equals("") && !gender.equals(("전체"))){
+		   if(gender!=null && !gender.equals("") && !gender.equals(("All"))){
 		       TermQueryBuilder termQB=QueryBuilders.termQuery("gender",gender);
 		       queryBuilder.filter(termQB);
 		   }
@@ -222,33 +233,38 @@ public class ElasticsearchService {
 		}
 		
 		private void validateFormData(Map<String, Object> formData) {
-		    if (!(formData.get("subject") instanceof List)) {
+		    if (formData.containsKey("subjects") && !(formData.get("subjects") instanceof List)) {
 		        throw new IllegalArgumentException("Invalid subject type");
 		    }
 		    
-		    if (!(formData.get("nickname") instanceof String)) {
+		    if (formData.containsKey("nickname") && !(formData.get("nickname") instanceof String)) {
 		        throw new IllegalArgumentException("Invalid nickname type");
 		    }
 		    
-		    if (!(formData.get("title") instanceof String)) {
+		    if (formData.containsKey("title") && !(formData.get("title") instanceof String)) {
 		        throw new IllegalArgumentException("Invalid title type");
 		    }
 		    
-		    validateAge(formData.get("age"));
+		    if(formData.containsKey("age")) {
+		    	validateAge(formData.get("age"));
+		    }
 		    
-		    validateFee(formData.get("fee"));
-
-		    if (!(formData.get("gender") instanceof String)) {
+		    if(formData.containsKey("fee")) {
+		    	validateFee(formData.get("fee"));
+		    }
+		    if (formData.containsKey("gender") && !(formData.get("gender") instanceof String)) {
 		        throw new IllegalArgumentException("Invalid gender type");
 		    }
 		    
+		    if(formData.containsKey("location")) {
 			validateLocation(formData.get("location"));
+		    }
 			
-			if (!(formData.get("page") instanceof Integer)) {
+			if (formData.containsKey("page") && !(formData.get("page") instanceof Integer)) {
 			    throw new IllegalArgumentException("Invalid page type");
 			}
 			
-			if ( !(formData.get("sort") instanceof String) ) { 
+			if (formData.containsKey("sort") && !(formData.get("sort") instanceof String) ) { 
 				throw new IllegalArgumentException ("Invalid sort type"); 
 			}
 			

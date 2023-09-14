@@ -475,7 +475,7 @@
 										    </div>
 										
 										<div class="text-center my-3">
-										    <p class="mb-0">이미 회원이신가요? <a href="login.do" class="fw-semibold text-primary text-decoration-underline"> 로그인 </a> </p>
+										    <p class="mb-0">이미 회원이신가요? <a href="loginForm.do" class="fw-semibold text-primary text-decoration-underline"> 로그인 </a> </p>
 										</div>
 		                            </div>
 		                        <!--end row-->

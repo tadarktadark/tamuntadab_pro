@@ -48,6 +48,17 @@ public class UserController {
 	@Autowired
 	private JavaMailSender mailsender;
 	
+	@RequestMapping(value="/loginForm.do")
+	public String loginForm() {
+		return "loginForm";
+	}
+	@RequestMapping(value="login.do", method=RequestMethod.POST)
+	public String login(@RequestParam Map<String, Object> map) {
+		log.info("map: {}",map);
+		
+		return "";
+	}
+	
 	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
 	public String registForm() {
 		return "regist";

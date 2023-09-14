@@ -1,5 +1,6 @@
 package com.tdtd.tmtd;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,9 +36,18 @@ public class TupyoController {
 	@RequestMapping(value = "/tupyoPage.do")
 	public String tupyoPage(int clasId,String accountId,Model model) {
 		TupyoVo vo = service.getTupyo(clasId);
+		
 		if(vo==null) {
 			model.addAttribute("hasTupyo", "false");
 			model.addAttribute("accountId",accountId);
+			ChamyeoVo masterVo = service.getClassMaster(clasId);
+			String masterId = masterVo.getClchAccountId();
+			String isMaster ="false";
+			if(masterId.equals(accountId)) {
+				isMaster = "true";
+			}
+			model.addAttribute("clasId",clasId);
+			model.addAttribute("isMaster", isMaster);
 			return "tupyo";
 		}
 		model.addAttribute("hasTupyo", "true");
@@ -46,12 +56,7 @@ public class TupyoController {
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
-		ChamyeoVo masterVo = service.getClassMaster(clasId);
-		String masterId = masterVo.getClchAccountId();
 		String isMaster ="false";
-		if(masterId.equals(accountId)) {
-			isMaster = "true";
-		}
 		model.addAttribute("isMaster", isMaster);
 		model.addAttribute("accountId",accountId);
 		return "tupyo";
@@ -182,9 +187,36 @@ public class TupyoController {
 	public boolean finishTupyo(int tupySeq) {
 		TupyoVo vo = service.getTupyo(tupySeq);
 		List<TupyoUserVo> resultList = service.getTupyoResult(tupySeq);
-		if(resultList.size()==1) {
-			//찬반 수 계산해서 확정 후 종료
-		}else {
+		if(resultList.size()==1) {//찬반 투표일 때
+			
+			int agree = 0;
+			int disagree = 0;
+			for (TupyoUserVo tupyoUserVo : resultList) {
+				String agreement = tupyoUserVo.getTuusAgree();
+				if(agreement.equals("A")) {
+					agree++;
+				}else {
+					disagree++;
+				}
+			}
+			if(agree > disagree) {
+				System.out.println("강사 투표 결과 : 찬성");
+				int optionSeq = resultList.get(0).getTuusOptionSeq();
+				TupyoOptionVo maxOptionVo = service.getTupyoOption(optionSeq);
+				String clasAccountId = maxOptionVo.getTuopInstr();
+				int clasId = vo.getTupyClasId();
+				Map<String, Object> insertMap = new HashMap<String, Object>();
+				insertMap.put("clasAccountId", clasAccountId);
+				insertMap.put("clasId", clasId);
+				service.updateClasAccountId(insertMap);
+				service.endTupyo(tupySeq);
+				return true;
+			}else {//반대가 더 많은 경우
+				System.out.println("강사 투표 결과 : 반대");
+				service.endTupyo(tupySeq);
+				return false;
+			}
+		}else {//여러명의 강사 선택지 투표일 때 
 			
 			int maxCount = 0;
 			for (TupyoUserVo result : resultList) {
@@ -203,7 +235,12 @@ public class TupyoController {
 			}
 			System.out.println(maxOptionList);
 			if(maxOptionList.size() > 1) {
-				System.out.println("동률 발생 재투표 진행");
+				System.out.println("동률 발생, 투표를 다시 생성해주세요");
+				
+				//투표를 다시 생성하게 만들
+				service.endTupyo(tupySeq);
+				//기존 투표 및 관련 데이터 삭제
+				service.delTupyo(tupySeq);
 				return false;
 			}
 			//아래의 option seq로 선생 정보를 받아와서 accountId를 확정 강사에 넣어준다
@@ -218,21 +255,11 @@ public class TupyoController {
 			service.endTupyo(tupySeq);
 			
 		}
-		
-		//투표 안한 인원만큼 무효표 처리
-		
-		//최다 득표수 강사 조회해서 클래스에 확정 강사로 등록
-		
-		
-		//투표 상태 '종료'로 변경
 		return true;
 		
-		
-		
-		//투표를 안한 인원은 무효표로 처리
-		//결과에 맞는 강사가 클래스 accountId에 추가되고 매칭 완료로 상태 변경
 	}
 	
+	@ResponseBody
 	@PostMapping("/makeTupyo.do")
 	public String makeTupyo(int tupyClasId,Date tupyEnddate) {
 		
@@ -258,9 +285,7 @@ public class TupyoController {
 			insertMap.put("tuopFee", tuopFee);
 			service.insertTupyoOption(insertMap);
 		}
-		
-		
-		return "redirect:/tupyoPage.do";
+		return "tupyo";
 	}
 	
 

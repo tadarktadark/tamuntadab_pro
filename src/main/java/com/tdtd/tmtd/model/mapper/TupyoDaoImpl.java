@@ -120,6 +120,21 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int updateClasAccountId(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateClasAccountId",map);
 	}
+
+	@Override
+	public int delTupyo(int tupySeq) {
+		return sqlSession.delete(NS+"delTupyo",tupySeq);
+	}
+
+	@Override
+	public int delTupyoOption(int tupySeq) {
+		return sqlSession.delete(NS+"delTupyoOption",tupySeq);
+	}
+
+	@Override
+	public int delAllTupyoUser(int tupySeq) {
+		return sqlSession.delete(NS+"delTupyoUser",tupySeq);
+	}
 	
 	
 	
