@@ -36,6 +36,7 @@ public class InstrVo {
 	private String subjectsMajorTitle;
 	private int reviewCount;
 	private String ingi;
+	private int inprAge;
 
 	private List<InstrEduVo> instrEduVo;	
 	private List<UserProfileVo> userProfileVo;

@@ -2,8 +2,16 @@ package com.tdtd.tmtd;
 
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +20,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tdtd.tmtd.model.service.IInstrService;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
@@ -30,11 +41,68 @@ public class InstrController {
 	@GetMapping("/instrList.do")
 	public String instrList(Model model) {
 		log.info("InstrController instrList 이동");
+		
 		List<InstrVo> lists = service.getAllInstr("like");
+		
+		for (InstrVo instrVo : lists) {
+			String subjectsMajorTitle = instrVo.getSubjectsMajorTitle();
+			String subjectsTitle = instrVo.getSubjectsTitle();
+			subjectsMajorTitle = subjectsMajorTitle.replace("[", "").replace("]", "").replace("\"", "");
+			subjectsTitle = subjectsTitle.replace("[", "").replace("]", "").replace("\"", "");
+			
+			instrVo.setSubjectsMajorTitle(subjectsMajorTitle);
+			instrVo.setSubjectsTitle(subjectsTitle);
+			
+			//userBirth가 Date타입일 경우
+//			LocalDate birthDate = instrVo.getUserProfileVo().get(0).getUserBirth().toInstant()
+//					.atZone(ZoneId.systemDefault())
+//					.toLocalDate();
+			String birthDateString = instrVo.getUserProfileVo().get(0).getUserBirth();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime birthDateTime = LocalDateTime.parse(birthDateString, formatter);
+			
+			LocalDate birthDate = birthDateTime.toLocalDate();
+			
+			int age = Period.between(birthDate, LocalDate.now()).getYears();
+			instrVo.setInprAge(age);
+		};
+		
 		model.addAttribute("title","강사 조회");
 		model.addAttribute("pageTitle", "강사 전체 리스트");
 		model.addAttribute("lists", lists);
-		return null;
+		return "instrList";
+	}
+	
+	@ResponseBody
+	@GetMapping("/instrView.do")
+	public String instrView(@RequestParam(required = false) String order, HttpSession session) {
+		log.info("###########order: {}", order);
+		String accountId = (String)session.getAttribute("userInfo");
+		List<InstrVo> lists = service.getAllInstr(order);
+		for (InstrVo instrVo : lists) {
+			String subjectsMajorTitle = instrVo.getSubjectsMajorTitle();
+			String subjectsTitle = instrVo.getSubjectsTitle();
+			subjectsMajorTitle = subjectsMajorTitle.replace("[", "").replace("]", "").replace("\"", "");
+			subjectsTitle = subjectsTitle.replace("[", "").replace("]", "").replace("\"", "");
+			
+			instrVo.setSubjectsMajorTitle(subjectsMajorTitle);
+			instrVo.setSubjectsTitle(subjectsTitle);
+			
+			String birthDateString = instrVo.getUserProfileVo().get(0).getUserBirth();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime birthDateTime = LocalDateTime.parse(birthDateString, formatter);
+			
+			LocalDate birthDate = birthDateTime.toLocalDate();
+			
+			int age = Period.between(birthDate, LocalDate.now()).getYears();
+			instrVo.setInprAge(age);
+			
+			instrVo.getUserProfileVo().get(0).setUserAccountId(accountId);
+		};
+		
+		Gson gson = new GsonBuilder().serializeNulls().create();
+		log.info("$$$$$$$$$$조회 ajax 결과 : {}", gson.toJson(lists));
+		return gson.toJson(lists);		
 	}
 	
 	@GetMapping("/instrProfileForm.do")
