@@ -241,6 +241,11 @@ public class TupyoController {
 				insertMap.put("clasId", clasId);
 				service.updateClasAccountId(insertMap);
 				service.endTupyo(tupySeq);
+				
+				Map<String, Object> classStatusMap = new HashMap<String, Object>();
+				classStatusMap.put("clasId", clasId);
+				classStatusMap.put("clasStatus", "모집완료");
+				service.updateClassStatus(classStatusMap);
 				return true;
 			}else {//반대가 더 많은 경우
 				System.out.println("강사 투표 결과 : 반대");
@@ -284,6 +289,10 @@ public class TupyoController {
 			insertMap.put("clasId", clasId);
 			service.updateClasAccountId(insertMap);
 			service.endTupyo(tupySeq);
+			Map<String, Object> classStatusMap = new HashMap<String, Object>();
+			classStatusMap.put("clasId", clasId);
+			classStatusMap.put("clasStatus", "모집완료");
+			service.updateClassStatus(classStatusMap);
 			
 		}
 		return true;

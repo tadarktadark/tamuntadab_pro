@@ -57,4 +57,6 @@ public interface ITupyoService {
 	public UserProfileVo getMember(String accountId);
 	//찬반 투표 결과 전체 조회
 	public List<TupyoUserVo> getAgreeResult(int tupySeq);	
+	//클래스 진행 상태 변경
+	public int updateClassStatus(Map<String, Object> map);
 }

@@ -181,7 +181,11 @@ WHERE TUUS_OPTION_SEQ IN (
 );
 </delete>
 
-
+<update id="updateClassStatus" parameterType="Map">
+UPDATE CLASS 
+	SET CLAS_STATUS =#{clasStatus}
+	WHERE CLAS_ID =#{clasId}
+</update>
 
 
 

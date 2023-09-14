@@ -139,6 +139,11 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.getAgreeResult(tupySeq);
 	}
 
+	@Override
+	public int updateClassStatus(Map<String, Object> map) {
+		return dao.updateClassStatus(map);
+	}
+
 	
 
 

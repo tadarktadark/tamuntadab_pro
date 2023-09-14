@@ -146,6 +146,11 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public List<TupyoUserVo> getAgreeResult(int tupySeq) {
 		return sqlSession.selectList(NS+"getAgreeResult",tupySeq);
 	}
+
+	@Override
+	public int updateClassStatus(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateClassStatus",map);
+	}
 	
 	
 	
