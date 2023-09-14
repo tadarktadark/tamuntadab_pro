@@ -111,6 +111,17 @@ public class TupyoDaoImpl implements ITupyoDao {
 		return sqlSession.selectList(NS+"getAllVotedStudents",tuopTupySeq);
 	}
 
+	@Override
+	public TupyoOptionVo getTupyoOption(int tuopSeq) {
+		return sqlSession.selectOne(NS+"getTupyoOption",tuopSeq);
+	}
+
+	@Override
+	public int updateClasAccountId(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateClasAccountId",map);
+	}
+	
+	
 	
 
 	
