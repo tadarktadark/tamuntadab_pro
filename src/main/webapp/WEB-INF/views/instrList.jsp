@@ -28,7 +28,6 @@
 			<div class="card">
 			<div class="card-body">
 			<form class="row g-3 search-form" id="searchForm">
-			<input type="hidden" name="page" value="0">
 				<div class="subjectsAuto col-md-6">
 					<label for="subjects" class="form-label">과목</label> 
 					<div id="selectedSubjects"
@@ -38,7 +37,7 @@
 				<div class="col-md-6">
 					<label for="nickname" class="form-label">이름(닉네임)</label> <input
 						type="text" class="form-control" id="nickname" name="nickname"
-						placeholder="이름 또는 닉네임을 입력하세요">
+						placeholder="찾으시는 강사의 닉네임을 입력하세요">
 				</div>
 				<div class="col-md-6">
 					<label for="fee" class="form-label">수업료</label> 
@@ -51,35 +50,36 @@
 					<input class="form-check-input" type="radio" name="gender"
 									id="gender" value="All" checked> 
 					<label class="form-check-label"	for="gender"> 전체 </label> 
-					<input class="form-check-input"	type="radio" name="gender" id="gender" value="M "> 
+					<input class="form-check-input"	type="radio" name="gender" id="gender" value="M"> 
 					<label class="form-check-label" for="gender"> 남 </label>
-					<input class="form-check-input" type="radio" name="gender" id="gender" value="F "> 
+					<input class="form-check-input" type="radio" name="gender" id="gender" value="F"> 
 					<label class="form-check-label" for="gender"> 여 </label>
 					</div><br>
 					<div>
-					<input class="form-check-input" type="radio" name="sortType" id="order" value="인기순" checked> 
+					<input class="form-check-input" type="radio" name="sort" id="order" value="like" checked> 
 					<label class="form-check-label"	for="sortType"> 인기순 </label> 
-					<input class="form-check-input"	type="radio" name="sortType" id="order" value="최신순"> 
+					<input class="form-check-input"	type="radio" name="sort" id="order" value="reg"> 
 					<label class="form-check-label" for="sortType"> 등록일순 </label>
-					<input class="form-check-input" type="radio" name="sortType" id="order" value="정확도순"> 
+					<input class="form-check-input" type="radio" name="sort" id="order" value="basic"> 
 					<label class="form-check-label" for="sortType"> 정확도순 </label>
 					</div>
 				</div>
 				<div class="col-3" style="margin-top: 80px;">
 					<div class="text-end">
 						<button type="submit" class="btn btn-primary">검색</button>
+						<button type="button" class="btn btn-warning">초기화</button>
 					</div>
 				</div>
 			</form>
 			</div>
 			</div>
-			<select id="orderSelect" class="form-select rounded-pill mb-3" aria-label="Default select example">
+			<select id="orderSelect" class="form-select rounded-pill mb-3" style="width: 300px;" aria-label="Default select example">
 			    <option selected>인기순</option>
 			    <option value="view">조회순</option>
 			    <option value="reg">등록일순</option>
 			</select>
 
-			<div class="row output-area" style="width: 1680px; height: 500px; overflow: auto;">
+			<div class="row output-area" style="width: 1680px; height: 450px; overflow: auto;">
 			<c:forEach var="instr" items="${lists}" varStatus="vs">
 				<div class="col-xxl-3 col-md-6">
 					<div class="card team-box">
@@ -87,8 +87,8 @@
 							<div class="row output-area mb-3">
 								<div class="col">
 									<div class="flex-shrink-0 me-2">
-									<c:if test="${instr.inprCert eq 'S'}">
-										<span
+									<c:if test="${instr.inprCert eq 'S' || instr.inprCert eq 'D'}">
+										<span title="경력이 인증된 강사" data-bs-toggle="tooltip" data-bs-placement="top"
 											class="badge bg-success-subtle text-success member-designation me-2">
 											<i class=" bx bxs-user-check" style="font-size: 20px;"></i>
 										</span>
@@ -156,6 +156,11 @@
 					</div>
 				</div>
 				</c:forEach>
+			</div>
+			<button id="scrollToTopButton" class="btn rounded-pill btn-secondary" style="position: fixed; right: 10px; bottom: 70px;">
+			<i class="mdi mdi-arrow-up-bold"></i></button>
+			<div id="more" style="display: none; text-align: center;">
+				<button type="button" class="btn btn-outline-secondary">검색 결과 더보기</button>
 			</div>
 			</div>
 			</div>
@@ -259,8 +264,18 @@
 		});
 
 	});
-
 	
+	$(function () {
+	    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+	    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+	        return new bootstrap.Tooltip(tooltipTriggerEl, { delay: { "show": 100, "hide": 100 } })
+	    })
+	})
+	
+	$('button.btn.btn-warning').click(function(e) {
+	    e.preventDefault(); 
+	    $('#searchForm')[0].reset();
+	});
 </script>
 <style type="text/css">
 .ui-autocomplete {
