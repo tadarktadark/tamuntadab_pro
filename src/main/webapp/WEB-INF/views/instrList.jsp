@@ -27,12 +27,13 @@
 					<%@ include file="./shared/_page_title.jsp"%>
 			<div class="card">
 			<div class="card-body">
-			<form action="javascript:void(0);" class="row g-3 search-form">
+			<form class="row g-3 search-form" id="searchForm">
+			<input type="hidden" name="page" value="0">
 				<div class="subjectsAuto col-md-6">
-					<label for="inprSubjects" class="form-label">과목</label> 
+					<label for="subjects" class="form-label">과목</label> 
 					<div id="selectedSubjects"
 									class="choices__list choices__list--multiple"></div>
-					<input type="search" class="form-control" id="inprSubjects" name="inprSubjects" placeholder="과목명을 입력하세요">
+					<input type="search" class="form-control" id="subjects" name="subjects" placeholder="과목명을 입력하세요">
 				</div>
 				<div class="col-md-6">
 					<label for="nickname" class="form-label">이름(닉네임)</label> <input
@@ -40,28 +41,28 @@
 						placeholder="이름 또는 닉네임을 입력하세요">
 				</div>
 				<div class="col-md-6">
-					<label for="age" class="form-label">연령대</label> 
-					<input type="number" class="form-control" id="ageGt" placeholder="최소">
-					<input type="number" class="form-control" id="ageLt" placeholder="최대">
+					<label for="fee" class="form-label">수업료</label> 
+					<input type="number" class="form-control" id="feeGt" name="feeGt" placeholder="최소">
+					<input type="number" class="form-control" id="feeLt" name="feeLt" placeholder="최대">
 				</div>
 				<div class="col-md-3">
 					<label for="gender" class="form-label">성별</label>
 					<div>
 					<input class="form-check-input" type="radio" name="gender"
-									id="gender" value="All"> 
+									id="gender" value="All" checked> 
 					<label class="form-check-label"	for="gender"> 전체 </label> 
-					<input class="form-check-input"	type="radio" name="gender" id="gender" value="M"> 
+					<input class="form-check-input"	type="radio" name="gender" id="gender" value="M "> 
 					<label class="form-check-label" for="gender"> 남 </label>
-					<input class="form-check-input" type="radio" name="gender" id="gender" value="F"> 
+					<input class="form-check-input" type="radio" name="gender" id="gender" value="F "> 
 					<label class="form-check-label" for="gender"> 여 </label>
 					</div><br>
 					<div>
-					<input class="form-check-input" type="radio" name="order" id="order" value="like"> 
-					<label class="form-check-label"	for="order"> 인기순 </label> 
-					<input class="form-check-input"	type="radio" name="order" id="order" value="view"> 
-					<label class="form-check-label" for="order"> 조회순 </label>
-					<input class="form-check-input" type="radio" name="order" id="order" value="reg"> 
-					<label class="form-check-label" for="order"> 등록일순 </label>
+					<input class="form-check-input" type="radio" name="sortType" id="order" value="인기순" checked> 
+					<label class="form-check-label"	for="sortType"> 인기순 </label> 
+					<input class="form-check-input"	type="radio" name="sortType" id="order" value="최신순"> 
+					<label class="form-check-label" for="sortType"> 등록일순 </label>
+					<input class="form-check-input" type="radio" name="sortType" id="order" value="정확도순"> 
+					<label class="form-check-label" for="sortType"> 정확도순 </label>
 					</div>
 				</div>
 				<div class="col-3" style="margin-top: 80px;">
@@ -72,7 +73,7 @@
 			</form>
 			</div>
 			</div>
-			 <select id="orderSelect" class="form-select rounded-pill mb-3" aria-label="Default select example">
+			<select id="orderSelect" class="form-select rounded-pill mb-3" aria-label="Default select example">
 			    <option selected>인기순</option>
 			    <option value="view">조회순</option>
 			    <option value="reg">등록일순</option>
@@ -117,6 +118,7 @@
 							<div class="text-center">
 								<a href="" class="member-name">
 									<h5 class="fs-16 mb-1">${instr.userProfileVo[0].userNickname}</h5>
+									<span class="text-muted fs-13 mt-1 text-truncate">만 ${instr.inprAge} 세</span>
 								</a>
 								<c:set var="subjectsMajorTitleList" value='${fn:split(instr.subjectsMajorTitle, ",")}'/>
 								<div class="row output-area">
@@ -129,8 +131,8 @@
 
 									<div class="col-6">
 										<div class="mt-3">
-											<p class="mb-0 text-muted">나이</p>
-											<h5 class="mt-1 fs-16 mb-0 text-truncate">${instr.inprAge}</h5>
+											<p class="mb-0 text-muted">최소 수업료(만원)</p>
+											<h5 class="mt-1 fs-16 mb-0 text-truncate">${instr.inprFee == 0 ? '미등록':instr.inprFee}</h5>
 										</div>
 									</div>
 								</div>
@@ -199,7 +201,7 @@
 	}
 
 	$(function() {
-		$("#inprSubjects")
+		$("#subjects")
 				.autocomplete(
 						{
 							minLength : 1,
@@ -249,7 +251,7 @@
 			return $("<li>").append("<a>" + item.label + "</a>").appendTo(ul);
 		};
 
-		$('#inprSubjects').on('keydown', function(event) {
+		$('#subjects').on('keydown', function(event) {
 			if (event.key === 'Enter') {
 				event.preventDefault();
 				return false;
