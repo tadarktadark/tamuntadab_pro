@@ -1,5 +1,6 @@
 package com.tdtd.tmtd;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -179,8 +180,25 @@ public class TupyoController {
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
 	public void finishTupyo(int tupySeq) {
+		List<TupyoUserVo> resultList = service.getTupyoResult(tupySeq);
+		if(resultList.size()==1) {
+			//찬반 수 계산해서 확정 후 종료
+		}else {
+			
+		}
+		
+		//투표 안한 인원만큼 무효표 처리
+		
+		//최다 득표수 강사 조회해서 클래스에 확정 강사로 등록
+		
+		
+		//투표 상태 '종료'로 변경
 		service.endTupyo(tupySeq);
-		//투표를 안한 인원은 반대, 또는 무효표로 처리
+		
+		
+		
+		
+		//투표를 안한 인원은 무효표로 처리
 		//결과에 맞는 강사가 클래스 accountId에 추가되고 매칭 완료로 상태 변경
 	}
 	

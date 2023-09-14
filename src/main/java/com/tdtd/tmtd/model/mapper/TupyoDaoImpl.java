@@ -101,6 +101,16 @@ public class TupyoDaoImpl implements ITupyoDao {
 		return sqlSession.selectList(NS+"getAllInstr",clchClasId);
 	}
 
+	@Override
+	public List<ChamyeoVo> getAllClassMember(int clchClasId) {
+		return sqlSession.selectList(NS+"getAllClassMember",clchClasId);
+	}
+
+	@Override
+	public List<TupyoUserVo> getAllVotedStudents(int tuopTupySeq) {
+		return sqlSession.selectList(NS+"getAllVotedStudents",tuopTupySeq);
+	}
+
 	
 
 	
