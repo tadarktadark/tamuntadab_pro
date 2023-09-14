@@ -18,8 +18,8 @@
 		<typeAlias type="com.tdtd.tmtd.vo.InstrVo" alias="instrVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.JeongsanVo" alias="jeongsanVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ReplyVo" alias="replyVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.ReviewVo" alias="reviewVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.SingoDaesangVo" alias="singoDaesangVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ReviewVo" alias="reviewVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.SingoSayuVo" alias="singoSayuVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.SubjectTagVo" alias="subjectTagVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.SubjectVo" alias="subjectVo"/>

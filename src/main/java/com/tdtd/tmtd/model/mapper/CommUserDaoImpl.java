@@ -47,7 +47,7 @@ public class CommUserDaoImpl implements ICommUserDao {
 	}
 	@Override
 	public int updateUserChadanDate(String userEmail) {
-		return sqlSession.update(userEmail);
+		return sqlSession.update(NS+"updateUserChadanDate",userEmail);
 	}
 	@Override
 	public String checkUserChadanDate(String userEmail) {
@@ -56,6 +56,18 @@ public class CommUserDaoImpl implements ICommUserDao {
 	@Override
 	public int restoreUserChadanDate(String userEmail) {
 		return sqlSession.update(NS+"restoreUserChadanDate",userEmail);
+	}
+	@Override
+	public int updateTime(UserProfileVo userInfo) {
+		return sqlSession.update(NS+"updateTime",userInfo);
+	}
+	@Override
+	public int restoreUserChadanCount(UserProfileVo userInfo) {
+		return sqlSession.update(NS+"restoreUserChadanCount",userInfo);
+	}
+	@Override
+	public UserProfileVo autoLogin(String userAutoLoginToken) {
+		return sqlSession.selectOne(NS+"autoLogin",userAutoLoginToken);
 	}
 	
 	

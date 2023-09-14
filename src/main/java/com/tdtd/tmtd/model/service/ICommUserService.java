@@ -36,4 +36,9 @@ public interface ICommUserService {
 	 * 로그인 시 기능이 합쳐진 메소드
 	 */
 	public Map<String,Object>commLogin(Map<String,String> userInput);
+	
+	public int updateTime(UserProfileVo userInfo);
+	
+	public UserProfileVo autoLogin(String userAutoLoginToken);
+
 }

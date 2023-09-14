@@ -57,4 +57,11 @@ public interface ICommUserDao {
 	public String checkUserChadanDate(String userEmail);
 	
 	public int restoreUserChadanDate(String userEmail);
+
+	public int restoreUserChadanCount(UserProfileVo userInfo);
+	
+	public int updateTime(UserProfileVo userInfo);
+	
+	public UserProfileVo autoLogin(String userAutoLoginToken);
+	
 }
