@@ -114,23 +114,20 @@ public class InstrController {
 	@PostMapping(value ="/instrSearch.do", produces = "application/json;charset=UTF-8")
 	public String instrSearch(@RequestBody Map<String, Object> formData, HttpSession session) throws IOException {
 		log.info("########### instrSearch.do 받아온 값: {}", formData); 
-		log.info("########### instrSearch.do 받아온 값 String: {}", formData.toString());
 		List<Map<String, Object>> resultList = searchService.search(formData, "instr_profile", 8);
 		 
 		Object userInfo = session.getAttribute("userInfo");
 		
 		for (Map<String,Object> result : resultList) {
-		    if(result.containsKey("_source")) {
-		        Map<String, Object> source = (Map<String, Object>) result.get("_source");
-		        log.info("%%%%%%%%%%%%%%%%%%%%%% _source : {}", source);
-		        if(source != null && source.containsKey("user_birth")) {
-		            String birthDateStr = (String) source.get("user_birth");
+			log.info("%%%%%%%%%%%%%%%%%%%%%% result : {}", result);
+		        if(result != null && result.containsKey("user_birth")) {
+		            String birthDateStr = (String) result.get("user_birth");
 		            if(birthDateStr != null){
 		                birthDateStr= birthDateStr.split("T")[0]; //날짜 부분만 추출
 		                int age = calculateAge(birthDateStr);
-		                source.put("user_age", age);
+		                result.put("user_age", age);
+		                log.info("%%%%%%%%%%%%%%%%%%%%%% user_age : {}", result.get("user_age"));
 		            }
-		        }
 
 		        // login_info 필드 추가
 		        result.put("login_info", userInfo);
