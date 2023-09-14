@@ -1,4 +1,10 @@
 @charset "UTF-8";
-.list-group-item:hover{
+.view-detail:hover, .page-link:hover{
 	cursor: pointer;
+}
+
+#title{
+	display: flex;
+	vertical-align: center;
+	height: 100%;
 }
