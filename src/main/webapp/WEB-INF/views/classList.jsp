@@ -47,8 +47,8 @@
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-mail-send fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
-                                                            <h5 class="fs-15 mb-0">전체 강의</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">How To Boost Website</span>
+                                                            <h5 class="fs-15 mb-0">전체 클래스</h5>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">모든 클래스를 조회합니다</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="float-end">
@@ -127,6 +127,8 @@
                                             <div class="mail-list">
                                                 <a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span>참여 중인 클래스</a>
                                                 <a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-warning float-end"></span>좋아요 한 클래스</a>
+                                                <a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-danger float-end"></span>성별 제한</a>
+												<a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-info float-end"></span>나이 제한</a>
                                             </div>
                                         </div>
     
@@ -247,168 +249,108 @@
                                                         <div class="d-flex title align-items-center">
                                                             <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="">
                                                             <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">Me, Susanna</a></h5>
-                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">07 Threads</a>
+                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">클래스장 닉네임</a></h5>
+                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">서울특별시 금천구 가산동</a>
                                                             </div>
                                                         </div>
                                                         <span class="star-toggle bx bx-star"></span>
                                                     </div>
                                                     <div class="col-mail col-mail-2">
-                                                        <a href="#" class="subject text-body"><span class="bg-warning badge me-2">Freelance</span> Wolombo has been arranged, – <span class="teaser text-muted fw-normal">Alright thanks. I'll have to re-book that somehow, i'll get back to you.</span>
+                                                        <a href="#" class="subject text-body"><span class="bg-primary badge me-2">참여 중</span>클래스 제목<span class="teaser text-muted fw-normal">과목 명, 과목 명, 과목 명</span>
                                                         </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i> 8:23 AM</div>
+                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>23.08.16</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
     
-    
                                    <div class="pt-2">
                                        <h6 class="text-muted text-uppercase mb-3">좋아요 한 클래스</h6>
                                        <div class="mb-2">
-                                           <div class="message-list mb-0 p-1">
-                                               <div class="list">
-                                                   <div class="col-mail col-mail-1">
-                                                       <div class="d-flex title align-items-center">
-                                                           <img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="">
-                                                           <div class="flex-1 ms-2 ps-1 mt-1">
-                                                               <h5 class="fs-15 mb-0"><a href="" class="text-body">Whitney Peter</a></h5>
-                                                               <a href="" class="text-muted text-uppercase fs-13 mt-1">23 Threads</a>
-                                                           </div>
-                                                       </div>
-                                                       <span class="star-toggle bx bx-star"></span>
-                                                   </div>
-                                                   <div class="col-mail col-mail-2">
-                                                       <a href="classDetail.do" class="subject text-body"> 클래스 제목<span class="bg-info badge me-2">Support</span> Off on Thursday - <span class="teaser text-muted fw-normal">Eff that place, you might as well stay here with us instead! Sent from my iPhone 4  4 mar 2014 at 5:55 pm</span>
-                                                       </a>
-                                                       <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i> 3:26 AM</div>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                       </div>
+                                            <div class="message-list mb-0 p-1">
+                                                <div class="list">
+                                                    <div class="col-mail col-mail-1">
+                                                        <div class="d-flex title align-items-center">
+                                                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="">
+                                                            <div class="flex-1 ms-2 ps-1 mt-1">
+                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">클래스장 닉네임</a></h5>
+                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">부산광역시 해운대구 우동</a>
+                                                            </div>
+                                                        </div>
+                                                        <span class="star-toggle bx bx-star"></span>
+                                                    </div>
+                                                    <div class="col-mail col-mail-2">
+                                                        <a href="#" class="subject text-body">
+                                                        	<span class="bg-warning badge me-2">좋아요</span>
+                                                        	클래스 제목
+                                                        	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
+                                                        	<span class="bg-danger badge me-2">여자만</span>
+                                                        </a>
+                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>일주일 이내</div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                 	</div>
     
-                                        <div class="pt-2">
+                                        <div class="pt-2" id="normalClass">
                                             <h6 class="text-muted text-uppercase mb-3">클래스 목록</h6>
                                             <div class="mb-2">
                                                 <div class="message-list mb-0 p-1">
                                                     <div class="list">
                                                         <div class="col-mail col-mail-1">
-                                                            <div class="checkbox-wrapper-mail">
-                                                                <input type="checkbox" id="chk6">
-                                                                <label for="chk6" class="toggle"></label>
-                                                            </div>
                                                             <div class="d-flex title align-items-center">
                                                                 <img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="">
                                                                 <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                    <h5 class="fs-15 mb-0"><a href="" class="text-body">Andrew Zimmer</a></h5>
-                                                                    <a href="" class="text-muted text-uppercase fs-13 mt-1">02 Threads</a>
+                                                                    <h5 class="fs-15 mb-0"><a href="" class="text-body">클래스장 닉네임</a></h5>
+                                                                    <a href="" class="text-muted text-uppercase fs-13 mt-1">대전광역시 동구 중앙동</a>
                                                                 </div>
                                                             </div>
                                                             <span class="star-toggle bx bx-star"></span>
                                                         </div>
                                                         <div class="col-mail col-mail-2">
-                                                            <a href="classDetail.do" class="subject text-body"> 클래스 제목Mochila Beta: Subscription Confirmed – <span class="teaser text-muted fw-normal">You've been confirmed! Welcome to the ruling class of the inbox. For your records, here is a copy of the information you submitted to us...</span>
+                                                            <a href="classDetail.do" class="subject text-body">
+                                                            	클래스 제목 
+                                                            	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
+                                                            	<span class="bg-danger badge me-2">남자만</span>
+                                                            	<span class="bg-info badge me-2">20-40</span>
                                                             </a>
-                                                            <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i> 4:24 PM</div>
+                                                            <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>오늘</div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        </div>
-    
-                                        <div class="mb-2">
-                                            <div class="message-list mb-0 p-1">
-                                                <div class="list">
-                                                    <div class="col-mail col-mail-1">
-                                                        <div class="checkbox-wrapper-mail">
-                                                            <input type="checkbox" id="chk7">
-                                                            <label for="chk7" class="toggle"></label>
-                                                        </div>
-                                                        <div class="d-flex title align-items-center">
-                                                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="">
-                                                            <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">Randy, me (5)</a></h5>
-                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">15 Threads</a>
-                                                            </div>
-                                                        </div>
-                                                        <span class="star-toggle bx bx-star"></span>
-                                                    </div>
-                                                    <div class="col-mail col-mail-2">
-                                                        <a href="#" class="subject text-body"><span class="bg-success badge me-2">Family</span> Weekend on Revibe – <span class="teaser text-muted fw-normal">Today's Friday and we thought maybe you want some music inspiration for the weekend. Here are some trending tracks and playlists we think you should give a listen!</span>
-                                                        </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i> 4:24 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-    
-                                        <div class="unread mb-2">
-                                            <div class="message-list mb-0 p-1">
-                                                <div class="list">
-                                                    <div class="col-mail col-mail-1">
-                                                        <div class="checkbox-wrapper-mail">
-                                                            <input type="checkbox" id="chk8">
-                                                            <label for="chk8" class="toggle"></label>
-                                                        </div>
-                                                        <div class="d-flex title align-items-center">
-                                                            <img src="assets/images/users/avatar-7.jpg" class="avatar-sm rounded-circle" alt="">
-                                                            <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">KanbanFlow</a></h5>
-                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">06 Threads</a>
-                                                            </div>
-                                                        </div>
-                                                        <span class="star-toggle bx bx-star"></span>
-                                                    </div>
-                                                    <div class="col-mail col-mail-2">
-                                                        <a href="classDetail.do" class="subject text-body"> 클래스 제목Task assigned: Clone ARP's website
-                                                        –  <span class="teaser text-muted fw-normal">You have been assigned a task by Alex@Work on the board Web.</span>
-                                                        </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i> 7:36 AM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-    
-                                        <div class="mb-2">
-                                            <div class="message-list mb-0 p-1">
-                                                <div class="list">
-                                                    <div class="col-mail col-mail-1">
-                                                        <div class="checkbox-wrapper-mail">
-                                                            <input type="checkbox" id="chk9">
-                                                            <label for="chk9" class="toggle"></label>
-                                                        </div>
-                                                        <div class="d-flex title align-items-center">
-                                                            <img src="assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle" alt="">
-                                                            <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">Revibe</a></h5>
-                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">25 Threads</a>
-                                                            </div>
-                                                        </div>
-                                                        <span class="star-toggle bx bx-star"></span>
-                                                    </div>
-                                                    <div class="col-mail col-mail-2">
-                                                        <a href="classDetail.do" class="subject text-body"> 클래스 제목Last pic over my village – <span class="teaser text-muted fw-normal">Yeah i'd like that! Do you remember the video you showed me of your train ride between Colombo and Kandy? The one with the mountain view? I would love to see that one again!</span>
-                                                        </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i> 9:52 PM</div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-7">
-                                                Showing 1 - 20 of 1,524
+                                                Showing 퍼스트 - 라스트 of 토탈카운트
                                             </div>
-                                            <div class="col-5">
-                                                <div class="btn-group float-end">
-                                                    <button type="button" class="btn btn-sm btn-success waves-effect"><i class="bx bxs-chevron-left"></i></button>
-                                                    <button type="button" class="btn btn-sm btn-success waves-effect"><i class="bx bxs-chevron-right"></i></button>
-                                                </div>
-                                            </div>
+                                            <div class="col-sm-auto ms-auto">
+					                            <nav aria-label="...">
+					                                <ul class="pagination mb-0">
+					                                	<li class="page-item disabled">
+					                                    <span class="page-link">first</span>
+					                                  </li>
+					                                  <li class="page-item disabled">
+					                                    <span class="page-link">Previous</span>
+					                                  </li>
+					                                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+					                                  <li class="page-item" aria-current="page">
+					                                    <span class="page-link">2</span>
+					                                  </li>
+					                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+					                                  <li class="page-item">
+					                                    <a class="page-link" href="#">Next</a>
+					                                  </li>
+					                                  <li class="page-item">
+					                                    <a class="page-link" href="#">last</a>
+					                                  </li>
+					                                </ul>
+					                              </nav>
+					                        </div>
                                         </div>
                                     </div>
-    
                                </div>
     
                                     </div>
