@@ -7,6 +7,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 public interface ITupyoDao {
 	
@@ -56,5 +57,9 @@ public interface ITupyoDao {
 	public int delTupyoOption(int tupySeq);
 	//투표유저 삭제
 	public int delAllTupyoUser(int tupySeq);
+	//유저 정보 조회
+	public UserProfileVo getMember(String accountId);
+	//찬반 투표 결과 전체 조회
+	public List<TupyoUserVo> getAgreeResult(int tupySeq);
 	
 }

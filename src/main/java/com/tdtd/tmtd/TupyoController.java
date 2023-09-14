@@ -1,5 +1,6 @@
 package com.tdtd.tmtd;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Controller
 public class TupyoController {
@@ -36,7 +38,7 @@ public class TupyoController {
 	@RequestMapping(value = "/tupyoPage.do")
 	public String tupyoPage(int clasId,String accountId,Model model) {
 		TupyoVo vo = service.getTupyo(clasId);
-		
+		System.out.println("vo 체크 : "+vo);
 		if(vo==null) {
 			model.addAttribute("hasTupyo", "false");
 			model.addAttribute("accountId",accountId);
@@ -49,17 +51,34 @@ public class TupyoController {
 			model.addAttribute("clasId",clasId);
 			model.addAttribute("isMaster", isMaster);
 			return "tupyo";
-		}
+		}else {
 		model.addAttribute("hasTupyo", "true");
 		
 		List<TupyoOptionVo> lists = service.getAllTupyoOption(vo.getTupySeq());
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
+		
+		List<String> instrNicknameList = new ArrayList<>();
+		for(int i =0;i<lists.size();i++) {
+			String instrId = lists.get(i).getTuopInstr();
+			UserProfileVo instrVo = service.getMember(instrId);
+			String instrNickname = instrVo.getUserName();
+			instrNicknameList.add(instrNickname);
+		}
+		model.addAttribute("instrNicknameList", instrNicknameList);
+		
 		model.addAttribute("title","투표");
 		String isMaster ="false";
+		ChamyeoVo masterVo = service.getClassMaster(clasId);
+		String masterId = masterVo.getClchAccountId();
+		if(masterId.equals(accountId)) {
+			isMaster = "true";
+		}
+		model.addAttribute("clasId",clasId);
 		model.addAttribute("isMaster", isMaster);
 		model.addAttribute("accountId",accountId);
 		return "tupyo";
+		}
 	}
 	
 	
@@ -91,8 +110,8 @@ public class TupyoController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/tupyoResult.do",method = RequestMethod.GET)
-	public Map<String, Object> tupyoResult(@RequestParam int tuusOptionSeq){
-		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tuusOptionSeq);
+	public Map<String, Object> tupyoResult(@RequestParam int tupySeq,@RequestParam int tuusOptionSeq){
+		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tupySeq);
 		
 		List<TupyoUserVo> resultList = service.getTupyoResult(tuusOptionSeq);
 		System.out.println("리절트리스트"+resultList);
@@ -161,6 +180,14 @@ public class TupyoController {
 		tupyoUserVo.setTuusOptionSeq(userList.get(0).getTuusOptionSeq());
 		service.delTupyoUser(tupyoUserVo);
 		List<TupyoOptionVo> lists = service.getAllTupyoOption(tupySeq);
+		List<String> instrNicknameList = new ArrayList<>();
+		for(int i =0;i<lists.size();i++) {
+			String instrId = lists.get(i).getTuopInstr();
+			UserProfileVo instrVo = service.getMember(instrId);
+			String instrNickname = instrVo.getUserName();
+			instrNicknameList.add(instrNickname);
+		}
+		model.addAttribute("instrNicknameList", instrNicknameList);
 		model.addAttribute("vo",vo);
 		model.addAttribute("lists",lists);
 		model.addAttribute("title","투표");
@@ -184,24 +211,28 @@ public class TupyoController {
 	
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
-	public boolean finishTupyo(int tupySeq) {
-		TupyoVo vo = service.getTupyo(tupySeq);
+	public boolean finishTupyo(int tupyClasId,int tupySeq) {
+		TupyoVo vo = service.getTupyo(tupyClasId);
 		List<TupyoUserVo> resultList = service.getTupyoResult(tupySeq);
 		if(resultList.size()==1) {//찬반 투표일 때
 			
+			List<TupyoUserVo> agreeList = service.getAgreeResult(tupySeq);
+			
 			int agree = 0;
 			int disagree = 0;
-			for (TupyoUserVo tupyoUserVo : resultList) {
-				String agreement = tupyoUserVo.getTuusAgree();
-				if(agreement.equals("A")) {
-					agree++;
-				}else {
-					disagree++;
-				}
+			for (int i = 0; i < agreeList.size(); i++) {
+			    TupyoUserVo tupyoUserVo = agreeList.get(i);
+			    String agreement = tupyoUserVo.getTuusAgree();
+			    if (agreement.equals("A")) {
+			        agree++;
+			    } else {
+			        disagree++;
+			    }
 			}
+
 			if(agree > disagree) {
 				System.out.println("강사 투표 결과 : 찬성");
-				int optionSeq = resultList.get(0).getTuusOptionSeq();
+				int optionSeq = agreeList.get(0).getTuusOptionSeq();
 				TupyoOptionVo maxOptionVo = service.getTupyoOption(optionSeq);
 				String clasAccountId = maxOptionVo.getTuopInstr();
 				int clasId = vo.getTupyClasId();
@@ -226,7 +257,7 @@ public class TupyoController {
 			    }
 			}
 			System.out.println(maxCount);
-			List<TupyoUserVo> maxOptionList = new ArrayList<TupyoUserVo>();
+			List<TupyoUserVo> maxOptionList = new ArrayList<>();
 			for (TupyoUserVo result : resultList) {
 				int count = result.getCount();
 				if(count==maxCount) {
@@ -261,17 +292,25 @@ public class TupyoController {
 	
 	@ResponseBody
 	@PostMapping("/makeTupyo.do")
-	public String makeTupyo(int tupyClasId,Date tupyEnddate) {
+	public String makeTupyo(int tupyClasId,String tupyEnddate) throws ParseException {
+		
+		//String 날짜를 date로 바꿔줘야함
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = formatter.parse(tupyEnddate);
+		
 		
 		Map<String, Object> map= new HashMap<String, Object>();
 		int tupyTotalUser = service.countTotalClassMember(tupyClasId);
 		map.put("tupyClasId", tupyClasId);
 		map.put("tupyTotalUser", tupyTotalUser);
-		map.put("tupyEnddate", tupyEnddate);
+		map.put("tupyEnddate", date);
 		service.insertTupyo(map);
 		
-		
-		int tuopTupySeq = service.getTupyo(tupyClasId).getTupySeq();
+		System.out.println(tupyClasId);
+		TupyoVo vo = service.getTupyo(tupyClasId);
+		System.out.println(vo);
+		int tuopTupySeq = vo.getTupySeq();
+		System.out.println(tuopTupySeq);
 		
 		List<ChamyeoVo> instrList = service.getAllInstr(tupyClasId);
 		System.out.println(instrList);
@@ -285,7 +324,7 @@ public class TupyoController {
 			insertMap.put("tuopFee", tuopFee);
 			service.insertTupyoOption(insertMap);
 		}
-		return "tupyo";
+		return null;
 	}
 	
 

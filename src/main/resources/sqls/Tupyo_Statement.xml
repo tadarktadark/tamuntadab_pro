@@ -13,6 +13,15 @@ INSERT INTO TUPYO(TUPY_SEQ, TUPY_CLAS_ID, TUPY_TOTAL_USER, TUPY_STARTDATE, TUPY_
         VALUES(TUPY_SEQ.NEXTVAL,#{tupyClasId}, #{tupyTotalUser}, CURRENT_DATE , #{tupyEnddate}, 'P')
 </insert>
 
+<select id="getAgreeResult" parameterType="Integer" resultType="tupyoUserVo">
+SELECT TUUS_OPTION_SEQ,TUUS_ACCOUNT_ID ,TUUS_AGREE
+	FROM TUPYO_USER tu 
+	WHERE TUUS_OPTION_SEQ  IN (
+					SELECT TUOP_SEQ 
+						FROM TUPYO_OPTION to2 
+						WHERE TUOP_TUPY_SEQ =#{tupySeq})
+</select>
+
 
 <select id="getAllVotedStudents" parameterType="Integer" resultType="tupyoUserVo">
 SELECT TUUS_ACCOUNT_ID 
@@ -25,13 +34,13 @@ SELECT TUUS_ACCOUNT_ID
 
 
 <select id="getAllInstr" parameterType="Integer" resultType="chamyeoVo">
-SELECT CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL 
+SELECT CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL ,CLCH_INSTR_SUGANGRYO
 	FROM CLASS_CHAMYEOJA cc 
 	WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_YEOKAL ='I'
 </select>
 
 <select id="getTupyo" parameterType="java.lang.Integer" resultType="tupyoVo">
-SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TO_CHAR(TUPY_STARTDATE,'YYYY-MM-DD') AS TUPY_STARTDATE  ,TO_CHAR(TUPY_ENDDATE,'YYYY-MM-DD') AS TUPY_ENDDATE ,TUPY_STATUS
+SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TUPY_STARTDATE,TUPY_ENDDATE,TUPY_STATUS
 	FROM TUPYO t
 	WHERE TUPY_CLAS_ID =#{tupyClasId}
 </select>
@@ -40,6 +49,7 @@ SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TO_CHAR(TUPY_STARTDATE,'YYYY-MM-
 SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE 
 	FROM TUPYO_OPTION to2 
 	WHERE TUOP_TUPY_SEQ =#{tuopTupySeq}
+	ORDER BY TUOP_SEQ
 </select>
 
 <select id="getTupyoOption" parameterType="Integer" resultType="tupyoOptionVo">
@@ -62,13 +72,19 @@ SELECT CLCH_ID,CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_GYEOLJE_STATUS ,
 <select id="getClassMaster" parameterType="Integer" resultType="chamyeoVo">
 SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL 
         FROM CLASS_CHAMYEOJA
-        WHERE CLCH_CLAS_ID ='1000000033' AND CLCH_YEOKAL ='M' AND  CLCH_STATUS ='Y'
+        WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_YEOKAL ='M' AND  CLCH_STATUS ='Y'
 </select>
 
 <select id="getClassMember" parameterType="Map" resultType="chamyeoVo">
 SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL
         FROM CLASS_CHAMYEOJA cc
         WHERE CLCH_CLAS_ID =#{clchClasId} AND CLCH_ACCOUNT_ID =#{clchAccountId} AND CLCH_STATUS ='Y' AND CLCH_YEOKAL IN ('M','S')
+</select>
+
+<select id="getMember" parameterType="String" resultType="userProfileVo">
+SELECT USER_ACCOUNT_ID ,USER_EMAIL ,USER_NAME
+	FROM USER_PROFILE up 
+	WHERE USER_ACCOUNT_ID =#{accountId}
 </select>
 
 

@@ -11,6 +11,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Service
 public class TupyoServiceImpl implements ITupyoService {
@@ -126,6 +127,16 @@ public class TupyoServiceImpl implements ITupyoService {
 		int b =dao.delTupyoOption(tupySeq);
 		int c =dao.delAllTupyoUser(tupySeq);
 		return a+b+c;
+	}
+
+	@Override
+	public UserProfileVo getMember(String accountId) {
+		return dao.getMember(accountId);
+	}
+
+	@Override
+	public List<TupyoUserVo> getAgreeResult(int tupySeq) {
+		return dao.getAgreeResult(tupySeq);
 	}
 
 	

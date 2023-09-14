@@ -11,6 +11,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
 import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Repository
 public class TupyoDaoImpl implements ITupyoDao {
@@ -134,6 +135,16 @@ public class TupyoDaoImpl implements ITupyoDao {
 	@Override
 	public int delAllTupyoUser(int tupySeq) {
 		return sqlSession.delete(NS+"delTupyoUser",tupySeq);
+	}
+
+	@Override
+	public UserProfileVo getMember(String accountId) {
+		return sqlSession.selectOne(NS+"getMember",accountId);
+	}
+
+	@Override
+	public List<TupyoUserVo> getAgreeResult(int tupySeq) {
+		return sqlSession.selectList(NS+"getAgreeResult",tupySeq);
 	}
 	
 	

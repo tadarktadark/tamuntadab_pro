@@ -26,18 +26,18 @@
 				<input name="tupyoClassId" type="hidden" value="${vo.tupyClasId}">
 				<input name="tupyoStatus" type="hidden" value="${vo.tupyStatus}">
 				<div class="card-header" id="selectInstrTitle">
-					<b>강사님을 선택해주세요</b><span style="float: right;">종료일자 : ${vo.tupyEnddate}</span><br>
+					<b>강사님을 선택해주세요</b><span style="float: right;">종료일자 :<fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/></span><br>
 				</div>
 				<div class="card-header" id="tupyoResultTitle" style="display: none;">
-					<b>투표 결과</b><span style="float: right;">종료일자 : ${vo.tupyEnddate}</span><br>
+					<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> </span><br>
 				</div>
 				<div class="card-body">
 					<div id="tupyoList">
 						<div class="list-group" id="list-group">
-						    <c:forEach var="item" items="${lists}">
+						    <c:forEach var="i" begin="0" end="${fn:length(lists) - 1}">
 						    <label class="list-group-item">
-						        <input class="form-check-input me-1" name="teacher" type="radio" value="${item.tuopSeq}">
-						        강사 : ${item.tuopInstr} / 수업료: ${item.tuopFee}원
+						        <input class="form-check-input me-1" name="teacher" type="radio" value="${lists[i].tuopSeq}">
+						        강사 : ${instrNicknameList[i]} / 수업료: ${lists[i].tuopFee}원
 						    </label>
 						    </c:forEach>
 						</div>
