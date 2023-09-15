@@ -256,7 +256,7 @@
                                                         <span class="star-toggle bx bx-star"></span>
                                                     </div>
                                                     <div class="col-mail col-mail-2">
-                                                        <a href="#" class="subject text-body"><span class="bg-primary badge me-2">참여 중</span>클래스 제목<span class="teaser text-muted fw-normal">과목 명, 과목 명, 과목 명</span>
+                                                        <a href="classDetail.do" class="subject text-body"><span class="bg-primary badge me-2">참여 중</span>클래스 제목<span class="teaser text-muted fw-normal">과목 명, 과목 명, 과목 명</span>
                                                         </a>
                                                         <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>23.08.16</div>
                                                     </div>
@@ -281,7 +281,7 @@
                                                         <span class="star-toggle bx bx-star"></span>
                                                     </div>
                                                     <div class="col-mail col-mail-2">
-                                                        <a href="#" class="subject text-body">
+                                                        <a href="classDetail.do" class="subject text-body">
                                                         	<span class="bg-warning badge me-2">좋아요</span>
                                                         	클래스 제목
                                                         	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
@@ -310,7 +310,7 @@
                                                             <span class="star-toggle bx bx-star"></span>
                                                         </div>
                                                         <div class="col-mail col-mail-2">
-                                                            <a href="classDetail.do" class="subject text-body">
+                                                            <a href="#" class="subject text-body">
                                                             	클래스 제목 
                                                             	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
                                                             	<span class="bg-danger badge me-2">남자만</span>
