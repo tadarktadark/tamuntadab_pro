@@ -25,7 +25,6 @@
 		                        <div class="row g-0">
 		                        <div class="mt-4">
 		                        	<div class="text-center mt-2">
-	                            		<h5 class="text-primary fs-20">약관동의</h5>
 	                        		</div>
 		                        </div>
                             	<div class="row-2">
@@ -38,8 +37,8 @@
 						           				 </div><!-- end card header -->
 									            <div class="card-body">
 									                <div class="mx-n3">
-									                    <div data-simplebar style="max-height: 70px;" class="px-3">
-																									                        제1조(목적) 이 약관은 업체 회사(전자상거래 사업자)가 운영하는 업체 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+									                    <div data-simplebar style="max-height: 90px;" class="px-3">
+										                        제1조(목적) 이 약관은 업체 회사(전자상거래 사업자)가 운영하는 업체 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
 																 
 																  ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
 																 
@@ -292,7 +291,7 @@
 						           				 </div><!-- end card header -->
 									            <div class="card-body">
 									                <div class="mx-n3">
-									                    <div data-simplebar style="max-height: 70px;" class="px-3">
+									                    <div data-simplebar style="max-height: 90px;" class="px-3">
 																개인정보처리방침
 																
 																[차례]
@@ -440,7 +439,7 @@
 		                            <!--end col-->
 		                            <div>
 										<div class="mt-4 text-center">
-										        <button class="btn btn-primary col-7" id="doRegist" type="button">회원가입 하러가기</button>
+										        <button class="btn btn-primary col-7" id="doRegist" type="button">회원가입</button>
 									    </div>
 										    <div class="mt-4 text-center">
 										        <div class="signin-other-title">

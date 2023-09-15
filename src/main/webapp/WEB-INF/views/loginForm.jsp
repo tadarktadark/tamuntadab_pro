@@ -62,7 +62,7 @@
 		                            <!--end col-->
 		                            <div>
 										<div class="mt-4 text-center px-5">
-										        <button class="btn btn-primary col-12 rounded-pill" id="doLogin" type="button">로그인 하러가기</button>
+										        <button class="btn btn-primary col-12 rounded-pill" id="doLogin" type="button">로그인</button>
 									    </div>
 										    <div class="mt-4 text-center">
 										        <div class="signin-other-title">
