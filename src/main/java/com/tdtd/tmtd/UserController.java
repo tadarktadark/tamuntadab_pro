@@ -44,6 +44,12 @@ public class UserController {
 	@Autowired
 	private JavaMailSender mailsender;
 	
+	@RequestMapping(value="/logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value="/loginForm.do")
 	public String loginForm() {
 		return "loginForm";
