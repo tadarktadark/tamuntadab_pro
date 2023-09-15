@@ -210,6 +210,17 @@ public class TupyoController {
 		return result;
 	}
 	
+	@GetMapping("/finishedTupyo.do")
+	public void finishedTupyo(int tuopTupySeq) {
+
+		List<TupyoUserVo> votedVo = service.getAllVotedStudents(tuopTupySeq);
+		if(votedVo.isEmpty()) {
+			service.delTupyo(tuopTupySeq);
+		}
+	}
+	
+	
+	
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
 	public String finishTupyo(int tupyClasId,int tupySeq,int tuopSeq) {
