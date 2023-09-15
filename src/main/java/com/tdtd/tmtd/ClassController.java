@@ -35,10 +35,45 @@ public class ClassController {
 	private ISubjectService sService;
 	
 	@GetMapping("/classList.do")
-	public String classList(Model model) {
+	public String classList(Model model,
+			@RequestParam("page") String pageAttr) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 목록");
 		
+int totalClass = cService.getClassListCount();
+		
+		log.info("ClassController subjectManage 가져온 현재 페이지 = {}", pageAttr);
+		int thisPage = 0;
+		if (pageAttr == null) {
+		    thisPage = 1;
+		} else {
+			thisPage = Integer.parseInt(pageAttr);
+		}
+		
+		log.info("ClassController subjectManage 형변환 한 페이지 = {}", thisPage);
+		
+		//페이지에 사용될 정보 담기
+		PagingVo pVo = new PagingVo();
+		pVo.setTotalCount(totalClass);
+		pVo.setCountList(20);
+		pVo.setCountPage(5);
+		pVo.setPage(thisPage);
+		pVo.setTotalPage(pVo.getTotalPage());
+		pVo.setStartPage(pVo.getPage());
+		pVo.setEndPage(pVo.getPage());
+		
+		log.info("ClassController 과목 페이징에 사용될 정보 pageVO, 과목정보 1 : {}", pVo);
+		Map<String, Object> pagingMap = PagingUtils.paging(pageAttr, pVo.getTotalCount(), pVo.getCountList(), pVo.getCountPage());
+			
+		//페이징 처리해서 처리할 리스트 가져오기
+		Map<String, Object> listMap = new HashMap<String, Object>();
+		listMap.put("first", pagingMap.get("start"));
+		listMap.put("last", pagingMap.get("end"));
+		List<ClassVo> classList = cService.getClassList(listMap);
+		
+		model.addAttribute("pVo", pVo);
+		model.addAttribute("classList",classList);
+		log.info("ClassController 과목 페이징에 사용될 정보 pageVO, 클래스 리스트 정보 : {}, {}", pVo, classList);
 		return "classList";
 	}
 	

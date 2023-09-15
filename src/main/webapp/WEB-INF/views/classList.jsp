@@ -321,7 +321,7 @@
                                                     </div>
                                                 </div>
                                         </div>
-
+											${classList}
                                         <div class="row">
                                             <div class="col-7">
                                                 Showing 퍼스트 - 라스트 of 토탈카운트
