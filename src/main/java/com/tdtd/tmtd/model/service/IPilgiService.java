@@ -68,7 +68,8 @@ public interface IPilgiService {
 	/**
 	 * 필기 좋아요 업데이트                   
 	 * @param map	likeUser 좋아요한 유저 String JSON {"accountId":"yyyymmdd", ...} <br>
-	 * 				id 필기 게시글ID
+	 * 				id 필기 게시글ID <br>
+	 * 				likeCount 좋아요 유저수
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14
@@ -87,7 +88,8 @@ public interface IPilgiService {
 	/**
 	 * 필기 조회한 유저 업데이트                   
 	 * @param map	viewUser 조회한 유저 String JSON {"accountId":"yyyymmdd", ...} <br>
-	 * 				id 필기 게시글ID
+	 * 				id 필기 게시글ID<br>
+	 * 				viewCount 좋아요 유저수
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14

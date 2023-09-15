@@ -287,7 +287,7 @@
                                                         	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
                                                         	<span class="bg-danger badge me-2">여자만</span>
                                                         </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>일주일 이내</div>
+                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>23.09.04</div>
                                                     </div>
                                                 </div>
                                             </div>

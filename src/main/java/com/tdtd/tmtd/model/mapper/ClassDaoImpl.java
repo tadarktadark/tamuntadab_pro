@@ -91,4 +91,13 @@ public class ClassDaoImpl implements IClassDao {
 		return sqlSession.insert(NS+"addChamyeoja",vo);
 	}
 	
+	/**
+	 * 과목 이름을 입력하면 과목 id를 반환하는 DAO
+	 * @author 김기훈
+	 * @since 2023-09-10
+	 */
+	public String findSubjId(String title) {
+		return sqlSession.selectOne(NS+"findSubjId", title);
+	};
+	
 }

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
-import com.tdtd.tmtd.vo.SubjectTagVo;
-import com.tdtd.tmtd.vo.SubjectVo;
 
 public interface IClassService {
 
@@ -48,4 +46,13 @@ public interface IClassService {
 	 */
 	public int addClassWithSub
 	(ClassVo cVo, Map<String, Object> subMap,Map<String, Object> subTagMap);
+	
+	/**
+	 * 과목  Title List를 입력하면 과목 id List를 반환하는 서비스
+	 * @param vo 추가할 과목의 정보가 담긴 Vo
+	 * @return 생성 성공 여부 1 = 성공 0 = 실패
+	 * @author 김기훈
+	 * @since 2023-09-10
+	 */
+	public List<String> findSubjId(List<String> titles);
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
@@ -36,8 +37,33 @@ public class CommUserServiceImpl implements ICommUserService {
 	public Map<String, Object> commLogin(Map<String, String> userInput) {
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		UserProfileVo uservo = cdao.commLogin(userInput);
-		if(uservo == null) {
+		if(cdao.commLogin(userInput) !=null) {
+			UserProfileVo uservo = cdao.commLogin(userInput);
+			if(uservo.getUserChadanRegistDate() != null) {
+				//사용자가 로그인을 성공 했지만 해당 유저가 차단되어 있는 상태일 경우
+				String time = cdao.checkUserChadanDate(uservo.getUserEmail()); 
+				log.info("{}",time);
+				if(time.equals("782898")) {
+					cdao.restoreUserChadanDate(uservo.getUserEmail());
+					result.put("status","success");
+					result.put("userInfo", uservo);
+					cdao.restoreUserChadanDate(uservo.getUserEmail());
+					cdao.restoreUserChadanCount(uservo);
+					cdao.updateTime(uservo);
+				}else {
+					result.put("status", "printDate");
+					result.put("time", time);
+				}
+				return result;
+			}else {
+				result.put("status","success");
+				result.put("userInfo", uservo);
+				cdao.restoreUserChadanDate(uservo.getUserEmail());
+				cdao.restoreUserChadanCount(uservo);
+				cdao.updateTime(uservo);
+				return result;
+			}
+		}else {
 			int n = cdao.updateChadanCnt(userInput.get("userEmail"));
 			if(n==0) {
 				result.put("status","noEmail");
@@ -49,32 +75,26 @@ public class CommUserServiceImpl implements ICommUserService {
 				result.put("chadanCnt", cnt);
 				if(cnt > 4 ) {
 					//업데이트 해주기
-					cdao.updateUserChadanDate(userInput.get("userEmail"));
-					result.put("status", "chadan");
-					result.put("chadanCnt", cnt+1);
+					int updateResult = cdao.updateUserChadanDate(userInput.get("userEmail"));
+					if(updateResult>0) {
+						result.put("status", "chadan");
+						result.put("chadanCnt", cnt+1);
+					}
 				}
-				return result;
-			}
-		}else {
-			if(uservo.getUserChadanRegistDate() != "") {
-				//사용자가 로그인을 성공 했지만 해당 유저가 차단되어 있는 상태일 경우
-				String time = cdao.checkUserChadanDate(uservo.getUserEmail()); 
-				log.info("{}",time);
-				if(time.equals("782898")) {
-					cdao.restoreUserChadanDate(uservo.getUserEmail());
-					result.put("status","success");
-					result.put("userInfo", uservo);
-					return result;
-				}else {
-					result.put("status", "chadanDate");
-					result.put("time", time);
-				}
-				return result;
-			}else {
-				result.put("status","success");
-				result.put("userInfo", uservo);
 				return result;
 			}
 		}
+	}
+
+	@Override
+	public int updateTime(UserProfileVo userInfo) {
+		int timenum = cdao.updateTime(userInfo);
+		int cntnum = cdao.updateChadanCnt(userInfo.getUserAccountId());
+		return timenum + cntnum ==2 ? 1:0;
+	}
+
+	@Override
+	public UserProfileVo autoLogin(String userAutoLoginToken) {
+		return cdao.autoLogin(userAutoLoginToken);
 	}
 }

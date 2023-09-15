@@ -116,6 +116,7 @@ public class SocialUserController {
 						socialUserService.updateRefToken(userinfo);
 					}
 					session.setAttribute("userInfo", uservo);
+					commUserService.updateTime(uservo);
 				}else{
 					//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
 					int n = socialUserService.naverRegist(userinfo);
@@ -234,14 +235,8 @@ public class SocialUserController {
 							//리프레쉬 토큰을 갱신해준다.
 							socialUserService.updateRefToken(userinfo);
 						}
-						//사용자의 정지 여부 판단하기
-						int cnt = commUserService.searchJeongJi(uservo);
-						if(cnt!=0) {
-							//정지 상태일 경우 어떤 처리를 해준다.
-							log.info("정지 상태임");
-						}
-						//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
 						session.setAttribute("userInfo", uservo);
+						commUserService.updateTime(uservo);
 						return "redirect:/";
 					}else{
 						//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
@@ -348,15 +343,8 @@ public class SocialUserController {
 								//리프레쉬 토큰을 갱신해준다.
 								socialUserService.updateRefToken(userinfo);
 							}
-							//사용자의 정지 여부 판단하기
-							int cnt = commUserService.searchJeongJi(uservo);
-							if(cnt!=0) {
-								//정지 상태일 경우 어떤 처리를 해준다.
-								log.info("정지 상태임");
-							}
-							//정지도 아닐 경우 해당 유저의 정보를 세션에 담아준다.
 							session.setAttribute("userInfo", uservo);
-							
+							commUserService.updateTime(uservo);
 							return "redirect:/";
 						}else{
 							//가입 정보가 없을 경우 해당 유저의 정보를 insert 해준다.
