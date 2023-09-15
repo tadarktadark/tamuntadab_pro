@@ -17,33 +17,30 @@
 			<div class="page-content">
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
-					<div class="row pb-4 gy-3">
-<!-- 					    <div class="col-sm-4"> -->
-<!-- 					        <div class="d-flex gap-3"> -->
-<!-- 					            <div class="search-box"> -->
-<!-- 					                <input type="text" class="form-control" placeholder="Search for name or designation..."> -->
-<!-- 					                <i class="bx bx-search search-icon fs-16"></i> -->
-<!-- 					            </div> -->
-<!-- 					            <div class=""> -->
-<!-- 					                <button type="button" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" class="btn btn-soft-info btn-icon fs-14"><i class="bx bx-dots-vertical-rounded fs-18"></i></button> -->
-<!-- 					                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1"> -->
-<!-- 					                    <li><a class="dropdown-item" href="#">Print</a></li> -->
-<!-- 					                    <li><a class="dropdown-item" href="#">Export to Excel</a></li> -->
-<!-- 					                </ul> -->
-<!-- 					            </div> -->
-<!-- 					        </div> -->
-<!-- 					    </div> -->
-					</div>
-					<div class="row gy-3">
-						<div class="col-sm-auto ms-auto">
-							<select id="order-by" class="form-select form-select-sm  mb-3" aria-label=".form-select-sm example">
-							    <option value="date" selected>최신순</option>
-							    <option value="view">조회순</option>
-							    <option value="like">좋아요순</option>
-							    <option value="reply">댓글순</option>
-							</select>
-						</div>
-					</div>
+						<div class="row pb-4 gy-3">
+						    <div class="col-sm-4">
+						        <a href="./pilgiWriteForm.do" class="btn btn-primary addMembers-modal"><i class="bx bx-plus me-1 fs-16 align-middle"></i>필기 작성</a>
+						    </div>
+						
+						    <div class="col-sm-auto ms-auto">
+						        <div class="d-flex gap-3">
+<!-- 						            <div class="search-box"> -->
+<!-- 						                <input type="text" class="form-control" placeholder="Search for name or designation..."> -->
+<!-- 						                <i class="bx bx-search search-icon fs-16"></i> -->
+<!-- 						            </div> -->
+						            <div class="row gy-3">
+										<div class="col-sm-auto ms-auto" id="select-box">
+											<select id="order-by" class="form-select form-select-sm  mb-3" aria-label=".form-select-sm example">
+											    <option value="date" selected>최신순</option>
+											    <option value="view">조회순</option>
+											    <option value="like">좋아요순</option>
+											    <option value="reply">댓글순</option>
+											</select>
+										</div>
+									</div>
+						        </div>
+						    </div>
+						</div>							
 					<div class="mb-3 list-group">
 					</div>
 					<div class="row align-items-center mb-4 gy-3">

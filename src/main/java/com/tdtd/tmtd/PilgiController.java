@@ -140,4 +140,18 @@ public class PilgiController {
 		model.addAttribute("subArr", array);
 		return "pilgiDetail";
 	}
+	
+	@RequestMapping(value="/pilgiWriteForm.do", method=RequestMethod.GET)
+	public String pilgiWriteForm(Model model, HttpSession session) {
+		log.info("@@@@@@@@@@@@@@@ 필기 작성 Form 이동");
+		model.addAttribute("title","커뮤니티");
+		model.addAttribute("pageTitle", "필기");
+		UserProfileVo userInfo = new UserProfileVo();
+		userInfo.setUserAccountId("TMTD1");
+		userInfo.setUserName("학생일반테스트닉네임1");
+		userInfo.setUserPhoneNumber("01000000001");
+		userInfo.setUserDelflag("N");
+		session.setAttribute("userInfo", userInfo);
+		return "pilgiWriteForm";
+	}
 }
