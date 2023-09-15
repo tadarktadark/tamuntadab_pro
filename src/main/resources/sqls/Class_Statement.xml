@@ -63,12 +63,15 @@
 	</insert>
 
 	<!-- 참여자 추가 -->
-	<insert id="addChamyeoja">
-		INSERT INTO TMTD.CLASS_CHAMYEOJA
-		(CLCH_ID,
-		CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS,
-		CLCH_YEOKAL)
-		VALUES(CLCH_ID_SEQ.NEXTVAL, #{clch_accountId},
-		#{clchClasId}, #{clchStatus} , 'N', #{clchYeokal} )
+	<insert id="addChamyeoja" parameterType="chamyeoVo">
+		INSERT INTO TMTD.CLASS_CHAMYEOJA 
+		(CLCH_ID, CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS, CLCH_YEOKAL) 
+		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, (SELECT MAX(CLAS_ID) FROM TMTD.CLASS) , #{clchStatus}, 'N', #{clchYeokal})
 	</insert>
+	
+	<select id="findSubjId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT SUBJ_ID
+		FROM SUBJECT s
+		WHERE SUBJ_TITLE = #{subjTitle}
+	</select>
 </mapper>

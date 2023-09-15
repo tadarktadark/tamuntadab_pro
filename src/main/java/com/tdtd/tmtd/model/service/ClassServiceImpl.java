@@ -1,5 +1,6 @@
 package com.tdtd.tmtd.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import com.tdtd.tmtd.model.mapper.IClassDao;
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
-import com.tdtd.tmtd.vo.SubjectTagVo;
-import com.tdtd.tmtd.vo.SubjectVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -76,5 +75,18 @@ public class ClassServiceImpl implements IClassService {
 		int subjectCnt = dao.addSubject(submap);
 		int subjectTagCnt = dao.addSubjectTag(subTagMap);
 		return (classCnt+subjectCnt+subjectTagCnt==3)?1:0;
+	}
+
+	/**
+	 * @author 김기훈
+	 * @since 2023-09-15
+	 */
+	@Override
+	public List<String> findSubjId(List<String> titles) {
+		List<String> SubjId = new ArrayList<String>();
+		for (int i = 0; i < titles.size(); i++) {
+			SubjId.add(dao.findSubjId(titles.get(i)));
+		}
+		return SubjId;
 	}
 }

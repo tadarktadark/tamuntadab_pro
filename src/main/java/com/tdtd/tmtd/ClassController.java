@@ -1,8 +1,10 @@
 package com.tdtd.tmtd;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.ISubjectService;
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.PagingVo;
 import com.tdtd.tmtd.vo.SubjectVo;
@@ -35,8 +38,6 @@ public class ClassController {
 	public String classList(Model model) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 목록");
-		
-		
 		
 		return "classList";
 	}
@@ -93,40 +94,65 @@ public class ClassController {
 	@PostMapping("classWrite.do")
 	public String classWrite(Model model, 
 	                         @RequestParam("classTitle") String classTitle,
-	                         @RequestParam("subjCode") String subjCode,
+	                         @RequestParam("subject1") String subject1,
+	                         @RequestParam(value="subject2",defaultValue = "null") String subject2,
+	                         @RequestParam(value="subject3",defaultValue = "null") String subject3,
 	                         @RequestParam("location") String location,
 	                         @RequestParam("clasSueopNaljja") String clasSueopNaljja,
 	                         @RequestParam("clasHuimangInwon") int clasHuimangInwon,
 	                         @RequestParam("classContent") String classContent,
-	                         @RequestParam(value="clasSeongbyeolJehan", required=false) Integer clasSeongbyeolJehan, 
-							 @RequestParam(value="minAge", required=false) Integer minAge, 
-							 @RequestParam(value="maxAge", required=false) Integer maxAge, 
-							 @RequestParam(value="clasChoisoSugangnyo", required=false) Integer clasChoisoSugangnyo, 
-							 @RequestParam(value="clasChoidaeSugangnyo", required=false) Integer clasChoidaeSugangnyo
+	                         @RequestParam("clasSeongbyeolJehan") String clasSeongbyeolJehan, 
+							 @RequestParam(value="minAge", defaultValue = "0") Integer minAge, 
+							 @RequestParam(value="maxAge", defaultValue = "0") Integer maxAge, 
+							 @RequestParam(value="clasChoisoSugangnyo", defaultValue = "0") Integer clasChoisoSugangnyo, 
+							 @RequestParam(value="clasChoidaeSugangnyo", defaultValue = "0") Integer clasChoidaeSugangnyo
 	                        ) {
-	    
-		System.out.println("classTitle: " + classTitle);
-	    System.out.println("subjCode: " + subjCode);
-	    System.out.println("location: " + location);
-	    System.out.println("clasSueopNaljja: " + clasSueopNaljja);
-	    System.out.println("clasHuimangInwon: " + clasHuimangInwon);
-	    System.out.println("classContent: " + classContent);
 
-		if(clasSeongbyeolJehan != null)
-	    	System.out.println("clasSeongbyeolJehan: " + clasSeongbyeolJehan);
-
-		if(minAge != null)
-	    	System.out.println("minAge: " + minAge);
-
-		if(maxAge != null)
-	    	System.out.println("maxAge: " + maxAge);
-
-		if(clasChoisoSugangnyo != null)
-	    	System.out.println(clasChoisoSugangnyo); 
-
-		if(clasChoidaeSugangnyo != null)
-	    	System.out.println(clasChoidaeSugangnyo);
 		
+		List<String> subjTitles = new ArrayList<String>();
+	    subjTitles.add(subject1);
+	    if (!"null".equals(subject2)) {
+	        subjTitles.add(subject2);
+	    }
+	    if (!"null".equals(subject3)) {
+	        subjTitles.add(subject3);
+	    }
+		List<String> subjIds = cService.findSubjId(subjTitles);
+		
+		StringJoiner joiner = new StringJoiner(",", "[", "]");
+		for (String subjId : subjIds) {
+		    joiner.add("\"" + subjId + "\"");
+		}
+		String subjIdsString = joiner.toString();
+		
+		if(clasSeongbyeolJehan =="2") {
+			clasSeongbyeolJehan="MONLY";
+		}else if(clasSeongbyeolJehan =="3") {
+			clasSeongbyeolJehan="WONLY";
+		}else {
+			clasSeongbyeolJehan="GFREE";
+		}
+		
+		ClassVo cVo = new ClassVo();
+		cVo.setClasTitle(classTitle);
+		cVo.setClasSueopNaljja(clasSueopNaljja);
+		cVo.setClasHuimangInwon(clasHuimangInwon);
+		cVo.setClasContent(classContent);
+		cVo.setClasSeongbyeolJehan(clasSeongbyeolJehan);
+		cVo.setClasChoisoSugangnyo(clasChoisoSugangnyo);
+		cVo.setClasChoidaeSugangnyo(clasChoidaeSugangnyo);
+		cVo.setClasLocation(location);
+		cVo.setClasSubjectJeongbo(subjIdsString);
+		cVo.setClasStatus("모집");
+		cVo.setClasNaiJehan(""+minAge+":"+maxAge);
+		log.info("만들어진 클래스 정보 = {}", cVo);
+		
+		ChamyeoVo cyVo = new ChamyeoVo();
+		cyVo.setClchAccountId("TMTD064");
+		cyVo.setClchStatus("Y");
+		cyVo.setClchYeokal("M");
+		
+		cService.addClass(cVo, cyVo);
 		
 	    return "classList";
 	}
