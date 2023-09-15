@@ -134,7 +134,7 @@ public class TupyoDaoImpl implements ITupyoDao {
 
 	@Override
 	public int delAllTupyoUser(int tupySeq) {
-		return sqlSession.delete(NS+"delTupyoUser",tupySeq);
+		return sqlSession.delete(NS+"delAllTupyoUser",tupySeq);
 	}
 
 	@Override

@@ -108,7 +108,7 @@ SELECT TUUS_SEQ ,TUUS_OPTION_SEQ,TUUS_ACCOUNT_ID,TUUS_AGREE
 INSERT INTO TUPYO_USER(TUUS_SEQ, TUUS_OPTION_SEQ, TUUS_ACCOUNT_ID, TUUS_AGREE)
         VALUES(TUUS_SEQ.NEXTVAL, #{tuusOptionSeq}, #{tuusAccountId}, 'A')
 </insert>
-<select id="getTupyoResult" parameterType="java.lang.Integer" resultMap="tupyoResultMap">
+<select id="getTupyoResult" parameterType="java.lang.Integer" resultType="tupyoUserVo">
 SELECT ot.TUOP_SEQ, NVL(tu.count, 0) as COUNT
 FROM TUPYO_OPTION ot 
 LEFT JOIN (
@@ -178,7 +178,7 @@ WHERE TUUS_OPTION_SEQ IN (
     SELECT TUOP_SEQ 
     FROM TUPYO_OPTION 
     WHERE TUOP_TUPY_SEQ = #{tupySeq}
-);
+)
 </delete>
 
 <update id="updateClassStatus" parameterType="Map">

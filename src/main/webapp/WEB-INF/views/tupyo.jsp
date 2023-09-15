@@ -41,7 +41,7 @@
 						    </c:forEach>
 						</div>
 						<div class="list-group" id="agree-disagree-group" style="display: none;">
-						<div style="margin-bottom: 10px;">${lists[0].tuopInstr} 강사님 / 수업료 : ${lists[0].tuopFee}원</div>
+						<div style="margin-bottom: 10px;">${instrNicknameList[0]} 강사님 / 수업료 : ${lists[0].tuopFee}원</div>
 						    <label class="list-group-item">
 						        <input class="form-check-input me-1" name="vote" type="radio" value="A">
 						        찬성
