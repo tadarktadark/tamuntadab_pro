@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class BoardVo {
 	private String id;
-	private String writerId;
+	private String accountId;
 	private String title;
 	private int clasId;
 	private String subjectCode;
