@@ -14,7 +14,7 @@
 		<%@ include file="./shared/_topbar.jsp" %>
 		<%@ include file="./shared/_sidebar.jsp" %>
 		<%
-			Map<String,String> userInfo = (Map<String,String>)request.getAttribute("userInfo");
+			Map<String,String> userVo = (Map<String,String>)request.getAttribute("userInfo");
 		%>
 		<div class="main-content">
 			<div class="page-content">
@@ -29,16 +29,16 @@
 				        			<form action="./GoogleRegist.do" method="post" class="row g-3 mt-1">
 									    <div class="col-md-12 ">
 									    	<div class="col-12">
-									    	<input type="hidden" value="<%=userInfo.get("userProfileFile")%>" name="userProfileFile">
-									    	<input type="hidden" value="<%=userInfo.get("userRefreshToken")%>" name="userRefreshToken">
-									    	<input type="hidden" value="<%=userInfo.get("site")%>" name="site">
+									    	<input type="hidden" value="<%=userVo.get("userProfileFile")%>" name="userProfileFile">
+									    	<input type="hidden" value="<%=userVo.get("userRefreshToken")%>" name="userRefreshToken">
+									    	<input type="hidden" value="<%=userVo.get("site")%>" name="site">
 									    	<label for="email" class="form-label"><b>이메일</b></label>
-									        <input type="email" name="userEmail" class="form-control" id="email" placeholder="Email" value="<%=userInfo.get("userEmail")%>" readOnly>
+									        <input type="email" name="userEmail" class="form-control" id="email" placeholder="Email" value="<%=userVo.get("userEmail")%>" readOnly>
 									        </div>
 									    </div>
 									    <div class="col-md-2">
 								           <label for="name" class="form-label"><b>이름</b></label>
-									        <input type="text" class="form-control" id="name" placeholder="Name" name="userName" value="<%=userInfo.get("userName")%>" readOnly required>
+									        <input type="text" class="form-control" id="name" placeholder="Name" name="userName" value="<%=userVo.get("userName")%>" readOnly required>
 									    </div>
 									    <div class="col-md-6">
 									        <label for="PhoneNumber"  class="form-label"><b>핸드폰 번호</b></label>
