@@ -44,6 +44,7 @@ public class InstrController {
 	@Autowired
 	private IInstrService service;
 	
+	//강사 게시판 페이지 이동
 	@GetMapping("/instrList.do")
 	public String instrList(Model model, HttpSession session) {
 		log.info("InstrController instrList 이동");
@@ -82,6 +83,7 @@ public class InstrController {
 		return "instrList";
 	}
 	
+	//강사 게시판 페이지 내 조회순서 변경시 작동 AJAX
 	@ResponseBody
 	@GetMapping("/instrView.do")
 	public String instrView(@RequestParam(required = false) String order, HttpSession session) {
@@ -116,6 +118,7 @@ public class InstrController {
 		return gson.toJson(lists);		
 	}
 	
+	//강사 게시판 페이지 내 강사 검색 실행 AJAX
 	@ResponseBody
 	@PostMapping(value ="/instrSearch.do", produces = "application/json;charset=UTF-8")
 	public String instrSearch(@RequestBody Map<String, Object> formData, HttpSession session) throws IOException {
@@ -146,63 +149,9 @@ public class InstrController {
 		 return gson.toJson(resultList);
 	}
 	
-	@GetMapping("/instrProfileForm.do")
-	public String instrProfileForm(HttpSession session, Model model) {
-		log.info("InstrController instrProfileForm.do 강사 프로픽 작성화면");
-		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		String accountId = userInfo.getUserAccountId();
-		
-		InstrVo vo = service.getMyInstrProfile(accountId);
-		if(vo != null) {
-			
-			model.addAttribute("profile", vo);
-		}
-		model.addAttribute("title", "프로필");
-		model.addAttribute("pageTitle", "소개 프로필 등록/수정");
-		model.addAttribute("accountId", accountId);
-		
-		return "instrProfileForm";
-	}
-
-	@GetMapping("/eduLevelForm.do")
-	public String eduLevelForm(Model model) {
-		model.addAttribute("title", "학력추가");
-		return "eduLevelForm";
-	}
 	
-	@PostMapping("/insertInstrProfile.do")
-	@ResponseBody
-	public String insertInstrProfile(@RequestBody InstrVo vo) {
-		
-		System.out.println("###########전달받은 값"+ vo.toString());
-	    String accountId = vo.getInprAccountId();
-	    
-	    InstrVo before = service.getMyInstrProfile(accountId);
-	    int n = 0;
-	    if(before == null) {
-	        n = service.insertInstrProfile(vo);
-	    } else {
-	    	vo.setInprSeq(before.getInprSeq());
-	    	 if (before.getInstrEduVo() != null && !before.getInstrEduVo().isEmpty()) {  
-	 	        for (int i=0; i<before.getInstrEduVo().size(); i++) { 
-	 	            InstrEduVo ined = before.getInstrEduVo().get(i);
-	 	            if (!vo.getInstrEduVo().contains(ined)) { 
-	 	                vo.getInstrEduVo().add(ined);  
-	 	            }
-	 	        }
-	 	    }
-	        n = service.updateInstrProfile(vo);
-	    }
-	    return (n>0)?"true":"false";
-	}
 	
-	@PostMapping("/deleteInstrEdulevel.do")
-	@ResponseBody
-	public String deleteInstrEdulevel(String inedSeq) {
-		int n = service.deleteInstrEdulevel(inedSeq);
-		return (n>0)?"true":"false";
-	}
-	
+	//elasticsearch 데이터 강사 만 나이 변환 메소드
 	private int calculateAge(String birthDate) {
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    LocalDate dob = LocalDate.parse(birthDate, formatter);
@@ -211,6 +160,17 @@ public class InstrController {
 	    Period period = Period.between(dob, now);
 	    
 	    return period.getYears();
+	}
+	
+	// 강사 상세 조회 페이지 이동
+	@GetMapping("/instrDetail.do")
+	public String instrDetail(Model model, @RequestParam String inprAccountId) {
+		log.info("InstrController /instrDetail.do 실행 받아온 강사 아이디 : {}", inprAccountId);
+		service.getOneInstrProfile(inprAccountId);
+		
+		
+		
+		return "instrDetail";
 	}
 	
 }
