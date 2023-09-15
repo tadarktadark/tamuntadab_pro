@@ -123,8 +123,10 @@ public class TupyoController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/agreeTupyo.do",method = RequestMethod.POST)
-	public void agreeTupyo(int tuusOptionSeq,String tuusAccountId,String tuusAgree) {
-		
+	public void agreeTupyo( @RequestBody TupyoUserVo userVo) {
+		int tuusOptionSeq =userVo.getTuusOptionSeq();
+		String tuusAccountId = userVo.getTuusAccountId();
+		String tuusAgree = userVo.getTuusAgree();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
 		map.put("tuusAccountId", tuusAccountId);
