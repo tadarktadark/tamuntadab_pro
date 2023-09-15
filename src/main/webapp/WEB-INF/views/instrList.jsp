@@ -109,7 +109,7 @@
 							</div>
 							<div class="text-center mb-3">
 								<div class="avatar-md mx-auto">
-									<img src="${not empty userInfo? inst.userProfileVo[0].userProfileFile : 'assets/images/users/avatar-9.jpg'}" alt=""
+									<img src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './image/타문타답.png'}" alt=""
 										class="member-img img-fluid d-block rounded-circle">
 								</div>
 							</div>

@@ -30,6 +30,7 @@ import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IFileService;
 import com.tdtd.tmtd.vo.CareerVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,8 +56,9 @@ public class CareerController {
 	
 	@GetMapping("/myCareerList.do")
 	public String myCareerList(Model model, HttpSession session, String page) {
-//		String accountId = (String)session.getAttribute("userInfo").getAccountId;
-		String accountId = "TMTD101";
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String accountId = userInfo.getUserAccountId();
+//		String accountId = "TMTD101";
 		
 		int totalCount = service.getMyCareerCount(accountId);
 		
@@ -121,8 +123,8 @@ public class CareerController {
 	public Map<String, Object> fileUpload(HttpServletRequest request,
 			List<MultipartFile> file, HttpSession session) throws IOException {
 		log.info("CareerController fileUpload 실행");
-//		String accountId = (String)session.getAttribute("userAccountId");
-		String accountId = "TMTD101";
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String accountId = userInfo.getUserAccountId();
 		Map<String, Object> response = new HashMap<>();
 
 	    for (MultipartFile f : file) {
@@ -146,7 +148,7 @@ public class CareerController {
 						if(n > 0) {
 							System.out.println("insert 성공!!!!!");
 						} else {
-							response.put("errorMessage", "오류 발생");
+							response.put("errorMessage", "오류 발생 (형식이 맞지 않습니다");
 						}
 					} catch (Exception e) {
 						response.put("errorMessage", "Google Cloud Vision API 실행 중 오류 발생");
