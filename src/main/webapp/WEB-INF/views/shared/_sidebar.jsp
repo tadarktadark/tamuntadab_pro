@@ -1,3 +1,4 @@
+<%@page import="com.tdtd.tmtd.vo.UserProfileVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!-- ========== App Menu ========== -->
@@ -6,7 +7,7 @@
 
         <!-- LOGO -->
         <div class="navbar-brand-box">
-            <a href="/" class="logo logo-dark">
+            <a href="./" class="logo logo-dark">
 	            <span class="logo-sm">
 	                <img src="./image/logo-img.png" alt="" height="22">
 	            </span>
@@ -261,23 +262,40 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="dropdown header-item">
-                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user" src="./assets/images/users/avatar-3.jpg" alt="Header Avatar">
-                        </span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
-                        <h6 class="dropdown-header">Welcome Jimmie!</h6>
-                        <a class="dropdown-item" href="./mypage.do"><i class="bx bx-user-circle text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="./chatList.do"><i class="bx bx-message-alt-detail text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
-                        <a class="dropdown-item" id="logout" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
-                        <a class="dropdown-item" href="./loginForm.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">login</span></a>
-                        <a class="dropdown-item" href="./regist.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">regist</span></a>
-                    </div>
-                </div>
+	                    	<%
+		                    UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userInfo");
+							if(userInfo ==null){
+							%>
+							<div class="dropdown header-item">
+			                    <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                        <span class="d-flex align-items-center">
+			                            <img class="rounded-circle header-profile-user" src="./assets/images/users/user-dummy-img.jpg" alt="Header Avatar">
+			                        </span>
+		                 	   </button>
+			                  	  <div class="dropdown-menu dropdown-menu-end">
+	                      			  <a class="dropdown-item" href="./loginForm.do"><i class="bx bx-log-in text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그인</span></a>
+	                      			  <a class="dropdown-item" href="./regist.do"><i class="mdi-account-plus text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">회원가입</span></a>
+                                   </div>
+          					</div>
+							<%
+							}else{
+								%>
+							<div class="dropdown header-item">
+								<button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                        <span class="d-flex align-items-center">
+			                            <img class="rounded-circle header-profile-user" src="./assets/images/users/avatar-3.jpg" alt="Header Avatar">
+			                        </span>
+								</button>
+								<div class="dropdown-menu dropdown-menu-end">
+			                        <h6 class="dropdown-header"><%=userInfo.getUserNickname()%>님 어서에요세요</h6>
+			                        <a class="dropdown-item" href="./mypage.do"><i class="ri-profile-line text-muted fs-17 align-middle me-1"></i> <span class="align-middle">MyPage</span></a>
+			                        <a class="dropdown-item" href="./chatList.do"><i class="bx bx-message-alt-detail text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
+			                        <a class="dropdown-item" id="logout" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
+								</div>
+							</div>
+								<%
+							}
+	                    %>
             </div>
         </div>
 
