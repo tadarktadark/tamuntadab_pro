@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -17,16 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.service.ICommUserService;
-import com.tdtd.tmtd.vo.ClientVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
@@ -51,14 +48,27 @@ public class UserController {
 	public String loginForm() {
 		return "loginForm";
 	}
-	@RequestMapping(value="login.do", method=RequestMethod.POST)
+	@RequestMapping(value="/login.do", method=RequestMethod.POST)
 	@ResponseBody
 	public String login(@RequestParam Map<String, String> map, HttpSession session) {
 		Map<String,Object>  result = commUserService.commLogin(map);
-		if(result.get("status").equals("success")) {
+		if(result.get("userInfo")!=null) {
 			session.setAttribute("userInfo", result.get("userInfo"));
 		}
-		return result.toString();
+		
+		return gson.toJson(result);
+	}
+	
+	@RequestMapping(value="/autoLogin.do")
+	@ResponseBody
+	public String autoLogin(@RequestParam String userAutoLoginToken, HttpSession session) {
+		UserProfileVo userInfo = commUserService.autoLogin(userAutoLoginToken);
+		if(userInfo != null) {
+			session.setAttribute("userInfo", userInfo);
+			return "true";
+		}else {
+			return "false";
+		}
 	}
 	
 	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
