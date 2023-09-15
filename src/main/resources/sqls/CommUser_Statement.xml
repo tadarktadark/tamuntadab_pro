@@ -23,16 +23,16 @@
 	<update id="updateTime" >
 			UPDATE 
 				<choose>
-					<when test='userSite == "T "'>
+					<when test='userSite == "T"'>
 						USER_PROFILE
 					</when>
-					<when test='userSite == "N "'>
+					<when test='userSite == "N"'>
 						NAVER_USER_PROFILE
 					</when>
-					<when test='userSite == "K "'>
+					<when test='userSite == "K"'>
 						KAKAO_USER_PROFILE
 					</when>
-					<when test='userSite == "G "'>
+					<when test='userSite == "G"'>
 						GOOGLE_USER_PROFILE
 					</when>
 				</choose>
