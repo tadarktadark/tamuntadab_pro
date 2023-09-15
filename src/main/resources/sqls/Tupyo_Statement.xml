@@ -188,5 +188,11 @@ UPDATE CLASS
 </update>
 
 
+<update id="updateClassStatusCron">
+UPDATE TUPYO 
+	SET TUPY_STATUS = 'F'
+	WHERE TRUNC(TUPY_ENDDATE) <![CDATA[<=]]> TRUNC(SYSDATE)
+</update>
+
 
 </mapper>

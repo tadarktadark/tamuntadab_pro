@@ -144,6 +144,11 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.updateClassStatus(map);
 	}
 
+	@Override
+	public int updateClassStatusCron() {
+		return dao.updateClassStatusCron();
+	}
+
 	
 
 
