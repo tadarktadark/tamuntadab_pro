@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class CareerController {
+	
+	@Autowired
+	ServletContext servletContext;
 	
 	@Autowired
 	private IFileService fileService;
@@ -73,7 +77,7 @@ public class CareerController {
 	public void careerFiledownload(HttpServletResponse resp) throws IOException {
 		log.info("CareerController careerFiledownload 실행");
 		
-		String filePath = "C:\\jenkins_git\\tamuntadab_pro\\src\\main\\webapp\\json\\타문타답_경력증명서.docx";
+		String filePath = servletContext.getRealPath("/json/타문타답_경력증명서.docx");
 		String fileName = "타문타답_경력증명서.docx";
 		
 		FileInputStream in = null;
