@@ -210,6 +210,7 @@ public class TupyoController {
 		return result;
 	}
 	
+	@ResponseBody
 	@GetMapping("/finishedTupyo.do")
 	public void finishedTupyo(int tuopTupySeq) {
 
