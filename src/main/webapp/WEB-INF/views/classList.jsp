@@ -366,6 +366,8 @@
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp" %>
+			<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+			<script type="text/javascript" src="./js/classList.js"></script>
 		</div>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>

@@ -5,8 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <%@ include file="./shared/_head_css.jsp" %>
 </head>
@@ -161,6 +159,8 @@
 	</div>	
 	<%@ include file="./shared/_footer.jsp" %>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="./js/classWrite.js"></script>
 	<script type="text/javascript">
 	$(function() {
