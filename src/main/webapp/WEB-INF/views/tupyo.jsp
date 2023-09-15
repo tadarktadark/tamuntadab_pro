@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <%@ include file="./shared/_head_css.jsp" %>
 </head>
 <body class="twocolumn-panel">
