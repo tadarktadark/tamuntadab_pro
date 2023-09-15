@@ -116,7 +116,7 @@
 							</div>
 
 							<div class="text-center">
-								<a href="" class="member-name">
+								<a href="./instrDetail.do?inprAccountId=${instr.inprAccountId}" class="member-name">
 									<h5 class="fs-16 mb-1">${instr.userProfileVo[0].userNickname}</h5>
 									<span class="text-muted fs-13 mt-1 text-truncate">만 ${instr.inprAge} 세</span>
 								</a>
