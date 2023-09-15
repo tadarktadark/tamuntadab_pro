@@ -33,24 +33,25 @@
 										<div class="col-xxl-3 col-md-6" style="width: 700px;">
 											<div>
 												<label for="placeholderInput" class="form-label">클래스 이름</label> 
-												<input type="text" name="classTitle" class="form-control" id="classTitle" placeholder="클래스 제목을 입력하주세요">
+												<input type="text" name="classTitle" class="form-control" id="classTitle" placeholder="클래스 제목을 입력해주세요">
 											</div>
 										</div>
 									</div>
 									
 									<div class="row mb-4">
-										<div style="width: 700px;">
-											<div class="col-lg-3">
-												<label for="inprSubjects" class="form-label">수강할 과목</label>
-											</div>
-											<div id="selectedSubjects"
-												class="col-lg-9 choices__list choices__list--multiple"></div>
-											<div class="choices__inner choices hstack gap-3"
-												data-type="multiple">
-												<input type="search" id="subjCode" name="subjCode"
-													class="choices__input choices__input--cloned">
-											</div>
-										</div>
+									  <div style="width: 700px;">
+									    <div class="col-lg-3">
+									      <label for="inprSubjects" class="form-label">
+									      	수강할 과목
+									      	<span><button type="button" class="btn btn-soft-primary btn-minus" disabled>-</button></span>
+									      	<span><button type="button" class="btn btn-soft-primary btn-plus">+</button></span>
+									      </label> 
+									      <div class="input-group">
+									        <input type="text" name="subject1" class="form-control" id="subject1" placeholder="과목">
+									      </div>
+									    </div>
+									    <div id="selectedSubjects" class="col-lg-9 choices__list choices__list--multiple"></div>
+									  </div>
 									</div>
 									
 									<div class="row mb-4">
@@ -123,10 +124,10 @@
 										    <label for="inprIntro" class="form-label" style="margin-top: 15px;">연령 제한</label>
 										    <div style="display: flex; justify-content: space-between;">
 										        <div style="width: 160px; margin-right: 15px;">
-										            <input type="text" name="minAge" class="form-control" id="minAge" placeholder="최소">
+										            <input type="number" name="minAge" class="form-control" id="minAge" placeholder="최소">
 										        </div>~
 										        <div style="width: 160px; margin-left: 15px;">
-										            <input type="text" name="maxAge" class="form-control" id="maxAge" placeholder="최대">
+										            <input type="number" name="maxAge" class="form-control" id="maxAge" placeholder="최대">
 										        </div>
 										    </div>
 										</div>
@@ -137,10 +138,10 @@
 									<div class="row mb-4">
 										<label for="exampleInputdate" class="form-label">희망 수강료</label>
 										<div class="col-xxl-3 col-md-6" style="width: 300px; margin-right: 20px;">
-			                            	<input type="text" name="clasChoisoSugangnyo" class="form-control" id="clasChoisoSugangnyo" placeholder="최소 (1,000원 단위로 입력해주세요)">
+			                            	<input type="number" name="clasChoisoSugangnyo" class="form-control" id="clasChoisoSugangnyo" placeholder="최소 (10,000원 단위로 입력해주세요)">
 			                            </div>~
 			                            <div class="col-xxl-3 col-md-6" style="width: 300px; margin-left:20px; margin-right: 50px;">
-			                            	<input type="text" name="clasChoidaeSugangnyo" class="form-control" id="clasChoidaeSugangnyo" placeholder="최대 (1,000원 단위로 입력해주세요)">
+			                            	<input type="number" name="clasChoidaeSugangnyo" class="form-control" id="clasChoidaeSugangnyo" placeholder="최대 (10,000원 단위로 입력해주세요)">
 			                            </div>
 		                            </div>
 									
@@ -166,11 +167,13 @@
 	    var guAndDong = [];
 
 	    // JSON 파일 로드
-	    $.getJSON('./json/seoulsi.json', function(data) {
+	    $.getJSON('./json/jiyeok.json', function(data) {
 	        $.each(data, function(key, val) {
-	            var fullAddress ='서울특별시 '+ val.gu + ' ' + val.dong;
+	            var fullAddress =val.sido+' '+val.sigungu+' '+ val.eubmyeondong;
 	            guAndDong.push(fullAddress);
 	        });
+	        
+	        guAndDong = Array.from(new Set(guAndDong));
 
 	        $('#location').autocomplete({
 	            source: guAndDong,

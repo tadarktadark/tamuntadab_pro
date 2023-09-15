@@ -19,7 +19,7 @@ public class ClassVo {
 
 	private int clasId;
 	private String clasTitle;
-	private int clasLocation;
+	private String clasLocation;
 	private String clasStatus;
 	private String clasMagamGihan;
 	private int clasHuimangInwon;
