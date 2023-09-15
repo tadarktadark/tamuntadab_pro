@@ -44,11 +44,7 @@ SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TO_CHAR(TUPY_STARTDATE,'YYYY-MM-
 --투표 선택지 조회
 SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE 
 	FROM TUPYO_OPTION to2 
-	WHERE TUOP_TUPY_SEQ =(
-			SELECT TUOP_TUPY_SEQ 
-				FROM TUPYO_OPTION to2 
-				WHERE TUOP_SEQ =1
-		);
+	WHERE TUOP_TUPY_SEQ =1;
 
 UPDATE CLASS 
 	SET CLAS_ACCOUNT_ID = 'TMTD101'
@@ -110,11 +106,12 @@ LEFT JOIN (
                                                         WHERE TUOP_TUPY_SEQ =(
                                                                                                 SELECT TUOP_TUPY_SEQ 
                                                                                                         FROM TUPYO_OPTION to2 
-                                                                                                        WHERE TUOP_SEQ =7
+                                                                                                        WHERE TUOP_SEQ =14
                                                                                                 )
                                                 )
         GROUP BY TUUS_OPTION_SEQ) tu ON ot.TUOP_SEQ = tu.TUUS_OPTION_SEQ
-WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =7);
+WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =14)
+ORDER BY TUOP_SEQ ;
 
 
 

@@ -109,10 +109,10 @@ public class TupyoController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/tupyoResult.do",method = RequestMethod.GET)
-	public Map<String, Object> tupyoResult(@RequestParam int tupySeq,@RequestParam int tuusOptionSeq){
+	public Map<String, Object> tupyoResult(@RequestParam int tupySeq,@RequestParam int tuopSeq){
 		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tupySeq);
 		
-		List<TupyoUserVo> resultList = service.getTupyoResult(tuusOptionSeq);
+		List<TupyoUserVo> resultList = service.getTupyoResult(tuopSeq);
 		System.out.println("리절트리스트"+resultList);
 		Map<String, Object> optionMap = new HashMap<String, Object>();
 		optionMap.put("tupyoOptionList",tupyoOptionList);
@@ -212,13 +212,14 @@ public class TupyoController {
 	
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
-	public boolean finishTupyo(int tupyClasId,int tupySeq,int tuopSeq) {
+	public String finishTupyo(int tupyClasId,int tupySeq,int tuopSeq) {
 		TupyoVo vo = service.getTupyo(tupyClasId);
 		List<TupyoUserVo> resultList = service.getTupyoResult(tuopSeq);
+		System.out.println("finish의 리절트리스트"+resultList);
 		if(resultList.size()==1) {//찬반 투표일 때
 			
 			List<TupyoUserVo> agreeList = service.getAgreeResult(tupySeq);
-			
+			System.out.println(agreeList);
 			int agree = 0;
 			int disagree = 0;
 			for (int i = 0; i < agreeList.size(); i++) {
@@ -247,17 +248,19 @@ public class TupyoController {
 				classStatusMap.put("clasId", clasId);
 				classStatusMap.put("clasStatus", "모집완료");
 				service.updateClassStatus(classStatusMap);
-				return true;
-			}else {//반대가 더 많은 경우
-				System.out.println("강사 투표 결과 : 반대");
+				return "confirm";
+			}else {//반대가 더 많거나 같은 경우
+				System.out.println("강사 신청이 거부되었습니다");
 				service.endTupyo(tupySeq);
-				return false;
+				service.delTupyo(tupySeq);
+				return "disagree";
 			}
 		}else {//여러명의 강사 선택지 투표일 때 
 			
 			int maxCount = 0;
-			System.out.println(resultList.get(0).getCount());
+			System.out.println(resultList);
 			
+			System.out.println(resultList.get(0).getTuusOptionSeq());
 			for (int i = 0; i < resultList.size(); i++) {
 			    TupyoUserVo result = resultList.get(i);
 			    int count = result.getCount();
@@ -267,15 +270,15 @@ public class TupyoController {
 			}
 
 			System.out.println(maxCount);
-			List<TupyoUserVo> maxOptionList = new ArrayList<>();
+			List<Integer> maxOptionList = new ArrayList<>();
 			for (int i = 0; i < resultList.size(); i++) {
 			    TupyoUserVo result = resultList.get(i);
+			    int tuusOptionSeq = result.getTuusOptionSeq();
 			    int count = result.getCount();
 			    if (count == maxCount) {
-			        maxOptionList.add(result);
+			        maxOptionList.add(tuusOptionSeq);
 			    }
 			}
-
 			System.out.println(maxOptionList);
 			if(maxOptionList.size() > 1) {
 				System.out.println("동률 발생, 투표를 다시 생성해주세요");
@@ -284,10 +287,10 @@ public class TupyoController {
 				service.endTupyo(tupySeq);
 				//기존 투표 및 관련 데이터 삭제
 				service.delTupyo(tupySeq);
-				return false;
+				return "same";
 			}
 			//아래의 option seq로 선생 정보를 받아와서 accountId를 확정 강사에 넣어준다
-			int optionSeq = maxOptionList.get(0).getTuusOptionSeq();
+			int optionSeq = maxOptionList.get(0);
 			TupyoOptionVo maxOptionVo = service.getTupyoOption(optionSeq);
 			String clasAccountId = maxOptionVo.getTuopInstr();
 			int clasId = vo.getTupyClasId();
@@ -300,9 +303,8 @@ public class TupyoController {
 			classStatusMap.put("clasId", clasId);
 			classStatusMap.put("clasStatus", "모집완료");
 			service.updateClassStatus(classStatusMap);
-			
+			return "confirm";
 		}
-		return true;
 		
 	}
 	

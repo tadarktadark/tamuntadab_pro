@@ -36,7 +36,7 @@ public interface ITupyoDao {
 	//투표 유무 판단
 	public List<TupyoUserVo> tupyoUserChk(Map<String, Object> map);
 	//투표 결과 조회
-	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq);
+	public List<TupyoUserVo> getTupyoResult(int tuopSeq);
 	//재투표
 	public int delTupyoUser(TupyoUserVo vo);
 	//투표 종료

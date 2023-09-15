@@ -27,9 +27,18 @@
 				<div class="card-header" id="selectInstrTitle">
 					<b>강사님을 선택해주세요</b><span style="float: right;">종료일자 :<fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/></span><br>
 				</div>
-				<div class="card-header" id="tupyoResultTitle" style="display: none;">
-					<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> </span><br>
-				</div>
+				<c:choose>
+					<c:when test="${vo.tupyStatus eq 'P'}">
+						<div class="card-header" id="tupyoResultTitle" style="display: none;">
+							<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> </span><br>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="card-header" id="tupyoResultTitle" style="display: none;">
+							<b>투표 결과</b><span style="float: right;">종료됨</span><br>
+						</div>
+					</c:otherwise>
+				</c:choose>
 				<div class="card-body">
 					<div id="tupyoList">
 						<div class="list-group" id="list-group">
