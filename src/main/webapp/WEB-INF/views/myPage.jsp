@@ -198,8 +198,8 @@
 										aria-selected="true"> <i class="bx bx-user-circle fs-20"></i>
 											<span class="d-none d-sm-block">클래스</span>
 									</a></li>
-									<li class="nav-item"><a class="nav-link px-3 active"
-										data-bs-toggle="tab" href="#about" role="tab"
+									<li class="nav-item"><a class="nav-link px-3"
+										data-bs-toggle="tab" href="#info" role="tab"
 										aria-selected="false"> <i class="bx bx-user-circle fs-20"></i>
 											<span class="d-none d-sm-block">내 정보 수정</span>
 									</a></li>
@@ -216,7 +216,42 @@
 								</ul>
 
 								<div class="tab-content">
-									<div class="tab-pane active" id="#class" role="tabpanel">
+									<div class="tab-pane active" id="class" role="tabpanel">
+										<div class="p-4">
+											<div>
+												<div class="pb-3">
+														<div class=" pt-3 px-3">
+														    <div class="input-group w-50">
+													    		<span class="input-group-text"><b>이 메 일</b></span>
+															    <input type="text" class="form-control" value="<%=userInfo.getUserEmail()%>" readonly="readonly" aria-describedby="basic-addon1">
+															</div>
+														</div>
+												</div>
+												
+												<div class="pb-3">
+														<div class=" pt-1 px-3">
+														    <div class="input-group w-50">
+															    <label for="nickname" class="form-label input-group-text"><span><b>닉 네 임</b></span></label>
+															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserNickname()%>" aria-describedby="basic-addon1">
+															    <button class="btn btn-primary">변경하기</button>
+															</div>
+														</div>
+												</div>
+												<div class="pb-3">
+														<div class=" pt-1 px-3">
+														    <div class="input-group w-50">
+															    <label for="nickname" class="form-label input-group-text"><span><b>생 일</b></span></label>
+															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserBirth()%>" aria-describedby="basic-addon1">
+															    <button class="btn btn-primary">변경하기</button>
+															</div>
+														</div>
+												</div>
+											</div>
+											<!-- end card body -->
+										</div>
+										<!-- end card -->
+									</div>
+									<div class="tab-pane" id="info" role="tabpanel">
 										<div class="p-4">
 											<div>
 												<div class="pb-3">
@@ -252,64 +287,6 @@
 										<!-- end card -->
 									</div>
 									<!-- end tab pane -->
-							<div class="card">
-								<ul class="nav nav-tabs-custom nav-justified" id="pills-tab"
-									role="tablist">
-									<li class="nav-item"><a class="nav-link px-3 active"
-										data-bs-toggle="tab" href="#about" role="tab"
-										aria-selected="true"> <i class="bx bx-user-circle fs-20"></i>
-											<span class="d-none d-sm-block">내 정보 수정</span>
-									</a></li>
-									<li class="nav-item"><a class="nav-link px-3"
-										data-bs-toggle="tab" href="#task" role="tab"
-										aria-selected="false"> <i class="bx bx-clipboard fs-20"></i>
-											<span class="d-none d-sm-block">Tasks</span>
-									</a></li>
-									<li class="nav-item"><a class="nav-link px-3"
-										data-bs-toggle="tab" href="#massages" role="tab"
-										aria-selected="false"> <i class="bx bx-mail-send fs-20"></i>
-											<span class="d-none d-sm-block">Messages</span>
-									</a></li>
-								</ul>
-
-								<div class="tab-content">
-									<div class="tab-pane active" id="about" role="tabpanel">
-										<div class="p-4">
-											<div>
-												<div class="pb-3">
-														<div class=" pt-3 px-3">
-														    <div class="input-group w-50">
-													    		<span class="input-group-text"><b>이 메 일</b></span>
-															    <input type="text" class="form-control" value="<%=userInfo.getUserEmail()%>" readonly="readonly" aria-describedby="basic-addon1">
-															</div>
-														</div>
-												</div>
-												
-												<div class="pb-3">
-														<div class=" pt-1 px-3">
-														    <div class="input-group w-50">
-															    <label for="nickname" class="form-label input-group-text"><span><b>닉 네 임</b></span></label>
-															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserNickname()%>" aria-describedby="basic-addon1">
-															    <button class="btn btn-primary">변경하기</button>
-															</div>
-														</div>
-												</div>
-												<div class="pb-3">
-														<div class=" pt-1 px-3">
-														    <div class="input-group w-50">
-															    <label for="nickname" class="form-label input-group-text"><span><b>생 일</b></span></label>
-															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserBirth()%>" aria-describedby="basic-addon1">
-															    <button class="btn btn-primary">변경하기</button>
-															</div>
-														</div>
-												</div>
-											</div>
-											<!-- end card body -->
-										</div>
-										<!-- end card -->
-									</div>
-									<!-- end tab pane -->
-
 									<div class="tab-pane" id="task" role="tabpanel">
 										<div class="p-4">
 											<div>
