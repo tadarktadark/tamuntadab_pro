@@ -2,6 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!-- ========== App Menu ========== -->
+<%
+UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userInfo");
+%>
 <div class="app-menu navbar-menu">
     <div class="container-fluid">
 
@@ -24,7 +27,7 @@
 	            </span>
             </a>
             <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
-                <i class="ri-record-circle-line"></i>
+               		 <i class="ri-record-circle-line"></i>
             </button>
         </div>
 
@@ -263,7 +266,6 @@
                     </div>
                 </div>
 	                    	<%
-		                    UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userInfo");
 							if(userInfo ==null){
 							%>
 							<div class="dropdown header-item">
@@ -274,7 +276,7 @@
 		                 	   </button>
 			                  	  <div class="dropdown-menu dropdown-menu-end">
 	                      			  <a class="dropdown-item" href="./loginForm.do"><i class="bx bx-log-in text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그인</span></a>
-	                      			  <a class="dropdown-item" href="./regist.do"><i class="mdi-account-plus text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">회원가입</span></a>
+	                      			  <a class="dropdown-item" href="./regist.do"><i class="mdi mdi-account-plus text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">회원가입</span></a>
                                    </div>
           					</div>
 							<%
@@ -283,7 +285,7 @@
 							<div class="dropdown header-item">
 								<button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			                        <span class="d-flex align-items-center">
-			                            <img class="rounded-circle header-profile-user" src="./assets/images/users/avatar-3.jpg" alt="Header Avatar">
+			                            <img class="rounded-circle header-profile-user" src="<%=userInfo.getUserProfileFile() %>" alt="Header Avatar">
 			                        </span>
 								</button>
 								<div class="dropdown-menu dropdown-menu-end">
