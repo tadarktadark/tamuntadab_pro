@@ -130,19 +130,28 @@ public class CareerController {
 	        	String savedFilePath = (String)fileService.fileSave(f, request).get("path")+"/"+fileService.fileSave(f, request).get("saveName");
 	            List<String> pngFileNames = fileService.convertPdfToPng(savedFilePath, request.getSession().getServletContext().getRealPath("/storage")+"/");
 	            for (String pngFileName : pngFileNames) {
-	                Map<String, Object> ocrMap = fileService.extractTextFromAreas(request.getSession().getServletContext().getRealPath("/storage")+"/"+pngFileName);
-	                ocrMap.put("careId", createId());
-	                ocrMap.put("careAccountId", accountId);
-	                
-	                for (Object value : ocrMap.values()) {
-	                    if (value == null || "".equals(value.toString().trim())) {
-	                        response.put("errorMessage", "모든 항목은 반드시 기재되어야 합니다.");
-	                        return response;
-	                    }
-	                }
+	                try {
+						Map<String, Object> ocrMap = fileService.extractTextFromAreas(request.getSession().getServletContext().getRealPath("/storage")+"/"+pngFileName);
+						ocrMap.put("careId", createId());
+						ocrMap.put("careAccountId", accountId);
+						
+						for (Object value : ocrMap.values()) {
+						    if (value == null || "".equals(value.toString().trim())) {
+						        response.put("errorMessage", "모든 항목은 반드시 기재되어야 합니다.");
+						        return response;
+						    }
+						}
 
-	                int n = service.insertCareer(ocrMap);
-	                if(n > 0) System.out.println("insert 성공!!!!!");
+						int n = service.insertCareer(ocrMap);
+						if(n > 0) {
+							System.out.println("insert 성공!!!!!");
+						} else {
+							response.put("errorMessage", "오류 발생");
+						}
+					} catch (Exception e) {
+						response.put("errorMessage", "Google Cloud Vision API 실행 중 오류 발생");
+						 return response;
+					}
 	            }
 	            
 	            // OCR 처리와 DB 저장이 끝나면 PNG 파일 삭제
