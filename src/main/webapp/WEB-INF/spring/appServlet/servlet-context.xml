@@ -37,6 +37,8 @@
 	<task:scheduled ref="cronServiceImpl" method="restoreJeongji" cron="0 0 * * * * *"/>
 	휴먼 정지 계정 해제 Cron 
 	<task:scheduled ref="cronServiceImpl" method="registHuman" cron="0 0 * * * *"/>
+	투표 자동 종료 Cron
+	<task:scheduled ref="tupyoServiceImpl" method="updateClassStatusCron" cron="0 0 * * * *"/>
 </task:scheduled-tasks> -->
 	
 <mvc:interceptors>

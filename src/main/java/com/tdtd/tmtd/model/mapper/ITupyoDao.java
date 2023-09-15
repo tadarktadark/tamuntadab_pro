@@ -63,5 +63,9 @@ public interface ITupyoDao {
 	public List<TupyoUserVo> getAgreeResult(int tupySeq);
 	//클래스 진행 상태 변경
 	public int updateClassStatus(Map<String, Object> map);
+	//클래스 상태 변경 CRON
+	public int updateClassStatusCron();
+
+	
 	
 }

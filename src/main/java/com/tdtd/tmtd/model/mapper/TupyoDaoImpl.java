@@ -151,6 +151,11 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int updateClassStatus(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateClassStatus",map);
 	}
+
+	@Override
+	public int updateClassStatusCron() {
+		return sqlSession.update(NS+"updateClassStatusCron");
+	}
 	
 	
 	
