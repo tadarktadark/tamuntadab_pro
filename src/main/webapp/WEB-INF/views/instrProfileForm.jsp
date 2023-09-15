@@ -321,11 +321,9 @@ $('form').on('submit', function(e) {
     
     var data = {};
 
- // Iterate over the FormData entries
     for (var pair of formData.entries()) {
         console.log(pair[0]+ ', ' + pair[1]); 
         
-        // Handle array field names (like "instrEduVo[x].fieldName")
         var match = pair[0].match(/^(\w+)\[(\d+)\]\.(\w+)$/);
         if (match) {
             var arrayName = match[1];

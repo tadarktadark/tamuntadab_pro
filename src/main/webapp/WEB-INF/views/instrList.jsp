@@ -40,9 +40,9 @@
 						placeholder="찾으시는 강사의 닉네임을 입력하세요">
 				</div>
 				<div class="col-md-6">
-					<label for="fee" class="form-label">수업료</label> 
-					<input type="number" class="form-control" id="feeGt" name="feeGt" placeholder="최소">
-					<input type="number" class="form-control" id="feeLt" name="feeLt" placeholder="최대">
+					<label for="fee" class="form-label">수업료 (단위: 만원)</label> 
+					<input type="number" class="form-control fee" id="feeGt" name="feeGt" placeholder="최소">
+					<input type="number" class="form-control fee" id="feeLt" name="feeLt" placeholder="최대">
 				</div>
 				<div class="col-md-3">
 					<label for="gender" class="form-label">성별</label>
@@ -276,6 +276,12 @@
 	    e.preventDefault(); 
 	    $('#searchForm')[0].reset();
 	});
+	
+	$('.fee').on('input', function () {
+        if ($(this).val().length > 4) {
+            $(this).val($(this).val().slice(0, 4));
+        }
+    });
 </script>
 <style type="text/css">
 .ui-autocomplete {
