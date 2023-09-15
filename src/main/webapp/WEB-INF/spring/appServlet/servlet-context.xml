@@ -45,11 +45,5 @@
 		<beans:bean class="com.tdtd.tmtd.interceptor.mainInterceptor" />
 	</mvc:interceptor>	
 </mvc:interceptors>
-
-<context:property-placeholder location="classpath:properties/oracle.properties"/>
-
-<beans:bean id="googleCredentialsConfigurer" class="com.tdtd.tmtd.comm.GoogleCredentialsConfigurer">
-     <beans:property name="googleCredentialsPath" value="${google.credentials.path}"/>
-</beans:bean>
 	
 </beans:beans>

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
+<%@ include file="./shared/_vender_scripts.jsp"%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="./js/instrProfileForm.js" charset="UTF-8"></script>
@@ -216,7 +216,6 @@
 
 	</div>
 	<%@ include file="./shared/_footer.jsp"%>
-	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript" charset="UTF-8">
 function deleteRow(button) {
