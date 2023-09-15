@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -213,9 +212,9 @@ public class TupyoController {
 	
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
-	public boolean finishTupyo(int tupyClasId,int tupySeq) {
+	public boolean finishTupyo(int tupyClasId,int tupySeq,int tuopSeq) {
 		TupyoVo vo = service.getTupyo(tupyClasId);
-		List<TupyoUserVo> resultList = service.getTupyoResult(tupySeq);
+		List<TupyoUserVo> resultList = service.getTupyoResult(tuopSeq);
 		if(resultList.size()==1) {//찬반 투표일 때
 			
 			List<TupyoUserVo> agreeList = service.getAgreeResult(tupySeq);
@@ -257,20 +256,26 @@ public class TupyoController {
 		}else {//여러명의 강사 선택지 투표일 때 
 			
 			int maxCount = 0;
-			for (TupyoUserVo result : resultList) {
+			System.out.println(resultList.get(0).getCount());
+			
+			for (int i = 0; i < resultList.size(); i++) {
+			    TupyoUserVo result = resultList.get(i);
 			    int count = result.getCount();
 			    if (count > maxCount) {
 			        maxCount = count;
 			    }
 			}
+
 			System.out.println(maxCount);
 			List<TupyoUserVo> maxOptionList = new ArrayList<>();
-			for (TupyoUserVo result : resultList) {
-				int count = result.getCount();
-				if(count==maxCount) {
-					maxOptionList.add(result);
-				}
+			for (int i = 0; i < resultList.size(); i++) {
+			    TupyoUserVo result = resultList.get(i);
+			    int count = result.getCount();
+			    if (count == maxCount) {
+			        maxOptionList.add(result);
+			    }
 			}
+
 			System.out.println(maxOptionList);
 			if(maxOptionList.size() > 1) {
 				System.out.println("동률 발생, 투표를 다시 생성해주세요");

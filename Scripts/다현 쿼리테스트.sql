@@ -110,11 +110,11 @@ LEFT JOIN (
                                                         WHERE TUOP_TUPY_SEQ =(
                                                                                                 SELECT TUOP_TUPY_SEQ 
                                                                                                         FROM TUPYO_OPTION to2 
-                                                                                                        WHERE TUOP_SEQ =1
+                                                                                                        WHERE TUOP_SEQ =7
                                                                                                 )
                                                 )
         GROUP BY TUUS_OPTION_SEQ) tu ON ot.TUOP_SEQ = tu.TUUS_OPTION_SEQ
-WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =1);
+WHERE ot.TUOP_TUPY_SEQ =(SELECT TUOP_TUPY_SEQ FROM TUPYO_OPTION WHERE TUOP_SEQ =7);
 
 
 
