@@ -59,6 +59,9 @@ public class ElasticsearchService {
 	        String title = (String) formData.get("title");
 	        applyTitleCondition(boolQueryBuilder, title);
 	        
+	        String classname = (String) formData.get("classname");
+	        applyClassNameCondition(boolQueryBuilder, classname);
+	        
 	        Map<String, Object> ageMap = (Map<String, Object>)formData.get("age");
 	        applyAgeCondition(boolQueryBuilder, ageMap);
 	        
@@ -112,6 +115,7 @@ public class ElasticsearchService {
 			
 			}
 		 
+		 // 검색 결과 출력 순서 설정 좋아요순/등록일순/기본(정확도순) -> 그밖에 원하는 order by 필드에 이름 설정해주면 됨
 		 private void applySortCondition(SearchSourceBuilder builder,
                  String sort){
 					if(sort!=null && !sort.equals("")){
@@ -133,7 +137,8 @@ public class ElasticsearchService {
 				}
 
 		 	}
-
+		
+		// subjects 일치 단어 검색
 	    private void applySubjectCondition(BoolQueryBuilder boolQueryBuilder,
 	                                       List<String> subjects) {
 	    	if(subjects != null && !subjects.isEmpty()) {
@@ -146,7 +151,8 @@ public class ElasticsearchService {
 	            boolQueryBuilder.filter(boolSubjectQueryBulider);
 	    	}
 	    }
-
+	    
+	    //nickname * nickname * 일치 단어 검색
 		private void applyNicknameCondition(BoolQueryBuilder boolQueryBuilder,
 	                                        String nickname) {
 	    	if(nickname != null && !nickname.equals("")) {
@@ -158,15 +164,29 @@ public class ElasticsearchService {
 	       }
 	    }
 		
-		private void applyTitleCondition(BoolQueryBuilder boolQueryBuilder,
-											String title) {
-			if(title != null && !title.equals("")) {
-			MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
-			QueryBuilders.matchPhrasePrefixQuery("title", title).maxExpansions(10);
-			boolQueryBuilder.filter(matchPhrasePrefixQB);
+		//title OR content 일치 단어 검색
+		private void applyTitleCondition(BoolQueryBuilder boolQueryBuilder, String title) {
+		    if (title != null && !title.equals("")) {
+		        MultiMatchQueryBuilder multiMatchQB = QueryBuilders.multiMatchQuery(title, "title", "content")
+		            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
+		            .maxExpansions(10);
+		        boolQueryBuilder.should(multiMatchQB);
+		    }
+		}
+		
+		private void applyClassNameCondition(BoolQueryBuilder boolQueryBuilder,
+							String classname) {
+			if(classname != null && !classname.equals("")) {
+//			MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
+//			QueryBuilders.matchPhrasePrefixQuery("classname", classname).maxExpansions(10);
+//			boolQueryBuilder.filter(matchPhrasePrefixQB);
+				
+				QueryBuilder qb = QueryBuilders.wildcardQuery("classname", "*" + classname + "*");
+	    	     boolQueryBuilder.must(qb);
 			}
 		}
 
+		// 나이 최소 최대 범위 검색 ageGt : 최소 나이값 / ageLt : 최대 나이값
 		private void applyAgeCondition(BoolQueryBuilder queryBuilder,
 	                                   Map<String,Object> ageMap){
 			if(ageMap != null) {
@@ -190,6 +210,7 @@ public class ElasticsearchService {
 		
 		}
 		
+		//수업료 최소 최대 범위 feeGt: 수업료 최소값 / feeLt: 수업료 최대값
 		private void applyFeeCondition(BoolQueryBuilder queryBuilder,
 												Map<String,Object> feeMap){
 			if(feeMap != null) {
@@ -213,6 +234,7 @@ public class ElasticsearchService {
 		
 		}
 
+		// gender 성별 일치 검색
 		private void applyGenderCondition(BoolQueryBuilder queryBuilder,
 	                                      String gender){
 		   if(gender!=null && !gender.equals("") && !gender.equals(("All"))){
@@ -221,6 +243,7 @@ public class ElasticsearchService {
 		   }
 		}
 
+		// location 지역 일치 검색
 		private void applyLocationCondition(BoolQueryBuilder queryBuilder,
 	                                        List<String> locations){
 		    if(locations!=null && !locations.isEmpty()){
@@ -233,6 +256,7 @@ public class ElasticsearchService {
 		    }
 		}
 		
+		// 각 필드별 formData 타입 유효값 검사
 		private void validateFormData(Map<String, Object> formData) {
 		    if (formData.containsKey("subjects") && !(formData.get("subjects") instanceof List)) {
 		        throw new IllegalArgumentException("Invalid subject type");
@@ -243,6 +267,10 @@ public class ElasticsearchService {
 		    }
 		    
 		    if (formData.containsKey("title") && !(formData.get("title") instanceof String)) {
+		        throw new IllegalArgumentException("Invalid title type");
+		    }
+		    
+		    if (formData.containsKey("classname") && !(formData.get("classname") instanceof String)) {
 		        throw new IllegalArgumentException("Invalid title type");
 		    }
 		    

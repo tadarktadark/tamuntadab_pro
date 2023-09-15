@@ -121,22 +121,21 @@
 									<div class="col-lg-3">
 										<label for="inprSubjects" class="form-label">가능한 과목</label>
 									</div>
-									<div id="selectedSubjects"
-										class="col-lg-9 choices__list choices__list--multiple">
+									<div id="selectedSubjects" class="col-lg-9 choices__list choices__list--multiple">
+									<c:if test="${not empty profile.subjectsTitle}">
 										 <script type="text/javascript" charset="UTF-8">
-										 var subjectsTitle = ${profile.subjectsTitle}  // Use the server-provided string as JavaScript code
-									        var inprSubjects = ${profile.inprSubjects}  // Get the inprSubjects from the server
+										 // 과목 기존 정보 있을때 값 불러오기
+										 var subjectsTitle = ${profile.subjectsTitle};  
+									        var inprSubjects = ${profile.inprSubjects};  
 
-									        $.each(subjectsTitle, function(index, value) {  // Iterate over each item in the array
-									            // Create a new div element and add it to #selectedSubjects
+									        $.each(subjectsTitle, function(index, value) {  
 									            var $div = $('<div>')
 									                .addClass('choices choices__item choices__item--selectable')
-									                .attr('data-value', inprSubjects[index])  // Use the corresponding value from inprSubjects as data-value
+									                .attr('data-value', inprSubjects[index])  
 									                .attr('data-type', 'select-multiple')
 									                .text(value)
 									                .appendTo('#selectedSubjects');
 
-									            // Create a remove button and add it to the new div element
 									            var $removeButton = $('<button>')
 									                .addClass('choices__button')
 									                .attr('aria-label', "Remove item: '" + value + "'")
@@ -148,6 +147,7 @@
 									                 .appendTo($div);
 									        });
 									    	</script>
+									   </c:if>
 									</div>
 									<div class="choices__inner choices hstack gap-3"
 										data-type="multiple">
@@ -170,7 +170,9 @@
 										<input type="search" id="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
+									<c:if test="${not empty profile.subjectsMajorTitle}">
 									<script type="text/javascript" charset="UTF-8">
+									// 전문분야 기존 정보 있을때 값 불러오기
 									 var subjectsMajorTitle = ${profile.subjectsMajorTitle};  
 								        var inprSubjectsMajor = ${profile.inprSubjectsMajor}; 
 
@@ -182,7 +184,6 @@
 								                .text(value)
 								                .appendTo('#selectedSubjectsMajor');
 
-								            // Create a remove button and add it to the new div element
 								            var $removeButton = $('<button>')
 								                .addClass('choices__button')
 								                .attr('aria-label', "Remove item: '" + value + "'")
@@ -194,6 +195,7 @@
 								                 .appendTo($div);
 								        });									
 									</script>
+									</c:if>
 								</div>
 							</div>
 							<div class="row mb-3">

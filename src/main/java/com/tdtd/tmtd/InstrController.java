@@ -30,6 +30,7 @@ import com.tdtd.tmtd.model.service.ElasticsearchService;
 import com.tdtd.tmtd.model.service.IInstrService;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,8 +45,10 @@ public class InstrController {
 	private IInstrService service;
 	
 	@GetMapping("/instrList.do")
-	public String instrList(Model model) {
+	public String instrList(Model model, HttpSession session) {
 		log.info("InstrController instrList 이동");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
 		List<InstrVo> lists = service.getAllInstr("like");
 		
@@ -75,6 +78,7 @@ public class InstrController {
 		model.addAttribute("title","강사 조회");
 		model.addAttribute("pageTitle", "강사 전체 리스트");
 		model.addAttribute("lists", lists);
+		model.addAttribute("userInfo", userInfo);
 		return "instrList";
 	}
 	
@@ -82,7 +86,9 @@ public class InstrController {
 	@GetMapping("/instrView.do")
 	public String instrView(@RequestParam(required = false) String order, HttpSession session) {
 		log.info("###########order: {}", order);
-		String accountId = (String)session.getAttribute("userInfo");
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String accountId = userInfo.getUserAccountId();
+		
 		List<InstrVo> lists = service.getAllInstr(order);
 		for (InstrVo instrVo : lists) {
 			String subjectsMajorTitle = instrVo.getSubjectsMajorTitle();
@@ -116,7 +122,7 @@ public class InstrController {
 		log.info("########### instrSearch.do 받아온 값: {}", formData); 
 		List<Map<String, Object>> resultList = searchService.search(formData, "instr_profile", 8);
 		 
-		Object userInfo = session.getAttribute("userInfo");
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
 		for (Map<String,Object> result : resultList) {
 			log.info("%%%%%%%%%%%%%%%%%%%%%% result : {}", result);
@@ -141,8 +147,11 @@ public class InstrController {
 	}
 	
 	@GetMapping("/instrProfileForm.do")
-	public String instrProfileForm(HttpSession session, Model model, String accountId) {
-//		String accountId = (String)session.getAttribute("userInfo").getAccountId;
+	public String instrProfileForm(HttpSession session, Model model) {
+		log.info("InstrController instrProfileForm.do 강사 프로픽 작성화면");
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String accountId = userInfo.getUserAccountId();
+		
 		InstrVo vo = service.getMyInstrProfile(accountId);
 		if(vo != null) {
 			
