@@ -36,7 +36,7 @@ public interface ITupyoService {
 	//TDT070 투표 진행
 	public int insertTupyoUser(Map<String, Object> map);
 	//TDT071 투표 결과 조회
-	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq);
+	public List<TupyoUserVo> getTupyoResult(int tuopSeq);
 	//TDT072 재투표
 	public int delTupyoUser(TupyoUserVo vo);
 	//TDT073 투표 종료

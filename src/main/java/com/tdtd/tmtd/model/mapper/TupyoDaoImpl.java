@@ -68,8 +68,8 @@ public class TupyoDaoImpl implements ITupyoDao {
 	}
 
 	@Override
-	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq) {
-		return sqlSession.selectList(NS+"getTupyoResult",tuopTupySeq);
+	public List<TupyoUserVo> getTupyoResult(int tuopSeq) {
+		return sqlSession.selectList(NS+"getTupyoResult",tuopSeq);
 	}
 
 	@Override

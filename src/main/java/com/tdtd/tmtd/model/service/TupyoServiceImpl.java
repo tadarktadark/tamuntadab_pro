@@ -67,8 +67,8 @@ public class TupyoServiceImpl implements ITupyoService {
 	}
 
 	@Override
-	public List<TupyoUserVo> getTupyoResult(int tuopTupySeq) {
-		return dao.getTupyoResult(tuopTupySeq);
+	public List<TupyoUserVo> getTupyoResult(int tuopSeq) {
+		return dao.getTupyoResult(tuopSeq);
 	}
 
 	@Override
@@ -123,9 +123,9 @@ public class TupyoServiceImpl implements ITupyoService {
 
 	@Override
 	public int delTupyo(int tupySeq) {
-		int a =dao.delTupyo(tupySeq);
-		int b =dao.delTupyoOption(tupySeq);
 		int c =dao.delAllTupyoUser(tupySeq);
+		int b =dao.delTupyoOption(tupySeq);
+		int a =dao.delTupyo(tupySeq);
 		return a+b+c;
 	}
 
