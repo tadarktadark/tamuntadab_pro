@@ -9,6 +9,8 @@
 	<result column="INPR_FEE" property="inprFee"/>
 	<result column="INPR_CERT" property="inprCert"/>
 	<result column="INPR_LIKE" property="inprLike"/>
+	<result column="INPR_LIKE_COUNT" property="inprLikeCount"/>
+	<result column="INPR_VIEW_COUNT" property="inprViewCount"/>
 	<result column="INPR_SITE_YOUTUBE" property="inprSiteYoutube"/>
 	<result column="INPR_SITE_WEB" property="inprSiteWeb"/>
 	<result column="INPR_SITE_MOBILE" property="inprSiteMobile"/>
@@ -38,6 +40,7 @@
 	<result column="USER_BIRTH" property="userBirth"/>
 	<result column="USER_ACCOUNT_ID" property="userAccountId"/>
 	<result column="USER_GENDER" property="userGender"/>
+	<result column="USER_JOIN_DATE" property="userJoinDate"/>
 </resultMap>
 <resultMap type="classVo" id="classMap">
 	<result column="CLAS_ID" property="clasId"/>
@@ -117,8 +120,8 @@
 </delete>
 
 <select id="getAllInstr" resultMap="instrMap">
-	SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, USER_ACCOUNT_ID,
-	    SUBJECTS_TITLE, SUBJECTS_MAJOR_TITLE, REVIEW_COUNT,USER_BIRTH, INPR_FEE, USER_GENDER,
+	SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, USER_ACCOUNT_ID,INPR_LIKE_COUNT,
+	    SUBJECTS_TITLE, SUBJECTS_MAJOR_TITLE, REVIEW_COUNT,USER_BIRTH, INPR_FEE, USER_GENDER, USER_JOIN_DATE, INPR_VIEW_COUNT,
 		CASE WHEN NTILE(10) OVER (ORDER BY NVL(INPR_LIKE_COUNT, 0) DESC) = 1 THEN 'HOT' ELSE NULL END AS INGI
 	FROM (
 	SELECT INPR_SEQ, INPR_ACCOUNT_ID, USER_PROFILE_FILE, INPR_CERT, USER_ACCOUNT_ID,

@@ -87,7 +87,7 @@ public class InstrController {
 	public String instrView(@RequestParam(required = false) String order, HttpSession session) {
 		log.info("###########order: {}", order);
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		String accountId = userInfo.getUserAccountId();
+		String accountId = userInfo != null ? userInfo.getUserAccountId() : null;
 		
 		List<InstrVo> lists = service.getAllInstr(order);
 		for (InstrVo instrVo : lists) {
