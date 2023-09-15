@@ -220,6 +220,11 @@
 	<%@ include file="./shared/_footer.jsp"%>
 </body>
 <script type="text/javascript" charset="UTF-8">
+window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    e.returnValue = '';
+});
+
 function deleteRow(button) {
 	var row = $(button).closest('tr');
     var isDbRow = row.attr('class') === 'isDb';
@@ -304,7 +309,7 @@ $('form').on('submit', function(e) {
             denyButton: 'btn btn-info w-xs me-2',
         },
         buttonsStyling: false,
-        denyButtonText: '기존 사항 유지',
+        denyButtonText: '변경 없이 나가기',
         showCloseButton: true
     }).then(function (result) {
         if (result.isConfirmed) {
