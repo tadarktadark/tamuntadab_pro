@@ -8,3 +8,12 @@
 	vertical-align: center;
 	height: 100%;
 }
+
+#selectBox{
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+#selectBox #order-by{
+	margin-bottom: 0px !important;
+}

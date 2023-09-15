@@ -155,6 +155,7 @@ public class YeyakServiceImpl implements IYeyakService {
 		}
 		Gson gson = new Gson();
 		String yeoyuTime = gson.toJson(dateMap);
+		System.out.println(yeoyuTime);
 		Map<String, Object> update = new HashMap<String, Object>();
 		update.put("gagaId", gagaId);
 		update.put("gagaYeoyuTime", yeoyuTime);
