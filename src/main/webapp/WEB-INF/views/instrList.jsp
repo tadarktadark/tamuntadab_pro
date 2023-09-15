@@ -79,7 +79,7 @@
 			    <option value="reg">등록일순</option>
 			</select>
 
-			<div class="row output-area" style="width: 1680px; height: 450px; overflow: auto;">
+			<div class="row output-area" style="width: auto; height: 450px; overflow: auto;">
 			<c:forEach var="instr" items="${lists}" varStatus="vs">
 				<div class="col-xxl-3 col-md-6">
 					<div class="card team-box">
