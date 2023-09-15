@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.ISubjectService;
@@ -74,10 +76,12 @@ int totalClass = cService.getClassListCount();
 		model.addAttribute("pVo", pVo);
 		model.addAttribute("classList",classList);
 		log.info("ClassController 과목 페이징에 사용될 정보 pageVO, 클래스 리스트 정보 : {}, {}", pVo, classList);
+		
 		return "classList";
 	}
 	
 	@GetMapping("/classListLoad.do")
+	@ResponseBody
 	public String classListLoad(Model model,
 							@RequestParam("page") String pageAttr) {
 		
@@ -113,10 +117,13 @@ int totalClass = cService.getClassListCount();
 		listMap.put("last", pagingMap.get("end"));
 		List<ClassVo> classList = cService.getClassList(listMap);
 		
-		model.addAttribute("pVo", pVo);
-		model.addAttribute("classList",classList);
-		log.info("ClassController 과목 페이징에 사용될 정보 pageVO, 클래스 리스트 정보 : {}, {}", pVo, classList);
-		return "classList";
+		Map<String, Object> result = new HashMap<>();
+	    result.put("pVo", pVo);
+	    result.put("classList", classList);
+		
+	    Gson gson = new Gson();
+	    
+	    return gson.toJson(result);
 	}
 
 	@GetMapping("/classWrite.do")
@@ -219,9 +226,9 @@ int totalClass = cService.getClassListCount();
 		pVo.setCountList(10);
 		pVo.setCountPage(5);
 		pVo.setTotalPage(pVo.getTotalPage());
+		pVo.setPage(thisPage);
 		pVo.setStartPage(pVo.getPage());
 		pVo.setEndPage(pVo.getPage());
-		pVo.setPage(thisPage);
 		log.info("ClassController 과목 페이징에 사용될 정보 pageVO, 과목정보 1 : {}", pVo);
 		Map<String, Object> pagingMap = PagingUtils.paging(pageAttr, pVo.getTotalCount(), pVo.getCountList(), pVo.getCountPage());
 		

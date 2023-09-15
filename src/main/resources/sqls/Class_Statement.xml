@@ -2,14 +2,52 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.ClassDaoImpl">
 
+	<resultMap type="userProfileVo" id="userProfileMap">
+		<result column="USER_PROFILE_FILE" property="userProfileFile"/>
+		<result column="USER_NICKNAME" property="userNickname"/>
+		<result column="USER_BIRTH" property="userBirth"/>
+		<result column="USER_ACCOUNT_ID" property="userAccountId"/>
+		<result column="USER_GENDER" property="userGender"/>
+	</resultMap>
+
+	<resultMap type="subjectVo" id="subjectMap">
+		<result column="SUBJ_ID" property="subjId"/>
+		<result column="SUBJ_TITLE" property="subjTitle"/>
+		<result column="SUBJ_STUD_ID" property="subjStudId"/>
+		<result column="SUBJ_STATUS" property="subjStatus"/>
+	</resultMap>
+	
+	<resultMap type="classVo" id="classMap">
+		<result column="CLAS_ID" property="clasId"/>
+		<result column="CLAS_TITLE" property="clasTitle"/>
+		<result column="CLAS_LOCATION" property="clasLocation"/>
+		<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
+		<result column="CLAS_SUGANGRYO" property="clasSugangRyo"/>
+		<result column="CLAS_SUBJECT_JEONGBO" property="clasSubjectJeongbo"/>
+	
+		<collection property="userVo" resultMap="userProfileMap"/>
+		<collection property="subjVo" resultMap="subjectMap"/>
+	</resultMap>
+
 	<!-- 페이징 할 클래스 조회 -->
-	<select id="getClassList" parameterType="java.util.Map"
-		resultType="classVo">
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON
+	<select id="getClassList" parameterType="java.util.Map" resultMap="classMap">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE
 		FROM (
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
-		ROW_NUMBER() OVER (ORDER BY CLAS_ID DESC) AS RN
-		FROM CLASS c
+			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+				jot.SUBJ_TITLE,up.USER_NICKNAME
+				 ,ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
+			FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
+			ON CLAS_ID = CLCH_CLAS_ID
+			JOIN USER_PROFILE up
+			ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+			JOIN (SELECT c.CLAS_ID,
+		    LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		FROM CLASS c,
+		     JSON_TABLE(c.CLAS_SUBJECT_JEONGBO , '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		     JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		GROUP BY c.CLAS_ID) jot
+			ON jot.CLAS_ID=c.CLAS_ID
+			WHERE CLCH_YEOKAL='M'
 		)
 		WHERE RN BETWEEN #{first} AND #{last}
 	</select>

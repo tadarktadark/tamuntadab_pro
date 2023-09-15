@@ -37,4 +37,7 @@ public class ClassVo {
 	private int clasSugangRyo;
 	
 	private List<ReviewVo> reviewVo;
+	private List<UserProfileVo> userVo;
+	private List<SubjectVo> subjVo;
+	
 }

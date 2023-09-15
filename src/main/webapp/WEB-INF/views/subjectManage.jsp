@@ -149,23 +149,23 @@
                                 
                                 	<!-- first 버튼 구현 -->
                            			<c:choose>
-					                    <c:when test="${param.page > pVo.countPage}">
-					                        <li class="page-item disabled">
-					                            <span class="page-link">first</span>
+					                    <c:when test="${param.page > 1}">
+					                    	<li class="page-item">
+					                            <a class="page-link" href="./subjectManage.do?page=1">first</a>
 					                        </li>
 					                    </c:when>
 					                    <c:otherwise>
-					                        <li class="page-item">
-					                            <a class="page-link" href="./subjectManage.do?page=1">first</a>
+					                        <li class="page-item disabled">
+					                            <span class="page-link">first</span>
 					                        </li>
 					                    </c:otherwise>
 					                </c:choose>
 					                
 					                <!-- privious버튼 구현 -->
 					                <c:choose>
-							          	<c:when test="${param.page > pVo.countPage}">
-							          		<li class="page-item disabled">
-			                                   	<a class="page-link" href="./subjectManage.do?page="${(param.page/pVo.countPage)-1}>Previous</a>
+							          	<c:when test="${pVo.page - pVo.countPage > 0}">
+							          		<li class="page-item">
+			                                   	<a class="page-link" href="./subjectManage.do?page=${(pVo.startPage - pVo.countPage) < 0 ? 1 : (pVo.startPage-pVo.countPage)}">Previous</a>
 			                                </li>
 							          	</c:when>
 							          	<c:otherwise>
@@ -192,9 +192,9 @@
 								    </c:forEach>
 								    
 								    <c:choose>
-									    <c:when test="${param.page <= (pVo.totalPage/pVo.countList)*pVo.countList}">
-									        <li class="page-item disabled">
-									            <a class="page-link" href="./subjectManage.do?page=${pVo.page}">NEXT</a>
+									    <c:when test="${pVo.totalPage > (pVo.page+countPage)}">
+									        <li class="page-item">
+									            <a class="page-link" href="./subjectManage.do?page=${pVo.startPage+pVo.countPage}">NEXT</a>
 									        </li>
 									    </c:when>
 									    <c:otherwise>
@@ -206,14 +206,14 @@
 					                
 					                <!-- End 버튼 구현 -->
 	                                <c:choose>
-					                    <c:when test="${param.page <= (pVo.totalPage/pVo.countList)*pVo.countList}">
-					                        <li class="page-item">
-					                            <a class="page-link" href="./subjectManage.do?page="${pVo.totalPage}-1>End</a>
+					                    <c:when test="${pVo.totalPage == (pVo.page)}">
+					                       <li class="page-item disabled">
+					                            <span class="page-link">End</span>
 					                        </li>
 					                    </c:when>
 					                    <c:otherwise>
-					                        <li class="page-item disabled">
-					                            <span class="page-link">End</span>
+					                    	 <li class="page-item">
+					                            <a class="page-link" href="./subjectManage.do?page=${pVo.totalPage}">End</a>
 					                        </li>
 					                    </c:otherwise>
 					                </c:choose>
