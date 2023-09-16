@@ -72,14 +72,14 @@
 		        	<h5 class="list-title fs-15 mb-1">{{title}}</h5>
 		        	<p class="list-text mb-0 fs-12"> 
 			        		<i class=" ri-timer-2-fill"></i>&ensp;{{regdate}}&ensp;
-			        		<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
 				    		<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
+			        		<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
 		        	</p>
 		    	</div>
 			</div>
 			<div class="list-text mb-0" class="sub-list">
 				{{#each subjects}}
-				<span class="badge badge-label bg-{{color}}"><i class="mdi mdi-circle-medium"></i>{{subject}}</span>
+				<span class="badge bg-{{color}}-subtle text-{{color}}">{{subject}}</span>
 				{{/each}}
 			</div>					    	
 		</div>
