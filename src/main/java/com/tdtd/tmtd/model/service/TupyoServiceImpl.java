@@ -149,6 +149,11 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.updateClassStatusCron();
 	}
 
+	@Override
+	public int countVotedUser(int tupySeq) {
+		return dao.countVotedUser(tupySeq);
+	}
+
 	
 
 

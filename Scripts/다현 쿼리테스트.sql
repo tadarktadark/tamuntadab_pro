@@ -129,7 +129,17 @@ SELECT TUUS_ACCOUNT_ID ,TUUS_AGREE
 						FROM TUPYO_OPTION to2 
 						WHERE TUOP_TUPY_SEQ =4);
 
+ AND ;
 				
+
+--이게 0이라면
+SELECT COUNT(*) 
+	FROM TUPYO_USER tu 
+	WHERE TUUS_OPTION_SEQ IN(
+							SELECT TUOP_SEQ 
+								FROM TUPYO_OPTION to2 
+								WHERE TUOP_TUPY_SEQ = '17'
+							);
 
 
 --재투표(투표 취소)

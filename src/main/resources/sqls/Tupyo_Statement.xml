@@ -195,4 +195,15 @@ UPDATE TUPYO
 </update>
 
 
+<select id="countVotedUser" parameterType="Integer" resultType="Integer">
+SELECT COUNT(*) 
+	FROM TUPYO_USER tu 
+	WHERE TUUS_OPTION_SEQ IN(
+							SELECT TUOP_SEQ 
+								FROM TUPYO_OPTION to2 
+								WHERE TUOP_TUPY_SEQ = #{tupySeq}
+							)
+</select>
+
+
 </mapper>

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class TupyoController {
 	
 	//투표 페이지로 이동
 	@RequestMapping(value = "/tupyoPage.do")
-	public String tupyoPage(int clasId,String accountId,Model model) {
+	public String tupyoPage(int clasId,String accountId,Model model, HttpSession session) {
 		TupyoVo vo = service.getTupyo(clasId);
 		System.out.println("vo 체크 : "+vo);
 		if(vo==null) {
@@ -51,6 +52,32 @@ public class TupyoController {
 			model.addAttribute("isMaster", isMaster);
 			return "tupyo";
 		}else {
+			//투표가 있는데 F이면 usercount체크하고 비어 있으면 삭제하고 새로고침
+			
+			System.out.println(vo.getTupyStatus());
+			if(vo.getTupyStatus().equals("F")) {
+				int tupySeq = vo.getTupySeq();
+				System.out.println(tupySeq);
+				int countVotedUser = service.countVotedUser(tupySeq);
+				System.out.println(countVotedUser);
+				if(countVotedUser == 0) {
+					service.delTupyo(tupySeq);
+					model.addAttribute("hasTupyo", "false");
+					model.addAttribute("accountId",accountId);
+					ChamyeoVo masterVo = service.getClassMaster(clasId);
+					String masterId = masterVo.getClchAccountId();
+					String isMaster ="false";
+					if(masterId.equals(accountId)) {
+						isMaster = "true";
+					}
+					model.addAttribute("clasId",clasId);
+					model.addAttribute("isMaster", isMaster);
+					
+					return "tupyo";
+				}
+			}
+			
+			
 		model.addAttribute("hasTupyo", "true");
 		
 		List<TupyoOptionVo> lists = service.getAllTupyoOption(vo.getTupySeq());
