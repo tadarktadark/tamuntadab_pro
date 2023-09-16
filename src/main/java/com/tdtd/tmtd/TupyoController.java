@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class TupyoController {
 	
 	//투표 페이지로 이동
 	@RequestMapping(value = "/tupyoPage.do")
-	public String tupyoPage(int clasId,String accountId,Model model) {
+	public String tupyoPage(int clasId,String accountId,Model model, HttpSession session) {
 		TupyoVo vo = service.getTupyo(clasId);
 		System.out.println("vo 체크 : "+vo);
 		if(vo==null) {

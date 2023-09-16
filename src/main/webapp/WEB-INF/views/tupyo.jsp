@@ -19,14 +19,14 @@
 		<c:choose>
 		<c:when test="${hasTupyo eq 'true'}">
 			<div class="card">
-				<input name="accountId" type="hidden" value="${accountId}">
+				<input name="accountId" type="hidden" value="${userInfo.userAccountId}">
 				<input name="list" type="hidden" value="${lists}">
 				<input name="agreeTupyoOptionSeq" type="hidden" value="${lists[0].tuopSeq}">
 				<input name="tupyoSeq" type="hidden" value="${vo.tupySeq}">
 				<input name="tupyoClassId" type="hidden" value="${vo.tupyClasId}">
 				<input name="tupyoStatus" type="hidden" value="${vo.tupyStatus}">
 				<div class="card-header" id="selectInstrTitle">
-					<b>강사님을 선택해주세요</b><span style="float: right;">종료일자 :<fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/></span><br>
+					<b>강사님을 선택해주세요</b><span style="float: right;">종료일자 :<fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-icon" onclick="closeWindow()"><i class="ri-close-fill"></i></button></span><br>
 				</div>
 				<c:choose>
 					<c:when test="${vo.tupyStatus eq 'P'}">
@@ -83,6 +83,7 @@
 					</div>
 				     <div class="col-lg-3" style="margin-top: 15px;">
 				         <label for="dateInput" class="form-label"><b>종료 일자</b></label>
+				         <button style="float: right;" class="btn btn-danger btn-icon" onclick="closeWindow()"><i class="ri-close-fill"></i></button>
 				     </div>
 				     <div class="col-lg-3" style="padding-top: 5px;">
 				         <input type="date" min="" class="form-control flatpickr" id="dateInput" placeholder="날짜를 선택해주세요.">
@@ -91,6 +92,9 @@
 						<button id="makeTupyo" class="btn btn-primary" onclick="makeTupyo()">투표 생성하기</button>
 				     </div>
 				 </div>
+				</c:if>
+				<c:if test="${isMaster eq 'false'}">
+				<button class="btn btn-danger btn-icon" onclick="closeWindow()"><i class="ri-close-fill"></i></button>
 				</c:if>
 			</div>
 		</c:otherwise>

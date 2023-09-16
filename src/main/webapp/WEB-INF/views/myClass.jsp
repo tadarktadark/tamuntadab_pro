@@ -11,15 +11,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./assets/libs/fullcalendar/main.min.css" rel="stylesheet" type="text/css" />
 <script>
-function openTupyo() {
-	var xPos = (document.body.offsetWidth/2) - (500/2);
-	xPos += window.screenLeft;
-	var yPos = (document.body.offsetHeight/2) - (500/2);
-  window.open("./tupyoPage.do?clasId=1000000111&accountId=TMTD19", "_blank", "left="+xPos+",top="+yPos+",width=500,height=500");
-}
+    function openTupyo() {
+        var xPos = (document.body.offsetWidth/2) - (500/2);
+        xPos += window.screenLeft;
+        var yPos = (document.body.offsetHeight/2) - (500/2);
+        var userId = $('input[name="accountId"]').val();
+        window.open("./tupyoPage.do?clasId=1000000110&accountId="+userId, "_blank", "left="+xPos+",top="+yPos+",width=500,height=500");
+    }
 </script>
 </head>
 <body class="twocolumn-panel">
+	<input name="accountId" type="button" value="${userInfo.userAccountId}"><!-- 지우지마 형 -->
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_topbar.jsp"%>
 		<%@ include file="./shared/_sidebar.jsp"%>
