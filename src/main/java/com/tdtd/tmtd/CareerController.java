@@ -39,9 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CareerController {
 	
 	@Autowired
-	ServletContext servletContext;
-	
-	@Autowired
 	private IFileService fileService;
 	
 	@Autowired
@@ -76,10 +73,10 @@ public class CareerController {
 	}
 	
 	@RequestMapping(value = "/careerFileDownload.do", method = RequestMethod.GET)
-	public void careerFiledownload(HttpServletResponse resp) throws IOException {
+	public void careerFiledownload(HttpServletResponse resp, HttpServletRequest req) throws IOException {
 		log.info("CareerController careerFiledownload 실행");
 		
-		String filePath = servletContext.getRealPath("/json/타문타답_경력증명서.docx");
+		String filePath = req.getSession().getServletContext().getRealPath("/json/타문타답_경력증명서.docx");
 		String fileName = "타문타답_경력증명서.docx";
 		
 		FileInputStream in = null;
