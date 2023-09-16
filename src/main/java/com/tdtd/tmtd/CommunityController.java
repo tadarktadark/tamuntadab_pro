@@ -26,23 +26,26 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-public class PilgiController {
+public class CommunityController {
 
 	@Autowired
 	private IPilgiService service;
 	
-	@RequestMapping(value="/pilgi.do", method=RequestMethod.GET)
-	public String pilgi(Model model, HttpSession session) {
-		log.info("@@@@@@@@@@@@@@@ 필기 게시판 이동");
+	@RequestMapping(value="/community.do", method=RequestMethod.GET)
+	public String community(Model model, HttpSession session, String b) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : {}", b);
 		model.addAttribute("title","커뮤니티");
-		model.addAttribute("pageTitle", "필기");
-		UserProfileVo userInfo = new UserProfileVo();
-		userInfo.setUserAccountId("TMTD1");
-		userInfo.setUserName("학생일반테스트닉네임1");
-		userInfo.setUserPhoneNumber("01000000001");
-		userInfo.setUserDelflag("N");
-		session.setAttribute("userInfo", userInfo);
-		return "pilgi";
+		if(b.equals("pilgi")) {
+			model.addAttribute("pageTitle", "필기");
+			session.setAttribute("cm","pilgi");
+		}else if(b.equals("jilmun")) {
+			model.addAttribute("pageTitle", "질문");
+			session.setAttribute("cm","jilmun");			
+		}else if(b.equals("jayu")) {
+			model.addAttribute("pageTitle", "자유");
+			session.setAttribute("cm","jayu");
+		}	
+		return "communityList";
 	}
 	
 	@RequestMapping(value="/getPilgiList.do", method=RequestMethod.POST)
@@ -52,15 +55,20 @@ public class PilgiController {
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
-		int pageCount = service.getPilgiCount(userInfo.getUserAccountId());
+		if(userInfo == null) {
+			userInfo = new UserProfileVo();
+			userInfo.setUserAccountId("TMTD0");
+		}
+		
+		int pageCount = service.getPilgiCount(userInfo.getUserAccountId());			
 		Map<String, Object> pMap = PagingUtils.paging(page, pageCount, 10, 5);
 		
 		Map<String, Object> bMap = new HashMap<String, Object>(){{
-			put("accountId", userInfo.getUserAccountId());
 			put("orderBy", orderBy);
 			put("start", pMap.get("start"));
 			put("end", pMap.get("end"));
 		}};
+		bMap.put("accountId", userInfo.getUserAccountId());
 		
 		Map<String, Object> result = new HashMap<String, Object>(){{
 			put("b",service.getPilgiList(bMap));
@@ -97,14 +105,7 @@ public class PilgiController {
 	public String getPilgiDetail(HttpSession session, Model model, String id){
 		log.info("@@@@@@@@@@@@@@@ 필기 상세조회 : {}", id);
 		
-		UserProfileVo userInfo = new UserProfileVo();
-		userInfo.setUserAccountId("TMTD1");
-		userInfo.setUserName("학생일반테스트닉네임1");
-		userInfo.setUserPhoneNumber("01000000001");
-		userInfo.setUserDelflag("N");
-		session.setAttribute("userInfo", userInfo);
-		
-		userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
 		String list = service.getPilgiViewUser(id);		
 		Map<String, Object> view = LikeViewUtils.view(userInfo.getUserAccountId(), list);

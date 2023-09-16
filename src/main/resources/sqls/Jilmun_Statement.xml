@@ -1,4 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.JilmunDaoImpl">
+
+	<!-- 질문 조회가능한 게시글 개수 -->
+	<select id="getJilmunCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JILMUN_BOARD
+			WHERE JIBO_STATE IN ('N', 'P')
+	</select>
+	
+	<!-- 질문 목록 조회(정렬) -->
+	<select id="getJilmunList" resultType="boardVo">
+		SELECT ID, ACCOUNT_ID , TITLE, CLAS_ID, SUBJECT_CODE, REPLY_COUNT, LIKE_USER, LIKE_COUNT, VIEW_COUNT, CHAETAEK, REGDATE
+			FROM (SELECT ID, ACCOUNT_ID , TITLE, CLAS_ID, SUBJECT_CODE, REPLY_COUNT, LIKE_USER, LIKE_COUNT, VIEW_COUNT, CHAETAEK, REGDATE, 
+					<choose>
+						<when test='"like".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY LIKE_COUNT DESC, ID DESC) rn					
+						</when>
+						<when test='"view".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY VIEW_COUNT DESC, ID DESC) rn											
+						</when>
+						<when test='"reply".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY REPLY_COUNT DESC, ID DESC) rn																	
+						</when>
+						<otherwise>
+							ROW_NUMBER() OVER(ORDER BY ID DESC) rn					
+						</otherwise>
+					</choose>
+					FROM (SELECT JIBO_ID AS ID, USER_NICKNAME AS ACCOUNT_ID , JIBO_TITLE || ' [' || JIBO_REPLY_COUNT || ']' AS TITLE,
+								CLAS_TITLE  AS CLAS_ID, JIBO_STATE AS STATE,
+								(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+								     FROM JSON_TABLE(JIBO_SUBJECT_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt
+								     JOIN SUBJECT_TAG s ON jt.SUBJECT_CODE = s.SUTA_CODE) AS SUBJECT_CODE,
+								JIBO_REPLY_COUNT AS REPLY_COUNT, 
+								CASE NVL(JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+								JIBO_LIKE_COUNT AS LIKE_COUNT, JIBO_VIEW_COUNT AS VIEW_COUNT, JIBO_CHAETAEK AS CHAETAEK,
+								CASE TO_CHAR(JIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JIBO_REGDATE, 'HH24:MI') ELSE TO_CHAR(JIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE
+							FROM JILMUN_BOARD JOIN USER_PROFILE 
+							ON JIBO_WRITER_ID = USER_ACCOUNT_ID 
+							LEFT JOIN CLASS
+							ON JIBO_CLAS_ID = CLAS_ID
+							WHERE JIBO_STATE IN ('N', 'P')))
+			WHERE rn BETWEEN #{start} AND {end}
+			ORDER BY rn
+	</select>
+	
+	<!-- 질문 상세 조회 -->
+	<select id="getJilmunDetail" resultType="boardVo">
+		SELECT JIBO_ID AS ID, USER_NICKNAME AS ACCOUNT_ID , JIBO_TITLE || ' [' || JIBO_REPLY_COUNT || ']' AS TITLE,
+				CLAS_TITLE  AS CLAS_ID,
+				(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+				     FROM JSON_TABLE(JIBO_SUBJECT_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt
+				     JOIN SUBJECT_TAG s ON jt.SUBJECT_CODE = s.SUTA_CODE) AS SUBJECT_CODE,
+				JIBO_CONTENT AS CONTENT, JIBO_REPLY_COUNT AS REPLY_COUNT, 		 
+				CASE NVL(JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+				JIBO_LIKE_COUNT AS LIKE_COUNT, JIBO_VIEW_COUNT AS VIEW_COUNT, JIBO_CHAETAEK AS CHAETAEK, JIBO_STATE AS STATE,
+				CASE TO_CHAR(JIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+				CASE TO_CHAR(JIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(JIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE"
+			FROM JILMUN_BOARD JOIN USER_PROFILE 
+			ON JIBO_WRITER_ID = USER_ACCOUNT_ID 
+			LEFT JOIN CLASS
+			ON JIBO_CLAS_ID = CLAS_ID
+			WHERE JIBO_ID=#{id}
+	</select>
+		
+	<!-- 질문 좋아요 조회 -->
+	<select id="getJilmunLikeUser" resultType="java.lang.String">
+		SELECT JIBO_LIKE_USER AS LIKE_USER
+			FROM JILMUN_BOARD
+			WHERE JIBO_ID=#{id}
+	</select>
+	
+	<!-- 질문 좋아요 업데이트 -->
+	<update id="updateJilmunLikeUser">
+		UPDATE JILMUN_BOARD SET JIBO_LIKE_USER = #{likeUser}, JIBO_LIKE_COUNT = #{likeCount}
+			WHERE JIBO_ID=#{id}
+	</update>
+	
+	<!-- 질문 조회수 조회 -->
+	<select id="getJilmunViewUser" resultType="java.lang.String">
+		SELECT JIBO_VIEW_USER AS VIEW_USER
+			FROM JILMUN_BOARD
+			WHERE JIBO_ID=#{id}
+	</select>
+	
+	<!-- 질문 조회수 업데이트 -->
+	<update id="updateJilmunViewUser">
+		UPDATE JILMUN_BOARD SET JIBO_VIEW_USER = #{viewUser}, JIBO_VIEW_COUNT = #{viewCount}
+			WHERE JIBO_ID=#{id}'
+	</update>
+	
+	<!-- (마이페이지)내가 쓴 질문 개수 -->
+	<select id="getMyJilmunCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JILMUN_BOARD
+			WHERE JIBO_WRITER_ID =#{accountId};
+	</select>
+	
+	<!-- (마이페이지)내가 쓴 질문 목록 조회 -->
+	<select id="getMyJilmunList" resultType="boardVo">
+		SELECT ID, TITLE, CLAS_ID, SUBJECT_CODE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT,CHAETAEK, REGDATE, "UPDATE",STATE
+			FROM (SELECT ID, TITLE, CLAS_ID, SUBJECT_CODE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, CHAETAEK, REGDATE, "UPDATE",STATE, VIEW_COUNT,
+					ROW_NUMBER() OVER(ORDER BY ID DESC) rn
+					FROM (SELECT JIBO_ID AS ID, JIBO_TITLE AS TITLE, 
+								CLAS_TITLE  AS CLAS_ID,
+								(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+								     FROM JSON_TABLE(JIBO_SUBJECT_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt
+								     JOIN SUBJECT_TAG s ON jt.SUBJECT_CODE = s.SUTA_CODE) AS SUBJECT_CODE,
+								JIBO_REPLY_COUNT AS REPLY_COUNT, JIBO_LIKE_COUNT AS LIKE_COUNT, JIBO_VIEW_COUNT AS VIEW_COUNT,
+								CASE NVL(JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER,
+								JIBO_CHAETAEK AS CHAETAEK, JIBO_STATE AS STATE,
+								CASE TO_CHAR(JIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+								CASE TO_CHAR(JIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(JIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE"
+							FROM JILMUN_BOARD LEFT JOIN CLASS
+							ON JIBO_CLAS_ID = CLAS_ID
+							WHERE JIBO_WRITER_ID=#{accountId}))
+			WHERE rn BETWEEN #{start} AND #{end}
+			ORDER BY rn
+	</select>
+	
+	<!-- (마이페이지)좋아요한 질문 개수 -->
+	<select id="getLikeJilmunCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JILMUN_BOARD
+			WHERE JIBO_STATE IN ('N', 'P')
+				AND NOT JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}') IS NULL
+	</select>
+	
+	<!-- (마이페이지)좋아요한 질문 목록 조회 -->
+	<select id="getLikeJilmunList" resultType="boardVo">
+		SELECT ID, TITLE, ACCOUNT_ID, LIKE_USER, "UPDATE", REGDATE
+			FROM (SELECT ID, TITLE, ACCOUNT_ID,LIKE_USER, "UPDATE",REGDATE,
+				ROW_NUMBER() OVER(ORDER BY ID DESC) rn
+				FROM (SELECT JIBO_ID AS ID, JIBO_TITLE AS TITLE, JIBO_WRITER_ID AS ACCOUNT_ID,
+							CASE NVL(JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER,
+							JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}') AS "UPDATE",
+							CASE TO_CHAR(JIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE
+						FROM JILMUN_BOARD
+						WHERE 
+							JIBO_STATE IN ('N', 'P')
+							AND NOT JSON_VALUE(JILMUN_BOARD.JIBO_LIKE_USER,'$.${accountId}') IS NULL))
+			WHERE rn BETWEEN #{start} AND #{end}
+			ORDER BY rn
+	</select>
+	
+	<!-- 질문 작성 선택 가능한 클래스 목록 및 과목 -->
+	<select id="getJilmunClassList" resultType="classVo">
+		SELECT CLAS_ID, CLAS_TITLE, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+												     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+												     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+															FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																				     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																				     JOIN SUBJECT_TAG s1 
+																				     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+																	FROM SUBJECT)) s 
+												     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO 
+			FROM CLASS JOIN CLASS_CHAMYEOJA
+			ON CLAS_ID = CLCH_CLAS_ID
+			WHERE CLCH_ACCOUNT_ID=#{accountId}
+				AND CLAS_STATUS='종료'
+				AND CLCH_STATUS='C'
+	</select>
+	
+	<!-- 질문 작성 -->
+	<insert id="insertJilmun">
+		INSERT INTO JILMUN_BOARD(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, 
+				<if test="clasId != null">
+					JIBO_CLAS_ID, 
+				</if>
+					JIBO_SUBJECT_CODE, JIBO_CONTENT)
+				VALUES((SELECT 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(JIBO_ID,11))),0)+1,4,'0')
+						FROM JILMUN_BOARD
+						WHERE SUBSTR(JIBO_ID,1,10)='JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{accountId}, #{title},
+						<if test="clasId != null">
+							#{clasId},  
+						</if>		 
+						#{subjectCode}, #{content})
+		<selectKey keyProperty="id" resultType="java.lang.String" order="AFTER">
+			SELECT 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(JIBO_ID,11))),0),4,'0') AS ID
+				FROM JILMUN_BOARD
+				WHERE SUBSTR(JIBO_ID,1,10)='JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')
+		</selectKey>
+	</insert>
+	
+	<!-- 질문 수정 -->
+	<update id="updateJilmun">
+		UPDATE JILMUN_BOARD SET
+			<if test="clasId != null">
+				JIBO_CLAS_ID = #{clasId},  
+			</if> 
+				JIBO_SUBJECT_CODE = #{subjectCode}, JIBO_CONTENT = #{content}
+			WHERE JIBO_ID = #{id}
+	</update>
+			
+	<!-- 질문 완전 삭제 -->
+	<delete id="deleteJilmun">
+		DELETE JILMUN_BOARD
+			WHERE JIBO_ID=#{id}
+	</delete>
+	
 </mapper>

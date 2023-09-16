@@ -1,4 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.JayuDaoImpl">
+	<!-- 자유 조회가능한 게시글 개수 -->
+	<select id="getJayuCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JAYU_BOARD
+			WHERE JABO_STATE IN ('N','P')
+	</select>
+	
+	<!-- 자유 목록 조회(정렬) -->
+	<select id="getJayuList" resultType="boardVo">
+		SELECT ID, ACCOUNT_ID , TITLE, REPLY_COUNT, LIKE_USER, LIKE_COUNT, VIEW_COUNT, REGDATE
+			FROM (SELECT ID, ACCOUNT_ID , TITLE, REPLY_COUNT, LIKE_USER, LIKE_COUNT, VIEW_COUNT, REGDATE, STATE, 
+					<choose>
+						<when test='"like".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY LIKE_COUNT DESC, ID DESC) rn					
+						</when>
+						<when test='"view".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY VIEW_COUNT DESC, ID DESC) rn											
+						</when>
+						<when test='"reply".equals(orderBy)'>
+							ROW_NUMBER() OVER(ORDER BY REPLY_COUNT DESC, ID DESC) rn																	
+						</when>
+						<otherwise>
+							ROW_NUMBER() OVER(ORDER BY ID DESC) rn					
+						</otherwise>
+					</choose>
+					FROM (SELECT JABO_ID AS ID, USER_NICKNAME AS ACCOUNT_ID , JABO_TITLE || ' [' || JABO_REPLY_COUNT || ']' AS TITLE,
+								JABO_REPLY_COUNT AS REPLY_COUNT, JABO_STATE AS STATE,
+								CASE NVL(JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+								JABO_LIKE_COUNT AS LIKE_COUNT, JABO_VIEW_COUNT AS VIEW_COUNT, 
+								CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI') ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE
+							FROM JAYU_BOARD JOIN USER_PROFILE 
+							ON JABO_WRITER_ID = USER_ACCOUNT_ID))
+			WHERE rn BETWEEN #{start} AND {end}
+				AND STATE IN ('P','N')
+			ORDER BY rn
+	</select>
+	
+	<!-- 자유 상세 조회 -->
+	<select id="getJayuDetail" resultType="boardVo">
+		SELECT JABO_ID AS ID, USER_NICKNAME AS ACCOUNT_ID , JABO_TITLE || ' [' || JABO_REPLY_COUNT || ']' AS TITLE,
+				JABO_CONTENT AS CONTENT, JABO_REPLY_COUNT AS REPLY_COUNT, 		 
+				CASE NVL(JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
+				JABO_LIKE_COUNT AS LIKE_COUNT, JABO_VIEW_COUNT AS VIEW_COUNT, JABO_STATE AS STATE,
+				CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+				CASE TO_CHAR(JABO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_UPDATE, 'HH24:MI')ELSE TO_CHAR(JABO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE"
+			FROM JAYU_BOARD JOIN USER_PROFILE 
+			ON JABO_WRITER_ID = USER_ACCOUNT_ID
+			WHERE JABO_ID=#{id}
+	</select>
+		
+	<!-- 자유 좋아요 조회 -->
+	<select id="getJayuLikeUser" resultType="java.lang.String">
+		SELECT JABO_LIKE_USER AS LIKE_USER
+			FROM JAYU_BOARD
+			WHERE JABO_ID=#{id}
+	</select>
+	
+	<!-- 자유 좋아요 업데이트 -->
+	<update id="updateJayuLikeUser">
+		UPDATE JAYU_BOARD SET JABO_LIKE_USER = #{likeUser}, JABO_LIKE_COUNT = #{likeCount}
+			WHERE JABO_ID=#{id}
+	</update>
+	
+	<!-- 자유 조회수 조회 -->
+	<select id="getJayuViewUser" resultType="java.lang.String">
+		SELECT JABO_VIEW_USER AS VIEW_USER
+			FROM JAYU_BOARD
+			WHERE JABO_ID=#{id}
+	</select>
+	
+	<!-- 자유 조회수 업데이트 -->
+	<update id="updateJayuViewUser">
+		UPDATE JAYU_BOARD SET JABO_VIEW_USER = #{viewUser}, JABO_VIEW_COUNT = #{viewCount}
+			WHERE JABO_ID=#{id}'
+	</update>
+	
+	<!-- (마이페이지)내가 쓴 자유 개수 -->
+	<select id="getMyJayuCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JAYU_BOARD
+			WHERE JABO_WRITER_ID =#{accountId};
+	</select>
+	
+	<!-- (마이페이지)내가 쓴 자유 목록 조회 -->
+	<select id="getMyJayuList" resultType="boardVo">
+		SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT, REGDATE, "UPDATE", STATE
+			FROM (SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT,REGDATE, "UPDATE", STATE,
+					ROW_NUMBER() OVER(ORDER BY ID DESC) rn
+					FROM (SELECT JABO_ID AS ID, JABO_TITLE AS TITLE,
+								JABO_REPLY_COUNT AS REPLY_COUNT, JABO_LIKE_COUNT AS LIKE_COUNT, JABO_VIEW_COUNT AS VIEW_COUNT,JABO_STATE AS STATE,
+								CASE NVL(JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER,
+								CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+								CASE TO_CHAR(JABO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_UPDATE, 'HH24:MI')ELSE TO_CHAR(JABO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE"
+							FROM JAYU_BOARD
+							WHERE JABO_WRITER_ID=#{accountId}))
+			WHERE rn BETWEEN #{start} AND #{end}
+			ORDER BY rn
+	</select>
+	
+	<!-- (마이페이지)좋아요한 자유 개수 -->
+	<select id="getLikeJayuCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM JAYU_BOARD
+			WHERE JABO_STATE IN ('N', 'P')
+				AND NOT JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}') IS NULL
+	</select>
+	
+	<!-- (마이페이지)좋아요한 자유 목록 조회 -->
+	<select id="getLikeJayuList" resultType="boardVo">
+		SELECT ID, TITLE, ACCOUNT_ID,LIKE_USER, "UPDATE", REGDATE
+			FROM (SELECT ID, TITLE, ACCOUNT_ID,LIKE_USER, REGDATE, "UPDATE",
+					ROW_NUMBER() OVER(ORDER BY ID DESC) rn
+					FROM (SELECT JABO_ID AS ID, JABO_TITLE AS TITLE, JABO_WRITER_ID AS ACCOUNT_ID,
+								CASE NVL(JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER,
+								CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
+								JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}') AS "UPDATE"
+							FROM JAYU_BOARD
+							WHERE NOT JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}') IS NULL
+								AND JABO_STATE IN ('N', 'P')))
+			WHERE rn BETWEEN #{start} AND #{end}
+			ORDER BY rn
+	</select>
+	
+	<!-- 자유 작성 -->
+	<insert id="insertJayu">
+		INSERT INTO JAYU_BOARD(JABO_ID, JABO_WRITER_ID, JABO_TITLE, JABO_CONTENT)
+			VALUES((SELECT 'JA'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(JABO_ID,11))),0)+1,4,'0')
+							FROM JAYU_BOARD
+							WHERE SUBSTR(JABO_ID,1,10)='JA'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{accountId}, #{title},#{content})
+		<selectKey keyProperty="id" resultType="java.lang.String" order="AFTER">
+			SELECT 'JA'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(JABO_ID,11))),0),4,'0') AS ID
+				FROM JAYU_BOARD
+				WHERE SUBSTR(JABO_ID,1,10)='JA'||TO_CHAR(CURRENT_DATE,'yyyymmdd')
+		</selectKey>
+	</insert>
+	
+	<!-- 자유 수정 -->
+	<update id="updateJayu">
+		UPDATE JAYU_BOARD SET JABO_CONTENT = #{content}
+			WHERE JABO_ID = #{id}
+	</update>
+			
+	<!-- 자유 완전 삭제 -->
+	<delete id="deleteJayu">
+		DELETE JAYU_BOARD
+			WHERE JABO_ID=#{id}
+	</delete>
 </mapper>

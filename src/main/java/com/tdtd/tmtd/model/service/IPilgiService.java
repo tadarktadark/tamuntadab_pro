@@ -7,11 +7,10 @@ import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ClassVo;
 
 /**
- * 필기 관련 서비스
- * @author GDJ67
+ * 필기 관련 서비스 2023.09.16 수정
  * @author SoHyeon
  * @since 2023.09.14
- * @version 1.0
+ * @version 2.0
  */
 public interface IPilgiService {
 	
@@ -26,19 +25,19 @@ public interface IPilgiService {
 	
 	/**
 	 * 필기 목록 조회(정렬)
-	 * @param map 	accountId 현재 로그인한 계정, <br>
+	 * @param map accountId 현재 로그인한 계정, <br>
 	 * 				orderBy={"like","view","reply"} defalut="date" 정렬, <br> 
 	 * 				start 시작 게시글, <br>
 	 * 				end 종료 게시글
-	 * @return 필기 목록(게시글ID, 작성자, 제목(클래스명), 댓글수, 과목, 좋아요 여부, 좋아요 개수, 조회수, 등록일, 상태)
+	 * @return 필기 목록(게시글ID, 작성자, 제목(클래스명), 댓글수, 과목, 좋아요 여부, 좋아요 개수, 조회수, 등록일)
 	 * @author SoHyeon
 	 * @since 2023.09.14
 	 */
 	public List<BoardVo> getPilgiList(Map<String, Object> map);
 	
 	/**
-	 * 필기 상세 조회
-	 * @param map	accountId 현재 로그인한 계정, <br>
+	 * 필기 상세 조회 및 조회수 업데이트
+	 * @param map accountId 현재 로그인한 계정, <br>
 	 * 				id 필기 게시글ID
 	 * @return 필기 상세(게시글ID, 작성자, 제목(클래스명), 내용, 댓글수, 과목, 좋아요 여부, 좋아요 개수, 조회수, 등록일, 수정일, 상태)
 	 * @author SoHyeon
@@ -47,8 +46,8 @@ public interface IPilgiService {
 	public BoardVo getPilgiDetail(Map<String, Object> map);
 	
 	/**
-	 * 연관 필기/질문 목록 조회
-	 * @param map	accountId 현재 로그인한 계정, <br>
+	 * 연관 필기 목록 조회
+	 * @param map accountId 현재 로그인한 계정, <br>
 	 * 				id 필기 게시글ID
 	 * @return 연관 필기 목록 5개(게시글ID, 제목)
 	 * @author SoHyeon
@@ -67,7 +66,7 @@ public interface IPilgiService {
 	
 	/**
 	 * 필기 좋아요 업데이트                   
-	 * @param map	likeUser 좋아요한 유저 String JSON {"accountId":"yyyymmdd", ...} <br>
+	 * @param map likeUser 좋아요한 유저 String JSON {"accountId":"yyyymmdd", ...} <br>
 	 * 				id 필기 게시글ID <br>
 	 * 				likeCount 좋아요 유저수
 	 * @return 성공 1, 실패 0
@@ -75,26 +74,6 @@ public interface IPilgiService {
 	 * @since 2023.09.14
 	 */
 	public int updatePilgiLikeUser(Map<String, Object> map);
-	
-	/**
-	 * 필기 조회한 유저 조회                      
-	 * @param id 게시글ID
-	 * @return 조회한 유저 String JSON {"accountId":"yyyymmdd", ...}
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public String getPilgiViewUser(String id);
-	
-	/**
-	 * 필기 조회한 유저 업데이트                   
-	 * @param map	viewUser 조회한 유저 String JSON {"accountId":"yyyymmdd", ...} <br>
-	 * 				id 필기 게시글ID<br>
-	 * 				viewCount 좋아요 유저수
-	 * @return 성공 1, 실패 0
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public int updatePilgiViewUser(Map<String, Object> map);
 	
 	/**(마이페이지)내가 쓴 필기 개수           
 	 * 
@@ -107,7 +86,7 @@ public interface IPilgiService {
 	
 	/**
 	 * (마이페이지)내가 쓴 필기 목록 조회        
-	 * @param map	accountId 현재 로그인한 계정, <br>
+	 * @param map accountId 현재 로그인한 계정, <br>
 	 * 				start 시작 게시글, <br>
 	 * 				end 종료 게시글
 	 * @return 내가 쓴 필기 목록(게시물ID, 제목(클래스명), 과목, 댓글수, 좋아요여부, 좋아요수, 조회수, 등록일, 수정일, 상태)
@@ -127,7 +106,7 @@ public interface IPilgiService {
 	
 	/**
 	 * (마이페이지)좋아요한 필기 목록 조회       
-	 * @param map	accountId 현재 로그인한 계정, <br>
+	 * @param map accountId 현재 로그인한 계정, <br>
 	 * 				start 시작 게시글, <br>
 	 * 				end 종료 게시글
 	 * @return 좋아요한 목록(게시물ID, 제목(클래스명), 과목, 댓글수, 좋아요여부, 좋아요수, 조회수, 등록일, 수정일, 상태)
@@ -146,17 +125,20 @@ public interface IPilgiService {
 	public ClassVo getPilgiClassDetail(String clasId);
 	
 	/**
-	 * 필기 작성
-	 * @param vo(accountId, clasId, content, viewGroup, downloadGroup)
+	 * 필기 작성 및 클래스참여자 필기 작성 여부 업데이트
+	 * @param vo accountId, clasId, content, viewGroup, downloadGroup<br>
+	 * @param map state 필기 작성 여부 Y=작성, N=미작성<br>
+	 * 				accountId 작성자<br>
+	 * 				clchId 클래스참여자ID
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14
 	 */
-	public int insertPilgi(BoardVo vo);    
+	public int insertPilgi(BoardVo vo, Map<String, Object> map);    
 	
 	/**
 	 * 필기 임시저장                        
-	 * @param vo(accountId, clasId, content, viewGroup, downloadGroup)
+	 * @param vo accountId, clasId, content, viewGroup, downloadGroup
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14
@@ -165,7 +147,7 @@ public interface IPilgiService {
 	
 	/**
 	 * 필기 임시저장 목록 조회
-	 * @param map	accountId 계정
+	 * @param map accountId 계정<br>
 	 * 				clasId 클래스 ID
 	 * @return 임시 저장 목록(임시저장seq, SUBSTR(내용,15)||...) 
 	 * @author SoHyeon
@@ -193,7 +175,7 @@ public interface IPilgiService {
 	
 	/**
 	 * 필기 수정
-	 * @param vo(content, viewGroup, downloadGroup, id)
+	 * @param vo content, viewGroup, downloadGroup, id
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14
@@ -201,23 +183,18 @@ public interface IPilgiService {
 	public int updatePilgi(BoardVo vo);        
 	
 	/**
-	 * 필기 임시 삭제 state='Y'
-	 * @param id 게시글ID
+	 * 필기 임시 삭제 및 복원, 클래스참여자 필기 작성 여부 업데이트
+	 * @param bMap id 게시글ID<br>
+	 * 			state Y=임시삭제, N=복원
+	 * @param cMap state 필기 작성 여부 Y=작성, N=미작성<br>
+	 * 				accountId 작성자<br>
+	 * 				clchId 클래스참여자ID
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14
 	 */
-	public int updatePilgiDel(String id); 
-	
-	/**
-	 * 필기 복원 state='N'                       
-	 * @param id 게시글ID
-	 * @return 성공 1, 실패 0
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public int updatePilgiGesi(String id);    
-	
+	public int updatePilgiState(Map<String, Object> bMap, Map<String, Object> cMap); 
+		
 	/**
 	 * 필기 완전 삭제						  
 	 * @param id 게시글ID

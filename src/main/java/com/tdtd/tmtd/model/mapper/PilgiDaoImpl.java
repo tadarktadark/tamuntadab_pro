@@ -89,6 +89,11 @@ public class PilgiDaoImpl implements IPilgiDao {
 	}
 
 	@Override
+	public int updateClchPilgiState(Map<String, Object> map) {
+		return session.update(NS+"updateClchPilgiState",map);
+	}
+	
+	@Override
 	public int insertPilgiImsi(BoardVo vo) {
 		return session.insert(NS+"insertPilgiImsi",vo);
 	}
@@ -114,13 +119,8 @@ public class PilgiDaoImpl implements IPilgiDao {
 	}
 
 	@Override
-	public int updatePilgiDel(String id) {
-		return session.update(NS+"updatePilgiDel",id);
-	}
-
-	@Override
-	public int updatePilgiGesi(String id) {
-		return session.update(NS+"updatePilgiGesi",id);
+	public int updatePilgiState(Map<String, Object> map) {
+		return session.update(NS+"updatePilgiState",map);
 	}
 
 	@Override
