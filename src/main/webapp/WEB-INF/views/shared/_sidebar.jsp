@@ -54,13 +54,13 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                         <div class="collapse menu-dropdown" id="sidebarComm">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="./community.do?b=pilgi" class="nav-link" data-key="t-pilgi">필기 </a>
+                                    <a href="./community.do?board=pilgi" class="nav-link" data-key="t-pilgi">필기 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./community.do?b=jilmun" class="nav-link" data-key="t-jilmun">질문 </a>
+                                    <a href="./community.do?board=jilmun" class="nav-link" data-key="t-jilmun">질문 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./community.do?b=jayu" class="nav-link" data-key="t-jayu">자유 </a>
+                                    <a href="./community.do?board=jayu" class="nav-link" data-key="t-jayu">자유 </a>
                                 </li>
                             </ul>
                         </div>
