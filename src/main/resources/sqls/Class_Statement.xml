@@ -24,17 +24,17 @@
 		<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
 		<result column="CLAS_SUGANGRYO" property="clasSugangRyo"/>
 		<result column="CLAS_SUBJECT_JEONGBO" property="clasSubjectJeongbo"/>
-	
+		<result column="CLAS_REGDATE" property="clasRegdate"/>
 		<collection property="userVo" resultMap="userProfileMap"/>
 		<collection property="subjVo" resultMap="subjectMap"/>
 	</resultMap>
 
 	<!-- 페이징 할 클래스 조회 -->
 	<select id="getClassList" parameterType="java.util.Map" resultMap="classMap">
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE
 		FROM (
 			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
-				jot.SUBJ_TITLE,up.USER_NICKNAME
+				jot.SUBJ_TITLE,up.USER_NICKNAME, c.CLAS_REGDATE
 				 ,ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
 			FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
 			ON CLAS_ID = CLCH_CLAS_ID
