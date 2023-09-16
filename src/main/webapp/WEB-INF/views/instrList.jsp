@@ -86,7 +86,7 @@
 							<div class="row output-area mb-3">
 								<div class="col">
 									<div class="flex-shrink-0 me-2">
-									<c:if test="${instr.inprCert eq 'S' || instr.inprCert eq 'D'}">
+									<c:if test="${instr.inprCert eq 'S'}">
 										<span title="경력이 인증된 강사" data-bs-toggle="tooltip" data-bs-placement="top"
 											class="badge bg-success-subtle text-success member-designation me-2">
 											<i class=" bx bxs-user-check" style="font-size: 20px;"></i>
@@ -116,7 +116,7 @@
 							</div>
 
 							<div class="text-center">
-								<a href="./instrDetail.do?inprAccountId=${instr.inprAccountId}" class="member-name">
+								<a href="./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}" class="member-name">
 									<h5 class="fs-16 mb-1">${instr.userProfileVo[0].userNickname}</h5>
 									<span class="text-muted fs-13 mt-1 text-truncate">만 ${instr.inprAge} 세</span>
 								</a>

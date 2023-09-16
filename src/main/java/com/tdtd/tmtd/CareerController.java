@@ -143,9 +143,11 @@ public class CareerController {
 
 						int n = service.insertCareer(ocrMap);
 						if(n > 0) {
-							System.out.println("insert 성공!!!!!");
+							response.put("successMessage", "관리자에게 승인 요청되었습니다.");
+							return response;
 						} else {
 							response.put("errorMessage", "오류 발생 (형식이 맞지 않습니다");
+							return response;
 						}
 					} catch (Exception e) {
 						response.put("errorMessage", "Google Cloud Vision API 실행 중 오류 발생");
