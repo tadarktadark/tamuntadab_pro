@@ -84,6 +84,9 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                                 <li class="nav-item">
                                     <a href="./tupyoPage.do?accountId=TMTD19&clasId=1000000111" class="nav-link" data-key="t-tupyo">투표 </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="./chatPage.do" class="nav-link" data-key="t-chat">채팅 </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
