@@ -1,11 +1,13 @@
 package com.tdtd.tmtd.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tdtd.tmtd.comm.LikeViewUtils;
 import com.tdtd.tmtd.model.mapper.IPilgiDao;
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ClassVo;
@@ -28,6 +30,16 @@ public class PilgiServiceImpl implements IPilgiService {
 
 	@Override
 	public BoardVo getPilgiDetail(Map<String, Object> map) {
+		String list = dao.getPilgiViewUser((String)map.get("id"));		
+		Map<String, Object> view = LikeViewUtils.view((String)map.get("id"), list);
+		if((int)view.get("update")==1) {
+			Map<String, Object> data = new HashMap<String, Object>(){{
+				put("viewUser", view.get("list"));
+				put("viewCount", view.get("count"));
+				put("id", (String)map.get("id"));
+			}};
+			dao.updatePilgiViewUser(data);
+		}
 		return dao.getPilgiDetail(map);
 	}
 
@@ -44,16 +56,6 @@ public class PilgiServiceImpl implements IPilgiService {
 	@Override
 	public int updatePilgiLikeUser(Map<String, Object> map) {
 		return dao.updatePilgiLikeUser(map);
-	}
-
-	@Override
-	public String getPilgiViewUser(String id) {
-		return dao.getPilgiViewUser(id);
-	}
-
-	@Override
-	public int updatePilgiViewUser(Map<String, Object> map) {
-		return dao.updatePilgiViewUser(map);
 	}
 
 	@Override
@@ -82,8 +84,11 @@ public class PilgiServiceImpl implements IPilgiService {
 	}
 
 	@Override
-	public int insertPilgi(BoardVo vo) {
-		return dao.insertPilgi(vo);
+	public int insertPilgi(BoardVo vo, Map<String, Object> map) {
+		int n = 0;
+		n += dao.insertPilgi(vo);
+		n += dao.updateClchPilgiState(map);
+		return (n==0)?1:0;
 	}
 
 	@Override
@@ -112,13 +117,11 @@ public class PilgiServiceImpl implements IPilgiService {
 	}
 
 	@Override
-	public int updatePilgiDel(String id) {
-		return dao.updatePilgiDel(id);
-	}
-
-	@Override
-	public int updatePilgiGesi(String id) {
-		return dao.updatePilgiGesi(id);
+	public int updatePilgiState(Map<String, Object> bMap, Map<String, Object> cMap) {
+		int n = 0;
+		n += dao.updatePilgiState(bMap);
+		n += dao.updateClchPilgiState(cMap);
+		return (n==2)?1:0;
 	}
 
 	@Override
