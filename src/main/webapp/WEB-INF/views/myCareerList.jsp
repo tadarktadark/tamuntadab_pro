@@ -25,7 +25,8 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp"%>
 				</div>
-				<div style="width: 800px; margin: auto;">
+				<!-- <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px;"> -->
+				<div style="width: 800px; margin: 10% auto;">
 					<c:choose>
 						<c:when test="${empty lists}">
 							<div class="alert alert-warning" role="alert"
@@ -125,6 +126,9 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+				</div>
+				</div>
+				
 				<div id="zoomInModal" class="modal fade zoomIn" tabindex="-1"
 					aria-labelledby="zoomInModalLabel" aria-hidden="true"
 					style="display: none;">
@@ -151,8 +155,6 @@
 				<!-- /.modal -->
 			</div>
 			<%@ include file="./shared/_footer.jsp"%>
-		</div>
-	</div>
 </body>
 <script type="text/javascript">
 $(document).ready(function() {

@@ -106,16 +106,19 @@
                             }
                         });
 						$('input[type=file]').val('');
-					} else {
-						Swal.fire({
-                            title:'관리자에게 승인 요청되었습니다',
-                            text:'',
-                            icon:'success',
-                            customClass:{
-                                confirmButton:'btn btn-primary w-xs mt-2'
-                            }
-                           });
-						window.history.back();
+					} else if(response.successMessage) {
+						 Swal.fire({
+						        title: response.successMessage,
+						        text: '',
+						        icon: 'success',
+						        customClass:{
+						            confirmButton:'btn btn-primary w-xs mt-2'
+						        }
+						    }).then((result) => {
+						      if (result.isConfirmed) {
+						          window.history.back();
+						      }
+						});
 					}
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
