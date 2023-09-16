@@ -32,22 +32,23 @@
 		                                <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
 		                            </div>
 		                        </div>
-			                    <h5 class="mt-3 fs-15 text-uppercase">연관 필기 목록</h5>
-			                    <div class="card p-0 overflow-hidden mt-3 shadow-none">
-			                        <div class="mail-list">
-			                        	<c:forEach items="${yList}" var="y" varStatus="vs">
-			                        		<c:choose>
-			                        			<c:when test="${status.last}">
-					                            	<a href="#"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
-			                        			</c:when>
-			                        			<c:otherwise>
-					                            	<a href="#" class='border-bottom'><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
-			                        			</c:otherwise>			                        			
-			                        		</c:choose>			                        	
-			                        	</c:forEach>
-<!-- 			                            <a href="#"><span class="mdi mdi-arrow-right-drop-circle text-success float-end"></span>Family</a> -->
-			                        </div>
-			                    </div>
+		                        <c:if test="yList.size() != 0">
+		                        	<h5 class="mt-3 fs-15 text-uppercase">연관 필기 목록</h5>
+				                    <div class="card p-0 overflow-hidden mt-3 shadow-none">
+				                        <div class="mail-list">
+				                        	<c:forEach items="${yList}" var="y" varStatus="vs">
+				                        		<c:choose>
+				                        			<c:when test="${status.last}">
+						                            	<a href="#"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
+				                        			</c:when>
+				                        			<c:otherwise>
+						                            	<a href="#" class='border-bottom'><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
+				                        			</c:otherwise>			                        			
+				                        		</c:choose>			                        	
+				                        	</c:forEach>
+				                        </div>
+				                    </div>
+		                        </c:if>
 			                </div>
 					        <!-- End Left sidebar -->
 					        <!-- Right Sidebar -->
