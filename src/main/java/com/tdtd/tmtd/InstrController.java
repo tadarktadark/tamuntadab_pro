@@ -46,10 +46,8 @@ public class InstrController {
 	
 	//강사 게시판 페이지 이동
 	@GetMapping("/instrList.do")
-	public String instrList(Model model, HttpSession session) {
+	public String instrList(Model model) {
 		log.info("InstrController instrList 이동");
-		
-		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
 		List<InstrVo> lists = service.getAllInstr("like");
 		
@@ -79,7 +77,6 @@ public class InstrController {
 		model.addAttribute("title","강사 조회");
 		model.addAttribute("pageTitle", "강사 전체 리스트");
 		model.addAttribute("lists", lists);
-		model.addAttribute("userInfo", userInfo);
 		return "instrList";
 	}
 	
@@ -164,11 +161,29 @@ public class InstrController {
 	
 	// 강사 상세 조회 페이지 이동
 	@GetMapping("/instrDetail.do")
-	public String instrDetail(Model model, @RequestParam String inprAccountId) {
-		log.info("InstrController /instrDetail.do 실행 받아온 강사 아이디 : {}", inprAccountId);
-		service.getOneInstrProfile(inprAccountId);
+	public String instrDetail(Model model, @RequestParam(required = false) Map<String, Object> map) {
+		if(map.get("loginId") == null || map.get("loginId").equals("")) {
+			map.put("loginId", "null");
+		}
 		
+		log.info("InstrController /instrDetail.do 실행 받아온 강사 아이디 : {} 로그인한 아이디 : {}", map.get("inprAccountId"), map.get("loginId"));
+		InstrVo simpleVo = service.getOneInstrSimple(map);
+		InstrVo profileVo = service.getOneInstrProfile((String)map.get("seq"));
 		
+		String subjectsMajorTitle = profileVo.getSubjectsMajorTitle();
+		String subjectsTitle = simpleVo.getSubjectsTitle();
+		subjectsMajorTitle = subjectsMajorTitle.replace("[", "").replace("]", "").replace("\"", "");
+		subjectsTitle = subjectsTitle.replace("[", "").replace("]", "").replace("\"", "");
+		
+		profileVo.setSubjectsMajorTitle(subjectsMajorTitle);
+		simpleVo.setSubjectsTitle(subjectsTitle);
+		
+		String nickname = simpleVo.getUserProfileVo().get(0).getUserNickname();
+		
+		model.addAttribute("title", "강사 조회");
+		model.addAttribute("pageTitle", nickname+"님의 프로필");
+		model.addAttribute("simpleVo", simpleVo);
+		model.addAttribute("profileVo", profileVo);
 		
 		return "instrDetail";
 	}

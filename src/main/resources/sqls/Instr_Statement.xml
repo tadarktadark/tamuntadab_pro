@@ -171,7 +171,7 @@
 	     INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE
 	FROM INSTR_PROFILE JOIN USER_PROFILE
 	ON INPR_ACCOUNT_ID = USER_ACCOUNT_ID
-	WHERE INPR_ACCOUNT_ID = #{instrId}
+	WHERE INPR_SEQ = #{seq}
 </select>
 
 <select id="getOneInstrProfile" resultType="instrVo">
@@ -182,7 +182,7 @@
 	     TO_CHAR(INED_START, 'YYYY-MM-DD') AS INED_START, TO_CHAR(INED_END, 'YYYY-MM-DD') AS INED_END
 	FROM INSTR_PROFILE JOIN INSTR_EDULEVEL
 	ON INPR_SEQ = INED_INPR_SEQ
-	WHERE INPR_ACCOUNT_ID = #{userAccountId}
+	WHERE INPR_SEQ = #{seq}
 </select>
 
 <select id="getOneInstrClass" resultMap="instrMap">
