@@ -156,6 +156,11 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int updateClassStatusCron() {
 		return sqlSession.update(NS+"updateClassStatusCron");
 	}
+
+	@Override
+	public int countVotedUser(int tupySeq) {
+		return sqlSession.selectOne(NS+"countVotedUser",tupySeq);
+	}
 	
 	
 	

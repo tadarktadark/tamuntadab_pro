@@ -51,6 +51,32 @@ public class TupyoController {
 			model.addAttribute("isMaster", isMaster);
 			return "tupyo";
 		}else {
+			//투표가 있는데 F이면 usercount체크하고 비어 있으면 삭제하고 새로고침
+			
+			System.out.println(vo.getTupyStatus());
+			if(vo.getTupyStatus().equals("F")) {
+				int tupySeq = vo.getTupySeq();
+				System.out.println(tupySeq);
+				int countVotedUser = service.countVotedUser(tupySeq);
+				System.out.println(countVotedUser);
+				if(countVotedUser == 0) {
+					service.delTupyo(tupySeq);
+					model.addAttribute("hasTupyo", "false");
+					model.addAttribute("accountId",accountId);
+					ChamyeoVo masterVo = service.getClassMaster(clasId);
+					String masterId = masterVo.getClchAccountId();
+					String isMaster ="false";
+					if(masterId.equals(accountId)) {
+						isMaster = "true";
+					}
+					model.addAttribute("clasId",clasId);
+					model.addAttribute("isMaster", isMaster);
+					
+					return "tupyo";
+				}
+			}
+			
+			
 		model.addAttribute("hasTupyo", "true");
 		
 		List<TupyoOptionVo> lists = service.getAllTupyoOption(vo.getTupySeq());

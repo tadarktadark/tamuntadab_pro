@@ -29,6 +29,7 @@
 <task:annotation-driven scheduler="scheduler"/>
 <task:scheduler id="scheduler" pool-size="10"/>
 
+
 <!-- <task:scheduled-tasks>
 	<task:scheduled ref="실행할 클래스" method="실행 할 메소드 " cron="google에 CronExpressionGenerator 사용해서 맞추면 됨"/>
 

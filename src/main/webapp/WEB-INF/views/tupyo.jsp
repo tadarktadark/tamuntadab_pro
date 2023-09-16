@@ -31,7 +31,7 @@
 				<c:choose>
 					<c:when test="${vo.tupyStatus eq 'P'}">
 						<div class="card-header" id="tupyoResultTitle" style="display: none;">
-							<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> &nbsp;&nbsp;&nbsp;&nbsp;<button onclick="closeWindow()">창닫기</button></span><br>
+							<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-icon" onclick="closeWindow()"><i class="ri-close-fill"></i></button></span><br>
 						</div>
 					</c:when>
 					<c:otherwise>
@@ -85,7 +85,7 @@
 				         <label for="dateInput" class="form-label"><b>종료 일자</b></label>
 				     </div>
 				     <div class="col-lg-3" style="padding-top: 5px;">
-				         <input type="date" class="form-control flatpickr" id="dateInput" placeholder="날짜를 선택해주세요.">
+				         <input type="date" min="" class="form-control flatpickr" id="dateInput" placeholder="날짜를 선택해주세요.">
 				     </div>
 				     <div style="margin-top: 10px;">
 						<button id="makeTupyo" class="btn btn-primary" onclick="makeTupyo()">투표 생성하기</button>

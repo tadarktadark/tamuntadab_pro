@@ -61,4 +61,6 @@ public interface ITupyoService {
 	public int updateClassStatus(Map<String, Object> map);
 	//클래스 상태 변경 CRON
 	public int updateClassStatusCron();
+	//투표한 유저 수
+	public int countVotedUser(int tupySeq);
 }
