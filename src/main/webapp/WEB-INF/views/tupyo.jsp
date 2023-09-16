@@ -31,12 +31,12 @@
 				<c:choose>
 					<c:when test="${vo.tupyStatus eq 'P'}">
 						<div class="card-header" id="tupyoResultTitle" style="display: none;">
-							<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> </span><br>
+							<b>투표 결과</b><span style="float: right;">종료일자 : <fmt:formatDate value="${vo.tupyEnddate}" pattern="yyyy-MM-dd"/> &nbsp;&nbsp;&nbsp;&nbsp;<button onclick="closeWindow()">창닫기</button></span><br>
 						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="card-header" id="tupyoResultTitle" style="display: none;">
-							<b>투표 결과</b><span style="float: right;">종료됨</span><br>
+							<b>투표 결과</b><span style="float: right;">종료됨 &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger btn-icon" onclick="closeWindow()"><i class="ri-close-fill"></i></button></span><br>
 						</div>
 					</c:otherwise>
 				</c:choose>
