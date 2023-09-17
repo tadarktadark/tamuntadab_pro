@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.checkerframework.checker.units.qual.cd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class CommUserServiceImpl implements ICommUserService {
 		return cdao.searchJeongJi(userInfo);
 	}
 
+	
 	@Override
 	public Map<String, Object> commLogin(Map<String, String> userInput) {
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -96,5 +98,24 @@ public class CommUserServiceImpl implements ICommUserService {
 	@Override
 	public UserProfileVo autoLogin(String userAutoLoginToken) {
 		return cdao.autoLogin(userAutoLoginToken);
+	}
+
+	@Override
+	public int updateUserInfo(Map<String, Object> updateInfo) {
+		return cdao.updateUserInfo(updateInfo);
+	}
+
+	@Override
+	public int updateResetPwToken(Map<String, Object> resetPassword) {
+		return cdao.updateResetPwToken(resetPassword);
+	}
+
+	@Override
+	public int updateUserPassword(Map<String, Object> resetPassword) {
+		int n = cdao.updateUserPassword(resetPassword);
+		if(n>0) {
+			n += cdao.deleteResetPwToken(resetPassword);
+		}
+		return n==2?1:0;
 	}
 }

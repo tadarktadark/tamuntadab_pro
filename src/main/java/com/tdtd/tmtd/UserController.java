@@ -8,7 +8,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,6 +46,50 @@ public class UserController {
 	
 	@Autowired
 	private JavaMailSender mailsender;
+	
+	@RequestMapping(value="updatePassword.do",method = RequestMethod.POST)
+	@ResponseBody
+	public String updatePassword(@RequestParam Map<String, Object> map, HttpServletResponse resp) {
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html;charset=UTF-8");
+		int n = commUserService.updateUserPassword(map);
+		if(n>0) {
+			return "<script>alert('비밀번호가 변경되었습니다.'); location.href='./';</script>";
+		}else {
+			return "<script>alert('관리자에게 문의해 주세요.');";
+		}
+	}
+	
+	@RequestMapping(value="updatePassword.do",method = RequestMethod.GET)
+	public String updatePasswordForm() {
+		return "updatePasswordForm";
+	}
+	
+	@RequestMapping(value="sendToken.do")
+	@ResponseBody
+	public String sendToken(@RequestParam Map<String, Object> userInfo, HttpServletRequest req) {
+		userInfo.put("tokenValue", UUID.randomUUID().toString().substring(0,36));
+		int n = commUserService.updateResetPwToken(userInfo);
+		MimeMessage msg = mailsender.createMimeMessage();
+		try {
+			MimeMessageHelper msgHelper
+					= new MimeMessageHelper(msg,false,"UTF-8");
+			msgHelper.setFrom("juojuo9809@naver.com");
+			msgHelper.setTo(userInfo.get("userEmail").toString());
+			msgHelper.setSubject("[타문타답] 비밀번호 초기화를 위한 링크입니다.");
+			msgHelper.setText("비밀번호 초기화 주소 :<a href='"+req.getRequestURL().substring(0,req.getRequestURL().lastIndexOf("/"))+"/updatePassword.do?tokenValue="+userInfo.get("tokenValue")+"'>"
+					+ ""+req.getRequestURL().substring(0,req.getRequestURL().lastIndexOf("/"))+"/updatePassword.do?tokenValue="+userInfo.get("tokenValue")+"</a>",true);
+			mailsender.send(msg);
+		} catch (MessagingException e) {
+		}
+		return n==1?"true":"false";
+	}
+	
+	@RequestMapping(value="/resetPassword.do",method = RequestMethod.GET)
+	public String resetPasswrod(HttpServletRequest req) {
+		log.info("{}",req.getRequestURL().substring(0,req.getRequestURL().lastIndexOf("/")));
+		return "resetPasswordForm";
+	}
 	
 	@RequestMapping(value="/logout.do")
 	public String logout(HttpSession session) {

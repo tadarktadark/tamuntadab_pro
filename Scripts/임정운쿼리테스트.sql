@@ -375,10 +375,22 @@ SELECT USER_CHADAN_COUNT FROM USER_PROFILE up
 	WHERE USER_EMAIL ='wjddns7828@naver.com';
 
 
---38)로그인시 REFRESH TOKEN이 다르면 갈아끼워주는 쿼리
+--38)로그인시 REFRESH TOKEN이 다르면 갈아끼워주는 쿼리**
 	UPDATE NAVER_USER_PROFILE SET USER_REFRESH_TOKEN = '테스트'
 		WHERE USER_EMAIL = 'wjddns7828@naver.com'
 		AND USER_REFRESH_TOKEN != '123';
+	
+--39) 비밀버호 초기화 토큰을 업데이트 하는 쿼리
+	UPDATE USER_PROFILE SET USER_PASSWORD_RESET_TOKEN ='쿼리테스트' 
+		WHERE USER_ACCOUNT_ID ='TMTD1';
+	
+--40) 비밀버호 초기화 토큰을 업데이트 하는 쿼리
+	UPDATE USER_PROFILE SET USER_PASSWORD  ='qwer1234!' 
+		WHERE USER_PASSWORD_RESET_TOKEN ='쿼리테스트';
+
+	
+	
+	
 	
 
 

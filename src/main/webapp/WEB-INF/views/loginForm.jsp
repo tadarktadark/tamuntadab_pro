@@ -98,7 +98,7 @@
 										
 										<div class="text-center my-3">
 										    <p class="mb-0">계정이 없으신가요? <a href="regist.do" class="fw-semibold text-primary text-decoration-underline"> 회원가입 </a> </p>
-										    <p class="mt-3"><a href="regist.do" class="fw-semibold text-primary text-decoration-underline">비밀번호를 잊어버리셨나요?</a> </p>
+										    <p class="mt-3"><a href="resetPassword.do" class="fw-semibold text-primary text-decoration-underline">비밀번호를 잊어버리셨나요?</a> </p>
 										</div>
 		                            </div>
 		                        <!--end row-->
