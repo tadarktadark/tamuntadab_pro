@@ -15,7 +15,7 @@ public class BoardVo {
 	private String id;
 	private String accountId;
 	private String title;
-	private int clasId;
+	private String clasId;
 	private String subjectCode;
 	private String content;
 	private int replyCount;
@@ -30,7 +30,7 @@ public class BoardVo {
 	private String update;
 	private String state;
 	
-	public BoardVo(String accountId, int clasId, String content, String viewGroup, String downloadGroup) {
+	public BoardVo(String accountId, String clasId, String content, String viewGroup, String downloadGroup) {
 		this.accountId = accountId;
 		this.clasId = clasId;
 		this.content = content;
@@ -38,24 +38,7 @@ public class BoardVo {
 		this.downloadGroup = downloadGroup;
 	}
 
-	public BoardVo(String id, String content, String viewGroup, String downloadGroup) {
-		super();
-		this.id = id;
-		this.content = content;
-		this.viewGroup = viewGroup;
-		this.downloadGroup = downloadGroup;
-	}
-
-	public BoardVo(String accountId, String title, int clasId, String subjectCode, String content) {
-		super();
-		this.accountId = accountId;
-		this.title = title;
-		this.clasId = clasId;
-		this.subjectCode = subjectCode;
-		this.content = content;
-	}
-
-	public BoardVo(String id, int clasId, String subjectCode, String content) {
+	public BoardVo(String id, String clasId, String subjectCode, String content) {
 		super();
 		this.id = id;
 		this.clasId = clasId;
