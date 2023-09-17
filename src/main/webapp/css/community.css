@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+
+.like-do {
+	width:30px;
+	height:30px;
+}
+
+.like-do:hover{
+	cursor: pointer;
+}
+
+.hidden{
+	display: none;
+}
+
+#swal2-title{
+	font-weight: bold;
+}

@@ -7,8 +7,9 @@
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
 <%@ include file="./shared/_head_css.jsp" %>
-<link href="./css/communityList.css" rel="stylesheet" type="text/css" />
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<link href="./css/community.css" rel="stylesheet" type="text/css" />
+<link href="./css/communityList.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -82,8 +83,8 @@
 	<script src="./assets/js/app.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-	<!-- Sweet Alerts js -->
     <script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
+	<script src="./js/community.js" charset="UTF-8"></script>
 	<script src="./js/communityList.js" charset="UTF-8"></script>
 	<script id="board-list-template" type="text/x-handlebars-template">
 		<div class="list-group-item list-group-item-action view-detail" id="{{id}}">

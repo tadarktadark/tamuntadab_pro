@@ -29,15 +29,19 @@ public class JayuServiceImpl implements IJayuService {
 
 	@Override
 	public BoardVo getJayuDetail(Map<String, Object> map) {
-		String list = dao.getJayuViewUser((String)map.get("id"));		
-		Map<String, Object> view = LikeViewUtils.view((String)map.get("id"), list);
-		if((int)view.get("update")==1) {
-			Map<String, Object> data = new HashMap<String, Object>(){{
-				put("viewUser", view.get("list"));
-				put("viewCount", view.get("count"));
-				put("id", (String)map.get("id"));
-			}};
-			dao.updateJayuViewUser(data);
+		String accountId = (String)map.get("accountId");
+		
+		if(!accountId.equals("TMTD0")) {	
+			String list = dao.getJayuViewUser((String)map.get("id"));		
+			Map<String, Object> view = LikeViewUtils.view(accountId, list);
+			if((int)view.get("update")==1) {
+				Map<String, Object> data = new HashMap<String, Object>(){{
+					put("viewUser", view.get("list"));
+					put("viewCount", view.get("count"));
+					put("id", (String)map.get("id"));
+				}};
+				dao.updateJayuViewUser(data);
+			}
 		}
 		return dao.getJayuDetail(map);
 	}
