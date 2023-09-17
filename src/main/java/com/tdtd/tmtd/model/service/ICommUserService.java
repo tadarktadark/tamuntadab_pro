@@ -40,5 +40,10 @@ public interface ICommUserService {
 	public int updateTime(UserProfileVo userInfo);
 	
 	public UserProfileVo autoLogin(String userAutoLoginToken);
+	
+	public int updateUserInfo(Map<String,Object> updateInfo);
+	
+	public int updateResetPwToken(Map<String,Object> resetPassword);
 
+	public int updateUserPassword(Map<String,Object> resetPassword);
 }

@@ -30,7 +30,7 @@
                                                     입력하신 주소가 정확한지 다시 한 번 확인해주세요.
                                                 </p>
                                                 <div class="mt-4">
-                                                    <a href="/" class="btn btn-primary"><i class="mdi mdi-home me-1"></i>홈으로 돌아가기</a>
+                                                    <a href="./" class="btn btn-primary"><i class="mdi mdi-home me-1"></i>홈으로 돌아가기</a>
                                                 </div>
                                             </div>
                                         </div>

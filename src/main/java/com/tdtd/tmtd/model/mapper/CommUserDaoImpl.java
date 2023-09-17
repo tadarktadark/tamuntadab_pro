@@ -69,6 +69,22 @@ public class CommUserDaoImpl implements ICommUserDao {
 	public UserProfileVo autoLogin(String userAutoLoginToken) {
 		return sqlSession.selectOne(NS+"autoLogin",userAutoLoginToken);
 	}
+	@Override
+	public int updateUserInfo(Map<String, Object> updateInfo) {
+		return sqlSession.update(NS+"updateUserInfo",updateInfo);
+	}
+	@Override
+	public int updateResetPwToken(Map<String, Object> resetPassword) {
+		return sqlSession.update(NS+"updateResetPwToken",resetPassword);
+	}
+	@Override
+	public int deleteResetPwToken(Map<String, Object> resetPassword) {
+		return sqlSession.update(NS+"deleteResetPwToken",resetPassword);
+	}
+	@Override
+	public int updateUserPassword(Map<String, Object> resetPassword) {
+		return sqlSession.update(NS+"updateUserPassword",resetPassword);
+	}
 	
 	
 
