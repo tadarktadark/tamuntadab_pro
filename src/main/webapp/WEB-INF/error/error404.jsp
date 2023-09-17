@@ -24,9 +24,10 @@
                                         </div>
                                         <div class="mt-4 text-center pt-3">
                                             <div class="position-relative">
-                                                <h3 class="error-subtitle text-uppercase mb-0">페이지가 작동하지 않습니다.</h3>
+                                                <h3 class="error-subtitle text-uppercase mb-0">페이지를 찾을 수 없습니다.</h3>
                                                 <p class="fs-15 text-muted mt-3">
-                                                    현재 http://localhost:8080/tamuntadab_pro 에서 요청을 처리할 수 없습니다.
+                                                    페이지가 존재하지 않거나, 사용할 수 없는 페이지입니다.<br>
+                                                    입력하신 주소가 정확한지 다시 한 번 확인해주세요.
                                                 </p>
                                                 <div class="mt-4">
                                                     <a href="/" class="btn btn-primary"><i class="mdi mdi-home me-1"></i>홈으로 돌아가기</a>
