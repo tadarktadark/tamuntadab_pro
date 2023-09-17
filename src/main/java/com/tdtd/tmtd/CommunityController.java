@@ -1,9 +1,17 @@
 package com.tdtd.tmtd;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.LikeViewUtils;
@@ -259,5 +269,117 @@ public class CommunityController {
 		result.put("title", array);
 		
 		return result;
+	}
+	
+	@RequestMapping(value="/commynityWrite.do", method=RequestMethod.POST)
+	public String commynityWrite(Model model, HttpSession session, BoardVo bVo) {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 작성 : board{} boardVo {}", board, bVo);
+		
+		model.addAttribute("title","커뮤니티");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = new UserProfileVo();
+			userInfo.setUserAccountId("TMTD0");
+		} else {
+			bVo.setAccountId(userInfo.getUserAccountId());
+		}
+		
+		if(board.equals("pilgi")) {
+			model.addAttribute("pageTitle", "필기");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("state", "Y");
+			map.put("accountId", userInfo.getUserAccountId());
+			map.put("clasId", bVo.getClasId());
+			pService.insertPilgi(bVo, map);
+		} else if(board.equals("jilmun")) {
+			model.addAttribute("pageTitle", "질문");
+			jmService.insertJilmun(bVo);
+		} else if(board.equals("jayu")) {
+			model.addAttribute("pageTitle", "자유");
+			jyService.insertJayu(bVo);
+		}
+		
+		return "redirect:/communityDetails.do?id="+bVo.getId();
+	}
+		
+	@RequestMapping(value="/commynityUploadImage.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> commynityUploadImage(MultipartFile upload, HttpServletRequest req) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이미지 업로드");
+		
+		String ext = upload.getOriginalFilename().substring(upload.getOriginalFilename().lastIndexOf("."));
+		String saveName = UUID.randomUUID().toString().replace("-", "")+ext;
+		
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		String path="";
+		
+		try {
+			// 파일읽기
+			inputStream = upload.getInputStream();
+			
+			// 저장 위치 문자열 만들기(상대경로)
+			path = WebUtils.getRealPath(req.getSession().getServletContext(),"/ckupload");
+			System.out.println(path);
+			
+			// 저장 위치가 존재하지 않으면 폴더 생성
+			File storage = new File(path);
+			if(!storage.exists()) {
+				storage.mkdir();
+			}
+			
+			// 저장할 파일이 해당 위치에 없다면 만들어주고 아니면 오버라이드 함
+			File newFile = new File(path+"/"+saveName);
+			if(!newFile.exists()) {
+				newFile.createNewFile();
+			}
+			
+			// client에서 받아온 파일(upload)를 쓸 대상(newFile) 지정
+			outputStream = new FileOutputStream(newFile);
+			
+			// 파일(upload)를 읽어 대상(newFile)에 씀
+			int read = 0;
+			byte[] b = new byte[(int)upload.getSize()];
+			while((read=inputStream.read(b))!=-1) {
+				outputStream.write(b,0,read);
+			}
+			
+		} catch (IOException e) {
+			log.error("!!!!!!!!!!!!!!!! uploadImage read Error : \n"+e.getMessage());
+		} finally {
+				try {
+					inputStream.close();
+					outputStream.close();
+				} catch (IOException e) {
+					log.error("!!!!!!!!!!!!!!!! uploadImage close Error : \n"+e.getMessage());
+					e.printStackTrace();
+				}
+		}
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("url", "./ckupload/"+saveName);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/commynityRemoveImage.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void removeImage(String saveName, HttpServletRequest req) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이미지 삭제 : saveName {}", saveName);		
+		
+		String path = "";
+		
+		try {
+			path = WebUtils.getRealPath(req.getSession().getServletContext(),"/ckupload");
+			File oldFile = new File(path+"/"+saveName);
+			// 파일이 존재하면 삭제
+			if(oldFile.exists()) {
+				oldFile.delete();
+			}
+		} catch (FileNotFoundException e) {
+			log.error("!!!!!!!!!!!!!!!! removeImage Error : \n"+e.getMessage());
+		}
 	}
 }

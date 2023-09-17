@@ -294,7 +294,7 @@
 	<update id="updateClchPilgiState">
 		UPDATE CLASS_CHAMYEOJA SET CLCH_PILGI_STATUS = #{state}
 			WHERE CLCH_ACCOUNT_ID = #{accountId}
-				AND CLCH_ID = #{clchId}
+				AND CLCH_CLAS_ID = #{clasId}
 	</update>
 	
 	<!-- 필기 임시저장 -->

@@ -17,6 +17,10 @@
 	justify-content: flex-end;
 }
 
+#write-content{
+	padding-top: 0px;
+}
+
 footer{
 	margin:0px;
 }
@@ -27,4 +31,13 @@ footer{
 
 .ck-editor__editable {
     max-height: 450px;
+}
+
+.cursor-default:hover, .cursor-default *:hover{
+	cursor: default;
+}
+
+#write-btn{
+	width: 200px;
+	height: 40px;
 }
