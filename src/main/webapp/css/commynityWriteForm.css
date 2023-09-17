@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.form-label{
+	margin-bottom: 0px;
+	margin-top: 5px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#write-top{
+	padding-bottom: 0px;
+}
+
+#write-bottom{
+	padding-top: 0px;
+	display: flex; 
+	justify-content: flex-end;
+}
+
+footer{
+	margin:0px;
+}
+
+.ck-content {
+	height: 450px;
+}
+
+.ck-editor__editable {
+    max-height: 450px;
+}

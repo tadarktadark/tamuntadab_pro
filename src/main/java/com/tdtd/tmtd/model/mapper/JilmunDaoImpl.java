@@ -79,6 +79,11 @@ public class JilmunDaoImpl implements IJilmunDao {
 	public List<ClassVo> getJilmunClassList(String accountId) {
 		return session.selectList(NS+"getJilmunClassList",accountId);
 	}
+	
+	@Override
+	public ClassVo getJilmunSubject(String clasId) {
+		return session.selectOne(NS+"getJilmunSubject",clasId);
+	}
 
 	@Override
 	public int insertJilmun(BoardVo vo) {

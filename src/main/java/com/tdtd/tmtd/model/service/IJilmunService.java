@@ -105,13 +105,22 @@ public interface IJilmunService {
 	public List<BoardVo> getLikeJilmunList(Map<String, Object> map);
 	
 	/**
-	 * 질문 작성 선택 가능한 클래스 목록 및 과목       
+	 * 질문 작성 선택 가능한 클래스 목록       
 	 * @param accountId 현재 로그인한 계정
-	 * @return 클래스 정보(클래스ID, 클래스명, 과목)
+	 * @return 클래스 정보(클래스ID, 클래스명)
 	 * @author SoHyeon
 	 * @since 2023.09.16
 	 */
 	public List<ClassVo> getJilmunClassList(String accountId);
+	
+	/**
+	 * 질문 작성 선택한 클래스 과목       
+	 * @param clasId 선택한 클래스 ID
+	 * @return 과목 정보(과목 코드, 과목 타이틀)
+	 * @author SoHyeon
+	 * @since 2023.09.17
+	 */
+	public ClassVo getJilmunSubject(String clasId);
 	
 	/**
 	 * 질문 작성

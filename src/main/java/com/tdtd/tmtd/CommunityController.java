@@ -21,6 +21,7 @@ import com.tdtd.tmtd.model.service.IJayuService;
 import com.tdtd.tmtd.model.service.IJilmunService;
 import com.tdtd.tmtd.model.service.IPilgiService;
 import com.tdtd.tmtd.vo.BoardVo;
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.PagingVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
@@ -210,7 +211,22 @@ public class CommunityController {
 		
 		if(board.equals("pilgi")) {
 			model.addAttribute("pageTitle", "필기");
-			model.addAttribute("classVo",pService.getPilgiClassDetail(id)); 
+			
+			ClassVo cVo = pService.getPilgiClassDetail(id);
+			String str = "";
+			String[] array = null;
+			
+			if(cVo.getClasSubjectJeongbo()!=null) {
+				str = cVo.getClasSubjectJeongbo().substring(1, cVo.getClasSubjectJeongbo().length() - 1); // 대괄호 제거
+				array = str.split(","); // 쉼표를 기준으로 분리
+
+				for (int i = 0; i < array.length; i++) {
+				    array[i] = array[i].replaceAll("\"", "").trim(); // 큰따옴표 제거 및 공백 제거
+				}
+			}
+			
+			model.addAttribute("classVo",cVo); 
+			model.addAttribute("subArr",array); 
 		} else if(board.equals("jilmun")) {
 			model.addAttribute("pageTitle", "질문");
 			model.addAttribute("classList",jmService.getJilmunClassList(userInfo.getUserAccountId()));
@@ -219,5 +235,29 @@ public class CommunityController {
 		}
 		
 		return "commynityWriteForm";
+	}
+	
+	@RequestMapping(value="/getJilmunClassList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getJilmunClassList(HttpSession session, String clasId) {
+		log.info("@@@@@@@@@@@@@@@ 질문 작성시 선택 클래스 과목 조회 : clasId {}", clasId);
+		
+		ClassVo cVo = jmService.getJilmunSubject(clasId);
+		
+		String str = "";
+		String[] array = null;
+		
+		str = cVo.getClasContent().substring(1, cVo.getClasContent().length() - 1); // 대괄호 제거
+		array = str.split(","); // 쉼표를 기준으로 분리
+
+		for (int i = 0; i < array.length; i++) {
+		    array[i] = array[i].replaceAll("\"", "").trim(); // 큰따옴표 제거 및 공백 제거
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("code", cVo.getClasSubjectJeongbo());
+		result.put("title", array);
+		
+		return result;
 	}
 }
