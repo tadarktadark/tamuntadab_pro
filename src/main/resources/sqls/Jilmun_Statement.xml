@@ -41,7 +41,7 @@
 							LEFT JOIN CLASS
 							ON JIBO_CLAS_ID = CLAS_ID
 							WHERE JIBO_STATE IN ('N', 'P')))
-			WHERE rn BETWEEN #{start} AND {end}
+			WHERE rn BETWEEN #{start} AND #{end}
 			ORDER BY rn
 	</select>
 	
