@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en" data-layout="horizontal" data-layout-mode="light" data-topbar="light" data-sidebar="light" data-sidebar-size="sm" data-sidebar-image="none" data-preloader="disable">
+<html lang="en" data-layout="horizontal" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-bs-theme="light" data-layout-width="fluid" data-layout-position="fixed" data-layout-style="default"><head>
 <head>
 <meta charset="UTF-8">
 <title> ${title} | 타문타답</title>
@@ -19,38 +19,17 @@
 		<div class="d-lg-flex">
 		    <div class="chat-leftsidebar card">
 		        <div class="card-body">
-		            <div class="text-center bg-light rounded px-4 py-3">
-		                <div class="text-end">
-		                    <div class="dropdown chat-noti-dropdown">
-		                        <button class="btn p-0" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                            <i class="bx bx-cog"></i>
-		                        </button>
-		                        <div class="dropdown-menu dropdown-menu-end">
-		                            <a class="dropdown-item" href="#">Profile</a>
-		                            <a class="dropdown-item" href="#">Edit</a>
-		                            <a class="dropdown-item" href="#">Add Contact</a>
-		                            <a class="dropdown-item" href="#">Setting</a>
-		                        </div>
-		                    </div>
-		                </div>
+		            <div class="text-center bg-light rounded px-4 py-4">
 		                <div class="chat-user-status">
 		                    <img src="~/assets/images/users/avatar-3.jpg" class="avatar-md rounded-circle" alt="">
 		                    <div class="">
 		                        <div class="status"></div>
 		                    </div>
 		                </div>
-		                <h5 class="fs-16 mb-1 mt-3"><a href="#" class="text-body">Jimmie Williams </a></h5>
-		                <p class="text-muted mb-0">Available</p>
+		                <h5 class="fs-16 mb-1 mt-3"><a href="#" class="text-body">${userInfo.userAccountId}</a></h5>
+		                <p class="text-muted mb-0">${(userInfo.userAuth eq 'I')?'강사':'학생'}</p>
 		            </div>
 		        </div>
-		
-		        <div class="p-3">
-		            <div class="search-box position-relative">
-		                <input type="text" class="form-control rounded border" placeholder="Search...">
-		                <i class="bx bx-search search-icon fs-15"></i>
-		            </div>
-		        </div>
-		
 		        <div class="chat-leftsidebar-nav">
 		            <ul class="nav nav-pills nav-justified bg-light m-3 rounded">
 		                <li class="nav-item">
