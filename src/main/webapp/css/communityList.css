@@ -3,17 +3,6 @@
 	cursor: pointer;
 }
 
-#title{
-	display: flex;
-	vertical-align: center;
-	height: 100%;
-}
-
-.like-do {
-	width:30px;
-	height:30px;
-}
-
 .rigth-btn{
 	width: 100px;
 }
@@ -29,12 +18,4 @@
 .page-link{
 	width: 35px;
 	height: 35px;
-}
-
-.hidden{
-	display: none;
-}
-
-#swal2-title{
-	font-weight: bold;
 }
