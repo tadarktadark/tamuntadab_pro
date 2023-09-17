@@ -89,4 +89,15 @@ public class ClassServiceImpl implements IClassService {
 		}
 		return SubjId;
 	}
+	
+	/**
+	 * 클래스 id에 해당하는 클래스의 정보를 가져오는 메소드
+	 * @param clasId
+	 * @return 클래스 id에 해당하는 클래스의 정보 Vo
+	 * @author 김기훈
+	 * @since 2023-09-17
+	 */
+	public ClassVo getClassDetail(String clasId) {
+		return dao.getClassDetail(clasId);
+	}
 }

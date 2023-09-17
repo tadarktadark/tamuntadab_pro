@@ -131,45 +131,6 @@
 												<a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-info float-end"></span>나이 제한</a>
                                             </div>
                                         </div>
-    
-                                        <h5 class="mt-3 fs-15 text-uppercase">여기엔 뭘 넣을까아</h5>
-    
-                                        <div class="card p-0 overflow-hidden mt-3 mb-1 shadow-none">
-                                            <div class="mail-list">
-                                                <a href="javascript: void(0);" class="d-flex align-items-start border-bottom">
-                                                    <img class="flex-shrink-0 me-3 rounded-circle" src="assets/images/users/avatar-2.jpg" alt="Generic placeholder image" height="36">
-                                                    <div class="flex-grow-1 chat-user-box">
-                                                        <p class="user-title m-0">Scott Median</p>
-                                                        <p class="text-muted mb-0 fs-13">Hello</p>
-                                                    </div>
-                                                </a>
-                
-                                                <a href="javascript: void(0);" class="d-flex align-items-start border-bottom">
-                                                    <img class="flex-shrink-0 me-3 rounded-circle" src="assets/images/users/avatar-3.jpg" alt="Generic placeholder image" height="36">
-                                                    <div class="flex-grow-1 chat-user-box">
-                                                        <p class="user-title m-0">Julian Rosa</p>
-                                                        <p class="text-muted mb-0 fs-13">What about our next..</p>
-                                                    </div>
-                                                </a>
-                
-                                                <a href="javascript: void(0);" class="d-flex align-items-start border-bottom">
-                                                    <img class="flex-shrink-0 me-3 rounded-circle" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36">
-                                                    <div class="flex-grow-1 chat-user-box">
-                                                        <p class="user-title m-0">David Medina</p>
-                                                        <p class="text-muted mb-0 fs-13">Yeah everything is fine</p>
-                                                    </div>
-                                                </a>
-                
-                                                <a href="javascript: void(0);" class="d-flex align-items-start border-bottom">
-                                                    <img class="flex-shrink-0 me-3 rounded-circle" src="assets/images/users/avatar-6.jpg" alt="Generic placeholder image" height="36">
-                                                    <div class="flex-grow-1 chat-user-box">
-                                                        <p class="user-title m-0">Jay Baker</p>
-                                                        <p class="text-muted mb-0 fs-13">Wow that's great</p>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-    
                                     </div>
                                 </div>
     
@@ -295,59 +256,6 @@
                                  	</div>
     
                                     <div class="pt-2" id="normalClass">
-                                        <div class="row">
-                                            <div class="col-7">
-                                                Showing 퍼스트 - 라스트 of 토탈카운트
-                                            </div>
-                                            
-                                            <div class="row align-items-center mb-4 gy-3">
-						                        <div class="col-md-5">
-						                            <p class="mb-0 text-muted">Showing <b>1</b> to <b>5</b> of <b>10</b> results</p>
-						                        </div>
-						                        <div class="col-sm-auto ms-auto">
-						                            <nav aria-label="...">
-						                                <ul class="pagination mb-0">
-						                                	<!-- first 버튼 구현 -->
-											                    	<li class="page-item">
-											                            <a class="page-link" href="./subjectManage.do?page=1">first</a>
-											                        </li>
-											                  
-											                        <li class="page-item disabled">
-											                            <span class="page-link">first</span>
-											                        </li>
-											                <!-- privious버튼 구현 -->
-													          		<li class="page-item">
-									                                   	<a class="page-link" href="./subjectManage.do?page=${(pVo.startPage - pVo.countPage) < 0 ? 1 : (pVo.startPage-pVo.countPage)}">Previous</a>
-									                                </li>
-																	<li class="page-item disabled">
-									                                   	<span class="page-link">Previous</span>
-									                                </li>
-															<!-- 페이지 버튼 구현 -->
-														                <li class="page-item active">
-														                    <span class="page-link">${i}</span>
-														                </li>
-														                <li class="page-item">
-														                    <a class="page-link" href="./subjectManage.do?page=${i}">${i}</a>
-														                </li>
-															        <li class="page-item">
-															            <a class="page-link" href="./subjectManage.do?page=${pVo.startPage+pVo.countPage}">NEXT</a>
-															        </li>
-															        <li class="page-item disabled">
-															            <span class="page-link">NEXT</span>
-															        </li>
-											                <!-- End 버튼 구현 -->
-											                       <li class="page-item disabled">
-											                            <span class="page-link">End</span>
-											                        </li>
-											                    	 <li class="page-item">
-											                            <a class="page-link" href="./subjectManage.do?page=${pVo.totalPage}">End</a>
-											                        </li>
-						                                </ul>
-						                              </nav>
-						                        </div>
-						                    </div>
-                                        </div>
-                                        
                                     </div>
                                </div>
     
@@ -370,4 +278,10 @@
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
+	<style type="text/css">
+			.email-leftbar {
+			  position: sticky;
+			  top: 100px;
+			}
+	</style>
 </html>

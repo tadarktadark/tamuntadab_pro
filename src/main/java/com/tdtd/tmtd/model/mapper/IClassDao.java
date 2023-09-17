@@ -69,4 +69,11 @@ public interface IClassDao {
 	 * @since 2023-09-10
 	 */
 	public String findSubjId(String title);
+	
+	/**
+	 * 클래스 id에 해당하는 클래스의 정보를 가져오는 메소드
+	 * @param clasId
+	 * @return 클래스 id에 해당하는 클래스의 정보 Vo
+	 */
+	public ClassVo getClassDetail(String clasId);
 }

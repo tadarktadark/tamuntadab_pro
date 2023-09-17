@@ -100,4 +100,13 @@ public class ClassDaoImpl implements IClassDao {
 		return sqlSession.selectOne(NS+"findSubjId", title);
 	};
 	
+	/**
+	 * 클래스 id에 해당하는 클래스의 정보를 가져오는 메소드
+	 * @param clasId
+	 * @return 클래스 id에 해당하는 클래스의 정보 Vo
+	 */
+	public ClassVo getClassDetail(String clasId) {
+		return sqlSession.selectOne(NS+"getClassDetail", clasId);
+	}
+	
 }

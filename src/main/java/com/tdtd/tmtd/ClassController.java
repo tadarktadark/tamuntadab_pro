@@ -156,7 +156,7 @@ public class ClassController {
 		log.info("만들어진 클래스 정보 = {}", cVo);
 		
 		ChamyeoVo cyVo = new ChamyeoVo();
-		cyVo.setClchAccountId("TMTD064");
+		cyVo.setClchAccountId("TMTD64");
 		cyVo.setClchStatus("Y");
 		cyVo.setClchYeokal("M");
 		
@@ -213,9 +213,15 @@ public class ClassController {
 	}
 	
 	@GetMapping("/classDetail.do")
-	public String classDetail(Model model) {
+	public String classDetail(Model model,
+							@RequestParam("clasId") String clasId) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 상세");
+		
+		ClassVo cVo = cService.getClassDetail(clasId);
+		log.info("ClassController 클래스 상세 페이지 조회, 가져온 클래스 정보 = {}",cVo);
+		
+		model.addAttribute("cVo", cVo);
 		return "classDetail";
 	}
 	
