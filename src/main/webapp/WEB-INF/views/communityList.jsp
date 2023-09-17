@@ -58,7 +58,7 @@
 							</c:when>
 							<c:otherwise>
 								<div class="col-sm-auto ms-auto">
-							        <a href="./commynityWriteForm.do" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>글쓰기</a>
+							        <a id="write-btn" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>글쓰기</a>
 							    </div>	
 							</c:otherwise>
 						</c:choose>

@@ -21,46 +21,41 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					<div class="row">
-					    <div class="col-12">
-					    	<c:choose>
-						    	<c:when test="${sessionScope.community eq 'pilgi'}">
-										<!-- Left sidebar -->
-								        <div class="email-leftbar">
-						                    <h5 class="mt-3 fs-15 text-uppercase">목차</h5>
-									        <div class="card p-0 overflow-hidden mt-3 shadow-none">
-					                            <div id="list-example" class="list-group">
-					                                <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-					                                <a class="list-group-item list-group-item-action active" href="#list-item-2">Item 2</a>
-					                                <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-					                                <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
-					                            </div>
+					    <div class="col-12 d-flex gap-3">
+					    	<c:if test="${sessionScope.community eq 'pilgi'}">
+								<!-- Left sidebar -->
+						        <div class="email-leftbar">
+				                    <h5 class="mt-3 fs-15 text-uppercase">목차</h5>
+							        <div class="card p-0 overflow-hidden mt-3 shadow-none">
+			                            <div id="list-example" class="list-group">
+			                                <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+			                                <a class="list-group-item list-group-item-action active" href="#list-item-2">Item 2</a>
+			                                <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+			                                <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+			                            </div>
+			                        </div>
+			                        <c:if test="${yList != null}">
+			                        	<h5 class="mt-3 fs-15 text-uppercase">연관 필기 목록</h5>
+					                    <div class="card p-0 overflow-hidden mt-3 shadow-none">
+					                        <div class="mail-list">
+					                        	<c:forEach items="${yList}" var="y" varStatus="vs">
+					                        		<c:choose>
+					                        			<c:when test="${status.last}">
+							                            	<a class="view-detail" id="${y.id}"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
+					                        			</c:when>
+					                        			<c:otherwise>
+							                            	<a class='border-bottom view-detail' id="${y.id}"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
+					                        			</c:otherwise>			                        			
+					                        		</c:choose>			                        	
+					                        	</c:forEach>
 					                        </div>
-					                        <c:if test="yList.size() != 0">
-					                        	<h5 class="mt-3 fs-15 text-uppercase">연관 필기 목록</h5>
-							                    <div class="card p-0 overflow-hidden mt-3 shadow-none">
-							                        <div class="mail-list">
-							                        	<c:forEach items="${yList}" var="y" varStatus="vs">
-							                        		<c:choose>
-							                        			<c:when test="${status.last}">
-									                            	<a href="#"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
-							                        			</c:when>
-							                        			<c:otherwise>
-									                            	<a href="#" class='border-bottom'><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span><b>${y.title}</b><p class="list-text mb-0 fs-12">${y.accountId}</p></a>
-							                        			</c:otherwise>			                        			
-							                        		</c:choose>			                        	
-							                        	</c:forEach>
-							                        </div>
-							                    </div>
-					                        </c:if>
-						                </div>
-								        <!-- End Left sidebar -->
-							        <!-- Right Sidebar -->
-							        <div class="email-rightbar mb-3">
-								</c:when>
-								<c:otherwise>
-									<div class="row">
-								</c:otherwise>
-					    	</c:choose>
+					                    </div>
+			                        </c:if>
+				                </div>
+						        <!-- End Left sidebar -->
+					        <!-- Right Sidebar -->
+					    	</c:if>
+					        <div class="${condition ? 'email-rightbar mb-3' : 'row'}">
 					        	<div class="card">
 					                <div class="card-body">
 					
@@ -80,6 +75,7 @@
 					                                		<div>
 							                                    <h4 id="title">${bVo.title}</h4>
 							                                    <p class="list-text mb-0 fs-12 ml-5 text-muted"> 
+													        		<i class="ri-user-fill"></i>&ensp;${bVo.accountId}&ensp;
 													        		<c:if test="${bVo.update ne bVo.regdate}">
 														        		<span class="text-success"><i class="ri-restart-line"></i>&ensp;${bVo.update}&ensp;</span>
 													        		</c:if>
@@ -177,16 +173,9 @@
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
-	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="./assets/js/app.js"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>
 	<script src="./js/communityDetails.js"></script>
-	<script id="board-list-template" type="text/x-handlebars-template">
-		
-	</script>
-	<script id="page-list-template" type="text/x-handlebars-template">
-		
-	</script>
 </body>
 </html>

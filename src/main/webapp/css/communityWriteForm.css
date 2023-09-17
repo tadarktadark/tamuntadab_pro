@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+.form-label{
+	margin-bottom: 0px;
+	margin-top: 5px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#write-top{
+	padding-bottom: 0px;
+}
+
+#write-bottom{
+	padding-top: 0px;
+	display: flex; 
+	justify-content: flex-end;
+}
+
+#write-content{
+	padding-top: 0px;
+}
+
+footer{
+	margin:0px;
+}
+
+.ck-content {
+	height: 450px;
+}
+
+.ck-editor__editable {
+    max-height: 450px;
+}
+
+.cursor-default:hover, .cursor-default *:hover{
+	cursor: default;
+}
+
+#write-btn{
+	width: 200px;
+	height: 40px;
+}

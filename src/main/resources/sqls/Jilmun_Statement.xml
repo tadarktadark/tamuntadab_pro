@@ -150,15 +150,7 @@
 	
 	<!-- 질문 작성 선택 가능한 클래스 목록 및 과목 -->
 	<select id="getJilmunClassList" resultType="classVo">
-		SELECT CLAS_ID, CLAS_TITLE, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
-												     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
-												     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
-															FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
-																				     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
-																				     JOIN SUBJECT_TAG s1 
-																				     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
-																	FROM SUBJECT)) s 
-												     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO 
+		SELECT CLAS_ID, CLAS_TITLE
 			FROM CLASS JOIN CLASS_CHAMYEOJA
 			ON CLAS_ID = CLCH_CLAS_ID
 			WHERE CLCH_ACCOUNT_ID=#{accountId}
@@ -166,6 +158,24 @@
 				AND CLCH_STATUS='C'
 	</select>
 	
+	<!-- 질문 작성 선택한 클래스 과목 -->
+	<select id="getJilmunSubject" resultType="classVo">
+		SELECT '['||REPLACE(REPLACE((SELECT JSON_ARRAYAGG(s1.SUBJ_CODE) 
+					     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+					     JOIN SUBJECT s1 
+					     ON jt1.SUBJECT_CODE = s1.SUBJ_ID),'[',''),']','')||']' AS CLAS_SUBJECT_JEONGBO,
+				REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+										     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+										     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+													FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																		     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																		     JOIN SUBJECT_TAG s1 
+																		     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+															FROM SUBJECT)) s 
+										     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_CONTENT
+			FROM CLASS
+			WHERE CLAS_ID=#{clasId}
+	</select>
 	<!-- 질문 작성 -->
 	<insert id="insertJilmun">
 		INSERT INTO JILMUN_BOARD(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, 

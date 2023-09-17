@@ -134,6 +134,7 @@
 					ON PIBO_WRITER_ID = USER_ACCOUNT_ID
 					WHERE PIBO_STATE = 'N'
 						AND NOT PIBO_WRITER_ID = #{accountId}
+						AND NOT PIBO_ID=#{id}
 						AND PIBO_CLAS_ID=(SELECT PIBO_CLAS_ID
 											FROM PILGI_BOARD
 											WHERE PIBO_ID=#{id})
@@ -293,7 +294,7 @@
 	<update id="updateClchPilgiState">
 		UPDATE CLASS_CHAMYEOJA SET CLCH_PILGI_STATUS = #{state}
 			WHERE CLCH_ACCOUNT_ID = #{accountId}
-				AND CLCH_ID = #{clchId}
+				AND CLCH_CLAS_ID = #{clasId}
 	</update>
 	
 	<!-- 필기 임시저장 -->

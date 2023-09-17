@@ -83,6 +83,11 @@ public class JilmunServiceImpl implements IJilmunService {
 	}
 
 	@Override
+	public ClassVo getJilmunSubject(String clasId) {
+		return dao.getJilmunSubject(clasId);
+	}
+	
+	@Override
 	public int insertJilmun(BoardVo vo) {
 		return dao.insertJilmun(vo);
 	}
