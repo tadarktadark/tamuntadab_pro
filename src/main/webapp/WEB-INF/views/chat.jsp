@@ -10,6 +10,7 @@
 <body>
 <div>
 <h2>채팅</h2>
+<h4>커밋 잘 되나?</h4>
 </div>
 <%@ include file="./shared/_vender_scripts.jsp" %>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.1/chart.min.js"></script>
