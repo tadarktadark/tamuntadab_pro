@@ -27,6 +27,16 @@
 		<result column="CLAS_REGDATE" property="clasRegdate"/>
 		<result column="CLAS_SEONGBYEOL_JEHAN" property="clasSeongbyeolJehan"/>
 		<result column="CLAS_NAI_JEHAN" property="clasNaiJehan"/>
+		<result column="CLAS_STATUS" property="clasStatus"/>
+		<result column="CLAS_MAGAM_GIHAN" property="clasMagamGihan"/>
+		<result column="CLAS_HYEONJAE_INWON" property="clasHyeonjaeInwon"/>
+		<result column="CLAS_HUIMANG_INWON" property="clasHuimangInwon"/>
+		<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
+		<result column="CLAS_CHOISO_SUGANGNYO" property="clasChoisoSugangnyo"/>
+		<result column="CLAS_CHOIDAE_SUGANGNYO" property="clasChoidaeSugangnyo"/>
+		<result column="CLAS_MOJIP_YEONJANG_HOITSU" property="clasMojipYeonjangHoitsu"/>
+		<result column="CLAS_CONTENT" property="clasContent"/>
+		<result column="CLAS_ACCOUNT_ID" property="clasAccountId"/>
 		<collection property="userVo" resultMap="userProfileMap"/>
 		<collection property="subjVo" resultMap="subjectMap"/>
 	</resultMap>
@@ -64,11 +74,15 @@
 
 	<!-- 클래스 상세조회 -->
 	<select id="getClassDetail" parameterType="java.util.Map" resultMap="classMap">
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
-				USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_CONTENT, CLAS_SEONGBYEOLJEHAN, CLAS_NAIJEHAN
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
+		CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN,
+		CLAS_MAGAM_GIHAN, CLAS_SUEOP_NALJJA, CLAS_CHOISO_SUGANGNYO, CLAS_CHOIDAE_SUGANGNYO, 
+		CLAS_MOJIP_YEONJANG_HOITSU, CLAS_CONTENT, CLAS_ACCOUNT_ID
 		FROM (
-			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON, c.CLAS_REGDATE,
-				jot.SUBJ_TITLE,up.USER_NICKNAME, c.CLAS_CONTENT,c.CLAS_SEONGBYEOLJEHAN, c.CLAS_NAIJEHAN
+			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, c.CLAS_STATUS, c.CLAS_HUIMANG_INWON, 
+				c.CLAS_HYEONJAE_INWON, jot.SUBJ_TITLE, up.USER_NICKNAME, c.CLAS_REGDATE, c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN,
+				c.CLAS_MAGAM_GIHAN, CLAS_SUEOP_NALJJA, c.CLAS_CHOISO_SUGANGNYO, c.CLAS_CHOIDAE_SUGANGNYO, 
+				c.CLAS_MOJIP_YEONJANG_HOITSU, c.CLAS_CONTENT, c.CLAS_ACCOUNT_ID
 			FROM CLASS c  JOIN CLASS_CHAMYEOJA cc 
 			ON CLAS_ID = CLCH_CLAS_ID
 			RIGHT JOIN USER_PROFILE up
