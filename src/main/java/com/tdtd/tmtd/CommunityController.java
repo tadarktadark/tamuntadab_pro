@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.LikeViewUtils;
 import com.tdtd.tmtd.comm.PagingUtils;
+import com.tdtd.tmtd.model.service.IJayuService;
+import com.tdtd.tmtd.model.service.IJilmunService;
 import com.tdtd.tmtd.model.service.IPilgiService;
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.PagingVo;
@@ -29,22 +31,30 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 
 	@Autowired
-	private IPilgiService service;
+	private IPilgiService pService;
+	
+	@Autowired
+	private IJilmunService jmService;
+	
+	@Autowired
+	private IJayuService jyService;
 	
 	@RequestMapping(value="/community.do", method=RequestMethod.GET)
-	public String community(Model model, HttpSession session, String b) {
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : {}", b);
+	public String community(Model model, HttpSession session, String board) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : board {}", board);
 		model.addAttribute("title","커뮤니티");
-		if(b.equals("pilgi")) {
+		
+		if(board.equals("pilgi")) {
 			model.addAttribute("pageTitle", "필기");
-			session.setAttribute("cm","pilgi");
-		}else if(b.equals("jilmun")) {
+			session.setAttribute("community","pilgi");
+		}else if(board.equals("jilmun")) {
 			model.addAttribute("pageTitle", "질문");
-			session.setAttribute("cm","jilmun");			
-		}else if(b.equals("jayu")) {
+			session.setAttribute("community","jilmun");			
+		}else if(board.equals("jayu")) {
 			model.addAttribute("pageTitle", "자유");
-			session.setAttribute("cm","jayu");
+			session.setAttribute("community","jayu");
 		}	
+		
 		return "communityList";
 	}
 	
@@ -60,7 +70,7 @@ public class CommunityController {
 			userInfo.setUserAccountId("TMTD0");
 		}
 		
-		int pageCount = service.getPilgiCount(userInfo.getUserAccountId());			
+		int pageCount = pService.getPilgiCount(userInfo.getUserAccountId());			
 		Map<String, Object> pMap = PagingUtils.paging(page, pageCount, 10, 5);
 		
 		Map<String, Object> bMap = new HashMap<String, Object>(){{
@@ -71,7 +81,7 @@ public class CommunityController {
 		bMap.put("accountId", userInfo.getUserAccountId());
 		
 		Map<String, Object> result = new HashMap<String, Object>(){{
-			put("b",service.getPilgiList(bMap));
+			put("b",pService.getPilgiList(bMap));
 			put("p", pMap.get("page"));
 		}};
 		return result;
@@ -84,7 +94,7 @@ public class CommunityController {
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
-		String list = service.getPilgiLikeUser(id);		
+		String list = pService.getPilgiLikeUser(id);		
 		Map<String, Object> like = LikeViewUtils.like(type, userInfo.getUserAccountId(), list);
 		if((int)like.get("update")==1) {
 			Map<String, Object> data = new HashMap<String, Object>(){{
@@ -92,7 +102,7 @@ public class CommunityController {
 				put("likeCount", like.get("count"));
 				put("id", id);
 			}};
-			service.updatePilgiLikeUser(data);
+			pService.updatePilgiLikeUser(data);
 		}
 		Map<String, Object> result = new HashMap<String, Object>(){{
 			put("type",like.get("type"));
@@ -103,20 +113,9 @@ public class CommunityController {
 	
 	@RequestMapping(value="/getPilgiDetail.do", method=RequestMethod.GET)
 	public String getPilgiDetail(HttpSession session, Model model, String id){
-		log.info("@@@@@@@@@@@@@@@ 필기 상세조회 : {}", id);
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 상세조회 : {}", id);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		
-		String list = service.getPilgiViewUser(id);		
-		Map<String, Object> view = LikeViewUtils.view(userInfo.getUserAccountId(), list);
-		if((int)view.get("update")==1) {
-			Map<String, Object> data = new HashMap<String, Object>(){{
-				put("viewUser", view.get("list"));
-				put("viewCount", view.get("count"));
-				put("id", id);
-			}};
-			service.updatePilgiViewUser(data);
-		}
 		
 		Map<String, Object> detail = new HashMap<String, Object>();
 		detail.put("accountId",userInfo.getUserAccountId());
@@ -124,7 +123,7 @@ public class CommunityController {
 		
 		System.out.println(detail);
 		
-		BoardVo bVo = service.getPilgiDetail(detail);
+		BoardVo bVo = pService.getPilgiDetail(detail);
 		
 		String str = bVo.getSubjectCode().substring(1, bVo.getSubjectCode().length() - 1); // 대괄호 제거
 
@@ -137,22 +136,33 @@ public class CommunityController {
 		model.addAttribute("title","커뮤니티");
 		model.addAttribute("pageTitle", "필기");
 		model.addAttribute("bVo", bVo);
-		model.addAttribute("yList", service.getYeongwanList(detail));
+		model.addAttribute("yList", pService.getYeongwanList(detail));
 		model.addAttribute("subArr", array);
-		return "pilgiDetail";
+		return "pilgiDetails";
 	}
 	
-	@RequestMapping(value="/pilgiWriteForm.do", method=RequestMethod.GET)
-	public String pilgiWriteForm(Model model, HttpSession session) {
-		log.info("@@@@@@@@@@@@@@@ 필기 작성 Form 이동");
+	@RequestMapping(value="/commynityWriteForm.do", method=RequestMethod.GET)
+	public String commynityWriteForm(Model model, HttpSession session, String id) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 새 글 작성 Form 이동 : board {}, boardId {}", session.getAttribute("community"), id);
 		model.addAttribute("title","커뮤니티");
-		model.addAttribute("pageTitle", "필기");
-		UserProfileVo userInfo = new UserProfileVo();
-		userInfo.setUserAccountId("TMTD1");
-		userInfo.setUserName("학생일반테스트닉네임1");
-		userInfo.setUserPhoneNumber("01000000001");
-		userInfo.setUserDelflag("N");
-		session.setAttribute("userInfo", userInfo);
-		return "pilgiWriteForm";
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = new UserProfileVo();
+			userInfo.setUserAccountId("TMTD0");
+		}
+		
+		String board = (String)session.getAttribute("community");
+		if(board.equals("pilgi")) {
+			model.addAttribute("pageTitle", "필기");
+			model.addAttribute("classVo",pService.getPilgiClassDetail(id)); 
+		} else if(board.equals("jilmun")) {
+			model.addAttribute("pageTitle", "질문");
+			model.addAttribute("classList",jmService.getJilmunClassList(userInfo.getUserAccountId()));
+		} else if(board.equals("jayu")) {
+			model.addAttribute("pageTitle", "자유");
+		}
+		
+		return "commynityWriteForm";
 	}
 }
