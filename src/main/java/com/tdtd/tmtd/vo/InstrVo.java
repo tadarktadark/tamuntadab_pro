@@ -41,4 +41,5 @@ public class InstrVo {
 	private List<InstrEduVo> instrEduVo;	
 	private List<UserProfileVo> userProfileVo;
 	private List<ClassVo> classVo;
+	private List<SubjectVo> subjectVo;
 }

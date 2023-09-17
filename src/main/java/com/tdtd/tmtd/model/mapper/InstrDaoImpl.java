@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
@@ -74,12 +75,17 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public List<InstrVo> getOneInstrClass(String userAccountId) {
-		return sqlSession.selectList(NS+"getOneInstrClass", userAccountId);
+	public List<InstrVo> getOneInstrClass(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getOneInstrClass", map);
+	}
+	
+	@Override
+	public int getCountClassCancel(String userAccountId) {
+		return sqlSession.selectOne(NS+"getCountClassCancel", userAccountId);
 	}
 
 	@Override
-	public List<InstrVo> getOneIntrReview(Map<String, Object> map) {
+	public List<ClassVo> getOneIntrReview(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getOneIntrReview", map);
 	}
 
