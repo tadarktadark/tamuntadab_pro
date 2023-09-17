@@ -141,7 +141,7 @@
 		        	
 		        	<div class="row align-items-center mb-4 gy-3">
                         <div class="col-md-5">
-                            <p class="mb-0 text-muted">Showing <b>1</b> to <b>5</b> of <b>10</b> results</p>
+                            <p class="mb-0 text-muted">Showing <b>${pVo.page*pVo.countList-pVo.countList+1}</b> to <b>${pVo.page*pVo.countList}</b> of <b>${pVo.totalCount}</b></p>
                         </div>
                         <div class="col-sm-auto ms-auto">
                             <nav aria-label="...">
