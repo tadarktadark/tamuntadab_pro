@@ -68,7 +68,7 @@ public class CareerServiceImpl implements ICareerService {
 	}
 
 	@Override
-	public CareerVo getOneInstrCareer(String userAccountId) {
+	public List<CareerVo> getOneInstrCareer(String userAccountId) {
 		return dao.getOneInstrCareer(userAccountId);
 	}
 

@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
@@ -41,9 +42,11 @@ public interface IInstrDao {
 	public InstrVo getOneInstrProfile(String userAccountId);
 	
 	//TDT024 getOneInstrClass
-	public List<InstrVo> getOneInstrClass(String userAccountId);
+	public List<InstrVo> getOneInstrClass(Map<String, Object> map);
+	
+	public int getCountClassCancel(String userAccountId);
 	
 	//TDT025 getOneIntrReview
-	public List<InstrVo> getOneIntrReview(Map<String, Object> map);
+	public List<ClassVo> getOneIntrReview(Map<String, Object> map);
 	
 }

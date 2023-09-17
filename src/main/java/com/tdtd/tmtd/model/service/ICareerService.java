@@ -37,6 +37,6 @@ public interface ICareerService {
 		public int deleteCareer(String careId);
 		
 		//TDT023 getOneInstrCareer
-		public CareerVo getOneInstrCareer(String userAccountId);
+		public List<CareerVo> getOneInstrCareer(String userAccountId);
 	
 }

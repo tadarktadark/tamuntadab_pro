@@ -24,6 +24,7 @@
 	<collection property="instrEduVo" resultMap="instrEduMap"/>
 	<collection property="userProfileVo" resultMap="userProfileMap"/>
 	<collection property="classVo" resultMap="classMap"/>
+	<collection property="subjectVo" resultMap="subjMap"/>
 </resultMap>
 <resultMap type="instrEduVo" id="instrEduMap">
 	<result column="INED_SEQ" property="inedSeq"/>
@@ -41,6 +42,9 @@
 	<result column="USER_ACCOUNT_ID" property="userAccountId"/>
 	<result column="USER_GENDER" property="userGender"/>
 	<result column="USER_JOIN_DATE" property="userJoinDate"/>
+</resultMap>
+<resultMap type="subjectVo" id="subjMap">
+	<result column="SUBJ_CODE" property="subjCode"/>
 </resultMap>
 <resultMap type="classVo" id="classMap">
 	<result column="CLAS_ID" property="clasId"/>
@@ -174,7 +178,7 @@
 	WHERE INPR_SEQ = #{seq}
 </select>
 
-<select id="getOneInstrProfile" resultType="instrVo">
+<select id="getOneInstrProfile" resultMap="instrMap">
 	SELECT (SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
 	     FROM JSON_TABLE(INPR_SUBJECTS_MAJOR, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
 	     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_MAJOR_TITLE,
@@ -186,34 +190,76 @@
 </select>
 
 <select id="getOneInstrClass" resultMap="instrMap">
-	SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_SUEOP_NALJJA, CLAS_SUGANGRYO,
-		(SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
-	     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
-	     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS CLAS_SUBJECT_JEONGBO
+SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_SUEOP_NALJJA, CLAS_SUGANGRYO,
+		SUBJ_CODE
+FROM(
+SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_SUEOP_NALJJA, CLAS_SUGANGRYO,
+       (
+           SELECT JSON_ARRAYAGG(st.SUTA_TITLE)
+           FROM SUBJECT s
+           INNER JOIN SUBJECT_TAG st ON st.SUTA_CODE IN (
+               SELECT jt2.subject_code 
+               FROM JSON_TABLE(s.SUBJ_CODE,
+                               '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt2
+           )
+           WHERE s.SUBJ_ID IN (
+               SELECT jt1.subject_id 
+               FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO,
+                               '$[*]' COLUMNS (subject_id VARCHAR2(400) PATH '$')) jt1
+           )
+       ) AS SUBJ_CODE,
+       ROW_NUMBER() OVER(ORDER BY CLAS_SUEOP_NALJJA DESC) AS RN
+FROM CLASS 
+JOIN INSTR_PROFILE ON CLAS_ACCOUNT_ID = INPR_ACCOUNT_ID 
+WHERE CLAS_STATUS = '종료'
+AND INPR_ACCOUNT_ID =#{userAccountId}
+)
+WHERE RN BETWEEN #{start} AND #{end}
+</select>
+
+<select id="getCountClassCancel" resultType="Integer">
+	SELECT COUNT(*)
 	FROM CLASS JOIN INSTR_PROFILE
 	ON CLAS_ACCOUNT_ID = INPR_ACCOUNT_ID
-	WHERE CLAS_STATUS = '종료'
+	WHERE CLAS_STATUS = '취소'
 	AND INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
 <select id="getOneIntrReview" resultMap="classMap">
-	SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
-		(REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0 AS AVG_SCORE,
-		REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE
-	FROM REVIEW JOIN CLASS
-	ON CLAS_ID = REVI_CLAS_ID
-	WHERE CLAS_ACCOUNT_ID = #{userAccountId}
-	<choose>
-		<when test="order == 'desc'">
-			ORDER BY AVG_SCORE DESC
-		</when>
-		<when test="order == 'asc'">
-			ORDER BY AVG_SCORE ASC
-		</when>
-		<otherwise>
-			ORDER BY REVI_REGDATE DESC
-		</otherwise>
-	</choose>
+    SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
+           AVG_SCORE,
+           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, TO_CHAR(REVI_REGDATE, 'YYYY-MM-DD') AS REVI_REGDATE
+    FROM (
+    	SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
+           AVG_SCORE,
+           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE,
+           ROW_NUMBER() OVER (
+                   <choose>
+                       <when test="order == 'desc'">
+                           ORDER BY AVG_SCORE DESC
+                       </when>
+                       <when test="order == 'asc'">
+                           ORDER BY AVG_SCORE ASC
+                       </when>
+                       <otherwise>
+                           ORDER BY REVI_REGDATE DESC
+                       </otherwise>
+                   </choose>) AS RN
+    FROM(       
+	        SELECT CLAS_TITLE, 
+	               REVI_STUD_NAME,
+	               REVI_PRO,
+	               REVI_PREPARE,
+	               ROUND(((REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0), 1) AS AVG_SCORE,
+	               REVI_ABIL,
+	               REVI_SIGAN,
+	               REVI_DETAIL,
+	               REVI_REGDATE
+	        FROM REVIEW JOIN CLASS ON CLAS_ID = REVI_CLAS_ID
+	        WHERE CLAS_ACCOUNT_ID = #{userAccountId}
+	    )
+    )
+    WHERE RN BETWEEN #{start} AND #{end}
 </select>
 
 

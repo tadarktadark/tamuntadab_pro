@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.IInstrDao;
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 
@@ -93,12 +94,17 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public List<InstrVo> getOneInstrClass(String userAccountId) {
-		return dao.getOneInstrClass(userAccountId);
+	public List<InstrVo> getOneInstrClass(Map<String, Object> map) {
+		return dao.getOneInstrClass(map);
+	}
+	
+	@Override
+	public int getCountClassCancel(String userAccountId) {
+		return dao.getCountClassCancel(userAccountId);
 	}
 
 	@Override
-	public List<InstrVo> getOneIntrReview(Map<String, Object> map) {
+	public List<ClassVo> getOneIntrReview(Map<String, Object> map) {
 		return dao.getOneIntrReview(map);
 	}
 

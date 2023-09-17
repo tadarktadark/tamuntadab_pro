@@ -42,5 +42,5 @@ public interface ICareerDao {
 	public int deleteCareerCron();
 	
 	//TDT023 getOneInstrCareer
-	public CareerVo getOneInstrCareer(String userAccountId);
+	public List<CareerVo> getOneInstrCareer(String userAccountId);
 }

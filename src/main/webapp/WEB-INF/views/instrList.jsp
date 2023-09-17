@@ -108,7 +108,7 @@
 								</div>
 							</div>
 							<div class="text-center mb-3">
-								<div class="avatar-md mx-auto">
+								<div class="avatar-lg mx-auto">
 									<img src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}" alt=""
 									data-bs-toggle="${empty userInfo? 'tooltip' : ''}" title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}"
 										class="member-img img-fluid d-block rounded-circle">
