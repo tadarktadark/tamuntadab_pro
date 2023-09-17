@@ -21,13 +21,16 @@
 					<div class="row">
 					    <div class="col-lg-12">
 					        <div class="card">
-					            <div class="card-header align-items-center d-flex">
-					                <h4 class="card-title mb-0">Ckeditor Classic Editor</h4>
-					            </div><!-- end card header -->
-					
-					            <div class="card-body">
-					                <p class="text-muted">Use <code>ckeditor-classic</code> class to set ckeditor classic editor.</p>
-					                <div id="ckeditor" class="ckeditor-classic"></div>
+				        		<div class="card-body d-flex">
+									<div class="col-lg-2">
+									    <h5><label for="title" class="form-label">제목</label></h5>						
+									</div>
+									<div class="col-lg-10">
+									    <input type="text" class="form-control" id="title" value="Input value">
+									</div>
+					        	</div>
+					        	<div class="card-body">
+					        		<div id="ckeditor" class="ckeditor-classic"></div>
 					            </div><!-- end card-body -->
 					        </div><!-- end card -->
 					    </div>

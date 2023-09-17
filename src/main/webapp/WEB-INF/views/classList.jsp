@@ -132,7 +132,7 @@
                                             </div>
                                         </div>
     
-                                        <h5 class="mt-3 fs-15 text-uppercase">Chat</h5>
+                                        <h5 class="mt-3 fs-15 text-uppercase">여기엔 뭘 넣을까아</h5>
     
                                         <div class="card p-0 overflow-hidden mt-3 mb-1 shadow-none">
                                             <div class="mail-list">
@@ -245,7 +245,7 @@
                                         <div class="mb-2">
                                             <div class="message-list mb-0 p-1">
                                                 <div class="list">
-                                                    <div class="col-mail col-mail-1">
+                                                    <div class="col-mail-1">
                                                         <div class="d-flex title align-items-center">
                                                             <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="">
                                                             <div class="flex-1 ms-2 ps-1 mt-1">
@@ -294,62 +294,60 @@
                                         </div>
                                  	</div>
     
-                                        <div class="pt-2" id="normalClass">
-                                            <h6 class="text-muted text-uppercase mb-3">클래스 목록</h6>
-                                            <div class="mb-2">
-                                                <div class="message-list mb-0 p-1">
-                                                    <div class="list">
-                                                        <div class="col-mail col-mail-1">
-                                                            <div class="d-flex title align-items-center">
-                                                                <img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle" alt="">
-                                                                <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                    <h5 class="fs-15 mb-0"><a href="" class="text-body">클래스장 닉네임</a></h5>
-                                                                    <a href="" class="text-muted text-uppercase fs-13 mt-1">대전광역시 동구 중앙동</a>
-                                                                </div>
-                                                            </div>
-                                                            <span class="star-toggle bx bx-star"></span>
-                                                        </div>
-                                                        <div class="col-mail col-mail-2">
-                                                            <a href="#" class="subject text-body">
-                                                            	클래스 제목 
-                                                            	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
-                                                            	<span class="bg-danger badge me-2">남자만</span>
-                                                            	<span class="bg-info badge me-2">20-40</span>
-                                                            </a>
-                                                            <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>오늘</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-											${classList}
+                                    <div class="pt-2" id="normalClass">
                                         <div class="row">
                                             <div class="col-7">
                                                 Showing 퍼스트 - 라스트 of 토탈카운트
                                             </div>
-                                            <div class="col-sm-auto ms-auto">
-					                            <nav aria-label="...">
-					                                <ul class="pagination mb-0">
-					                                	<li class="page-item disabled">
-					                                    <span class="page-link">first</span>
-					                                  </li>
-					                                  <li class="page-item disabled">
-					                                    <span class="page-link">Previous</span>
-					                                  </li>
-					                                  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-					                                  <li class="page-item" aria-current="page">
-					                                    <span class="page-link">2</span>
-					                                  </li>
-					                                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-					                                  <li class="page-item">
-					                                    <a class="page-link" href="#">Next</a>
-					                                  </li>
-					                                  <li class="page-item">
-					                                    <a class="page-link" href="#">last</a>
-					                                  </li>
-					                                </ul>
-					                              </nav>
-					                        </div>
+                                            
+                                            <div class="row align-items-center mb-4 gy-3">
+						                        <div class="col-md-5">
+						                            <p class="mb-0 text-muted">Showing <b>1</b> to <b>5</b> of <b>10</b> results</p>
+						                        </div>
+						                        <div class="col-sm-auto ms-auto">
+						                            <nav aria-label="...">
+						                                <ul class="pagination mb-0">
+						                                	<!-- first 버튼 구현 -->
+											                    	<li class="page-item">
+											                            <a class="page-link" href="./subjectManage.do?page=1">first</a>
+											                        </li>
+											                  
+											                        <li class="page-item disabled">
+											                            <span class="page-link">first</span>
+											                        </li>
+											                <!-- privious버튼 구현 -->
+													          		<li class="page-item">
+									                                   	<a class="page-link" href="./subjectManage.do?page=${(pVo.startPage - pVo.countPage) < 0 ? 1 : (pVo.startPage-pVo.countPage)}">Previous</a>
+									                                </li>
+																	<li class="page-item disabled">
+									                                   	<span class="page-link">Previous</span>
+									                                </li>
+															<!-- 페이지 버튼 구현 -->
+														                <li class="page-item active">
+														                    <span class="page-link">${i}</span>
+														                </li>
+														                <li class="page-item">
+														                    <a class="page-link" href="./subjectManage.do?page=${i}">${i}</a>
+														                </li>
+															        <li class="page-item">
+															            <a class="page-link" href="./subjectManage.do?page=${pVo.startPage+pVo.countPage}">NEXT</a>
+															        </li>
+															        <li class="page-item disabled">
+															            <span class="page-link">NEXT</span>
+															        </li>
+											                <!-- End 버튼 구현 -->
+											                       <li class="page-item disabled">
+											                            <span class="page-link">End</span>
+											                        </li>
+											                    	 <li class="page-item">
+											                            <a class="page-link" href="./subjectManage.do?page=${pVo.totalPage}">End</a>
+											                        </li>
+						                                </ul>
+						                              </nav>
+						                        </div>
+						                    </div>
                                         </div>
+                                        
                                     </div>
                                </div>
     

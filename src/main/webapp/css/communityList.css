@@ -1,0 +1,40 @@
+@charset "UTF-8";
+.view-detail:hover, .page-link:hover{
+	cursor: pointer;
+}
+
+#title{
+	display: flex;
+	vertical-align: center;
+	height: 100%;
+}
+
+.like-do {
+	width:30px;
+	height:30px;
+}
+
+.rigth-btn{
+	width: 100px;
+}
+
+.right-input{
+	width : 90%
+}
+
+.order-by:hover {
+	cursor: pointer;
+}
+
+.page-link{
+	width: 35px;
+	height: 35px;
+}
+
+.hidden{
+	display: none;
+}
+
+#swal2-title{
+	font-weight: bold;
+}

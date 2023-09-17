@@ -34,18 +34,17 @@ public class LikeViewUtils {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if(type.equals("cancel") && origin.containsKey(accountId)) {
 			origin.remove(accountId);
-			type="do";
 			result.put("update", 1);			
 		} else if(type.equals("do") && (!origin.containsKey(accountId))){
 		    Calendar c = Calendar.getInstance(); 
 		    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		    String date = format.format(c.getTime());
 			origin.put(accountId,date);
-			type="cancel";
 			result.put("update", 1);			
 		} else {
 			result.put("update", 0);			
 		}
+		type=type.equals("cancel")?"do":"cancel";
 		result.put("count", origin.size());
 		result.put("type", type);
 		result.put("list", gson.toJson(origin));

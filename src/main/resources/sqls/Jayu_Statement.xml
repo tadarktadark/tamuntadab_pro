@@ -33,7 +33,7 @@
 								CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI') ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE
 							FROM JAYU_BOARD JOIN USER_PROFILE 
 							ON JABO_WRITER_ID = USER_ACCOUNT_ID))
-			WHERE rn BETWEEN #{start} AND {end}
+			WHERE rn BETWEEN #{start} AND #{end}
 				AND STATE IN ('P','N')
 			ORDER BY rn
 	</select>

@@ -1785,9 +1785,6 @@ INSERT ALL
 	INTO PILGI_BOARD
 	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
 	VALUES('PI'||TO_CHAR(CURRENT_DATE-8,'yyyymmdd')||'0001','TMTD16','1000000085','필기 테스트 데이터 입니다 40','A','A','N',CURRENT_DATE-8)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-7,'yyyymmdd')||'0001','TMTD112','1000000085','필기 테스트 데이터 입니다 41','A','A','N',CURRENT_DATE-7)
 SELECT * FROM DUAL;
 
 -- 필기 임시저장 더미 데이터
@@ -1804,249 +1801,248 @@ SELECT * FROM DUAL;
 INSERT ALL
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0001','TMTD80','질문 게시판 테스트 1','["262","232","183","050"]','질문 게시판 테스트 내용 입니다 1')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0001','TMTD1','질문 게시판 테스트 1','["262","232","183","050"]','질문 게시판 테스트 내용 입니다 1')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0002','TMTD13','질문 게시판 테스트 2','["240","132","189","051"]','질문 게시판 테스트 내용 입니다 2')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0002','TMTD2','질문 게시판 테스트 2','["240","132","189","051"]','질문 게시판 테스트 내용 입니다 2')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0003','TMTD80','질문 게시판 테스트 3','["256","254","188","074"]','질문 게시판 테스트 내용 입니다 3')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0003','TMTD16','질문 게시판 테스트 3','["256","254","188","074"]','질문 게시판 테스트 내용 입니다 3')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0004','TMTD35','질문 게시판 테스트 4','["256","290","290","068"]','질문 게시판 테스트 내용 입니다 4')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0004','TMTD23','질문 게시판 테스트 4','["256","290","290","068"]','질문 게시판 테스트 내용 입니다 4')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0005','TMTD41','질문 게시판 테스트 5','["107","290","086","057"]','질문 게시판 테스트 내용 입니다 5')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0005','TMTD29','질문 게시판 테스트 5','["107","290","086","057"]','질문 게시판 테스트 내용 입니다 5')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0006','TMTD94','질문 게시판 테스트 6','["061","056","163","171"]','질문 게시판 테스트 내용 입니다 6')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0006','TMTD37','질문 게시판 테스트 6','["061","056","163","171"]','질문 게시판 테스트 내용 입니다 6')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0007','TMTD158','질문 게시판 테스트 7','["278","042","078","164"]','질문 게시판 테스트 내용 입니다 7')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0007','TMTD65','질문 게시판 테스트 7','["278","042","078","164"]','질문 게시판 테스트 내용 입니다 7')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0008','TMTD5','질문 게시판 테스트 8','["093","076","300","141"]','질문 게시판 테스트 내용 입니다 8')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0008','TMTD66','질문 게시판 테스트 8','["093","076","300","141"]','질문 게시판 테스트 내용 입니다 8')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0009','TMTD1','질문 게시판 테스트 9','["198","256","071","078"]','질문 게시판 테스트 내용 입니다 9')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0009','TMTD83','질문 게시판 테스트 9','["198","256","071","078"]','질문 게시판 테스트 내용 입니다 9')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0010','TMTD150','질문 게시판 테스트 10','["216","317","066","215"]','질문 게시판 테스트 내용 입니다 10')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0010','TMTD92','질문 게시판 테스트 10','["216","317","066","215"]','질문 게시판 테스트 내용 입니다 10')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0011','TMTD125','질문 게시판 테스트 11','["081","169","115","034"]','질문 게시판 테스트 내용 입니다 11')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0011','TMTD1','질문 게시판 테스트 11','["081","169","115","034"]','질문 게시판 테스트 내용 입니다 11')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0012','TMTD71','질문 게시판 테스트 12','["051","248","194","299"]','질문 게시판 테스트 내용 입니다 12')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0012','TMTD2','질문 게시판 테스트 12','["051","248","194","299"]','질문 게시판 테스트 내용 입니다 12')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0013','TMTD56','질문 게시판 테스트 13','["175","052","144","251"]','질문 게시판 테스트 내용 입니다 13')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0013','TMTD16','질문 게시판 테스트 13','["175","052","144","251"]','질문 게시판 테스트 내용 입니다 13')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0014','TMTD148','질문 게시판 테스트 14','["225","020","197","170"]','질문 게시판 테스트 내용 입니다 14')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0014','TMTD23','질문 게시판 테스트 14','["225","020","197","170"]','질문 게시판 테스트 내용 입니다 14')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0015','TMTD106','질문 게시판 테스트 15','["190","192","294","103"]','질문 게시판 테스트 내용 입니다 15')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0015','TMTD29','질문 게시판 테스트 15','["190","192","294","103"]','질문 게시판 테스트 내용 입니다 15')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0016','TMTD11','질문 게시판 테스트 16','["069","033","273","129"]','질문 게시판 테스트 내용 입니다 16')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0016','TMTD37','질문 게시판 테스트 16','["069","033","273","129"]','질문 게시판 테스트 내용 입니다 16')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0017','TMTD93','질문 게시판 테스트 17','["088","162","107","132"]','질문 게시판 테스트 내용 입니다 17')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0017','TMTD65','질문 게시판 테스트 17','["088","162","107","132"]','질문 게시판 테스트 내용 입니다 17')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0018','TMTD84','질문 게시판 테스트 18','["100","215","122","123"]','질문 게시판 테스트 내용 입니다 18')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0018','TMTD55','질문 게시판 테스트 18','["100","215","122","123"]','질문 게시판 테스트 내용 입니다 18')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0019','TMTD63','질문 게시판 테스트 19','["199","021","051","295"]','질문 게시판 테스트 내용 입니다 19')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0019','TMTD83','질문 게시판 테스트 19','["199","021","051","295"]','질문 게시판 테스트 내용 입니다 19')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0020','TMTD130','질문 게시판 테스트 20','["123","071","059","266"]','질문 게시판 테스트 내용 입니다 20')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0020','TMTD92','질문 게시판 테스트 20','["123","071","059","266"]','질문 게시판 테스트 내용 입니다 20')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0021','TMTD61','질문 게시판 테스트 21','["206","026","258","152"]','질문 게시판 테스트 내용 입니다 21')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0021','TMTD1','질문 게시판 테스트 21','["206","026","258","152"]','질문 게시판 테스트 내용 입니다 21')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0022','TMTD89','질문 게시판 테스트 22','["160","063","254","296"]','질문 게시판 테스트 내용 입니다 22')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0022','TMTD2','질문 게시판 테스트 22','["160","063","254","296"]','질문 게시판 테스트 내용 입니다 22')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0023','TMTD139','질문 게시판 테스트 23','["009","248","199","010"]','질문 게시판 테스트 내용 입니다 23')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0023','TMTD16','질문 게시판 테스트 23','["009","248","199","010"]','질문 게시판 테스트 내용 입니다 23')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0024','TMTD17','질문 게시판 테스트 24','["123","219","230","246"]','질문 게시판 테스트 내용 입니다 24')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0024','TMTD23','질문 게시판 테스트 24','["123","219","230","246"]','질문 게시판 테스트 내용 입니다 24')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0025','TMTD149','질문 게시판 테스트 25','["154","055","118","275"]','질문 게시판 테스트 내용 입니다 25')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0025','TMTD29','질문 게시판 테스트 25','["154","055","118","275"]','질문 게시판 테스트 내용 입니다 25')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0026','TMTD104','질문 게시판 테스트 26','["044","165","180","243"]','질문 게시판 테스트 내용 입니다 26')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0026','TMTD37','질문 게시판 테스트 26','["044","165","180","243"]','질문 게시판 테스트 내용 입니다 26')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0027','TMTD125','질문 게시판 테스트 27','["294","066","289","105"]','질문 게시판 테스트 내용 입니다 27')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0027','TMTD65','질문 게시판 테스트 27','["294","066","289","105"]','질문 게시판 테스트 내용 입니다 27')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0028','TMTD96','질문 게시판 테스트 28','["021","184","317","279"]','질문 게시판 테스트 내용 입니다 28')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0028','TMTD66','질문 게시판 테스트 28','["021","184","317","279"]','질문 게시판 테스트 내용 입니다 28')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0029','TMTD13','질문 게시판 테스트 29','["030","225","066","020"]','질문 게시판 테스트 내용 입니다 29')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0029','TMTD83','질문 게시판 테스트 29','["030","225","066","020"]','질문 게시판 테스트 내용 입니다 29')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0030','TMTD133','질문 게시판 테스트 30','["258","222","173","137"]','질문 게시판 테스트 내용 입니다 30')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0030','TMTD92','질문 게시판 테스트 30','["258","222","173","137"]','질문 게시판 테스트 내용 입니다 30')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031','TMTD33','질문 게시판 테스트 31','["204","244","186","018"]','질문 게시판 테스트 내용 입니다 31')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031','TMTD1','질문 게시판 테스트 31','["204","244","186","018"]','질문 게시판 테스트 내용 입니다 31')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0032','TMTD91','질문 게시판 테스트 32','["044","156","136","315"]','질문 게시판 테스트 내용 입니다 32')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0032','TMTD2','질문 게시판 테스트 32','["044","156","136","315"]','질문 게시판 테스트 내용 입니다 32')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0033','TMTD166','질문 게시판 테스트 33','["156","158","022","209"]','질문 게시판 테스트 내용 입니다 33')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0033','TMTD16','질문 게시판 테스트 33','["156","158","022","209"]','질문 게시판 테스트 내용 입니다 33')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0034','TMTD90','질문 게시판 테스트 34','["143","108","049","263"]','질문 게시판 테스트 내용 입니다 34')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0034','TMTD23','질문 게시판 테스트 34','["143","108","049","263"]','질문 게시판 테스트 내용 입니다 34')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0035','TMTD127','질문 게시판 테스트 35','["070","020","187","314"]','질문 게시판 테스트 내용 입니다 35')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0035','TMTD29','질문 게시판 테스트 35','["070","020","187","314"]','질문 게시판 테스트 내용 입니다 35')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0036','TMTD111','질문 게시판 테스트 36','["175","182","312","102"]','질문 게시판 테스트 내용 입니다 36')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0036','TMTD37','질문 게시판 테스트 36','["175","182","312","102"]','질문 게시판 테스트 내용 입니다 36')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0037','TMTD88','질문 게시판 테스트 37','["047","187","061","299"]','질문 게시판 테스트 내용 입니다 37')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0037','TMTD65','질문 게시판 테스트 37','["047","187","061","299"]','질문 게시판 테스트 내용 입니다 37')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0038','TMTD170','질문 게시판 테스트 38','["193","283","151","127"]','질문 게시판 테스트 내용 입니다 38')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0038','TMTD66','질문 게시판 테스트 38','["193","283","151","127"]','질문 게시판 테스트 내용 입니다 38')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0039','TMTD28','질문 게시판 테스트 39','["057","022","196","243"]','질문 게시판 테스트 내용 입니다 39')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0039','TMTD83','질문 게시판 테스트 39','["057","022","196","243"]','질문 게시판 테스트 내용 입니다 39')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0040','TMTD79','질문 게시판 테스트 40','["114","245","070","232"]','질문 게시판 테스트 내용 입니다 40')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0040','TMTD92','질문 게시판 테스트 40','["114","245","070","232"]','질문 게시판 테스트 내용 입니다 40')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0041','TMTD119','질문 게시판 테스트 41','["058","261","239","150"]','질문 게시판 테스트 내용 입니다 41')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0041','TMTD1','질문 게시판 테스트 41','["058","261","239","150"]','질문 게시판 테스트 내용 입니다 41')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0042','TMTD133','질문 게시판 테스트 42','["137","191","229","119"]','질문 게시판 테스트 내용 입니다 42')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0042','TMTD2','질문 게시판 테스트 42','["137","191","229","119"]','질문 게시판 테스트 내용 입니다 42')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0043','TMTD61','질문 게시판 테스트 43','["158","293","320","052"]','질문 게시판 테스트 내용 입니다 43')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0043','TMTD16','질문 게시판 테스트 43','["158","293","320","052"]','질문 게시판 테스트 내용 입니다 43')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0044','TMTD167','질문 게시판 테스트 44','["276","145","182","194"]','질문 게시판 테스트 내용 입니다 44')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0044','TMTD23','질문 게시판 테스트 44','["276","145","182","194"]','질문 게시판 테스트 내용 입니다 44')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0045','TMTD68','질문 게시판 테스트 45','["216","003","284","199"]','질문 게시판 테스트 내용 입니다 45')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0045','TMTD29','질문 게시판 테스트 45','["216","003","284","199"]','질문 게시판 테스트 내용 입니다 45')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0046','TMTD114','질문 게시판 테스트 46','["320","317","162","316"]','질문 게시판 테스트 내용 입니다 46')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0046','TMTD37','질문 게시판 테스트 46','["320","317","162","316"]','질문 게시판 테스트 내용 입니다 46')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0047','TMTD146','질문 게시판 테스트 47','["152","063","024","258"]','질문 게시판 테스트 내용 입니다 47')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0047','TMTD65','질문 게시판 테스트 47','["152","063","024","258"]','질문 게시판 테스트 내용 입니다 47')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0048','TMTD47','질문 게시판 테스트 48','["166","217","030","297"]','질문 게시판 테스트 내용 입니다 48')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0048','TMTD66','질문 게시판 테스트 48','["166","217","030","297"]','질문 게시판 테스트 내용 입니다 48')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0049','TMTD135','질문 게시판 테스트 49','["093","153","203","259"]','질문 게시판 테스트 내용 입니다 49')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0049','TMTD83','질문 게시판 테스트 49','["093","153","203","259"]','질문 게시판 테스트 내용 입니다 49')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0050','TMTD163','질문 게시판 테스트 50','["252","037","057","309"]','질문 게시판 테스트 내용 입니다 50')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0050','TMTD92','질문 게시판 테스트 50','["252","037","057","309"]','질문 게시판 테스트 내용 입니다 50')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0051','TMTD62','질문 게시판 테스트 51','["170","034","042","016"]','질문 게시판 테스트 내용 입니다 51')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0051','TMTD1','질문 게시판 테스트 51','["170","034","042","016"]','질문 게시판 테스트 내용 입니다 51')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0052','TMTD70','질문 게시판 테스트 52','["019","123","266","204"]','질문 게시판 테스트 내용 입니다 52')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0052','TMTD2','질문 게시판 테스트 52','["019","123","266","204"]','질문 게시판 테스트 내용 입니다 52')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0053','TMTD116','질문 게시판 테스트 53','["139","134","269","245"]','질문 게시판 테스트 내용 입니다 53')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0053','TMTD16','질문 게시판 테스트 53','["139","134","269","245"]','질문 게시판 테스트 내용 입니다 53')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0054','TMTD53','질문 게시판 테스트 54','["285","054","306","269"]','질문 게시판 테스트 내용 입니다 54')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0054','TMTD23','질문 게시판 테스트 54','["285","054","306","269"]','질문 게시판 테스트 내용 입니다 54')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0055','TMTD5','질문 게시판 테스트 55','["090","079","244","247"]','질문 게시판 테스트 내용 입니다 55')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0055','TMTD29','질문 게시판 테스트 55','["090","079","244","247"]','질문 게시판 테스트 내용 입니다 55')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_CLAS_ID, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_REPLY_COUNT, JIBO_CHAETAEK)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0056','TMTD139','질문 게시판 테스트 56',1000000223,'["128","279","274","209","062","031","107","283","123"]','질문 게시판 테스트 내용 입니다 56',17, 'Y')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0056','TMTD37','질문 게시판 테스트 56',1000000082,'["022","181","032"]','질문 게시판 테스트 내용 입니다 56',17, 'Y')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0057','TMTD13','질문 게시판 테스트 57','["167","193","031","163"]','질문 게시판 테스트 내용 입니다 57', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0057','TMTD65','질문 게시판 테스트 57','["167","193","031","163"]','질문 게시판 테스트 내용 입니다 57', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0058','TMTD31','질문 게시판 테스트 58','["168","032","241","012"]','질문 게시판 테스트 내용 입니다 58', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0058','TMTD66','질문 게시판 테스트 58','["168","032","241","012"]','질문 게시판 테스트 내용 입니다 58', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0059','TMTD125','질문 게시판 테스트 59','["041","307","277","189"]','질문 게시판 테스트 내용 입니다 59', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0059','TMTD83','질문 게시판 테스트 59','["041","307","277","189"]','질문 게시판 테스트 내용 입니다 59', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0060','TMTD13','질문 게시판 테스트 60','["193","033","313","125"]','질문 게시판 테스트 내용 입니다 60', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0060','TMTD92','질문 게시판 테스트 60','["193","033","313","125"]','질문 게시판 테스트 내용 입니다 60', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0061','TMTD141','질문 게시판 테스트 61','["130","266","082","156"]','질문 게시판 테스트 내용 입니다 61', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0061','TMTD1','질문 게시판 테스트 61','["130","266","082","156"]','질문 게시판 테스트 내용 입니다 61', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0062','TMTD31','질문 게시판 테스트 62','["227","274","205","158"]','질문 게시판 테스트 내용 입니다 62', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0062','TMTD2','질문 게시판 테스트 62','["227","274","205","158"]','질문 게시판 테스트 내용 입니다 62', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0063','TMTD125','질문 게시판 테스트 63','["034","233","284","060"]','질문 게시판 테스트 내용 입니다 63', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0063','TMTD16','질문 게시판 테스트 63','["034","233","284","060"]','질문 게시판 테스트 내용 입니다 63', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0064','TMTD13','질문 게시판 테스트 64','["210","260","291","093"]','질문 게시판 테스트 내용 입니다 64', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0064','TMTD23','질문 게시판 테스트 64','["210","260","291","093"]','질문 게시판 테스트 내용 입니다 64', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0065','TMTD141','질문 게시판 테스트 65','["196","172","131","213"]','질문 게시판 테스트 내용 입니다 65', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0065','TMTD29','질문 게시판 테스트 65','["196","172","131","213"]','질문 게시판 테스트 내용 입니다 65', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0066','TMTD31','질문 게시판 테스트 66','["295","319","163","195"]','질문 게시판 테스트 내용 입니다 66', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0066','TMTD37','질문 게시판 테스트 66','["295","319","163","195"]','질문 게시판 테스트 내용 입니다 66', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0067','TMTD125','질문 게시판 테스트 67','["246","168","105","078"]','질문 게시판 테스트 내용 입니다 67', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0067','TMTD65','질문 게시판 테스트 67','["246","168","105","078"]','질문 게시판 테스트 내용 입니다 67', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0068','TMTD13','질문 게시판 테스트 68','["003","067","180","219"]','질문 게시판 테스트 내용 입니다 68', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0068','TMTD66','질문 게시판 테스트 68','["003","067","180","219"]','질문 게시판 테스트 내용 입니다 68', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0069','TMTD141','질문 게시판 테스트 69','["267","019","018","002"]','질문 게시판 테스트 내용 입니다 69', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0069','TMTD83','질문 게시판 테스트 69','["267","019","018","002"]','질문 게시판 테스트 내용 입니다 69', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0070','TMTD31','질문 게시판 테스트 70','["209","200","254","296"]','질문 게시판 테스트 내용 입니다 70', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0070','TMTD92','질문 게시판 테스트 70','["209","200","254","296"]','질문 게시판 테스트 내용 입니다 70', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0071','TMTD125','질문 게시판 테스트 71','["011","141","265","290"]','질문 게시판 테스트 내용 입니다 71', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0071','TMTD1','질문 게시판 테스트 71','["011","141","265","290"]','질문 게시판 테스트 내용 입니다 71', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0072','TMTD13','질문 게시판 테스트 72','["133","010","217","177"]','질문 게시판 테스트 내용 입니다 72', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0072','TMTD2','질문 게시판 테스트 72','["133","010","217","177"]','질문 게시판 테스트 내용 입니다 72', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0073','TMTD83','질문 게시판 테스트 73','["085","147","016","206"]','질문 게시판 테스트 내용 입니다 73', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0073','TMTD16','질문 게시판 테스트 73','["085","147","016","206"]','질문 게시판 테스트 내용 입니다 73', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0074','TMTD141','질문 게시판 테스트 74','["270","237","073","089"]','질문 게시판 테스트 내용 입니다 74', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0074','TMTD23','질문 게시판 테스트 74','["270","237","073","089"]','질문 게시판 테스트 내용 입니다 74', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0075','TMTD31','질문 게시판 테스트 75','["263","067","072","277"]','질문 게시판 테스트 내용 입니다 75', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0075','TMTD29','질문 게시판 테스트 75','["263","067","072","277"]','질문 게시판 테스트 내용 입니다 75', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0076','TMTD125','질문 게시판 테스트 76','["009","295","102","273"]','질문 게시판 테스트 내용 입니다 76', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0076','TMTD37','질문 게시판 테스트 76','["009","295","102","273"]','질문 게시판 테스트 내용 입니다 76', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_SUBJECT_CODE, JIBO_CONTENT, JIBO_STATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0077','TMTD13','질문 게시판 테스트 77','["071","027","125","200"]','질문 게시판 테스트 내용 입니다 77', 'D')
+	VALUES('JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0077','TMTD65','질문 게시판 테스트 77','["071","027","125","200"]','질문 게시판 테스트 내용 입니다 77', 'D')
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_CLAS_ID, JIBO_SUBJECT_CODE, JIBO_CONTENT,JIBO_REGDATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0001','TMTD13','질문 게시판 테스트 78 검색',1000000073,'["028","072","236","145","174","218","040","061","310"]','질문 게시판 테스트 내용 입니다 77',CURRENT_DATE-1)
+	VALUES('JI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0001','TMTD66','질문 게시판 테스트 78 검색',1000000085,'["045","311","109"]','질문 게시판 테스트 내용 입니다 77',CURRENT_DATE-1)
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_CLAS_ID, JIBO_SUBJECT_CODE, JIBO_CONTENT,JIBO_REGDATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0001','TMTD13','질문 게시판 테스트 79 검색',1000000074,'["145","174","218"]','질문 게시판 테스트 내용 입니다 77',CURRENT_DATE-2)
+	VALUES('JI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0001','TMTD83','질문 게시판 테스트 79 검색',1000000082,'["022","181","032"]','질문 게시판 테스트 내용 입니다 77',CURRENT_DATE-2)
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_CLAS_ID, JIBO_SUBJECT_CODE, JIBO_CONTENT,JIBO_REGDATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0002','TMTD13','질문 게시판 테스트 80',1000000313,'["058","185","315"]','질문 게시판 테스트 내용 입니다 77 검색',CURRENT_DATE-2)
+	VALUES('JI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0002','TMTD92','질문 게시판 테스트 80',1000000382,'["022","181","032"]','질문 게시판 테스트 내용 입니다 77 검색',CURRENT_DATE-2)
 	INTO JILMUN_BOARD
 	(JIBO_ID, JIBO_WRITER_ID, JIBO_TITLE, JIBO_CLAS_ID, JIBO_SUBJECT_CODE, JIBO_CONTENT,JIBO_REGDATE)
-	VALUES('JI'||TO_CHAR(CURRENT_DATE-3,'yyyymmdd')||'0001','TMTD13','질문 게시판 테스트 81',1000000333,'["034","286","317"]','질문 게시판 테스트 내용 입니다 77 검색',CURRENT_DATE-3)
+	VALUES('JI'||TO_CHAR(CURRENT_DATE-3,'yyyymmdd')||'0001','TMTD1','질문 게시판 테스트 81',1000000076,'["056","098","066","269","012","220", "274","001","042"]','질문 게시판 테스트 내용 입니다 77 검색',CURRENT_DATE-3)
 SELECT * FROM DUAL;
-
 -- 자유게시판 더미 데이터
 INSERT ALL
 	INTO JAYU_BOARD
