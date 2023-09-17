@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tdtd.tmtd.model.service.ElasticsearchService;
+import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IInstrService;
+import com.tdtd.tmtd.vo.CareerVo;
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
@@ -44,10 +48,15 @@ public class InstrController {
 	@Autowired
 	private IInstrService service;
 	
+	@Autowired
+	private ICareerService careerService;
+	
 	//강사 게시판 페이지 이동
 	@GetMapping("/instrList.do")
-	public String instrList(Model model) {
+	public String instrList(Model model, @RequestParam(value="start", defaultValue = "1") int start, 
+							@RequestParam(value="end", defaultValue = "12") int end) {
 		log.info("InstrController instrList 이동");
+		
 		
 		List<InstrVo> lists = service.getAllInstr("like");
 		
@@ -123,6 +132,7 @@ public class InstrController {
 		List<Map<String, Object>> resultList = searchService.search(formData, "instr_profile", 8);
 		 
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String accountId = userInfo != null ? userInfo.getUserAccountId() : null;
 		
 		for (Map<String,Object> result : resultList) {
 			log.info("%%%%%%%%%%%%%%%%%%%%%% result : {}", result);
@@ -136,7 +146,7 @@ public class InstrController {
 		            }
 
 		        // login_info 필드 추가
-		        result.put("login_info", userInfo);
+		        result.put("login_info", accountId);
 		    }
 		}
 		
@@ -169,6 +179,34 @@ public class InstrController {
 		log.info("InstrController /instrDetail.do 실행 받아온 강사 아이디 : {} 로그인한 아이디 : {}", map.get("inprAccountId"), map.get("loginId"));
 		InstrVo simpleVo = service.getOneInstrSimple(map);
 		InstrVo profileVo = service.getOneInstrProfile((String)map.get("seq"));
+		String userAccountId = simpleVo.getInprAccountId();
+//		List<CareerVo> careerVo = careerService.getOneInstrCareer(userAccountId);
+		Map<String, Object> classMap = new HashMap<String, Object>();
+		classMap.put("userAccountId", userAccountId);
+		classMap.put("start", 1);
+		classMap.put("end", 5);
+		
+		List<InstrVo> classVo = service.getOneInstrClass(classMap);
+		int cancelCount = service.getCountClassCancel(userAccountId);
+		
+		double successRate = (double)classVo.size() / (classVo.size() + cancelCount) * 100;
+		String formattedSuccessRate = String.format("%.2f", successRate);
+		
+		int allClass = classVo.size() + cancelCount;
+		
+		for (InstrVo history : classVo) {
+			String subjCode = history.getSubjectVo().get(0).getSubjCode();
+			subjCode = subjCode.replace("[", "").replace("]", "").replace("\"", "");
+			history.getSubjectVo().get(0).setSubjCode(subjCode);
+		}
+		
+		Map<String, Object> reviewMap = new HashMap<String, Object>();
+		reviewMap.put("userAccountId", userAccountId);
+		reviewMap.put("order", "desc");
+		reviewMap.put("start", 1);
+		reviewMap.put("end", 5);
+		
+		List<ClassVo> instrReviewVo = service.getOneIntrReview(reviewMap);
 		
 		String subjectsMajorTitle = profileVo.getSubjectsMajorTitle();
 		String subjectsTitle = simpleVo.getSubjectsTitle();
@@ -184,8 +222,58 @@ public class InstrController {
 		model.addAttribute("pageTitle", nickname+"님의 프로필");
 		model.addAttribute("simpleVo", simpleVo);
 		model.addAttribute("profileVo", profileVo);
+//		model.addAttribute("careerVo", careerVo);
+		model.addAttribute("classVo", classVo);
+		model.addAttribute("instrReviewVo", instrReviewVo);
+		model.addAttribute("allClass", allClass);
+		model.addAttribute("successRate", formattedSuccessRate);
 		
 		return "instrDetail";
+	}
+	
+	@GetMapping("/instrCareerDetail.do")
+	@ResponseBody
+	public List<CareerVo> instrCareer(@RequestParam String userAccountId) {
+		log.info("instrCareer.do 실행 받아온 강사 아이디: {}", userAccountId);
+		List<CareerVo> careerVo = careerService.getOneInstrCareer(userAccountId);
+		return careerVo;
+	}
+	
+	@GetMapping("/instrClassDetail.do")
+	@ResponseBody
+	public Map<String, Object> instrClass(@RequestParam Map<String, Object> map){
+		log.info("instrClassDetail.do 받아온 map : {}",map);
+		List<InstrVo> classVo = service.getOneInstrClass(map);
+		
+		if (classVo == null) {
+	        classVo = new ArrayList<>(); // 빈 리스트 생성
+	    }
+		
+		 Map<String, Object> response = new HashMap<>();
+		    
+		    response.put("historyVo", classVo);
+		    response.put("hasMore", !classVo.isEmpty()); 
+		
+		return response;
+	}
+	
+	@GetMapping("/instrReviewDetail.do")
+	@ResponseBody
+	public Map<String, Object> instrReview(@RequestParam Map<String, Object> map){
+		log.info("instrReviewDetail.do 받아온 map : {}",map);
+		
+		List<ClassVo> instrReviewVo = service.getOneIntrReview(map);
+		
+		if (instrReviewVo == null) {
+	        instrReviewVo = new ArrayList<>(); // 빈 리스트 생성
+	    }
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		response.put("instrReviewVo", instrReviewVo);
+	    response.put("hasMore", !instrReviewVo.isEmpty());
+	    
+		return response;
 	}
 	
 }

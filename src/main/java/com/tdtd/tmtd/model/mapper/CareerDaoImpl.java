@@ -78,8 +78,8 @@ public class CareerDaoImpl implements ICareerDao {
 	}
 
 	@Override
-	public CareerVo getOneInstrCareer(String userAccountId) {
-		return sqlSession.selectOne(NS+"getOneInstrCareer", userAccountId);
+	public List<CareerVo> getOneInstrCareer(String userAccountId) {
+		return sqlSession.selectList(NS+"getOneInstrCareer", userAccountId);
 	}
 
 }
