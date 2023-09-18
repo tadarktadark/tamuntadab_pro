@@ -34,11 +34,21 @@
 					                                               data-bs-toggle="dropdown" aria-expanded="false">
 					                                                <i class="bx bx-dots-vertical-rounded text-white fs-18"></i>
 					                                            </a>
-					
 					                                            <ul class="dropdown-menu dropdown-menu-end">
-					                                                <li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
-					                                                <li>
-					                                                    <a class="dropdown-item" href="#">회원 탈퇴</a>
+						                                                <%
+						                                                	if(userInfo.getUserSite().equals("T")){
+						                                                		%>
+						                                                		 <li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+						                                           			     <li>
+							                                                    <a class="dropdown-item" href="#">회원 탈퇴</a>
+						                                                		<%
+						                                                	}else{
+						                                                		%>
+																				<li>
+						                                                		<a class="dropdown-item" href="#">연동 해제</a>
+						                                                		<%
+						                                                	}
+						                                                %>
 					                                                </li>
 					                                            </ul>
 					                                        </div>
@@ -57,15 +67,16 @@
 												<div class="mt-3">
 													<h5 class="mb-2"><b><%=userInfo.getUserName()%></b></h5>
 													<div class="mt-4">
-														<a href=""
-															class="btn btn-primary waves-effect waves-light btn-sm"><i
-															class="ri-camera-line me-1 align-middle"></i><b>프로필 변경</b></a>
+													<label for="updateprofile">
+													  <span class="btn btn-primary waves-effect waves-light btn-sm">
+													    <i class="ri-camera-line me-1 align-middle"></i><b>프로필 변경</b>
+													  </span>
+													  <input type="file" hidden="" id="updateprofile">
+													</label>
 													</div>
 												</div>
-
 											</div>
 										</div>
-
 										<div class="p-3 mt-3">
 											<div class="row text-center">
 												<div class="col-6 border-end">
@@ -81,14 +92,11 @@
 													</div>
 												</div>
 											</div>
-
-
 										</div>
 									</div>
 									<!-- end card body -->
 								</div>
 								<!-- end card -->
-
 								<div class="card">
 									<div class="card-header">
 										<h5 class="card-title mb-0">여기는 뭐 넣을까여?</h5>
@@ -195,7 +203,7 @@
 									role="tablist">
 									<li class="nav-item"><a class="nav-link px-3 active"
 										data-bs-toggle="tab" href="#class" role="tab"
-										aria-selected="true"> <i class="bx bx-user-circle fs-20"></i>
+										aria-selected="true"> <i class="bi bi-book fs-20"></i>
 											<span class="d-none d-sm-block">클래스</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
@@ -204,53 +212,51 @@
 											<span class="d-none d-sm-block">내 정보 수정</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
-										data-bs-toggle="tab" href="#task" role="tab"
+										data-bs-toggle="tab" href="#payment" role="tab"
 										aria-selected="false"> <i class="bx bx-clipboard fs-20"></i>
-											<span class="d-none d-sm-block">Tasks</span>
+											<span class="d-none d-sm-block">결제 내역</span>
+									</a></li>
+									
+									<li class="nav-item"><a class="nav-link px-3"
+										data-bs-toggle="tab" href="#scheduel" role="tab"
+										aria-selected="false"> <i class="ri ri-calendar-line fs-20"></i>
+											<span class="d-none d-sm-block">일정</span>
+									</a></li>
+										<li class="nav-item"><a class="nav-link px-3"
+										data-bs-toggle="tab" href="#boardlist" role="tab"
+										aria-selected="false"> <i class="ri ri-file-list-line fs-20"></i>
+											<span class="d-none d-sm-block">내 글 목록</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
-										data-bs-toggle="tab" href="#massages" role="tab"
-										aria-selected="false"> <i class="bx bx-mail-send fs-20"></i>
-											<span class="d-none d-sm-block">Messages</span>
+										data-bs-toggle="tab" href="#likelist" role="tab"
+										aria-selected="false"> <i class="ri ri-heart-add-line fs-20"></i>
+											<span class="d-none d-sm-block">내 좋아요 목록</span>
 									</a></li>
+									<% if(userInfo.getUserAuth().equals("I")){
+										%>
+										<li class="nav-item">
+											<a class="nav-link px-3" data-bs-toggle="tab" href="#instrInfo" role="tab" aria-selected="false"> 
+												<i class="ph ph-chalkboard-teacher-bold fs-20"></i>
+											<span class="d-none d-sm-block">강사 정보</span>
+											</a>
+										</li>
+										<%
+									}
+									%>
 								</ul>
-
+								<!-- 클래스 구간 -->
 								<div class="tab-content">
 									<div class="tab-pane active" id="class" role="tabpanel">
 										<div class="p-4">
 											<div>
-												<div class="pb-3">
-														<div class=" pt-3 px-3">
-														    <div class="input-group w-50">
-													    		<span class="input-group-text"><b>이 메 일</b></span>
-															    <input type="text" class="form-control" value="<%=userInfo.getUserEmail()%>" readonly="readonly" aria-describedby="basic-addon1">
-															</div>
-														</div>
-												</div>
-												
-												<div class="pb-3">
-														<div class=" pt-1 px-3">
-														    <div class="input-group w-50">
-															    <label for="nickname" class="form-label input-group-text"><span><b>닉 네 임</b></span></label>
-															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserNickname()%>" aria-describedby="basic-addon1">
-															    <button class="btn btn-primary">변경하기</button>
-															</div>
-														</div>
-												</div>
-												<div class="pb-3">
-														<div class=" pt-1 px-3">
-														    <div class="input-group w-50">
-															    <label for="nickname" class="form-label input-group-text"><span><b>생 일</b></span></label>
-															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserBirth()%>" aria-describedby="basic-addon1">
-															    <button class="btn btn-primary">변경하기</button>
-															</div>
-														</div>
-												</div>
+												클래스 구간
 											</div>
 											<!-- end card body -->
 										</div>
 										<!-- end card -->
-									</div>
+									</div><!-- 클래스 끝나는 구간 -->
+									
+									<!-- 내 정보 수정 구간 -->
 									<div class="tab-pane" id="info" role="tabpanel">
 										<div class="p-4">
 											<div>
@@ -286,392 +292,56 @@
 										</div>
 										<!-- end card -->
 									</div>
-									<!-- end tab pane -->
-									<div class="tab-pane" id="task" role="tabpanel">
+									<!-- 내정보 끝 -->
+									<!-- 결제 내역 -->
+									<div class="tab-pane" id="payment" role="tabpanel">
 										<div class="p-4">
-											<div>
-												<h5 class="fs-16 mb-3">Active</h5>
-												<div class="table-responsive">
-													<table class="table table-nowrap table-centered">
-														<tbody>
-															<tr>
-																<td style="width: 60px;">
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-activeCheck2"> <label
-																			class="form-check-label" for="tasks-activeCheck2"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Ecommerce
-																		Product Detail</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		3
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Product Design</p>
-																</td>
-
-																<td>27 May, 2021</td>
-																<td style="width: 160px;"><span
-																	class="badge bg-primary-subtle text-primary  fs-12">Active</span></td>
-
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-activeCheck1"> <label
-																			class="form-check-label" for="tasks-activeCheck1"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Ecommerce
-																		Product</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		7
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Web Development</p>
-																</td>
-
-																<td>26 May, 2021</td>
-																<td><span
-																	class="badge bg-primary-subtle text-primary  fs-12">Active</span></td>
-
-															</tr>
-														</tbody>
-													</table>
-												</div>
-
-												<h5 class="fs-16 my-3">Upcoming</h5>
-
-												<div class="table-responsive">
-													<table class="table table-nowrap table-centered">
-														<tbody>
-															<tr>
-																<td style="width: 60px;">
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-upcomingCheck3"> <label
-																			class="form-check-label" for="tasks-upcomingCheck3"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Chat
-																		app Page</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		2
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Web Development</p>
-																</td>
-
-																<td>-</td>
-																<td style="width: 160px;"><span
-																	class="badge bg-secondary-subtle text-secondary  fs-12">Waiting</span></td>
-
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-upcomingCheck2"> <label
-																			class="form-check-label" for="tasks-upcomingCheck2"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Email
-																		Pages</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		1
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Illustration</p>
-																</td>
-
-																<td>04 June, 2021</td>
-																<td><span
-																	class="badge bg-primary-subtle text-primary  fs-12">Approved</span></td>
-
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-upcomingCheck1"> <label
-																			class="form-check-label" for="tasks-upcomingCheck1"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Contacts
-																		Profile Page</a></td>
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		6
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Product Design</p>
-																</td>
-
-																<td>-</td>
-																<td><span
-																	class="badge bg-secondary-subtle text-secondary  fs-12">Waiting</span></td>
-
-															</tr>
-														</tbody>
-													</table>
-												</div>
-
-												<h5 class="fs-16 my-3">Complete</h5>
-
-												<div class="table-responsive">
-													<table class="table table-nowrap table-centered">
-														<tbody>
-															<tr>
-																<td style="width: 60px;">
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-completeCheck3"> <label
-																			class="form-check-label" for="tasks-completeCheck3"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">UI
-																		Elements</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		6
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Product Design</p>
-																</td>
-
-																<td>27 May, 2021</td>
-																<td style="width: 160px;"><span
-																	class="badge bg-success-subtle text-success  fs-12">Complete</span></td>
-
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-completeCheck2"> <label
-																			class="form-check-label" for="tasks-completeCheck2"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Authentication
-																		Pages</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		2
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Illustration</p>
-																</td>
-
-																<td>27 May, 2021</td>
-																<td><span
-																	class="badge bg-success-subtle text-success  fs-12">Complete</span></td>
-
-															</tr>
-															<tr>
-																<td>
-																	<div class="form-check fs-16 text-center">
-																		<input type="checkbox" class="form-check-input"
-																			id="tasks-completeCheck1"> <label
-																			class="form-check-label" for="tasks-completeCheck1"></label>
-																	</div>
-																</td>
-																<td><a href="#" class="fw-medium text-body">Admin
-																		Layout</a></td>
-
-																<td>
-																	<p class="ml-4 text-muted mb-0">
-																		<i
-																			class="mdi mdi-comment-outline align-middle text-muted fs-16 me-1"></i>
-																		3
-																	</p>
-																</td>
-																<td>
-																	<p class="ml-4 mb-0">Product Design</p>
-																</td>
-
-																<td>26 May, 2021</td>
-																<td><span
-																	class="badge bg-success-subtle text-success  fs-12">Complete</span></td>
-
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
+											결제 구간 입니다.
 										</div>
 										<!-- end card -->
 									</div>
-									<!-- end tab pane -->
-
-									<div class="tab-pane" id="massages" role="tabpanel">
+									<!-- 결제 끝 -->
+									<!-- 일정 -->
+									<div class="tab-pane" id="scheduel" role="tabpanel">
 										<div class="p-4">
-											<h5 class="fs-16 mb-4">Review</h5>
-											<div class="mx-n4 px-3" data-simplebar
-												style="max-height: 380px;">
-												<div class="d-flex align-items-start border-bottom pb-4">
-													<div class="flex-shrink-0 me-3">
-														<img class="rounded-circle avatar-sm"
-															src="~/assets/images/users/avatar-3.jpg"
-															alt="avatar-3 images">
-													</div>
-
-													<div class="flex-grow-1">
-														<h5 class="fs-15 mb-1">
-															Marion Walker <small class="text-muted float-end">1
-																hr ago</small>
-														</h5>
-														<p class="text-muted">Maecenas non vestibulum ante,
-															nec efficitur orci. Duis eu ornare mi, quis bibendum
-															quam. Etiam imperdiet aliquam purus sit amet rhoncus.
-															Vestibulum pretium consectetur leo, in mattis ipsum
-															sollicitudin eget. Pellentesque vel mi tortor. Nullam
-															vitae maximus dui dolor sit amet, consectetur adipiscing
-															elit.</p>
-
-														<a href="javascript: void(0);"
-															class="text-muted font-13 d-inline-block"><i
-															class="mdi mdi-reply"></i> Reply</a>
-
-														<div class="d-flex align-items-start mt-4">
-															<div class="flex-shrink-0 me-3">
-																<img class="rounded-circle avatar-sm"
-																	src="~/assets/images/users/avatar-4.jpg"
-																	alt="avatar-4 images">
-															</div>
-
-															<div class="flex-grow-1">
-																<h5 class="fs-15 mb-1">
-																	Shanon Marvin <small class="text-muted float-end">1
-																		hr ago</small>
-																</h5>
-																<p class="text-muted">It will be as simple as in
-																	fact, it will be Occidental. To it will seem like
-																	simplified .</p>
-																<a href="javascript: void(0);"
-																	class="text-muted font-13 d-inline-block"> <i
-																	class="mdi mdi-reply"></i> Reply
-																</a>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="d-flex align-items-start border-bottom py-4">
-													<div class="flex-shrink-0 me-3">
-														<img class="rounded-circle avatar-sm"
-															src="~/assets/images/users/avatar-5.jpg"
-															alt="avatar-5 images">
-													</div>
-													<div class="flex-grow-1">
-														<h5 class="fs-15 mb-1">
-															Janice Morgan <small class="text-muted float-end">2
-																hrs ago</small>
-														</h5>
-														<p class="text-muted">Cras ac condimentum velit.
-															Quisque vitae elit auctor quam egestas congue. Duis eget
-															lorem fringilla, ultrices justo consequat, gravida lorem.
-															Maecenas orci enim, sodales id condimentum et, nisl arcu
-															aliquam velit, sit amet vehicula turpis metus cursus
-															dolor cursus eget dui.</p>
-														<a href="javascript: void(0);"
-															class="text-muted font-13 d-inline-block"><i
-															class="mdi mdi-reply"></i> Reply</a>
-													</div>
-												</div>
-												<div class="d-flex align-items-start border-bottom py-4">
-													<div class="flex-shrink-0 me-3">
-														<img class="rounded-circle avatar-sm"
-															src="~/assets/images/users/avatar-7.jpg"
-															alt="avatar-7 images">
-													</div>
-													<div class="flex-grow-1">
-														<h5 class="fs-15 mb-1">
-															Patrick Petty <small class="text-muted float-end">3
-																hrs ago</small>
-														</h5>
-														<p class="text-muted">Aliquam sit amet eros eleifend,
-															tristique ante sit amet, eleifend arcu. Cras ut diam
-															quam. Fusce quis diam eu augue semper ullamcorper vitae
-															sed massa. Mauris lacinia, massa a feugiat mattis, leo
-															massa porta eros, sed congue arcu sem nec orci. In ac
-															consectetur augue. Nullam pulvinar risus non augue
-															tincidunt blandit.</p>
-														<a href="javascript: void(0);"
-															class="text-muted font-13 d-inline-block"><i
-															class="mdi mdi-reply"></i> Reply</a>
-													</div>
-												</div>
-											</div>
-											<div class="border rounded mt-4">
-												<form action="#">
-													<div class="px-2 py-1 bg-light">
-
-														<div class="btn-group" role="group">
-															<button type="button"
-																class="btn btn-sm btn-link text-body text-decoration-none">
-																<i class="bx bx-link fs-15"></i>
-															</button>
-															<button type="button"
-																class="btn btn-sm btn-link text-body text-decoration-none">
-																<i class="bx bx-smile fs-15"></i>
-															</button>
-															<button type="button"
-																class="btn btn-sm btn-link text-body text-decoration-none">
-																<i class="bx bx-at fs-15"></i>
-															</button>
-														</div>
-
-													</div>
-													<textarea rows="3"
-														class="form-control border-0 resize-none"
-														placeholder="Your Message..."></textarea>
-												</form>
-											</div>
-											<!-- end .border-->
-											<div class="text-end mt-3">
-												<button type="button"
-													class="btn btn-success w-sm text-truncate ms-2">
-													Send <i class="bx bx-send ms-2 align-middle"></i>
-												</button>
-											</div>
-
+											일정 구간 입니다.
 										</div>
 										<!-- end card -->
 									</div>
-									<!-- end tab pane -->
+									<!-- 일정 끝 -->		
+									
+									<!-- 내 글 목록 -->
+									<div class="tab-pane" id="boardlist" role="tabpanel">
+										<div class="p-4">
+											내 글 목록 구간 입니다.
+										</div>
+										<!-- end card -->
+									</div>
+									<!-- 내글 목록 끝 -->
+									
+									<!-- 내 좋아요 목록 -->
+									<div class="tab-pane" id="likelist" role="tabpanel">
+										<div class="p-4">
+											내 좋아요 구간 입니다.
+										</div>
+										<!-- end card -->
+									</div>
+									<!-- 내 좋아요 끝 -->
+									<%
+										if(userInfo.getUserAuth().equals("I")){
+											%>
+												<!-- 강사 정보 목록 -->
+												<div class="tab-pane" id="instrInfo" role="tabpanel">
+													<div class="p-4">
+														강사 정보 구간 입니다.
+													</div>
+													<!-- end card -->
+												</div>
+												<!-- 강사 정보 끝 -->
+											<%
+										}
+									%>
+							
 								</div>
 								<!-- end tab content -->
 							</div>
@@ -683,5 +353,6 @@
 		</div>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
+	<script type="text/javascript" src="./js/myPage.js"></script>
 </body>
 </html>
