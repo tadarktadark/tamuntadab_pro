@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.LikeViewUtils;
 import com.tdtd.tmtd.comm.PagingUtils;
+import com.tdtd.tmtd.model.service.IFileService;
 import com.tdtd.tmtd.model.service.IJayuService;
 import com.tdtd.tmtd.model.service.IJilmunService;
 import com.tdtd.tmtd.model.service.IPilgiService;
@@ -49,7 +52,7 @@ public class CommunityController {
 	
 	@Autowired
 	private IJayuService jyService;
-	
+		
 	@RequestMapping(value="/community.do", method=RequestMethod.GET)
 	public String community(Model model, HttpSession session, String board) {
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : board {}", board);
@@ -210,7 +213,7 @@ public class CommunityController {
 	@RequestMapping(value="/commynityWriteForm.do", method=RequestMethod.GET)
 	public String commynityWriteForm(Model model, HttpSession session, String id) {
 		String board = (String)session.getAttribute("community");
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 새 글 작성 Form 이동 : board {}, boardId {}", board, id);
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 새 글 작성 Form 이동 : board {}, clasId {}", board, id);
 		model.addAttribute("title","커뮤니티");
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
@@ -272,10 +275,9 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/commynityWrite.do", method=RequestMethod.POST)
-	@ResponseBody
-	public String commynityWrite(Model model, HttpSession session, BoardVo bVo) {
+	public String commynityWrite(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam("file") MultipartFile[] files) throws IOException {
 		String board = (String)session.getAttribute("community");
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 작성 : board{} boardVo {}", board, bVo);
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 작성 : board{} boardVo {} file {}", board, bVo, files);
 		
 		model.addAttribute("title","커뮤니티");
 		
@@ -283,17 +285,17 @@ public class CommunityController {
 		if(userInfo == null) {
 			userInfo = new UserProfileVo();
 			userInfo.setUserAccountId("TMTD0");
-		} else {
-			bVo.setAccountId(userInfo.getUserAccountId());
-		}
+		} 
 		
+		bVo.setAccountId(userInfo.getUserAccountId());
+		System.out.println(bVo.getAccountId());
 		if(board.equals("pilgi")) {
 			model.addAttribute("pageTitle", "필기");
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("state", "Y");
 			map.put("accountId", userInfo.getUserAccountId());
 			map.put("clasId", bVo.getClasId());
-			pService.insertPilgi(bVo, map);
+			pService.insertPilgi(bVo, map, files, request);
 		} else if(board.equals("jilmun")) {
 			model.addAttribute("pageTitle", "질문");
 			if(bVo.getClasId().equals("none")) {
@@ -304,8 +306,8 @@ public class CommunityController {
 			model.addAttribute("pageTitle", "자유");
 			jyService.insertJayu(bVo);
 		}
-		
-		return bVo.getId();
+				
+		return "redirect:/communityDetails.do?id="+bVo.getId();
 	}
 		
 	@RequestMapping(value="/commynityUploadImage.do", method = RequestMethod.POST)
@@ -385,5 +387,11 @@ public class CommunityController {
 		} catch (FileNotFoundException e) {
 			log.error("!!!!!!!!!!!!!!!! removeImage Error : \n"+e.getMessage());
 		}
+	}
+	
+	@RequestMapping(value="./commynityDownload.do", method = RequestMethod.POST)
+	public void commynityDownload(HttpServletResponse resp, HttpServletRequest req) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 다운로드 : path {}");		
+		
 	}
 }

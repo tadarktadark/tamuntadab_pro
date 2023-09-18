@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.PilgiDaoImpl">
 
+	<resultMap type="boardVo" id="boardMap">
+		<result column="ID" property="id"/>
+		<result column="ACCOUNT_ID" property="accountId"/>
+		<result column="TITLE" property="title"/>
+		<result column="CONTENT" property="content"/>
+		<result column="REPLY_COUNT" property="replyCount"/>
+		<result column="SUBJECT_CODE" property="subjectCode"/>
+		<result column="LIKE_USER" property="likeUser"/>
+		<result column="LIKE_COUNT" property="likeCount"/>
+		<result column="VIEW_COUNT" property="viewCount"/>
+		<result column="DOWNLOAD_GROUP" property="downloadGroup"/>
+		<result column="REGDATE" property="regdate"/>
+		<result column="UPDATE" property="update"/>
+		<result column="STATE" property="state"/>
+		
+		<collection property="fileList" resultMap="fileMap"></collection>
+	</resultMap>
+	<resultMap type="fileVo" id="fileMap">
+		<result column="FILE_ORIGIN_NAME" property="fileOriginName"/>
+		<result column="FILE_SAVE_NAME" property="fileSaveName"/>
+	</resultMap>
+
 	<!-- 필기 조회가능한 게시글 개수 -->
 	<select id="getPilgiCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
@@ -82,7 +104,7 @@
 	</select>
 	
 	<!-- 필기 상세 조회 -->
-	<select id="getPilgiDetail" resultType="boardVo">
+	<select id="getPilgiDetail" resultMap="boardMap">
 		SELECT PIBO_ID AS ID, USER_NICKNAME AS ACCOUNT_ID , CLAS_TITLE || ' [' || PIBO_REPLY_COUNT || ']' AS TITLE, 
 				PIBO_CONTENT AS CONTENT, PIBO_REPLY_COUNT AS REPLY_COUNT, c2.CLAS_SUBJECT_JEONGBO AS SUBJECT_CODE, 
 				CASE NVL(JSON_VALUE(PILGI_BOARD.PIBO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER, 
@@ -97,7 +119,8 @@
 					THEN '0' ELSE '1' END AS DOWNLOAD_GROUP,
 				CASE TO_CHAR(PIBO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_REGDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
 				CASE TO_CHAR(PIBO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(PIBO_UPDATE, 'HH24:MI')ELSE TO_CHAR(PIBO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE",
-				PIBO_STATE AS STATE
+				PIBO_STATE AS STATE,
+				FILE_ORIGIN_NAME, FILE_SAVE_NAME
 			FROM PILGI_BOARD JOIN USER_PROFILE 
 			ON PIBO_WRITER_ID = USER_ACCOUNT_ID 
 			JOIN CLASS c1
@@ -113,6 +136,8 @@
 								     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
 					FROM CLASS) c2
 			ON PIBO_CLAS_ID = c2.CLAS_ID
+			LEFT JOIN "FILE"
+			ON PIBO_ID = FILE_REF_PK
 			WHERE PIBO_ID=#{id}
 	</select>
 	

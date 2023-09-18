@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.vo;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,8 @@ public class BoardVo {
 	private String regdate;
 	private String update;
 	private String state;
+	
+	private List<FileVo> fileList;
 	
 	public BoardVo(String accountId, String clasId, String content, String viewGroup, String downloadGroup) {
 		this.accountId = accountId;

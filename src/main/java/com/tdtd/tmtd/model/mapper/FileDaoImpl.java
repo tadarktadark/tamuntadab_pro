@@ -14,7 +14,7 @@ public class FileDaoImpl implements IFileDao {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	private final String NS = "com.tdtd.tmtd.vo.FileVo.FileDaoImpl."; 
+	private final String NS = "com.tdtd.tmtd.model.mapper.FileDaoImpl."; 
 
 	@Override
 	public int insertFile(Map<String, Object> map) {

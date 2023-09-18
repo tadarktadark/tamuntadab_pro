@@ -3,7 +3,7 @@
 <mapper namespace="com.tdtd.tmtd.model.mapper.FileDaoImpl">
 
 <insert id="insertFile">
-	INSERT INTO FILE
+	INSERT INTO "FILE"
 	(FILE_REF_PK, FILE_ORIGIN_NAME, FILE_SAVE_NAME, FILE_REGDATE)
 	VALUES(#{fileRefPk}, #{fileOriginName}, #{fileSaveName}, SYSDATE)
 </insert>

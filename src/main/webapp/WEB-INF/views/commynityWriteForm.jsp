@@ -23,7 +23,7 @@
 					<div class="row">
 					    <div class="col-lg-12">
 					        <div class="card">
-					        	<form action="./commynityWrite.do" method="post">
+					        	<form action="./commynityWrite.do" method="post" enctype="multipart/form-data">
 					        		<div class="card-body" id="write-top">
 						        		<c:choose>
 						        			<c:when test="${sessionScope.community eq 'pilgi'}">
@@ -66,6 +66,13 @@
 						        	<div class="card-body" id="${sessionScope.community.equals('jilmun')?'write-content':''}">
 						        		<textarea id="ckeditor" name="content"></textarea>
  						            </div><!--end card-body -->
+ 						            <c:if test="${sessionScope.community eq 'pilgi'}">
+ 						            	<div class="card-body gap-3" id="write-bottom">
+							        		<div class="input-group">
+										    	<input type="file" name="file" class="form-control" id="inputGroupFile01" multiple="multiple">
+											</div>
+										</div>
+ 						            </c:if>
  						            <div class="card-body gap-3" id="write-bottom">
  						            	<c:if test="${sessionScope.community eq 'pilgi'}">
 										    <select id="viewGroup" name="viewGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
