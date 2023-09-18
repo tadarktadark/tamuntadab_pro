@@ -238,7 +238,7 @@
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/libs/fullcalendar/main.min.js"></script>
-	<script src="./assets/js/pages/calendar.init.js"></script>
+	<script src="./js/myClass.js"></script>
 	<script src="./assets/js/app.js"></script>
 	<script src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>	
 	<script src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>

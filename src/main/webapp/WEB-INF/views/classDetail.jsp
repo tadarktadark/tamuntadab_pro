@@ -131,18 +131,22 @@ th, td {
 												<h4 class="fs-20">희망 수강료</h4>
 												<c:choose>
 													<c:when test="${cVo.clasChoidaeSugangnyo==0}">
-														<i class="bi bi-arrow-return-right">최소 수강료 : </i> 희망 최소 수강료를 설정하지 않았습니다
+														<p>
+															<i class="bi bi-arrow-return-right">최소 수강료 : </i> 희망 최소 수강료를 설정하지 않았습니다
+														</p>
 													</c:when>
 													<c:otherwise>
-													    <i class="bi bi-arrow-return-right">최소 수강료 : </i> ${cVo.clasChoisoSugangnyo}
+														<p>
+													    	<i class="bi bi-arrow-return-right">최소 수강료 : </i> ${cVo.clasChoisoSugangnyo}
+														</p>
 													</c:otherwise>
 												</c:choose>
 												<c:choose>
 													<c:when test="${cVo.clasChoidaeSugangnyo==0}">
-														<i class="bi bi-arrow-return-right">최대 수강료 : </i> 희망 최대 수강료를 설정하지 않았습니다
+														&nbsp;&nbsp;&nbsp;&nbsp;최대 수강료 : 희망 최대 수강료를 설정하지 않았습니다
 													</c:when>
 													<c:otherwise>
-													    <i class="bi bi-arrow-return-right">최소 수강료 : </i> ${cVo.clasChoidaeSugangnyo}
+													    &nbsp;&nbsp;&nbsp;&nbsp;최대 수강료 : ${cVo.clasChoidaeSugangnyo}
 													</c:otherwise>
 												</c:choose>
 											</div>
@@ -151,24 +155,34 @@ th, td {
 												<h4 class="fs-20">제한 사항</h4>
 												<c:choose>
 													<c:when test="${cVo.clasSeongbyeolJehan == 'MONLY'}">
-														<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 남자만
+														<p>
+															<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 남자만
+														</p>
 													</c:when>
 													<c:when test="${cVo.clasSeongbyeolJehan == 'FONLY'}">
-														<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 여자만
+														<p>
+															<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 여자만
+														</p>
 													</c:when>
 													<c:otherwise>
-													    <i class="bi bi-arrow-return-right">성별 제한사항 : </i> 성별 무관
+														<p>
+													    	<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 성별 무관
+														</p>
 													</c:otherwise>
 												</c:choose>
 												<c:choose>
 													<c:when test="${empty cVo.clasNaiJehan}">
-														<i class="bi bi-arrow-return-right">연령 제한사항 : </i> 연령 무관
+														<p>
+															<i class="bi bi-arrow-return-right">연령 제한사항 : </i> 연령 무관
+														</p>
 													</c:when>
 													<c:otherwise>
-														<c:set var="ageLimits" value="${fn:split(cVo.clasNaiJehan, ':')}" />
-														<c:set var="minAge" value="${ageLimits[0]}" />
-														<c:set var="maxAge" value="${ageLimits[1]}" />
-														<i class="bi bi-arrow-return-right">연령 제한사항 : </i> ${minAge}세 이상 ${maxAge}세 이하
+														<p>
+															<c:set var="ageLimits" value="${fn:split(cVo.clasNaiJehan, ':')}" />
+															<c:set var="minAge" value="${ageLimits[0]}" />
+															<c:set var="maxAge" value="${ageLimits[1]}" />
+															<i class="bi bi-arrow-return-right">연령 제한사항 : </i> ${minAge}세 이상 ${maxAge}세 이하
+														</p>
 													</c:otherwise>
 												</c:choose>
 											</div>
