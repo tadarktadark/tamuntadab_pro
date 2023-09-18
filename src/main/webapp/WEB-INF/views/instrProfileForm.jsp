@@ -61,7 +61,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 700px;" class="table-responsive">
 									<label for="formtextInput" class="form-label"
 										style="margin-right: 10px;">학력</label>
 									<button type="button" class="btn btn btn-outline-secondary"
