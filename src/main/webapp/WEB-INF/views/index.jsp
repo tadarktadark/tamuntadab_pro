@@ -21,5 +21,32 @@
 		</div>
 	</div>	
 	<%@ include file="./shared/_vender_scripts.jsp" %>
+	<%
+  // 세션에 값이 없으면 자바스크립트 코드 실행
+  if (session.getAttribute("userInfo") == null) {
+%>
+  <script>
+    if (localStorage.getItem("autoLoginToken") != null) {
+      $.ajax({
+        url:'./autoLogin.do',
+        data : {userAutoLoginToken: localStorage.getItem("autoLoginToken")},
+        type: "POST",
+        success: function(result) {
+          if(result == 'true'){
+            location.href='./';
+          } else {
+            location.href='./loginForm.do';
+          }
+        },
+        error:function(){
+          alert('잘못된 접근입니다.');
+        }
+      });
+    }
+  </script>
+<%
+  }
+%>
+
 </body>
 </html>

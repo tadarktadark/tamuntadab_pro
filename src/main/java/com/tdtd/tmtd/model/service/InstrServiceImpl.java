@@ -69,18 +69,28 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public List<InstrVo> getAllInstr(String order) {
-		return dao.getAllInstr(order);
+	public List<InstrVo> getAllInstr(Map<String, Object> map) {
+		return dao.getAllInstr(map);
+	}
+	
+	@Override
+	public int getAllInstrCount() {
+		return dao.getAllInstrCount();
 	}
 
 	@Override
-	public int updateInstrLike(InstrVo vo) {
-		return dao.updateInstrLike(vo);
+	public int updateInstrLike(Map<String, Object> map) {
+		return dao.updateInstrLike(map);
 	}
 
 	@Override
-	public int updateInstrView(InstrVo vo) {
-		return dao.updateInstrView(vo);
+	public int updateInstrView(Map<String, Object> map) {
+		return dao.updateInstrView(map);
+	}
+	
+	@Override
+	public InstrVo getlikeViewUser(String inprAccountId) {
+		return dao.getlikeViewUser(inprAccountId);
 	}
 
 	@Override
@@ -106,6 +116,16 @@ public class InstrServiceImpl implements IInstrService {
 	@Override
 	public List<ClassVo> getOneIntrReview(Map<String, Object> map) {
 		return dao.getOneIntrReview(map);
+	}
+	
+	@Override
+	public int classTotalCount(String userAccountId) {
+		return dao.classTotalCount(userAccountId);
+	}
+	
+	@Override
+	public int reviewTotalCount(String userAccountId) {
+		return dao.reviewTotalCount(userAccountId);
 	}
 
 }

@@ -13,6 +13,8 @@
 <%@ include file="./shared/_vender_scripts.jsp"%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	charset="UTF-8"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script type="text/javascript" src="./js/instrList.js"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
@@ -73,12 +75,12 @@
 			</div>
 			</div>
 			<select id="orderSelect" class="form-select rounded-pill mb-3" style="width: 300px;" aria-label="Default select example">
-			    <option selected>인기순</option>
+			    <option selected value="like">인기순</option>
 			    <option value="view">조회순</option>
 			    <option value="reg">등록일순</option>
 			</select>
 
-			<div class="row output-area" style="width: auto; height: 450px; overflow: auto;">
+			<div id="moreList" class="row output-area" style="width: auto; height: 450px; overflow: auto;">
 			<c:forEach var="instr" items="${lists}" varStatus="vs">
 				<div class="col-xxl-3 col-md-6">
 					<div class="card team-box">
@@ -281,7 +283,108 @@
             $(this).val($(this).val().slice(0, 4));
         }
     });
+	
+	Handlebars.registerHelper({
+		  ifCond: function(v1, v2, options) {
+		    if (v1 === v2) {
+		      return options.fn(this);
+		    }
+		    return options.inverse(this);
+		  },
+		  greaterThan: function(v1, v2, options) {
+		    if (v1 > v2) {
+		      return options.fn(this);
+		    }
+		    return options.inverse(this);
+		  }
+		});
 </script>
+<script id="instrList-template" type="text/x-handlebars-template">
+{{#each this}}
+				<div class="col-xxl-3 col-md-6">
+					<div class="card team-box">
+						<div class="card-body p-4">
+							<div class="row output-area mb-3">
+								<div class="col">
+									<div class="flex-shrink-0 me-2">
+									{{#ifCond inprCert 'S'}}
+										<span title="경력이 인증된 강사" data-bs-toggle="tooltip" data-bs-placement="top"
+											class="badge bg-success-subtle text-success member-designation me-2">
+											<i class=" bx bxs-user-check" style="font-size: 20px;"></i>
+										</span>
+									{{/ifCond}}
+									</div>
+								</div>
+
+								<div class="col-auto text-end dropdown">
+								<span>&nbsp;</span>
+								{{#ifCond ingi 'HOT'}}
+									<span
+										class="badge bg-danger-subtle text-danger   member-designation me-2" style="font-size: 15px;">HOT</span>
+								{{/ifCond}}
+								{{#greaterThan reviewCount 0}}
+									<span
+										class="badge bg-info-subtle text-info   member-designation me-2" style="font-size: 15px;">후기있음</span>
+								{{/greaterThan}}
+								</div>
+							</div>
+							<div class="text-center mb-3">
+								<div class="avatar-lg mx-auto">
+								<img src="{{#if userInfo}} {{userProfileVo.[0].userProfileFile}} {{else}} ./assets/images/users/user-dummy-img.jpg {{/if}}" alt="" 
+								data-bs-toggle="{{#if userInfo}}{{else}}tooltip{{/if}}" 
+								title="{{#if userInfo}}{{else}}로그인 후 볼 수 있습니다.{{/if}}"
+								class="member-img img-fluid d-block rounded-circle">
+								</div>
+							</div>
+
+							<div class="text-center">
+								<a href="./instrDetail.do?seq={{inprSeq}}&loginId={{userInfo.userAccountId}}" class="member-name">
+									<h5 class="fs-16 mb-1">{{userProfileVo.[0].userNickname}}</h5>
+									<span class="text-muted fs-13 mt-1 text-truncate">만 {{inprAge}} 세</span>
+								</a>
+								<div class="row output-area">
+									<div class="col-6">
+										<div class="mt-3">
+											<p class="mb-0 text-muted">전문분야</p>
+											<h5 class="mt-1 fs-16 mb-0 text-truncate">{{subjectsMajorTitle.[0]}}</h5>
+										</div>
+									</div>
+
+									<div class="col-6">
+										<div class="mt-3">
+											<p class="mb-0 text-muted">최소 수업료(만원)</p>
+											<h5 class="mt-1 fs-16 mb-0 text-truncate">
+										{{#ifCond inprFee 0}}
+										'미등록'
+										{{else}}
+										{{inprFee}}
+										{{/ifCond}}
+										</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer pt-3 border-top px-4">
+						
+							<p class="mb-1 text-muted text-truncate">
+								<i class="mdi mdi-book"></i>전문분야: 
+							{{#each subjectsMajorTitle}}
+								{{this}}
+							{{/each}}
+							</p>
+							<p class="mb-1 text-muted text-truncate">
+								<i class="mdi mdi-book"></i>가능한 과목: 
+							{{#each subjectsTitle}}
+								{{this}}
+							{{/each}}
+							</p>
+						</div>
+					</div>
+				</div>
+			{{/each}}
+</script>
+
 <style type="text/css">
 .ui-autocomplete {
 	background-color: #f9f9f9;
