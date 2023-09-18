@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.tdtd.tmtd.comm.LikeViewUtils;
 import com.tdtd.tmtd.model.service.ElasticsearchService;
 import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IInstrService;
@@ -180,7 +181,6 @@ public class InstrController {
 		InstrVo simpleVo = service.getOneInstrSimple(map);
 		InstrVo profileVo = service.getOneInstrProfile((String)map.get("seq"));
 		String userAccountId = simpleVo.getInprAccountId();
-//		List<CareerVo> careerVo = careerService.getOneInstrCareer(userAccountId);
 		Map<String, Object> classMap = new HashMap<String, Object>();
 		classMap.put("userAccountId", userAccountId);
 		classMap.put("start", 1);
@@ -194,12 +194,6 @@ public class InstrController {
 		
 		int allClass = classVo.size() + cancelCount;
 		
-		for (InstrVo history : classVo) {
-			String subjCode = history.getSubjectVo().get(0).getSubjCode();
-			subjCode = subjCode.replace("[", "").replace("]", "").replace("\"", "");
-			history.getSubjectVo().get(0).setSubjCode(subjCode);
-		}
-		
 		Map<String, Object> reviewMap = new HashMap<String, Object>();
 		reviewMap.put("userAccountId", userAccountId);
 		reviewMap.put("order", "desc");
@@ -208,21 +202,12 @@ public class InstrController {
 		
 		List<ClassVo> instrReviewVo = service.getOneIntrReview(reviewMap);
 		
-		String subjectsMajorTitle = profileVo.getSubjectsMajorTitle();
-		String subjectsTitle = simpleVo.getSubjectsTitle();
-		subjectsMajorTitle = subjectsMajorTitle.replace("[", "").replace("]", "").replace("\"", "");
-		subjectsTitle = subjectsTitle.replace("[", "").replace("]", "").replace("\"", "");
-		
-		profileVo.setSubjectsMajorTitle(subjectsMajorTitle);
-		simpleVo.setSubjectsTitle(subjectsTitle);
-		
 		String nickname = simpleVo.getUserProfileVo().get(0).getUserNickname();
 		
 		model.addAttribute("title", "강사 조회");
 		model.addAttribute("pageTitle", nickname+"님의 프로필");
 		model.addAttribute("simpleVo", simpleVo);
 		model.addAttribute("profileVo", profileVo);
-//		model.addAttribute("careerVo", careerVo);
 		model.addAttribute("classVo", classVo);
 		model.addAttribute("instrReviewVo", instrReviewVo);
 		model.addAttribute("allClass", allClass);
@@ -231,6 +216,7 @@ public class InstrController {
 		return "instrDetail";
 	}
 	
+	//경력사항 탭 클릭시 ajax 실행
 	@GetMapping("/instrCareerDetail.do")
 	@ResponseBody
 	public List<CareerVo> instrCareer(@RequestParam String userAccountId) {
@@ -239,6 +225,7 @@ public class InstrController {
 		return careerVo;
 	}
 	
+	//클래스 이력 클릭시 ajax 실행
 	@GetMapping("/instrClassDetail.do")
 	@ResponseBody
 	public Map<String, Object> instrClass(@RequestParam Map<String, Object> map){
@@ -257,6 +244,7 @@ public class InstrController {
 		return response;
 	}
 	
+	//후기 클릭시 ajax 실행
 	@GetMapping("/instrReviewDetail.do")
 	@ResponseBody
 	public Map<String, Object> instrReview(@RequestParam Map<String, Object> map){
@@ -275,5 +263,16 @@ public class InstrController {
 	    
 		return response;
 	}
+	
+	//좋아요 클릭시 update
+//	public String instrLike(@RequestParam Map<String, Object> map) {
+//		log.info("instrLike 받아온 map : {}", map);
+//		String type = map.get("type").toString();
+//		String accountId =  map.get("loginId").toString();
+//		InstrVo simpleVo = service.getOneInstrSimple(map);
+//		simpleVo.
+//		LikeViewUtils.like(type, accountId, null);
+//		return null;
+//	}
 	
 }
