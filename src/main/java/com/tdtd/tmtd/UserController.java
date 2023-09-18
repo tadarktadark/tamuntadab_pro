@@ -8,7 +8,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.service.ICommUserService;
+import com.tdtd.tmtd.model.service.IInstrService;
+import com.tdtd.tmtd.vo.InstrVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,9 @@ public class UserController {
 	
 	@Autowired
 	private ICommUserService commUserService;
+	
+	@Autowired
+	private IInstrService service;
 	
 	@Autowired
 	private JavaMailSender mailsender;
@@ -207,7 +211,19 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/mypage.do")
-	public String mypage() {
+	public String mypage(HttpSession session, Model model) {
+		log.info("InstrController instrProfileForm.do 강사 프로필 작성화면");
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String accountId = userInfo.getUserAccountId();
+		
+		InstrVo vo = service.getMyInstrProfile(accountId);
+		if(vo != null) {
+			
+			model.addAttribute("profile", vo);
+		}
+		model.addAttribute("title", "프로필");
+		model.addAttribute("pageTitle", "소개 프로필 등록/수정");
+		model.addAttribute("accountId", accountId);
 		return "myPage";
 	}
 	
