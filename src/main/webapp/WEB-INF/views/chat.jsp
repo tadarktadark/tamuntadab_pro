@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-topbar="light" data-sidebar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-bs-theme="light" data-layout-width="fluid" data-layout-position="fixed" data-layout-style="default"><head>
 <head>
@@ -21,7 +24,7 @@
 		        <div class="card-body">
 		            <div class="text-center bg-light rounded px-4 py-4">
 		                <div class="chat-user-status">
-		                    <img src="~/assets/images/users/avatar-3.jpg" class="avatar-md rounded-circle" alt="">
+		                    <img src="${userInfo.userProfileFile}" class="avatar-md rounded-circle" alt="">
 		                    <div class="">
 		                        <div class="status"></div>
 		                    </div>
@@ -38,18 +41,6 @@
 		                        <span class="d-none d-sm-block">Chat</span>
 		                    </a>
 		                </li>
-		                <li class="nav-item">
-		                    <a href="#groups" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
-		                        <i class="bx bx-group fs-20 d-sm-none"></i>
-		                        <span class="d-none d-sm-block">Groups</span>
-		                    </a>
-		                </li>
-		                <li class="nav-item">
-		                    <a href="#contacts" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
-		                        <i class="bx bx-book-content fs-20 d-sm-none"></i>
-		                        <span class="d-none d-sm-block">Contacts</span>
-		                    </a>
-		                </li>
 		            </ul>
 		            <div class="tab-content">
 		                <div class="tab-pane show active" id="chat">
@@ -59,6 +50,28 @@
 		                                <h5 class="fs-15 mb-3">Recent</h5>
 		                            </div>
 		                            <ul class="list-unstyled chat-list p-3">
+		                            <c:forEach var="room" items="${roomList}">
+		                            	<li>
+		                                    <a href="#">
+		                                        <div class="d-flex align-items-center">
+		                                            <div class="flex-shrink-0 user-img online align-self-center me-3">
+		                                                <div class="avatar-xs align-self-center">
+		                                                    <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15 fs-15">
+		                                                        S
+		                                                    </span>
+		                                                </div>
+		                                                <span class="user-status"></span>
+		                                            </div>
+		
+		                                            <div class="flex-grow-1 overflow-hidden">
+		                                                <h5 class="text-truncate fs-15 mb-0">Stacie Dube</h5>
+		                                            </div>
+		                                            <div class="flex-shrink-0">
+		                                            </div>
+		                                        </div>
+		                                    </a>
+		                                </li>
+		                            </c:forEach>
 		                                <li class="active">
 		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
@@ -91,115 +104,6 @@
 		                                                <h5 class="text-truncate fs-15 mb-0">Stacie Dube</h5>
 		                                            </div>
 		                                            <div class="flex-shrink-0">
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img away align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-3.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Katie Olson</h5>
-		                                            </div>
-		                                            <div class="flex-shrink-0">
-		                                                <span class="badge bg-warning rounded-pill">4</span>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-4.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Marshall Wilson</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img online align-self-center me-3">
-		                                                <div class="avatar-xs align-self-center">
-		                                                    <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15 fs-15">
-		                                                        J
-		                                                    </span>
-		                                                </div>
-		                                                <span class="user-status"></span>
-		                                            </div>
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Jimmie Lee</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-5.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Ronald Tucker</h5>
-		                                            </div>
-		                                            <div class="flex-shrink-0">
-		                                                <span class="badge bg-success rounded-pill">23</span>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		
-		                                            <div class="flex-shrink-0 user-img align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-6.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Dennis Stewart</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img away align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-3.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Katie Olson</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		
-		                                            <div class="flex-shrink-0 user-img align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-4.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Marshall Wilson</h5>
 		                                            </div>
 		                                        </div>
 		                                    </a>
