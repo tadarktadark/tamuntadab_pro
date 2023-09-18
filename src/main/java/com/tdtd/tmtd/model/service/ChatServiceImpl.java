@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.IChatDao;
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ChatUserVo;
+import com.tdtd.tmtd.vo.ClassVo;
 
 @Service
 public class ChatServiceImpl implements IChatService {
@@ -59,6 +61,21 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	public int delChatUser(int chusId) {
 		return dao.delChatUser(chusId);
+	}
+
+	@Override
+	public ClassVo getClassInfo(int clasId) {
+		return dao.getClassInfo(clasId);
+	}
+
+	@Override
+	public List<ChamyeoVo> getClassUser(int clchClasId) {
+		return dao.getClassUser(clchClasId);
+	}
+
+	@Override
+	public ChatRoomVo getChatDetailByClasId(int chroClasId) {
+		return dao.getChatDetailByClasId(chroClasId);
 	}
 
 }
