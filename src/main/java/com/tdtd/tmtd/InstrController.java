@@ -94,41 +94,7 @@ public class InstrController {
 		return "instrList";
 	}
 	
-	//강사 게시판 페이지 내 조회순서 변경시 작동 AJAX
-//	@ResponseBody
-//	@GetMapping("/instrView.do")
-//	public String instrView(@RequestParam(required = false) String order, HttpSession session) {
-//		log.info("###########order: {}", order);
-//		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-//		String accountId = userInfo != null ? userInfo.getUserAccountId() : null;
-//		
-//		List<InstrVo> lists = service.getAllInstr(order);
-//		for (InstrVo instrVo : lists) {
-//			String subjectsMajorTitle = instrVo.getSubjectsMajorTitle();
-//			String subjectsTitle = instrVo.getSubjectsTitle();
-//			subjectsMajorTitle = subjectsMajorTitle.replace("[", "").replace("]", "").replace("\"", "");
-//			subjectsTitle = subjectsTitle.replace("[", "").replace("]", "").replace("\"", "");
-//			
-//			instrVo.setSubjectsMajorTitle(subjectsMajorTitle);
-//			instrVo.setSubjectsTitle(subjectsTitle);
-//			
-//			String birthDateString = instrVo.getUserProfileVo().get(0).getUserBirth();
-//			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//			LocalDateTime birthDateTime = LocalDateTime.parse(birthDateString, formatter);
-//			
-//			LocalDate birthDate = birthDateTime.toLocalDate();
-//			
-//			int age = Period.between(birthDate, LocalDate.now()).getYears();
-//			instrVo.setInprAge(age);
-//			
-//			instrVo.getUserProfileVo().get(0).setUserAccountId(accountId);
-//		};
-//		
-//		Gson gson = new GsonBuilder().serializeNulls().create();
-//		log.info("$$$$$$$$$$조회 ajax 결과 : {}", gson.toJson(lists));
-//		return gson.toJson(lists);		
-//	}
-	
+	//강사 전체 조회 페이지 스크롤 API ajax
 	@GetMapping("/instrMoreList.do")
 	@ResponseBody
 	public Map<String, Object> instrMoreList(@RequestParam Map<String, Object> map, HttpSession session){
@@ -157,7 +123,7 @@ public class InstrController {
 		response.put("lists", lists);
 		response.put("hasMore", end < totalCount);
 		response.put("userInfo", userInfo);
-		
+		log.info("%%%%%%%%%%%hasMore {}", response.get("hasMore"));
 		return response;
 	}
 	
