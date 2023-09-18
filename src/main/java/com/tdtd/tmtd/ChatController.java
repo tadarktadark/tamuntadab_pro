@@ -45,13 +45,12 @@ public class ChatController {
 	@PostMapping("/classChatRoom.do")
 	public String classChatRoom(int clasId) {
 		ClassVo classVo = service.getClassInfo(clasId);
-		//채팅방 생성ㅌ CR+230906+SEQ
-		 Date now = new Date();
+		
+		Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String dateString = formatter.format(now);
-        
 		ChatRoomVo newChatRoomVo = new ChatRoomVo();
-		newChatRoomVo.setChroId("CR"+dateString);
+		newChatRoomVo.setChroId("CR"+dateString);// ex) CR2309181
 		newChatRoomVo.setChroClasId(clasId);
 		newChatRoomVo.setChroTitle(classVo.getClasTitle());
 		service.insertChatRoom(newChatRoomVo);
@@ -65,7 +64,8 @@ public class ChatController {
 			chatUser.setChusAccountId(clchAccountId);
 			chatUser.setChusChroId(chroId);//채팅방ID
 			chatUser.setChusType(chusType);
-			service.insertChatUser(chatUser);
+			service.insertChatUser(chatUser);//방장인지 아닌지 구분이라서 바꿔야함
+			//그리고 방장을 따로 추가하는 코드 추가해야함
 		}
 		return "redirect:/chatPage.do";
 	}
@@ -73,7 +73,37 @@ public class ChatController {
 	
 	
 	
-	
+	@PostMapping("/intsrChatRoom.do")
+	public String intsrChatRoom(String instrAccountId,String studAccountId) {
+		UserProfileVo instrVo = service.getInstrInfo(instrAccountId);
+		
+		Date now = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
+        String dateString = formatter.format(now);
+		ChatRoomVo newChatRoomVo = new ChatRoomVo();
+		newChatRoomVo.setChroId("CR"+dateString);// ex) CR2309181
+		int instrClasId = Integer.parseInt(instrAccountId.substring(4));
+		newChatRoomVo.setChroClasId(instrClasId);//강사 아이디 넣으면 될듯
+		newChatRoomVo.setChroTitle(instrVo.getUserNickname());//강사 명 넣으면 될듯
+		service.insertChatRoom(newChatRoomVo);
+		String chroId = service.getChatDetailByClasId(instrClasId).getChroId();
+		
+		//학생 채팅 유저에 추가
+		ChatUserVo chatUser = new ChatUserVo();
+		chatUser.setChusAccountId(studAccountId);//사용자 id
+		chatUser.setChusChroId(chroId);//채팅방ID
+		chatUser.setChusType("M");//유저 구분
+		service.insertChatUser(chatUser);
+		
+		//강사 채팅 유저에 추가
+		ChatUserVo chatInstr = new ChatUserVo();
+		chatInstr.setChusAccountId(instrAccountId);//사용자 id
+		chatInstr.setChusChroId(chroId);//채팅방ID
+		chatInstr.setChusType("O");//유저 구분
+		service.insertChatUser(chatUser);
+		
+		return "redirect:/chatPage.do";
+	}
 	
 	
 	

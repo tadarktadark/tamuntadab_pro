@@ -10,6 +10,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ChatUserVo;
 import com.tdtd.tmtd.vo.ClassVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Repository
 public class ChatDaoImpl implements IChatDao {
@@ -79,6 +80,11 @@ public class ChatDaoImpl implements IChatDao {
 	@Override
 	public ChatRoomVo getChatDetailByClasId(int chroClasId) {
 		return sqlSession.selectOne(NS+"getChatDetailByClasId",chroClasId);
+	}
+
+	@Override
+	public UserProfileVo getInstrInfo(String userAccountId) {
+		return sqlSession.selectOne(NS+"getInstrInfo",userAccountId);
 	}
 
 

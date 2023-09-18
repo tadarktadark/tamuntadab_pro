@@ -6,6 +6,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ChatUserVo;
 import com.tdtd.tmtd.vo.ClassVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 public interface IChatDao {
 
@@ -33,4 +34,6 @@ public interface IChatDao {
 	public ClassVo getClassInfo(int clasId);
 	//클래스 참가자 목록 조회
 	public List<ChamyeoVo> getClassUser(int clchClasId);
+	//유저 정보 조회
+	public UserProfileVo getInstrInfo(String userAccountId);
 }
