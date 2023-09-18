@@ -72,5 +72,10 @@ SELECT CLCH_ID ,CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL
 	FROM CLASS_CHAMYEOJA cc 
 	WHERE CLCH_CLAS_ID =#{clchClasId}
 </select>
-
+<!-- 강사 정보 조회 -->
+<select id="getInstrInfo" parameterType="String" resultType="userProfileVo">
+SELECT USER_ACCOUNT_ID ,USER_NAME ,USER_NICKNAME ,USER_PROFILE_FILE 
+	FROM USER_PROFILE up  
+	WHERE USER_ACCOUNT_ID = #{userAccountId}
+</select>
 </mapper>

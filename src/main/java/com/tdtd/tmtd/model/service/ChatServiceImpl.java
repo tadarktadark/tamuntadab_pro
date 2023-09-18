@@ -10,6 +10,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ChatUserVo;
 import com.tdtd.tmtd.vo.ClassVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Service
 public class ChatServiceImpl implements IChatService {
@@ -76,6 +77,11 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	public ChatRoomVo getChatDetailByClasId(int chroClasId) {
 		return dao.getChatDetailByClasId(chroClasId);
+	}
+
+	@Override
+	public UserProfileVo getInstrInfo(String userAccountId) {
+		return dao.getInstrInfo(userAccountId);
 	}
 
 }
