@@ -366,7 +366,7 @@ body {
 	padding: 30px;
 }
 
-.card-body {
+.instr{
 	display: flex;
 	justify-content: center;
 	align-items: center;
