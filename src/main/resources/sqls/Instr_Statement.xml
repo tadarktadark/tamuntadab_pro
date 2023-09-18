@@ -243,19 +243,19 @@ WHERE RN BETWEEN #{start} AND #{end}
            ROW_NUMBER() OVER (
                    <choose>
                        <when test="order == 'desc'">
-                           ORDER BY AVG_SCORE DESC
+                           ORDER BY AVG_SCORE DESC, REVI_SEQ DESC
                        </when>
                        <when test="order == 'asc'">
-                           ORDER BY AVG_SCORE ASC
+                           ORDER BY AVG_SCORE ASC, REVI_SEQ DESC
                        </when>
                        <otherwise>
-                           ORDER BY REVI_REGDATE DESC
+                           ORDER BY REVI_REGDATE DESC, REVI_SEQ DESC
                        </otherwise>
                    </choose>) AS RN
     FROM(       
 	        SELECT CLAS_TITLE, 
 	               REVI_STUD_NAME,
-	               REVI_PRO,
+	               REVI_PRO, REVI_SEQ,
 	               REVI_PREPARE,
 	               ROUND(((REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0), 1) AS AVG_SCORE,
 	               REVI_ABIL,
