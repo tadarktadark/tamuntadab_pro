@@ -69,8 +69,13 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public List<InstrVo> getAllInstr(String order) {
-		return dao.getAllInstr(order);
+	public List<InstrVo> getAllInstr(Map<String, Object> map) {
+		return dao.getAllInstr(map);
+	}
+	
+	@Override
+	public int getAllInstrCount() {
+		return dao.getAllInstrCount();
 	}
 
 	@Override

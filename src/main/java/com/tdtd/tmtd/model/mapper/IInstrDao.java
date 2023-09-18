@@ -27,7 +27,9 @@ public interface IInstrDao {
 	public int deleteInstrEdulevel(String inedSeq);
 	
 	//TDT018 getAllInstr
-	public List<InstrVo> getAllInstr(String order);
+	public List<InstrVo> getAllInstr(Map<String, Object> map);
+	
+	public int getAllInstrCount();
 	
 	//TDT019 updateInstrLike
 	public int updateInstrLike(Map<String, Object> map);

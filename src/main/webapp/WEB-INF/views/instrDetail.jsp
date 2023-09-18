@@ -48,13 +48,13 @@ a {
 					value="${userInfo.userAccountId}" id="loginId">
 
 				<div style="width: 50%; margin: auto;">
-					<div class="row g-0 bg-body-secondary position-relative">
-						<div class="col-md-3 mb-md-0 p-md-4">
-							<img
-								src="${not empty userInfo? simpleVo.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}"
-								alt="" data-bs-toggle="${empty userInfo? 'tooltip' : ''}"
-								title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}" class="w-100"
-								alt="...">
+						<div class="row g-0 bg-body-secondary position-relative">
+							<div class="col-md-3 mb-md-0 p-md-4">
+								<img
+									src="${not empty userInfo? simpleVo.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}"
+									alt="" data-bs-toggle="${empty userInfo? 'tooltip' : ''}"
+									title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}" class="w-100"
+									alt="...">
 						</div>
 						<div class="col-md-6 p-4 ps-md-0">
 							<div class="d-flex align-items-center">
@@ -466,16 +466,16 @@ a {
 <script id="review-template" type="text/x-handlebars-template">
 {{#each this}}
 	{{#each reviewVo}}
-								<div class="card">
-									<div class="card-body">
-										<div>총점 ({{avgScore}})</div>
-										<div class="row mt-4">
-											<div class="col-6">
-												<div>전문성 ({{reviPro}})</div>
-												<div id="basic-rater" dir="ltr" class="star-rating"
-													data-rating="3"
-													style="width: 110px; height: 22px; background-size: 22px;">
-													<div class="star-value"
+											<div class="card">
+											<div class="card-body">
+												<div>총점 ({{avgScore}})</div>
+												<div class="row mt-4">
+													<div class="col-6">
+														<div>전문성 ({{reviPro}})</div>
+														<div id="basic-rater" dir="ltr" class="star-rating"
+															data-rating="3"
+															style="width: 110px; height: 22px; background-size: 22px;">
+															<div class="star-value"
 														style="background-size: 22px; width: {{calculatePercentage reviPro}}%;"></div>
 												</div>
 											</div>
