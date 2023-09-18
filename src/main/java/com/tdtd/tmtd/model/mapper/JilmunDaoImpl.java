@@ -87,7 +87,7 @@ public class JilmunDaoImpl implements IJilmunDao {
 
 	@Override
 	public int insertJilmun(BoardVo vo) {
-		return session.insert(NS+"getJilmunClassList",vo);
+		return session.insert(NS+"insertJilmun",vo);
 	}
 
 	@Override

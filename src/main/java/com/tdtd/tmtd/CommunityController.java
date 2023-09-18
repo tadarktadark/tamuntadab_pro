@@ -295,6 +295,9 @@ public class CommunityController {
 			pService.insertPilgi(bVo, map);
 		} else if(board.equals("jilmun")) {
 			model.addAttribute("pageTitle", "질문");
+			if(bVo.getClasId().equals("none")) {
+				bVo.setClasId(null);
+			}
 			jmService.insertJilmun(bVo);
 		} else if(board.equals("jayu")) {
 			model.addAttribute("pageTitle", "자유");
