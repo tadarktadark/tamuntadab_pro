@@ -26,7 +26,7 @@ public class ChatDaoImpl implements IChatDao {
 
 	@Override
 	public ChatRoomVo getChatDetail(String chroId) {
-		return sqlSession.selectOne(NS+"getChatDetail");
+		return sqlSession.selectOne(NS+"getChatDetail",chroId);
 	}
 
 	@Override

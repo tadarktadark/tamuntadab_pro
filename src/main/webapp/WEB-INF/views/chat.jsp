@@ -51,20 +51,12 @@
 		                            </div>
 		                            <ul class="list-unstyled chat-list p-3">
 		                            <c:forEach var="room" items="${roomList}">
-		                            	<li>
+		                            	<li class="chatRoomList">
+		                            	<input type="hidden" value="${room.chroId}">
 		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img online align-self-center me-3">
-		                                                <div class="avatar-xs align-self-center">
-		                                                    <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15 fs-15">
-		                                                        S
-		                                                    </span>
-		                                                </div>
-		                                                <span class="user-status"></span>
-		                                            </div>
-		
 		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Stacie Dube</h5>
+		                                                <h5 class="text-truncate fs-15 mb-0">${room.chroTitle}</h5>
 		                                            </div>
 		                                            <div class="flex-shrink-0">
 		                                            </div>
@@ -75,10 +67,6 @@
 		                                <li class="active">
 		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img online align-self-center me-3">
-		                                                <img src="~/assets/images/users/avatar-6.jpg" class="rounded-circle avatar-xs" alt="">
-		                                                <span class="user-status"></span>
-		                                            </div>
 		                                            <div class="flex-grow-1 overflow-hidden">
 		                                                <h5 class="text-truncate fs-15 mb-0">Jennie Sherlock</h5>
 		                                            </div>
@@ -112,175 +100,11 @@
 		                        </div>
 		                    </div>
 		                </div>
-		
-		                <div class="tab-pane" id="groups">
-		                    <div class="chat-message-list" data-simplebar>
-		                        <div class="pt-3">
-		                            <div class="px-3">
-		                                <h5 class="fs-15 mb-3">Groups</h5>
-		                            </div>
-		                            <ul class="list-unstyled chat-list">
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 avatar-xs me-3">
-		                                                <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15">
-		                                                    G
-		                                                </span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1">
-		                                                <h5 class="fs-15 mb-0">General</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 avatar-xs me-3">
-		                                                <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15">
-		                                                    R
-		                                                </span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1">
-		                                                <h5 class="fs-15 mb-0">Reporting</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 avatar-xs me-3">
-		                                                <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15">
-		                                                    M
-		                                                </span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1">
-		                                                <h5 class="fs-15 mb-0">Meeting</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 avatar-xs me-3">
-		                                                <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15">
-		                                                    A
-		                                                </span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1">
-		                                                <h5 class="fs-15 mb-0">Project A</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 avatar-xs me-3">
-		                                                <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15">
-		                                                    B
-		                                                </span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1">
-		                                                <h5 class="fs-15 mb-0">Project B</h5>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                            </ul>
-		                        </div>
-		                    </div>
-		                </div>
-		
-		                <div class="tab-pane" id="contacts">
-		                    <div class="chat-message-list" data-simplebar>
-		                        <div class="pt-3">
-		                            <div class="px-3">
-		                                <h5 class="fs-14 mb-3">Contacts</h5>
-		                            </div>
-		
-		                            <div>
-		                                <div>
-		                                    <div class="px-3 contact-list fs-15">A</div>
-		
-		                                    <ul class="list-unstyled chat-list">
-		                                        <li>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Adam Miller</h5>
-		                                            </a>
-		                                        </li>
-		
-		                                        <li>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Alfonso Fisher</h5>
-		                                            </a>
-		                                        </li>
-		                                    </ul>
-		                                </div>
-		
-		                                <div class="mt-4">
-		                                    <div class="px-3 contact-list fs-15">B</div>
-		
-		                                    <ul class="list-unstyled chat-list">
-		                                        <li>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Bonnie Harney</h5>
-		                                            </a>
-		                                        </li>
-		                                    </ul>
-		                                </div>
-		
-		                                <div class="mt-4">
-		                                    <div class="px-3 contact-list fs-15">C</div>
-		
-		                                    <ul class="list-unstyled chat-list">
-		                                        <li>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Charles Brown</h5>
-		                                            </a>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Carmella Jones</h5>
-		                                            </a>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Carrie Williams</h5>
-		                                            </a>
-		                                        </li>
-		                                    </ul>
-		                                </div>
-		
-		                                <div class="mt-4">
-		                                    <div class="px-3 contact-list fs-15">D</div>
-		
-		                                    <ul class="list-unstyled chat-list">
-		                                        <li>
-		                                            <a href="#">
-		                                                <h5 class="fs-15 mb-0">Dolores Minter</h5>
-		                                            </a>
-		                                        </li>
-		                                    </ul>
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                </div>
 		            </div>
 		        </div>
 		    </div>
 		    <!-- end chat-leftsidebar -->
-		
-		    <div class="w-100 user-chat mt-4 mt-sm-0 ms-lg-3">
+		    <div id="chatDetail" style="display: none;" class="w-100 user-chat mt-4 mt-sm-0 ms-lg-3">
 		        <div class="card">
 		            <div class="p-3 px-lg-4 border-bottom">
 		                <div class="row">
@@ -290,8 +114,8 @@
 		                                <img src="~/assets/images/users/avatar-6.jpg" alt="" class="img-fluid d-block rounded-circle">
 		                            </div>
 		                            <div class="flex-grow-1">
-		                                <h5 class="fs-16 mb-1 text-truncate"><a href="#" class="text-body">Jennie Sherlock</a></h5>
-		                                <p class="text-muted text-truncate mb-0">Online</p>
+		                                <h5 class="fs-16 mb-1 text-truncate"><a href="#" id="chatRoomTitle" class="text-body"></a></h5>
+		                                <p id="chatRoomDate" class="text-muted text-truncate mb-0">Online</p>
 		                            </div>
 		                        </div>
 		                    </div>
@@ -299,9 +123,6 @@
 		                        <ul class="list-inline user-chat-nav text-end mb-0">
 		                            <li class="list-inline-item">
 		                                <div class="dropdown">
-		                                    <button class="btn nav-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                        <i class="bx bx-search"></i>
-		                                    </button>
 		                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-md p-2">
 		                                        <form class="px-2">
 		                                            <div>
@@ -579,8 +400,9 @@
 		            </div>
 		        </div>
 		    </div>
-		    <!-- end user chat -->
 		</div>
+		
+		    <!-- end user chat -->
 <%@ include file="./shared/_footer.jsp" %>
 		</div>
 	</div>
