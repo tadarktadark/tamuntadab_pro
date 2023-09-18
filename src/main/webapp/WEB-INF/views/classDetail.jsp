@@ -205,10 +205,54 @@ th, td {
 
 										<div class="card p-0 overflow-hidden mt-3 shadow-none">
 											<div class="mail-list">
-												<a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-black"></span> 참여 중인 클래스</a> 
-												<a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-black"></span> 좋아요 한 클래스</a>
-												<a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-black"></span> 성별 제한</a>
-												<a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-black"></span> 나이 제한</a>
+												<a class="border-bottom">
+													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
+													제한 사항 
+													<c:choose>
+														<c:when test="${cVo.clasSeongbyeolJehan == 'MONLY'}">
+															<p>
+																<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 남자만
+															</p>
+														</c:when>
+														<c:when test="${cVo.clasSeongbyeolJehan == 'FONLY'}">
+															<p>
+																<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 여자만
+															</p>
+														</c:when>
+														<c:otherwise>
+															<p>
+														    	<i class="bi bi-arrow-return-right">성별 제한사항 : </i> 성별 무관
+															</p>
+														</c:otherwise>
+													</c:choose>
+													<c:choose>
+														<c:when test="${empty cVo.clasNaiJehan}">
+															<p>
+																<i class="bi bi-arrow-return-right">연령 제한사항 : </i> 연령 무관
+															</p>
+														</c:when>
+														<c:otherwise>
+															<p>
+																<c:set var="ageLimits" value="${fn:split(cVo.clasNaiJehan, ':')}" />
+																<c:set var="minAge" value="${ageLimits[0]}" />
+																<c:set var="maxAge" value="${ageLimits[1]}" />
+																<i class="bi bi-arrow-return-right">연령 제한사항 : </i> ${minAge}세 이상 ${maxAge}세 이하
+															</p>
+														</c:otherwise>
+													</c:choose>
+												</a> 
+												<a class="border-bottom">
+													<span class="mdi mdi-arrow-right-drop-circle text-black"></span> 
+													퍙균 연령 : 구현해야됨
+												</a>
+												<a class="border-bottom">
+													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
+													날짜 : ${cVo.clasSueopNaljja}
+												</a>
+												<a class="border-bottom">
+													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
+													위치 : ${cVo.clasLocation} 
+												</a>
 											</div>
 										</div>
 									</div>
