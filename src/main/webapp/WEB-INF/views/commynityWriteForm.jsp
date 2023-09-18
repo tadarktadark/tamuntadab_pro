@@ -60,23 +60,25 @@
 									    	<label for="subject" class="form-label">과목</label>
 									    	<select class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem name="subject" multiple>
 		                                    </select>
-											<input type="hidden" class="hidden" name="subject" id="formSubject">
+											<input type="hidden" class="hidden" name="subjectCode" id="formSubject">
 							        	</c:if>
 							        </div>
 						        	<div class="card-body" id="${sessionScope.community.equals('jilmun')?'write-content':''}">
 						        		<textarea id="ckeditor" name="content"></textarea>
  						            </div><!--end card-body -->
  						            <div class="card-body gap-3" id="write-bottom">
-									    <select id="viewGroup" name="viewGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
-										    <option value="A" selected>전체 공개</option>
-										    <option value="C">클래스 공개</option>
-										    <option value="I">나만 보기</option>
-										</select>
-									    <select id="downloadGroup" name="downloadGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
-										    <option value="A" selected>전체 다운로드</option>
-										    <option value="C">클래스 다운로드</option>
-										    <option value="I">나만 다운로드</option>
-										</select>
+ 						            	<c:if test="${sessionScope.community eq 'pilgi'}">
+										    <select id="viewGroup" name="viewGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
+											    <option value="A" selected>전체 공개</option>
+											    <option value="C">클래스 공개</option>
+											    <option value="I">나만 보기</option>
+											</select>
+										    <select id="downloadGroup" name="downloadGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
+											    <option value="A" selected>전체 다운로드</option>
+											    <option value="C">클래스 다운로드</option>
+											    <option value="I">나만 다운로드</option>
+											</select>
+ 						            	</c:if>
 									    <button id="write-btn" type="button" class="btn btn-primary">작성완료</button>
  						            </div>
 					            </form>
