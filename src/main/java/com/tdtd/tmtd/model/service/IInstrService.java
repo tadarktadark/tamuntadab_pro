@@ -25,10 +25,12 @@ public interface IInstrService {
 		public List<InstrVo> getAllInstr(String order);
 		
 		//TDT019 updateInstrLike
-		public int updateInstrLike(InstrVo vo);
+		public int updateInstrLike(Map<String, Object> map);
 		
 		//TDT020 updateInstrView
-		public int updateInstrView(InstrVo vo);
+		public int updateInstrView(Map<String, Object> map);
+		
+		public InstrVo getlikeViewUser(String inprAccountId);
 		
 		//TDT021 getOneInstrSimple
 		public InstrVo getOneInstrSimple(Map<String, Object> map);
@@ -43,5 +45,9 @@ public interface IInstrService {
 		
 		//TDT025 getOneIntrReview
 		public List<ClassVo> getOneIntrReview(Map<String, Object> map);
+		
+		public int classTotalCount(String userAccountId);
+		
+		public int reviewTotalCount(String userAccountId);
 		
 }
