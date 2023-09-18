@@ -2,7 +2,9 @@ package com.tdtd.tmtd;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.model.service.IChatService;
@@ -49,11 +52,12 @@ public class ChatController {
 		Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String dateString = formatter.format(now);
-		ChatRoomVo newChatRoomVo = new ChatRoomVo();
-		newChatRoomVo.setChroId("CR"+dateString);// ex) CR2309181
-		newChatRoomVo.setChroClasId(clasId);
-		newChatRoomVo.setChroTitle(classVo.getClasTitle());
-		service.insertChatRoom(newChatRoomVo);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("chroId", "CR"+dateString);
+        map.put("chroClasId", clasId);
+        map.put("chroTitle", classVo.getClasTitle());
+        map.put("chroChatLog", "");
+		service.insertChatRoom(map);
 		String chroId = service.getChatDetailByClasId(clasId).getChroId();
 		//참가자 추가
 		List<ChamyeoVo> classUserList = service.getClassUser(clasId);
@@ -73,19 +77,28 @@ public class ChatController {
 	
 	
 	
-	@PostMapping("/intsrChatRoom.do")
-	public String intsrChatRoom(String instrAccountId,String studAccountId) {
+	@GetMapping("/intsrChatRoom.do")
+	public String intsrChatRoom(String studAccountId,String instrAccountId) {
 		UserProfileVo instrVo = service.getInstrInfo(instrAccountId);
+		int instrClasId = Integer.parseInt(instrAccountId.substring(4));
 		
+		Map<String, Object> checkMap = new HashMap<String, Object>();
+		checkMap.put("chroClasId", instrClasId);
+		checkMap.put("chusAccountId", studAccountId);
+		int n = service.countChatRoom(checkMap);
+		if(n>0) {
+			return "redirect:/chatPage.do";
+		}
 		Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String dateString = formatter.format(now);
-		ChatRoomVo newChatRoomVo = new ChatRoomVo();
-		newChatRoomVo.setChroId("CR"+dateString);// ex) CR2309181
-		int instrClasId = Integer.parseInt(instrAccountId.substring(4));
-		newChatRoomVo.setChroClasId(instrClasId);//강사 아이디 넣으면 될듯
-		newChatRoomVo.setChroTitle(instrVo.getUserNickname());//강사 명 넣으면 될듯
-		service.insertChatRoom(newChatRoomVo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("chroId", "CR"+dateString);
+		map.put("chroClasId", instrClasId);
+		map.put("chroTitle", instrVo.getUserNickname());
+		map.put("chroChatLog", "");
+		service.insertChatRoom(map);
 		String chroId = service.getChatDetailByClasId(instrClasId).getChroId();
 		
 		//학생 채팅 유저에 추가
@@ -100,7 +113,7 @@ public class ChatController {
 		chatInstr.setChusAccountId(instrAccountId);//사용자 id
 		chatInstr.setChusChroId(chroId);//채팅방ID
 		chatInstr.setChusType("O");//유저 구분
-		service.insertChatUser(chatUser);
+		service.insertChatUser(chatInstr);
 		
 		return "redirect:/chatPage.do";
 	}

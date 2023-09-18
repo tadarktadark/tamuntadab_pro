@@ -349,7 +349,7 @@ a {
 					<div id="chatting" style="position: fixed; color: #50AF49;">
 						<button type="button" class="btn btn-outline-success btn-icon"
 							style="font-size: 1.7em;">
-							<a href="#"> <i class="ri-customer-service-2-line"></i></a>
+							<a href="./intsrChatRoom.do?instrAccountId=TMTD103&studAccountId=${userInfo.userAccountId}"> <i class="ri-customer-service-2-line"></i></a>
 						</button>
 						<br> 문의하기
 					</div>

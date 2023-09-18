@@ -1,6 +1,7 @@
 package com.tdtd.tmtd.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class ChatDaoImpl implements IChatDao {
 	}
 
 	@Override
-	public int insertChatRoom(ChatRoomVo vo) {
-		return sqlSession.insert(NS+"insertChatRoom",vo);
+	public int insertChatRoom(Map<String, Object> map) {
+		return sqlSession.insert(NS+"insertChatRoom",map);
 	}
 
 	@Override
@@ -85,6 +86,11 @@ public class ChatDaoImpl implements IChatDao {
 	@Override
 	public UserProfileVo getInstrInfo(String userAccountId) {
 		return sqlSession.selectOne(NS+"getInstrInfo",userAccountId);
+	}
+
+	@Override
+	public int countChatRoom(Map<String, Object> map) {
+		return sqlSession.selectOne(NS+"countChatRoom",map);
 	}
 
 

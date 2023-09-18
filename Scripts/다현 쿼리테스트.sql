@@ -320,6 +320,13 @@ SELECT USER_ACCOUNT_ID ,USER_NAME ,USER_NICKNAME ,USER_PROFILE_FILE
 	FROM USER_PROFILE up  
 	WHERE USER_AUTH ='I';
 
+SELECT COUNT(*)
+FROM CHAT_USER cu
+JOIN CHAT_ROOM cr ON cu.CHUS_CHRO_ID = cr.CHRO_ID
+WHERE cr.CHRO_CLAS_ID = '103'
+AND cu.CHUS_ACCOUNT_ID = 'TMTD16';
+
+
 ----------------------------채팅 끝---------------------------
 
 ----------------------------알림 시작---------------------------
