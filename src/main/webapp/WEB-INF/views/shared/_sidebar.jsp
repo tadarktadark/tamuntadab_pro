@@ -292,7 +292,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			                        </span>
 								</button>
 								<div class="dropdown-menu dropdown-menu-end">
-			                        <h6 class="dropdown-header"><%=userInfo.getUserNickname()%>님 어서에요세요</h6>
+			                        <h6 class="dropdown-header"><%=userInfo.getUserNickname()%>님 어서오세요</h6>
 			                        <a class="dropdown-item" href="./mypage.do"><i class="ri-profile-line text-muted fs-17 align-middle me-1"></i> <span class="align-middle">MyPage</span></a>
 			                        <a class="dropdown-item" href="./chatList.do"><i class="bx bx-message-alt-detail text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
 			                        <a class="dropdown-item" id="logout" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>

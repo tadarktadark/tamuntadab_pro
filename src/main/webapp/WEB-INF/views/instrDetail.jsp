@@ -58,9 +58,9 @@ a {
 						<div class="col-md-6 p-4 ps-md-0">
 							<div class="d-flex align-items-center">
 								<h5 class="mt-0">${simpleVo.userProfileVo[0].userNickname}</h5>
-								<div class="flex-shrink-0" style="margin-left: 10px;">
-									<img src="./image/heart_do.png" alt=""
-										class="avatar-sm rounded-circle like-do" />
+								<div id="heartDiv" class="flex-shrink-0" style="margin-left: 10px;">
+<!-- 									<img src="./image/heart_do.png" alt="" -->
+<!-- 										class="avatar-sm rounded-circle like-do" /> -->
 								</div>
 							</div>
 							<p></p>
@@ -87,13 +87,15 @@ a {
 									data-bs-toggle="modal" data-bs-target="#qrModal">MOBILE
 										SITE</a></span>
 							</c:if>
+						<div id="currentCount">
+						</div>
 						</div>
 					</div>
 					<ul class="nav nav-tabs nav-border-top nav-justified">
 						<li class="nav-item"><a
 							class="nav-link ${empty profileVo ? 'disabled':'active'}"
 							aria-current="page" href="#profile">프로필</a></li>
-						<li class="nav-item"><a class="nav-link" id="careerTab">경력사항</a></li>
+						<li class="nav-item"><a class="nav-link ${simpleVo.inprCert eq 'N'? 'disabled':''}" id="careerTab">경력사항</a></li>
 						<li class="nav-item"><a
 							class="nav-link ${empty classVo? 'disabled':''}" id="classTab"
 							href="#class-history">클래스이력</a></li>
@@ -255,6 +257,17 @@ a {
 			})
 		})
 	});
+</script>
+<script id="heart-template" type="text/x-handlebars-template">
+<img src="./image/heart_{{heart}}.png" alt=""
+		class="avatar-sm rounded-circle like-do" id="{{id}}"/>
+</script>
+<script id="current-count-template" type="text/x-handlebars-template">
+	<p class="list-text mb-0 fs-12 mt-4"> 
+		<i class=" ri-timer-2-fill"></i>&ensp;{{regdate}}&ensp;
+		<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
+		<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
+	</p>
 </script>
 <script id="career-template" type="text/x-handlebars-template">
     {{#each this}}
