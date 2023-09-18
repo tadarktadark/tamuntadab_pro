@@ -21,27 +21,33 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					<div class="row gy-3">
-						<!-- Input with Icon -->
-						<c:if test="${sessionScope.community ne 'jayu'}">
-							<div class="d-flex gap-3">
+						<form>
+							<!-- Input with Icon -->
+							<c:if test="${sessionScope.community ne 'jayu'}">
+								<div class="d-flex gap-3">
+								    <div class="form-icon right-input">
+								    	<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+											<div class="choices__inner">
+												<div id="selectedSubjects" class="choices__list choices__list--multiple">
+												</div>
+												<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목 또는 클래스로 검색해보세요!" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
+											</div>
+										</div>
+								    </div>
+								    <div class="col-sm-auto ms-auto">
+									    <button id="reset-btn" type="button" class="btn btn-outline-primary rigth-btn">초기화</button>
+								    </div>
+								</div>
+							</c:if>
+							<div class="d-flex gap-3 mb-3 mt-1">
 							    <div class="form-icon right-input">
-							        <input type="text" class="form-control form-control-icon" id="iconInput" placeholder="과목 키워드로 검색해보세요!">
-							        <i class="ri-hashtag"></i>
+							        <input type="text" class="form-control" id="search-basic" placeholder="작성자, 제목, 내용으로 검색해보세요!">
 							    </div>
 							    <div class="col-sm-auto ms-auto">
-								    <button type="button" class="btn btn-outline-primary rigth-btn">초기화</button>
+								    <button type="submit" class="btn btn-primary rigth-btn">검색</button>
 							    </div>
 							</div>
-						</c:if>
-						<div class="d-flex gap-3 mb-3 mt-1">
-						    <div class="form-icon right-input">
-						        <input type="text" class="form-control form-control-icon" id="iconInput" placeholder="검색어를 입력해주세요!">
-						        <i class="ri-search-2-line"></i>
-						    </div>
-						    <div class="col-sm-auto ms-auto">
-							    <button type="button" class="btn btn-primary rigth-btn">검색</button>
-						    </div>
-						</div>
+						</form>
 					</div>
 					<div class="row gy-3">
 						<div class="col-sm-8 d-flex gap-3" id="select-box">
@@ -82,6 +88,7 @@
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/js/app.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>

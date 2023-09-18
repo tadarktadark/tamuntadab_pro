@@ -59,8 +59,8 @@ a {
 							<div class="d-flex align-items-center">
 								<h5 class="mt-0">${simpleVo.userProfileVo[0].userNickname}</h5>
 								<div id="heartDiv" class="flex-shrink-0" style="margin-left: 10px;">
-<!-- 									<img src="./image/heart_do.png" alt="" -->
-<!-- 										class="avatar-sm rounded-circle like-do" /> -->
+									<img src="./image/heart_do.png" alt=""
+										class="avatar-sm rounded-circle like-do" />
 								</div>
 							</div>
 							<p></p>
