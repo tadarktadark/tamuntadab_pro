@@ -9,7 +9,8 @@
 		<typeAlias type="com.tdtd.tmtd.vo.BoardVo" alias="boardVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.CareerVo" alias="careerVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ChamyeoVo" alias="chamyeoVo"/>
-		<typeAlias type="com.tdtd.tmtd.vo.ChatVo" alias="chatVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ChatRoomVo" alias="chatRoomVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.ChatUserVo" alias="chatUserVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ClassVo" alias="classVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.FileVo" alias="fileVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.GangeuisilVo" alias="gangeuisilVo"/>

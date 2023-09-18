@@ -1,4 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.ChatDaoImpl">
+
+
+<!-- 채팅방 목록 조회 -->
+<select id="getChatRoomList" parameterType="String" resultType="chatRoomVo">
+SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_DATE 
+        FROM CHAT_ROOM cr  JOIN CHAT_USER cu ON cr.CHRO_ID =cu.CHUS_CHRO_ID 
+        WHERE CHUS_ACCOUNT_ID ='TMTD1';
+</select>
+<!-- 채팅방 조회 -->
+<select id="getChatDetail" parameterType="String" resultType="chatRoomVo">
+SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_CHAT_LOG ,CHRO_DATE 
+        FROM CHAT_ROOM cr 
+        WHERE CHRO_ID ='CR230906001';
+</select>
+<!-- 채팅방 참가자 정보 조회 -->
+<select id="getChatUserList" parameterType="String" resultType="chatUserVo">
+SELECT CHUS_SEQ ,CHUS_CHRO_ID ,CHUS_ACCOUNT_ID ,CHUS_TYPE, USER_NICKNAME
+        FROM CHAT_USER cu JOIN USER_PROFILE up ON cu.CHUS_ACCOUNT_ID = up.USER_ACCOUNT_ID 
+        WHERE CHUS_CHRO_ID ='CR230906001';
+</select>
+<!-- 채팅방 생성 -->
+<insert id="insertChatRoom" parameterType="chatRoomVo">
+INSERT INTO CHAT_ROOM
+(CHRO_ID, CHRO_CLAS_ID, CHRO_TITLE, CHRO_CHAT_LOG, CHRO_DATE)
+VALUES('CR230907001', 1000000054, '채팅방 테스트', '', CURRENT_DATE);
+</insert>
+<!-- 채팅방 참가자 추가 -->
+<insert id="insertChatUser" parameterType="chatUserVo">
+INSERT INTO CHAT_USER
+(CHUS_SEQ, CHUS_CHRO_ID, CHUS_ACCOUNT_ID, CHUS_TYPE)
+VALUES(CHUS_SEQ.NEXTVAL, 'CR230907001', 'TMTD1', 'M');
+</insert>
+<!-- 채팅 저장하기 -->
+<update id="updateChatLog" parameterType="chatRoomVo">
+UPDATE CHAT_ROOM
+SET CHRO_CHAT_LOG='HI'
+WHERE CHRO_ID='CR230907001';
+</update>
+<!-- 채팅방 삭제 -->
+<delete id="delChatRoom" parameterType="String">
+DELETE FROM CHAT_ROOM
+        WHERE CHRO_ID='CR230907001';
+</delete>
+<!-- 채팅방에 있는 모든 참가자 삭제 -->
+<delete id="delAllChatUser" parameterType="String">
+DELETE FROM CHAT_USER cu 
+        WHERE CHUS_CHRO_ID ='CR230907001';
+</delete>
+<!-- 채팅 참가자 퇴장 -->
+<delete id="delChatUser" parameterType="Integer">
+DELETE FROM CHAT_USER
+        WHERE CHUS_SEQ='40';
+</delete>
+
+
+
+
 </mapper>
