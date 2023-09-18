@@ -6,8 +6,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ChatUserVo;
+import com.tdtd.tmtd.vo.ClassVo;
 
 @Repository
 public class ChatDaoImpl implements IChatDao {
@@ -62,6 +64,21 @@ public class ChatDaoImpl implements IChatDao {
 	@Override
 	public int delChatUser(int chusId) {
 		return sqlSession.delete(NS+"delChatUser",chusId);
+	}
+
+	@Override
+	public ClassVo getClassInfo(int clasId) {
+		return sqlSession.selectOne(NS+"getClassInfo",clasId);
+	}
+
+	@Override
+	public List<ChamyeoVo> getClassUser(int clchClasId) {
+		return sqlSession.selectList(NS+"getClassUser",clchClasId);
+	}
+
+	@Override
+	public ChatRoomVo getChatDetailByClasId(int chroClasId) {
+		return sqlSession.selectOne(NS+"getChatDetailByClasId",chroClasId);
 	}
 
 

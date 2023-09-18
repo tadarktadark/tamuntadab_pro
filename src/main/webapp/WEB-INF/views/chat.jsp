@@ -383,6 +383,27 @@
 		                            </div>
 		                        </div>
 		                    </li>
+		                    <li class="right"><!-- 내 채팅인지 아닌지에 따라서 왼쪽인지 오른쪽인지 -->
+		                        <div class="conversation-list">
+		                            <div class="d-flex">
+		                                <div class="flex-1 me-3">
+		                                    <div class="d-flex justify-content-between"><!-- 시간과 이름 -->
+		                                        <span class="time fw-normal text-muted ms-0 ms-md-4">Thursday 10:02 AM</span>
+		                                        <h5 class="fs-16 conversation-name align-middle"> Jimmie Williams </h5>
+		                                    </div>
+		                                    <div class="ctext-wrap"><!-- 채팅 내용 -->
+		                                        <div class="ctext-wrap-content">
+		                                            <p class="mb-0 text-start">
+		                                                Hi Martin, Glad to hear from you, I'm fine,what about you? and how it's going with the velocity website?
+		                                                </br>
+		                                                Of course I will help with this project
+		                                            </p>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                    </li>
 		                </ul>
 		            </div>
 		
