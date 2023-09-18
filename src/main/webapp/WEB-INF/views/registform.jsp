@@ -37,16 +37,21 @@
 											    </div>
 									    </div>
 									    <div class="col-md-2">
-									           <label for="name" class="form-label"><b>이름</b></label>
+								           <label for="name" class="form-label"><b>이름</b></label>
 									        <input type="text" class="form-control" id="name" placeholder="Name" name="userName" required>
+									        <div id="nameCheck" class="form-text fs-6 text-danger fw-bold invisible">최소 두글자 이상</div>
 									    </div>
 									    <div class="col-md-5">
 									           <label for="password" class="form-label"><b>비밀번호</b></label>
-									        <input type="password" class="form-control" id="password" name="userPassword" placeholder="Password" required>
+									      	 	 <input type="password" class="form-control" id="password" name="userPassword" placeholder="Password" required>
+									      	 	 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon h-100" style="padding-bottom: 24px;" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+									    		<div id="passwordCheck" class="form-text fs-6 text-danger fw-bold invisible">비밀번호는 8자리 이상이여야 하며 영문,숫자,특수문자가 반드시 포함되어야 합니다.</div>
 									    </div>
 									    <div class="col-md-5">
 									        <label for="passwordconfirm" class="form-label"><b>비밀번호 확인</b></label>
 									        <input type="password" class="form-control" id="passwordconfirm" placeholder="Password Confirm" required>
+									        <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon h-100" style="padding-bottom: 24px;" type="button" id="confirm-password-addon"><i class="ri-eye-fill align-middle"></i></button>
+									        <div id="confirmPasswordCheck" class="form-text fs-6 text-danger fw-bold invisible">입력한 비밀번호와 같지않습니다.</div>
 									    </div>
 									    <div class="col-md-6">
 									        <label for="PhoneNumber"  class="form-label"><b>핸드폰 번호</b></label>
