@@ -272,6 +272,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/commynityWrite.do", method=RequestMethod.POST)
+	@ResponseBody
 	public String commynityWrite(Model model, HttpSession session, BoardVo bVo) {
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 작성 : board{} boardVo {}", board, bVo);
@@ -304,7 +305,7 @@ public class CommunityController {
 			jyService.insertJayu(bVo);
 		}
 		
-		return "redirect:/communityDetails.do?id="+bVo.getId();
+		return bVo.getId();
 	}
 		
 	@RequestMapping(value="/commynityUploadImage.do", method = RequestMethod.POST)

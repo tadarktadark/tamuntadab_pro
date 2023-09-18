@@ -17,3 +17,28 @@
 #swal2-title{
 	font-weight: bold;
 }
+
+.ui-autocomplete {
+	background-color: #f9f9f9;
+	max-height: 200px;
+	max-width: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.ui-autocomplete li {
+	list-style-type: none;
+}
+
+.choices__inner {
+    display: flex;
+    flex-direction: row;
+}
+
+#selectedSubjects {
+    width: auto; /* 혹은 필요한 너비 값 */
+}
+
+#subjects {
+    flex-grow: 1; /* 해당 요소가 남은 공간을 채우도록 설정 */
+}

@@ -16,7 +16,7 @@
 						<form action="./insertInstrProfile.do" method="post">
 							<input type="hidden" value="${accountId}" name="inprAccountId">
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;">
 									<label for="inprIntro" class="form-label">한줄 소개</label>
 									<textarea class="form-control" name="inprIntro" id="inprIntro"
 										rows="3" placeholder="자신을 소개하는 한마디를 적어주세요(100자 이내)">${not empty profile ? profile.inprIntro : ''}</textarea>
@@ -24,7 +24,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;">
 									<label for="inprSiteYoutube" class="form-label">유튜브 링크</label>
 									<input type="url" class="form-control" id="inprSiteYoutube"
 										name="inprSiteYoutube" placeholder="소개할 자신의 유튜브 url"
@@ -32,7 +32,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;">
 									<label for="inprSiteWeb" class="form-label">웹사이트 링크</label> <input
 										type="url" class="form-control" id="inprSiteWeb"
 										name="inprSiteWeb" placeholder="소개할 웹 홈페이지"
@@ -40,7 +40,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;">
 									<label for="inprSiteMobile" class="form-label">모바일 사이트
 										링크</label> <input type="url" class="form-control" id="inprSiteMobile"
 										name="inprSiteMobile" placeholder="소개할 모바일 홈페이지"
@@ -48,12 +48,13 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;" class="table-responsive">
 									<label for="formtextInput" class="form-label"
 										style="margin-right: 10px;">학력</label>
 									<button type="button" class="btn btn btn-outline-secondary"
 										onclick="addEduLevel()">+ 학력추가</button>
-									<table class='education-table table table-nowrap'
+									<div class="table-responsive">
+									<table class='instr education-table table table-nowrap'
 										style="display: none;">
 										<thead class="table-light">
 											<tr style="text-align: center;">
@@ -66,7 +67,7 @@
 												<th scope="col">&nbsp;&nbsp;</th>
 											</tr>
 										</thead>
-										<tbody class="instr">
+										<tbody class="appendDiv">
 											<c:if test="${not empty profile.instrEduVo}">
 												<c:forEach var="edu" items="${profile.instrEduVo}" varStatus="vs">
 													<tr style="text-align: center;" class="isDb">
@@ -101,10 +102,11 @@
 											</c:if>
 										</tbody>
 									</table>
+									</div>
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;">
 									<div class="col-lg-3">
 										<label for="inprSubjects" class="form-label">가능한 과목</label>
 									</div>
@@ -144,7 +146,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div style="width: 800px;">
 									<div class="col-lg-3">
 										<label for="inprSubjectsMajor" class="form-label">전문
 											분야 과목</label>
@@ -202,11 +204,6 @@
 				</div>
 </body>
 <script type="text/javascript" charset="UTF-8">
-window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-});
-
 function deleteRow(button) {
 	var row = $(button).closest('tr');
     var isDbRow = row.attr('class') === 'isDb';
@@ -338,7 +335,7 @@ $('form').on('submit', function(e) {
                     title:'성공적으로 저장되었습니다.',
                     icon:'success'
                 }).then(function() {
-                    window.location.href = './home.do';
+                    window.location.href = './mypage.do';
                 });
             } else {
                 Swal.fire({
@@ -355,7 +352,7 @@ $('form').on('submit', function(e) {
    });
 		} else if (result.isDenied) {
 			Swal.fire('변경사항이 적용되지 않았습니다', '', 'info').then(function() {
-                window.location.href = './home.do';
+                window.location.href = './mypage.do';
             });
 		}
 	});
@@ -366,7 +363,7 @@ body {
 	padding: 30px;
 }
 
-.card-body {
+.instr{
 	display: flex;
 	justify-content: center;
 	align-items: center;

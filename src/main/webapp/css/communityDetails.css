@@ -465,3 +465,10 @@
 	margin-bottom:0px;
 	padding-top : 3px;
 }
+
+.email-leftbar {
+	position: sticky;
+	top: 80px;
+	width:200px;
+	padding-right: 15px;
+}

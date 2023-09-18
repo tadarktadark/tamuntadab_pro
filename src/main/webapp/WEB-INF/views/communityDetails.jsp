@@ -21,12 +21,12 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					<div class="row">
-					    <div class="col-12 d-flex gap-3">
+					    <div class="col-12 gap-3">
 					    	<c:if test="${sessionScope.community eq 'pilgi'}">
 								<!-- Left sidebar -->
-						        <div class="email-leftbar">
-				                    <h5 class="mt-3 fs-15 text-uppercase">목차</h5>
-							        <div class="card p-0 overflow-hidden mt-3 shadow-none">
+						        <div class="email-leftbar col-1">
+						        	<h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 목차</span></h5>
+							        <div class="card p-0 overflow-hidden shadow-none">
 			                            <div id="list-example" class="list-group">
 			                                <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
 			                                <a class="list-group-item list-group-item-action active" href="#list-item-2">Item 2</a>
@@ -34,9 +34,9 @@
 			                                <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
 			                            </div>
 			                        </div>
-			                        <c:if test="${yList != null}">
-			                        	<h5 class="mt-3 fs-15 text-uppercase">연관 필기 목록</h5>
-					                    <div class="card p-0 overflow-hidden mt-3 shadow-none">
+			                        <c:if test="${yList.size() > 0}">
+			                        	<h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 연관 필기</span></h5>
+					                    <div class="card p-0 overflow-hidden shadow-none">
 					                        <div class="mail-list">
 					                        	<c:forEach items="${yList}" var="y" varStatus="vs">
 					                        		<c:choose>
@@ -55,7 +55,7 @@
 						        <!-- End Left sidebar -->
 					        <!-- Right Sidebar -->
 					    	</c:if>
-					        <div class="${condition ? 'email-rightbar mb-3' : 'row'}">
+					        <div class="${condition ? 'email-rightbar col-11 mb-3' : 'row'}">
 					        	<div class="card">
 					                <div class="card-body">
 					
@@ -113,6 +113,7 @@
 													</c:forEach>
 												</div>	
 					                        </div>
+					                        <hr>
 					                        <c:choose>
 					                        	<c:when test="${bVo.state eq 'P'}">
 					                        		<div class="hstack gap-3 mb-3">

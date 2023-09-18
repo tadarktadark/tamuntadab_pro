@@ -58,8 +58,12 @@ public class InstrController {
 							@RequestParam(value="end", defaultValue = "12") int end) {
 		log.info("InstrController instrList 이동");
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("order", "like");
+		map.put("start", 1);
+		map.put("end", 8);
 		
-		List<InstrVo> lists = service.getAllInstr("like");
+		List<InstrVo> lists = service.getAllInstr(map);
 		
 		for (InstrVo instrVo : lists) {
 			String subjectsMajorTitle = instrVo.getSubjectsMajorTitle();
@@ -90,23 +94,17 @@ public class InstrController {
 		return "instrList";
 	}
 	
-	//강사 게시판 페이지 내 조회순서 변경시 작동 AJAX
+	//강사 전체 조회 페이지 스크롤 API ajax
+	@GetMapping("/instrMoreList.do")
 	@ResponseBody
-	@GetMapping("/instrView.do")
-	public String instrView(@RequestParam(required = false) String order, HttpSession session) {
-		log.info("###########order: {}", order);
-		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		String accountId = userInfo != null ? userInfo.getUserAccountId() : null;
+	public Map<String, Object> instrMoreList(@RequestParam Map<String, Object> map, HttpSession session){
+		log.info("instrMoreList 받아온 map: {}", map);
 		
-		List<InstrVo> lists = service.getAllInstr(order);
+		List<InstrVo> lists = service.getAllInstr(map);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
 		for (InstrVo instrVo : lists) {
-			String subjectsMajorTitle = instrVo.getSubjectsMajorTitle();
-			String subjectsTitle = instrVo.getSubjectsTitle();
-			subjectsMajorTitle = subjectsMajorTitle.replace("[", "").replace("]", "").replace("\"", "");
-			subjectsTitle = subjectsTitle.replace("[", "").replace("]", "").replace("\"", "");
-			
-			instrVo.setSubjectsMajorTitle(subjectsMajorTitle);
-			instrVo.setSubjectsTitle(subjectsTitle);
 			
 			String birthDateString = instrVo.getUserProfileVo().get(0).getUserBirth();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -116,13 +114,17 @@ public class InstrController {
 			
 			int age = Period.between(birthDate, LocalDate.now()).getYears();
 			instrVo.setInprAge(age);
-			
-			instrVo.getUserProfileVo().get(0).setUserAccountId(accountId);
 		};
 		
-		Gson gson = new GsonBuilder().serializeNulls().create();
-		log.info("$$$$$$$$$$조회 ajax 결과 : {}", gson.toJson(lists));
-		return gson.toJson(lists);		
+		int end = Integer.parseInt(map.get("end").toString());
+		int totalCount = service.getAllInstrCount();
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("lists", lists);
+		response.put("hasMore", end < totalCount);
+		response.put("userInfo", userInfo);
+		log.info("%%%%%%%%%%%hasMore {}", response.get("hasMore"));
+		return response;
 	}
 	
 	//강사 게시판 페이지 내 강사 검색 실행 AJAX
@@ -156,8 +158,6 @@ public class InstrController {
 		 log.info("########### instrSearch.do 반환할 값: {}", gson.toJson(resultList)); 
 		 return gson.toJson(resultList);
 	}
-	
-	
 	
 	//elasticsearch 데이터 강사 만 나이 변환 메소드
 	private int calculateAge(String birthDate) {
@@ -255,7 +255,7 @@ public class InstrController {
 		return response;
 	}
 	
-	//후기 클릭시 ajax 실행
+	//후기 ajax 실행 (스크롤, 조회순서)
 	@GetMapping("/instrReviewDetail.do")
 	@ResponseBody
 	public Map<String, Object> instrReview(@RequestParam Map<String, Object> map){
@@ -303,6 +303,7 @@ public class InstrController {
 		return result;
 	}
 	
+	//강사 조회수 update 및 첫페이지 로드시 조회수, 좋아요수 반환
 	@ResponseBody
 	@GetMapping("/viewCount.do")
 	public Map<String, Object> viewCount(@RequestParam Map<String, Object> map){

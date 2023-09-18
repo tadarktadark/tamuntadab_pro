@@ -50,8 +50,13 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public List<InstrVo> getAllInstr(String order) {
-		return sqlSession.selectList(NS+"getAllInstr", order);
+	public List<InstrVo> getAllInstr(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getAllInstr", map);
+	}
+	
+	@Override
+	public int getAllInstrCount() {
+		return sqlSession.selectOne(NS+"getAllInstrCount");
 	}
 
 	@Override

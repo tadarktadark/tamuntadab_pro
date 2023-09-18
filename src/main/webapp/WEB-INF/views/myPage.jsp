@@ -10,7 +10,8 @@
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
 <%@ include file="./shared/_head_css.jsp"%>
 <%@ include file="./shared/_vender_scripts.jsp"%>
-<script type="text/javascript" src="./js/myPage.js"></script>
+<link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -351,6 +352,7 @@
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp"%>
+			<script type="text/javascript" src="./js/myPage.js"></script>
 		</div>
 	</div>
 </body>
