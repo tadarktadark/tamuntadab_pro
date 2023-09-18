@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
@@ -8,6 +9,8 @@
 <meta charset="UTF-8">
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
 <%@ include file="./shared/_head_css.jsp"%>
+<%@ include file="./shared/_vender_scripts.jsp"%>
+<script type="text/javascript" src="./js/myPage.js"></script>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -63,7 +66,6 @@
 											<div class="text-center">
 												<img src="<%=userInfo.getUserProfileFile()%>" alt="<%=userInfo.getUserName()%>의 프로필 사진"
 													class="avatar-lg rounded-circle img-thumbnail">
-
 												<div class="mt-3">
 													<h5 class="mb-2"><b><%=userInfo.getUserName()%></b></h5>
 													<div class="mt-4">
@@ -105,7 +107,7 @@
 									<div class="card-body pt-2">
 										<div class="table-responsive">
 											<table class="table align-middle table-nowrap mb-0">
-												<tbody>
+												<tbody class="asdf1234">
 													<tr>
 														<td style="width: 50px;"><img
 															src="~/assets/images/users/avatar-2.jpg"
@@ -236,8 +238,8 @@
 										%>
 										<li class="nav-item">
 											<a class="nav-link px-3" data-bs-toggle="tab" href="#instrInfo" role="tab" aria-selected="false"> 
-												<i class="ph ph-chalkboard-teacher-bold fs-20"></i>
-											<span class="d-none d-sm-block">강사 정보</span>
+												<i class=" bx bx-add-to-queue fs-20"></i>
+											<span class="d-none d-sm-block">강사 정보 등록</span>
 											</a>
 										</li>
 										<%
@@ -333,7 +335,7 @@
 												<!-- 강사 정보 목록 -->
 												<div class="tab-pane" id="instrInfo" role="tabpanel">
 													<div class="p-4">
-														강사 정보 구간 입니다.
+														<%@ include file="./testinstrProfileForm2.jsp"%>
 													</div>
 													<!-- end card -->
 												</div>
@@ -341,7 +343,6 @@
 											<%
 										}
 									%>
-							
 								</div>
 								<!-- end tab content -->
 							</div>
@@ -352,7 +353,5 @@
 			<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>
-	<%@ include file="./shared/_vender_scripts.jsp"%>
-	<script type="text/javascript" src="./js/myPage.js"></script>
 </body>
 </html>
