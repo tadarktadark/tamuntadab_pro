@@ -28,7 +28,7 @@ public interface ICommUserDao {
 	* @author : 임정운
 	* @since : 2023.09.08
 	*/
-	public boolean searchNickName(String userNickName);
+	public boolean searchNickName(Map<String,Object> map);
 	
 	/**
 	* NOTE 입력 값을 받아 해당 입력 값을 USER_PROFILE DB에 저장시키는 메소드

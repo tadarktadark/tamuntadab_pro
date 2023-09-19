@@ -118,4 +118,18 @@ public class CommUserServiceImpl implements ICommUserService {
 		}
 		return n==2?1:0;
 	}
+
+	@Override
+	public String searchNickName(Map<String,Object> map) {
+		boolean isc = cdao.searchNickName(map);
+		if (isc==false) {
+			int n = cdao.updateUserInfo(map);
+			if(n>0) {
+				return "true";
+			}else {
+				return "false";
+			}
+		}
+		return "false";
+	}
 }
