@@ -15,7 +15,7 @@ public interface IClassService {
 	 * @author 김기훈
 	 * @since 2023-09-10
 	 */
-	public List<ClassVo> getClassList(Map<String, Object> map);
+	public List<ClassVo> getAllClassListForS(Map<String, Object> map);
 	
 	/**
 	 * 페이징 처리될 전체 클래스 수 조회
@@ -23,7 +23,7 @@ public interface IClassService {
 	 * @author 김기훈
 	 * @since 2023-09-10
 	 */
-	public int getClassListCount();
+	public int getAllClassListForSCount();
 	
 	/**
 	 * 기존 과목을 통한 클래스 개설 후, 해당 클래스에 개설자를 클래스장으로 포함시킨다

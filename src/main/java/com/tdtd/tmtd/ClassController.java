@@ -51,7 +51,7 @@ public class ClassController {
 							@RequestParam("page") String pageAttr) {
 		
 		
-		int totalClass = cService.getClassListCount();
+		int totalClass = cService.getAllClassListForSCount();
 		
 		log.info("ClassController subjectManage 가져온 현재 페이지 = {}", pageAttr);
 		int thisPage = 0;
@@ -79,7 +79,7 @@ public class ClassController {
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		listMap.put("first", pagingMap.get("start"));
 		listMap.put("last", pagingMap.get("end"));
-		List<ClassVo> classList = cService.getClassList(listMap);
+		List<ClassVo> classList = cService.getAllClassListForS(listMap);
 		
 		Map<String, Object> result = new HashMap<>();
 	    result.put("pVo", pVo);

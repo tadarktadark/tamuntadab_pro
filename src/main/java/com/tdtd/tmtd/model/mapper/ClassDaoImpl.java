@@ -27,8 +27,8 @@ public class ClassDaoImpl implements IClassDao {
 	 * @since 2023-09-10
 	 */
 	@Override
-	public List<ClassVo> getClassList(Map<String, Object> map) {
-		return sqlSession.selectList(NS+"getClassList",map);
+	public List<ClassVo> getAllClassListForS(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getAllClassListForS",map);
 	}
 	
 	/**
@@ -38,8 +38,8 @@ public class ClassDaoImpl implements IClassDao {
 	 * @since 2023-09-10
 	 */
 	@Override
-	public int getClassListCount() {
-		return sqlSession.selectOne(NS+"getClassListCount");
+	public int getAllClassListForSCount() {
+		return sqlSession.selectOne(NS+"getAllClassListForSCount");
 	}
 	
 	/**
@@ -107,6 +107,18 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	public ClassVo getClassDetail(String clasId) {
 		return sqlSession.selectOne(NS+"getClassDetail", clasId);
+	}
+
+	@Override
+	public List<ClassVo> getAllClassListForA(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getAllClassListForACount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

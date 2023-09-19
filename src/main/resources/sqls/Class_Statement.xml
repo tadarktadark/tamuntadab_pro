@@ -41,8 +41,8 @@
 		<collection property="subjVo" resultMap="subjectMap"/>
 	</resultMap>
 
-	<!-- 페이징 할 클래스 조회 -->
-	<select id="getClassList" parameterType="java.util.Map" resultMap="classMap">
+	<!-- 모든 클래스 조회 (관리자) -->
+		<select id="getAllClassListForA" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
 		CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE,CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
 		FROM (
@@ -63,15 +63,75 @@
 			WHERE CLCH_YEOKAL='M'
 		)
 		WHERE RN BETWEEN #{first} AND #{last}
-	</select>
-
-	<!-- 페이징 할 전체 클래스 갯수 조회 -->
-	<select id="getClassListCount" resultType="java.lang.Integer">
+		</select>
+	<!-- 모든 클래스 갯수 조회 (관리자) -->
+	<select id="getAllClassListForACount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
-		FROM
-		TMTD.CLASS
+		FROM CLASS
 	</select>
-
+	<!-- 모집 중인 전체 클래스 조회 (학생) -->
+	<select id="getAllClassListForS" parameterType="java.util.Map" resultMap="classMap">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
+			CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE,CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
+		FROM (
+			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+				jot.SUBJ_TITLE,up.USER_NICKNAME, c.CLAS_REGDATE,c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN, 
+				ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE c.CLAS_STATUS='모집'
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_YEOKAL = 'M'
+		)
+		WHERE RN BETWEEN #{first} AND #{last}
+	</select>
+	<!--  모잡 중인 전체 클래스 갯수 조회 (학생) -->
+	<select id="getAllClassListForSCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM CLASS
+		WHERE CLAS_STATUS='모집'
+	</select>
+	
+	<!-- 카테고리별 모집 중인 클래스 조회 (학생) -->
+	<select id="getCategoryClassListForS" parameterType="java.util.Map" resultMap="classMap">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
+		       CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
+		FROM (
+		    SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+		           jot.SUBJ_TITLE, up.USER_NICKNAME, c.CLAS_REGDATE, c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN,
+		           ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE s.SUBJ_CATEGORY = #{subjCategotry}
+		        AND c.CLAS_STATUS='모집'
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_YEOKAL = 'M'
+		)WHERE RN BETWEEN #{first} AND #{last}
+	</select>
+	<!-- 카테고리별 모집 중인 클래스 갯수 조회 (학생) -->
+	<select id="getCategoryClassListForSCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(*)
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE s.SUBJ_CATEGORY = #{subjCategotry}
+		        AND c.CLAS_STATUS='모집'
+	</select>
+	<!-- 참여 가능한 모든 클래스 조회 (강사) -->
 	<!-- 클래스 상세조회 -->
 	<select id="getClassDetail" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
