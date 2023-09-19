@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -30,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
+import com.tdtd.tmtd.model.mapper.ICommUserDao;
 import com.tdtd.tmtd.model.service.ICommUserService;
 import com.tdtd.tmtd.model.service.IInstrService;
 import com.tdtd.tmtd.vo.InstrVo;
@@ -49,6 +51,9 @@ public class UserController {
 
 	@Autowired
 	private ICommUserService commUserService;
+	
+	@Autowired
+	private ICommUserDao commuserDao;
 
 	@Autowired
 	private IInstrService service;
@@ -140,11 +145,22 @@ public class UserController {
 		return "false";
 	};
 
-	@RequestMapping(value = "updatePassword.do", method = RequestMethod.POST)
+	@RequestMapping(value = "updatePassword.do", method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
 	@ResponseBody
-	public String updatePassword(@RequestParam Map<String, Object> map, HttpServletResponse resp) {
-		resp.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html;charset=UTF-8");
+	public String updatePassword(@RequestParam Map<String, Object> map, HttpServletResponse resp, HttpServletRequest req, HttpSession session) throws UnsupportedEncodingException {
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
+		
+		if(session.getAttribute("userInfo")!=null) {
+			UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+			map.put("userAccountId",userInfo.getUserAccountId());
+			int m = commuserDao.updateUserPassword(map);
+			if(m>0) {
+				return "<script>alert('비밀번호가 변경되었습니다.'); location.href='./';</script>";
+			}else {
+				return "<script>alert('관리자에게 문의해 주세요.');";
+			}
+		}
 		int n = commUserService.updateUserPassword(map);
 		if (n > 0) {
 			return "<script>alert('비밀번호가 변경되었습니다.'); location.href='./';</script>";
