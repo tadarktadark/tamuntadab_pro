@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +33,7 @@ import org.springframework.web.util.WebUtils;
 import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.LikeViewUtils;
 import com.tdtd.tmtd.comm.PagingUtils;
+import com.tdtd.tmtd.model.service.ElasticsearchService;
 import com.tdtd.tmtd.model.service.IFileService;
 import com.tdtd.tmtd.model.service.IJayuService;
 import com.tdtd.tmtd.model.service.IJilmunService;
@@ -57,6 +60,9 @@ public class CommunityController {
 	
 	@Autowired
 	private IFileService fService;
+	
+	@Autowired
+	private ElasticsearchService eService;
 		
 	@RequestMapping(value="/community.do", method=RequestMethod.GET)
 	public String community(Model model, HttpSession session, String board) {
@@ -432,6 +438,18 @@ public class CommunityController {
 			out.close();
 			in.close();
 		}
+		
+	}
+	
+	@RequestMapping(value="/communitySearch.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public void communitySearch(HttpSession session, @RequestBody Map<String, Object> formData) throws IOException {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 검색 : board {}, formData {}",board, formData);		
+		
+		List<Map<String, Object>> resultList = eService.search(formData, board, 10);
+		
+		Gson gson = new Gson();
+		System.out.println("result : "+gson.toJson(resultList));
 		
 	}
 }

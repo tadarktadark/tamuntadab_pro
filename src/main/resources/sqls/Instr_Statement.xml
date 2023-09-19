@@ -195,7 +195,7 @@ SELECT COUNT(*)
 </update>
 
 <select id="getlikeViewUser" resultType="instrVo">
-	SELECT INPR_LIKE, INPR_VIEW, NVL(INPR_LIKE_COUNT,0)
+	SELECT INPR_LIKE, INPR_VIEW, NVL(INPR_LIKE_COUNT,0) AS INPR_LIKE_COUNT
 		FROM INSTR_PROFILE
 		WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </select>

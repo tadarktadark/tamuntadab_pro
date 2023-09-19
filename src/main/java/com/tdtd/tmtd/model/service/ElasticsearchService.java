@@ -59,7 +59,7 @@ public class ElasticsearchService {
 	        String title = (String) formData.get("title");
 	        applyTitleCondition(boolQueryBuilder, title);
 	        
-	        String classname = (String) formData.get("classname");
+	        List<String> classname = (List<String>) formData.get("classname");
 	        applyClassNameCondition(boolQueryBuilder, classname);
 	        
 	        Map<String, Object> ageMap = (Map<String, Object>)formData.get("age");
@@ -167,7 +167,7 @@ public class ElasticsearchService {
 		//title OR content 일치 단어 검색
 		private void applyTitleCondition(BoolQueryBuilder boolQueryBuilder, String title) {
 		    if (title != null && !title.equals("")) {
-		        MultiMatchQueryBuilder multiMatchQB = QueryBuilders.multiMatchQuery(title, "title", "content")
+		        MultiMatchQueryBuilder multiMatchQB = QueryBuilders.multiMatchQuery(title, "title", "content", "nickname")
 		            .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX)
 		            .maxExpansions(10);
 		        boolQueryBuilder.should(multiMatchQB);
@@ -175,15 +175,24 @@ public class ElasticsearchService {
 		}
 		
 		private void applyClassNameCondition(BoolQueryBuilder boolQueryBuilder,
-							String classname) {
-			if(classname != null && !classname.equals("")) {
+					List<String> classname) {
+			if(classname != null && !classname.isEmpty()) {
+				BoolQueryBuilder boolSubjectQueryBulider = QueryBuilders.boolQuery();
+	            for(String c : classname){
+	                MultiMatchQueryBuilder multiMatchQueryStringBuilder =
+	                        QueryBuilders.multiMatchQuery(c).field("classname");
+	                boolSubjectQueryBulider.should(multiMatchQueryStringBuilder);
+	            }
+	            boolQueryBuilder.filter(boolSubjectQueryBulider);
+	    	}
+//			if(classname != null && !classname.equals("")) {
 //			MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
 //			QueryBuilders.matchPhrasePrefixQuery("classname", classname).maxExpansions(10);
 //			boolQueryBuilder.filter(matchPhrasePrefixQB);
 				
-				QueryBuilder qb = QueryBuilders.wildcardQuery("classname", "*" + classname + "*");
-	    	     boolQueryBuilder.must(qb);
-			}
+//				QueryBuilder qb = QueryBuilders.wildcardQuery("classname", "*" + classname + "*");
+//	    	     boolQueryBuilder.must(qb);
+//			}
 		}
 
 		// 나이 최소 최대 범위 검색 ageGt : 최소 나이값 / ageLt : 최대 나이값
@@ -270,7 +279,7 @@ public class ElasticsearchService {
 		        throw new IllegalArgumentException("Invalid title type");
 		    }
 		    
-		    if (formData.containsKey("classname") && !(formData.get("classname") instanceof String)) {
+		    if (formData.containsKey("classname") && !(formData.get("classname") instanceof List)) {
 		        throw new IllegalArgumentException("Invalid title type");
 		    }
 		    
