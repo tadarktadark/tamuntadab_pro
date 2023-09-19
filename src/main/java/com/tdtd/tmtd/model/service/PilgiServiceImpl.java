@@ -100,7 +100,8 @@ public class PilgiServiceImpl implements IPilgiService {
 		int n = 0;
 		n += dao.insertPilgi(vo);
 		n += dao.updateClchPilgiState(map);
-		if(files!=null) {
+				
+		if(files[0].getSize() > 0) {
 			for (MultipartFile f : files) {
 				Map<String, Object> fMap = fSerivce.fileSave(f, request);
 				fMap.put("fileRefPk", vo.getId());
