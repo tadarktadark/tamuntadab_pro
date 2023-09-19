@@ -22,7 +22,14 @@
 	
 	<update id="updateUserPassword" parameterType="java.util.Map">
 		UPDATE USER_PROFILE SET USER_PASSWORD=#{userPassword}
-			WHERE USER_PASSWORD_RESET_TOKEN=#{tokenValue}
+			<choose>
+				<when test="tokenValue == 'mypage'">
+					WHERE USER_ACCOUNT_ID =#{userAccountId}
+				</when>
+				<otherwise>
+					WHERE USER_PASSWORD_RESET_TOKEN=#{tokenValue}
+				</otherwise>
+			</choose>
 	</update>
 	
 	<update id="deleteResetPwToken">

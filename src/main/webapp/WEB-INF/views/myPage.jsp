@@ -42,7 +42,7 @@
 						                                                <%
 						                                                	if(userInfo.getUserSite().equals("T")){
 						                                                		%>
-						                                                		 <li><a class="dropdown-item" href="#">비밀번호 변경</a></li>
+						                                                		 <li><a class="dropdown-item" href="./updatePassword.do?tokenValue=mypage">비밀번호 변경</a></li>
 						                                           			     <li>
 							                                                    <a class="dropdown-item" href="#">회원 탈퇴</a>
 						                                                		<%
@@ -86,16 +86,38 @@
 										<div class="p-3 mt-3">
 											<div class="row text-center">
 												<div class="col-6 border-end">
-													<div class="p-1">
-														<h5 class="mb-1">3</h5>
-														<p class="text-muted mb-0">진행 대기 클래스</p>
-													</div>
+												<%if(userInfo.getUserAuth().equals("S")){
+														%>
+														<div class="p-1">
+															<h5 class="mb-1">72</h5>
+															<p class="text-muted mb-0">진행 예정 클래스</p>
+														</div>
+														<%
+														}else{
+														%>
+														<div class="p-1">
+															<button class="btn rounded-pill btn-primary" onclick="location.href='./instrProfileForm.do'">강사 프로필 등록</button>
+														</div>	
+														<%
+														}
+														%>
 												</div>
 												<div class="col-6">
+													<%if(userInfo.getUserAuth().equals("S")){
+														%>
 													<div class="p-1">
 														<h5 class="mb-1">105</h5>
 														<p class="text-muted mb-0">완료 클래스</p>
 													</div>
+														<%
+													}else{
+														%>
+													<div class="p-1">
+														<button class="btn rounded-pill btn-primary" onclick="location.href='./instrCareer.do'">인증 요청 페이지</button>
+													</div>	
+														<%
+													}
+														%>
 												</div>
 											</div>
 										</div>
@@ -238,17 +260,6 @@
 										aria-selected="false"> <i class="ri ri-heart-add-line fs-20"></i>
 											<span class="d-none d-sm-block">내 좋아요 목록</span>
 									</a></li>
-									<% if(userInfo.getUserAuth().equals("I")){
-										%>
-										<li class="nav-item">
-											<a class="nav-link px-3" data-bs-toggle="tab" href="#instrInfo" role="tab" aria-selected="false"> 
-												<i class=" bx bx-add-to-queue fs-20"></i>
-											<span class="d-none d-sm-block">강사 정보 등록</span>
-											</a>
-										</li>
-										<%
-									}
-									%>
 								</ul>
 								<!-- 클래스 구간 -->
 								<div class="tab-content">
@@ -349,20 +360,6 @@
 										<!-- end card -->
 									</div>
 									<!-- 내 좋아요 끝 -->
-									<%
-										if(userInfo.getUserAuth().equals("I")){
-											%>
-												<!-- 강사 정보 목록 -->
-												<div class="tab-pane" id="instrInfo" role="tabpanel">
-													<div class="p-4">
-														<%@ include file="./testinstrProfileForm2.jsp"%>
-													</div>
-													<!-- end card -->
-												</div>
-												<!-- 강사 정보 끝 -->
-											<%
-										}
-									%>
 								</div>
 								<!-- end tab content -->
 							</div>
