@@ -1,6 +1,11 @@
 package com.tdtd.tmtd;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +13,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,14 +22,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.service.ICommUserService;
+import com.tdtd.tmtd.model.service.IInstrService;
+import com.tdtd.tmtd.vo.InstrVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,121 +45,189 @@ import net.nurigo.sdk.message.service.DefaultMessageService;
 @Controller
 @Slf4j
 public class UserController {
-	
 
 	Gson gson = new Gson();
-	
+
 	@Autowired
 	private ICommUserService commUserService;
-	
+
+	@Autowired
+	private IInstrService service;
+
 	@Autowired
 	private JavaMailSender mailsender;
-	
-	@RequestMapping(value="updatePassword.do",method = RequestMethod.POST)
+
+	@RequestMapping(value = "uploadImg.do", method = RequestMethod.POST)
+	@ResponseBody
+	public String uplodaImg(@RequestParam MultipartFile file, HttpSession session, HttpServletRequest req)
+			throws IOException {
+		UserProfileVo vo = (UserProfileVo) session.getAttribute("userInfo");
+		String originalFileName = file.getOriginalFilename();
+		String saveFileName = UUID.randomUUID().toString()
+				+ originalFileName.substring(originalFileName.lastIndexOf("."));
+		InputStream inputStream = file.getInputStream();
+		OutputStream outputStream = null;
+		
+		log.info("{}",req.getServletContext().toString()+"upload");
+		// 2) 저장 위치를 만든다
+		String path = WebUtils.getRealPath(req.getSession().getServletContext(), "/userProfile");// 상대경로
+
+		// 3) 저장 위치가 없으면 만든다
+		File storage = new File(path);
+		if (!storage.exists()) {
+			storage.mkdir();
+		}
+		
+		File newFile = new File(path+"/"+saveFileName);
+		
+		if (vo.getUserProfileFile().equals("./image/profile.png")) {
+		      outputStream = new FileOutputStream(newFile);
+		      int read = 0;
+		      byte[] b = new byte[(int)file.getSize()];
+		      while ((read=inputStream.read(b))!= -1) {
+		          outputStream.write(b,0,read);
+		      }
+		      log.info("{}",path+"/"+saveFileName);
+		} else {
+			// 삭제할 파일 경로
+			String filePath = vo.getUserProfileFile();
+			// 파일 객체 생성
+			File oldProfile = new File(vo.getUserProfileFile());
+			 int read = 0;
+		      byte[] b = new byte[(int)file.getSize()];
+		      while ((read=inputStream.read(b))!= -1) {
+		          outputStream.write(b,0,read);
+		      }
+			// 파일이 존재하면 삭제
+			if (oldProfile.exists()) {
+			      outputStream = new FileOutputStream(newFile);
+				if (oldProfile.delete()) {
+					//파일 삭제 성공시
+					 read = 0;
+				      b = new byte[(int)file.getSize()];
+				      while ((read=inputStream.read(b))!= -1) {
+				          outputStream.write(b,0,read);
+				      }
+				      return "false";
+				} else {
+					return "false";
+				}
+			} else {
+				System.out.println("파일이 존재하지 않습니다.");
+				return "false";
+			}
+		}
+		return "false";
+	};
+
+	@RequestMapping(value = "updatePassword.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String updatePassword(@RequestParam Map<String, Object> map, HttpServletResponse resp) {
 		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html;charset=UTF-8");
 		int n = commUserService.updateUserPassword(map);
-		if(n>0) {
+		if (n > 0) {
 			return "<script>alert('비밀번호가 변경되었습니다.'); location.href='./';</script>";
-		}else {
+		} else {
 			return "<script>alert('관리자에게 문의해 주세요.');";
 		}
 	}
-	
-	@RequestMapping(value="updatePassword.do",method = RequestMethod.GET)
+
+	@RequestMapping(value = "updatePassword.do", method = RequestMethod.GET)
 	public String updatePasswordForm() {
 		return "updatePasswordForm";
 	}
-	
-	@RequestMapping(value="sendToken.do")
+
+	@RequestMapping(value = "sendToken.do")
 	@ResponseBody
 	public String sendToken(@RequestParam Map<String, Object> userInfo, HttpServletRequest req) {
-		userInfo.put("tokenValue", UUID.randomUUID().toString().substring(0,36));
+		userInfo.put("tokenValue", UUID.randomUUID().toString().substring(0, 36));
 		int n = commUserService.updateResetPwToken(userInfo);
 		MimeMessage msg = mailsender.createMimeMessage();
 		try {
-			MimeMessageHelper msgHelper
-					= new MimeMessageHelper(msg,false,"UTF-8");
+			MimeMessageHelper msgHelper = new MimeMessageHelper(msg, false, "UTF-8");
 			msgHelper.setFrom("juojuo9809@naver.com");
 			msgHelper.setTo(userInfo.get("userEmail").toString());
 			msgHelper.setSubject("[타문타답] 비밀번호 초기화를 위한 링크입니다.");
-			msgHelper.setText("비밀번호 초기화 주소 :<a href='"+req.getRequestURL().substring(0,req.getRequestURL().lastIndexOf("/"))+"/updatePassword.do?tokenValue="+userInfo.get("tokenValue")+"'>"
-					+ ""+req.getRequestURL().substring(0,req.getRequestURL().lastIndexOf("/"))+"/updatePassword.do?tokenValue="+userInfo.get("tokenValue")+"</a>",true);
+			msgHelper.setText(
+					"비밀번호 초기화 주소 :<a href='" + req.getRequestURL().substring(0, req.getRequestURL().lastIndexOf("/"))
+							+ "/updatePassword.do?tokenValue=" + userInfo.get("tokenValue") + "'>" + ""
+							+ req.getRequestURL().substring(0, req.getRequestURL().lastIndexOf("/"))
+							+ "/updatePassword.do?tokenValue=" + userInfo.get("tokenValue") + "</a>",
+					true);
 			mailsender.send(msg);
 		} catch (MessagingException e) {
 		}
-		return n==1?"true":"false";
+		return n == 1 ? "true" : "false";
 	}
-	
-	@RequestMapping(value="/resetPassword.do",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/resetPassword.do", method = RequestMethod.GET)
 	public String resetPasswrod(HttpServletRequest req) {
-		log.info("{}",req.getRequestURL().substring(0,req.getRequestURL().lastIndexOf("/")));
+		log.info("{}", req.getRequestURL().substring(0, req.getRequestURL().lastIndexOf("/")));
 		return "resetPasswordForm";
 	}
-	
-	@RequestMapping(value="/logout.do")
+
+	@RequestMapping(value = "/logout.do")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
-	@RequestMapping(value="/loginForm.do")
+
+	@RequestMapping(value = "/loginForm.do")
 	public String loginForm() {
 		return "loginForm";
 	}
-	@RequestMapping(value="/login.do", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(@RequestParam Map<String, String> map, HttpSession session) {
-		Map<String,Object>  result = commUserService.commLogin(map);
-		if(result.get("userInfo")!=null) {
+		Map<String, Object> result = commUserService.commLogin(map);
+		if (result.get("userInfo") != null) {
 			session.setAttribute("userInfo", result.get("userInfo"));
 		}
-		
+
 		return gson.toJson(result);
 	}
-	
-	@RequestMapping(value="/autoLogin.do")
+
+	@RequestMapping(value = "/autoLogin.do")
 	@ResponseBody
 	public String autoLogin(@RequestParam String userAutoLoginToken, HttpSession session) {
 		UserProfileVo userInfo = commUserService.autoLogin(userAutoLoginToken);
-		if(userInfo != null) {
+		if (userInfo != null) {
 			session.setAttribute("userInfo", userInfo);
 			return "true";
-		}else {
+		} else {
 			return "false";
 		}
 	}
-	
-	@RequestMapping(value = "/regist.do", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/regist.do", method = RequestMethod.GET)
 	public String registForm() {
 		return "regist";
 	}
-	
-	@RequestMapping(value = "/searchEmail.do", method =RequestMethod.POST)
+
+	@RequestMapping(value = "/searchEmail.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Boolean searchEmail(@RequestParam Map<String,String> map) {
+	public Boolean searchEmail(@RequestParam Map<String, String> map) {
 		return commUserService.searchEmailService(map);
 	}
-	
-	@RequestMapping(value = "/sendMail.do", method =RequestMethod.POST)
+
+	@RequestMapping(value = "/sendMail.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String sendmail(@RequestParam Map<String,String> map) {
-		log.info("받은 매일 {}",map.get("userEmail"));
-		
-		Map<String,String> sendmap = new HashMap<String, String>();
-		
+	public String sendmail(@RequestParam Map<String, String> map) {
+		log.info("받은 매일 {}", map.get("userEmail"));
+
+		Map<String, String> sendmap = new HashMap<String, String>();
+
 		MimeMessage msg = mailsender.createMimeMessage();
-		
+
 		try {
-			MimeMessageHelper msgHelper
-					= new MimeMessageHelper(msg,false,"UTF-8");
-			map.put("code", UUID.randomUUID().toString().substring(0,8));
+			MimeMessageHelper msgHelper = new MimeMessageHelper(msg, false, "UTF-8");
+			map.put("code", UUID.randomUUID().toString().substring(0, 8));
 			msgHelper.setFrom("juojuo9809@naver.com");
 			msgHelper.setTo(map.get("userEmail"));
-			msgHelper.setSubject("타문타답 인증번호"+map.get("code"));
-			msgHelper.setText("타문타답 인증번호"+map.get("code"));
+			msgHelper.setSubject("타문타답 인증번호" + map.get("code"));
+			msgHelper.setText("타문타답 인증번호" + map.get("code"));
 			map.put("isc", "true");
 			mailsender.send(msg);
 		} catch (MessagingException e) {
@@ -161,57 +237,71 @@ public class UserController {
 		String result = gson.toJson(map);
 		return result;
 	}
-	
-	@RequestMapping(value="/sendSMS.do", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/sendSMS.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendSMS(@RequestParam String phoneNumber) {
-		Map<String,String> sendMap = new HashMap<String, String>();
-		
-		//랜덤 난수 발생
+		Map<String, String> sendMap = new HashMap<String, String>();
+
+		// 랜덤 난수 발생
 		Random ran = new Random();
-		sendMap.put("code", ""+ran.nextInt(10000));
-		//coolSMS API사용
-		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLH5XMRHNML98D", "SCDV2ABM6KXGAUPYYEWZEL1C92RU0NOJ", "https://api.coolsms.co.kr");
+		sendMap.put("code", "" + ran.nextInt(10000));
+		// coolSMS API사용
+		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLH5XMRHNML98D",
+				"SCDV2ABM6KXGAUPYYEWZEL1C92RU0NOJ", "https://api.coolsms.co.kr");
 		Message message = new Message();
 		message.setFrom("01022546438");
 		message.setTo(phoneNumber);
-		message.setText("타문타답 문자 인증 번호 : "+sendMap.get("code"));
+		message.setText("타문타답 문자 인증 번호 : " + sendMap.get("code"));
 		try {
-		  messageService.send(message);
-		  sendMap.put("isc", "true");
+			messageService.send(message);
+			sendMap.put("isc", "true");
 		} catch (NurigoMessageNotReceivedException exception) {
-		  System.out.println(exception.getFailedMessageList());
-		  System.out.println(exception.getMessage());
+			System.out.println(exception.getFailedMessageList());
+			System.out.println(exception.getMessage());
 		} catch (Exception exception) {
 			sendMap.put("isc", "false");
-		  System.out.println(exception.getMessage());
+			System.out.println(exception.getMessage());
 		}
 		String result = gson.toJson(sendMap);
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
-	public String registration(@RequestParam Map<String,Object> map) {
-			map.put("userAutoLoginToken",(UUID.randomUUID())+(map.get("userPassword").toString().substring(0, 4))+(map.get("userGender"))+(map.get("userAuth"))+(map.get("userEmail").toString().substring(0, 2)));
-			int n = commUserService.registCommUser(map);
-			if(n!=1) {
-				return "redirect:/regist.do";
-			}else {
-				return "redirect:/";
-			}
+	public String registration(@RequestParam Map<String, Object> map) {
+		map.put("userAutoLoginToken", (UUID.randomUUID()) + (map.get("userPassword").toString().substring(0, 4))
+				+ (map.get("userGender")) + (map.get("userAuth")) + (map.get("userEmail").toString().substring(0, 2)));
+		int n = commUserService.registCommUser(map);
+		if (n != 1) {
+			return "redirect:/regist.do";
+		} else {
+			return "redirect:/";
+		}
 	}
-	
-	@RequestMapping(value="/registForm.do",method= RequestMethod.GET)
+
+	@RequestMapping(value = "/registForm.do", method = RequestMethod.GET)
 	public String registinputForm() {
 		return "registform";
 	}
-	
-	@RequestMapping(value="/mypage.do")
-	public String mypage() {
+
+	@RequestMapping(value = "/mypage.do")
+	public String mypage(HttpSession session, Model model) {
+		log.info("InstrController instrProfileForm.do 강사 프로필 작성화면");
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		String accountId = userInfo.getUserAccountId();
+
+		InstrVo vo = service.getMyInstrProfile(accountId);
+		if (vo != null) {
+
+			model.addAttribute("profile", vo);
+		}
+		model.addAttribute("title", "프로필");
+		model.addAttribute("pageTitle", "소개 프로필 등록/수정");
+		model.addAttribute("accountId", accountId);
 		return "myPage";
 	}
-	
-	@RequestMapping(value="jeongji.do")
+
+	@RequestMapping(value = "jeongji.do")
 	public String jeongji(HttpServletResponse resp, HttpSession session) throws IOException {
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter out = resp.getWriter();
@@ -220,8 +310,8 @@ public class UserController {
 		session.removeAttribute("userInfo");
 		return "index";
 	}
-	
-	@RequestMapping(value="human.do")
+
+	@RequestMapping(value = "human.do")
 	public String human(HttpServletResponse resp, HttpSession session) throws IOException {
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter out = resp.getWriter();

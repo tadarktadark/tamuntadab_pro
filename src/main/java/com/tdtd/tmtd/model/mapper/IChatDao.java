@@ -2,8 +2,11 @@ package com.tdtd.tmtd.model.mapper;
 
 import java.util.List;
 
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ChatUserVo;
+import com.tdtd.tmtd.vo.ClassVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 public interface IChatDao {
 
@@ -11,6 +14,8 @@ public interface IChatDao {
 	public List<ChatRoomVo> getChatRoomList(String accountId);
 //	채팅방 조회
 	public ChatRoomVo getChatDetail(String chroId);
+	//채팅방 클래스아이디로 조회
+	public ChatRoomVo getChatDetailByClasId(int chroClasId);
 //	채팅방 참가자 정보 조회
 	public List<ChatUserVo> getChatUserList(String chusChroId);
 //	채팅방 생성
@@ -25,4 +30,10 @@ public interface IChatDao {
 	public int delAllChatUser(String chusChroId);
 //	채팅 참가자 퇴장
 	public int delChatUser(int chusId);
+	//클래스 정보 조회
+	public ClassVo getClassInfo(int clasId);
+	//클래스 참가자 목록 조회
+	public List<ChamyeoVo> getClassUser(int clchClasId);
+	//유저 정보 조회
+	public UserProfileVo getInstrInfo(String userAccountId);
 }

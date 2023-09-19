@@ -29,7 +29,7 @@
                                                     현재 http://localhost:8080/tamuntadab_pro 에서 요청을 처리할 수 없습니다.
                                                 </p>
                                                 <div class="mt-4">
-                                                    <a href="/" class="btn btn-primary"><i class="mdi mdi-home me-1"></i>홈으로 돌아가기</a>
+                                                    <a href="./" class="btn btn-primary"><i class="mdi mdi-home me-1"></i>홈으로 돌아가기</a>
                                                 </div>
                                             </div>
                                         </div>

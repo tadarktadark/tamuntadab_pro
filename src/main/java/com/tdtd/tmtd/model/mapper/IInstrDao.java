@@ -27,13 +27,17 @@ public interface IInstrDao {
 	public int deleteInstrEdulevel(String inedSeq);
 	
 	//TDT018 getAllInstr
-	public List<InstrVo> getAllInstr(String order);
+	public List<InstrVo> getAllInstr(Map<String, Object> map);
+	
+	public int getAllInstrCount();
 	
 	//TDT019 updateInstrLike
-	public int updateInstrLike(InstrVo vo);
+	public int updateInstrLike(Map<String, Object> map);
 	
 	//TDT020 updateInstrView
-	public int updateInstrView(InstrVo vo);
+	public int updateInstrView(Map<String, Object> map);
+	
+	public InstrVo getlikeViewUser(String inprAccountId);
 	
 	//TDT021 getOneInstrSimple
 	public InstrVo getOneInstrSimple(Map<String, Object> map);
@@ -48,5 +52,9 @@ public interface IInstrDao {
 	
 	//TDT025 getOneIntrReview
 	public List<ClassVo> getOneIntrReview(Map<String, Object> map);
+	
+	public int classTotalCount(String userAccountId);
+	
+	public int reviewTotalCount(String userAccountId);
 	
 }

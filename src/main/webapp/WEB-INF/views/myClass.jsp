@@ -17,7 +17,9 @@
         xPos += window.screenLeft;
         var yPos = (document.body.offsetHeight/2) - (500/2);
         var userId = $('input[name="accountId"]').val();
-        window.open("./tupyoPage.do?clasId=1000000110&accountId="+userId, "_blank", "left="+xPos+",top="+yPos+",width=500,height=500");
+        var clasId = $('input[name="clasId"]').val();
+        console.log(userId,clasId);
+        window.open("./tupyoPage.do?clasId="+clasId+"&accountId="+userId, "_blank", "left="+xPos+",top="+yPos+",width=500,height=500");
     }
 </script>
 <style type="text/css">
@@ -38,7 +40,8 @@
 </style>
 </head>
 <body class="twocolumn-panel">
-	<input name="accountId" type="button" value="${userInfo.userAccountId}">
+	<input name="accountId" type="hidden" value="${userInfo.userAccountId}">
+	<input name="clasId" type="hidden" value="${param.clasId}">
 	<!-- 지우지마 형 -->
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_topbar.jsp"%>

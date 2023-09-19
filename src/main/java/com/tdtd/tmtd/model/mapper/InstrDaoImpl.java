@@ -50,18 +50,28 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public List<InstrVo> getAllInstr(String order) {
-		return sqlSession.selectList(NS+"getAllInstr", order);
+	public List<InstrVo> getAllInstr(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getAllInstr", map);
+	}
+	
+	@Override
+	public int getAllInstrCount() {
+		return sqlSession.selectOne(NS+"getAllInstrCount");
 	}
 
 	@Override
-	public int updateInstrLike(InstrVo vo) {
-		return sqlSession.update(NS+"updateInstrLike", vo);
+	public int updateInstrLike(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateInstrLike", map);
 	}
 
 	@Override
-	public int updateInstrView(InstrVo vo) {
-		return sqlSession.update(NS+"updateInstrLike", vo);
+	public int updateInstrView(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateInstrLike", map);
+	}
+	
+	@Override
+	public InstrVo getlikeViewUser(String inprAccountId) {
+		return sqlSession.selectOne(NS+"getlikeViewUser", inprAccountId);
 	}
 
 	@Override
@@ -87,6 +97,16 @@ public class InstrDaoImpl implements IInstrDao {
 	@Override
 	public List<ClassVo> getOneIntrReview(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getOneIntrReview", map);
+	}
+	
+	@Override
+	public int classTotalCount(String userAccountId) {
+		return sqlSession.selectOne(NS+"classTotalCount", userAccountId);
+	}
+	
+	@Override
+	public int reviewTotalCount(String userAccountId) {
+		return sqlSession.selectOne(NS+"reviewTotalCount", userAccountId);
 	}
 
 }

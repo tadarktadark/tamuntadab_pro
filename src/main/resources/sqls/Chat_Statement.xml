@@ -15,6 +15,12 @@ SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_CHAT_LOG ,CHRO_DATE
         FROM CHAT_ROOM cr 
         WHERE CHRO_ID =#{chroId}
 </select>
+<!-- 채팅방 클래스아이디로 조회 -->
+<select id="getChatDetailByClasId" parameterType="Integer" resultType="chatRoomVo">
+SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_CHAT_LOG ,CHRO_DATE 
+        FROM CHAT_ROOM cr 
+        WHERE CHRO_CLAS_ID =#{chroClasId}
+</select>
 <!-- 채팅방 참가자 정보 조회 -->
 <select id="getChatUserList" parameterType="String" resultType="chatUserVo">
 SELECT CHUS_SEQ ,CHUS_CHRO_ID ,CHUS_ACCOUNT_ID ,CHUS_TYPE, USER_NICKNAME
@@ -25,7 +31,7 @@ SELECT CHUS_SEQ ,CHUS_CHRO_ID ,CHUS_ACCOUNT_ID ,CHUS_TYPE, USER_NICKNAME
 <insert id="insertChatRoom" parameterType="chatRoomVo">
 INSERT INTO CHAT_ROOM
 (CHRO_ID, CHRO_CLAS_ID, CHRO_TITLE, CHRO_CHAT_LOG, CHRO_DATE)
-VALUES(#{chroId}, #{chroClasId}, #{chroTitle}, #{chroChatLog}, CURRENT_DATE)
+VALUES(#{chroId}|| TO_CHAR(CHRO_SEQ.NEXTVAL), #{chroClasId}, #{chroTitle}, #{chroChatLog}, CURRENT_DATE)
 </insert>
 <!-- 채팅방 참가자 추가 -->
 <insert id="insertChatUser" parameterType="chatUserVo">
@@ -54,8 +60,22 @@ DELETE FROM CHAT_USER cu
 DELETE FROM CHAT_USER
         WHERE CHUS_SEQ=#{chusSeq}
 </delete>
-
-
-
-
+<!-- 클래스 정보 조회 -->
+<select id="getClassInfo" parameterType="Integer" resultType="classVo">
+SELECT CLAS_ID, CLAS_TITLE, CLAS_STATUS, CLAS_HYEONJAE_INWON
+	FROM CLASS
+	WHERE CLAS_ID = #{clasId}
+</select>
+<!-- 클래스의 참가자 목록 조회 -->
+<select id="getClassUser" parameterType="Integer" resultType="chamyeoVo">
+SELECT CLCH_ID ,CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL 
+	FROM CLASS_CHAMYEOJA cc 
+	WHERE CLCH_CLAS_ID =#{clchClasId}
+</select>
+<!-- 강사 정보 조회 -->
+<select id="getInstrInfo" parameterType="String" resultType="userProfileVo">
+SELECT USER_ACCOUNT_ID ,USER_NAME ,USER_NICKNAME ,USER_PROFILE_FILE 
+	FROM USER_PROFILE up  
+	WHERE USER_ACCOUNT_ID = #{userAccountId}
+</select>
 </mapper>
