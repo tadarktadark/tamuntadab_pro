@@ -351,7 +351,6 @@
 										<!-- end card -->
 									</div>
 									<!-- 내글 목록 끝 -->
-									
 									<!-- 내 좋아요 목록 -->
 									<div class="tab-pane" id="likelist" role="tabpanel">
 										<div class="p-4">
