@@ -286,7 +286,7 @@ public class InstrController {
 		
 		String accountId =  map.get("loginId").toString();
 		
-		String likeUsers = users.getInprLike();
+		String likeUsers = (users != null)? users.getInprLike():"";
 		
 		log.info("getlikeViewUser 출력값 : {}", users);
 		Map<String, Object> likeMap = LikeViewUtils.like(type, accountId, likeUsers);
@@ -311,7 +311,7 @@ public class InstrController {
 		
 		String userId = map.get("loginId").toString();
 		if(userId == null || userId.equals("")) {
-			userId = "null";
+			userId = "";
 		}
 		String inprAccountId = map.get("inprAccountId").toString();
 		
