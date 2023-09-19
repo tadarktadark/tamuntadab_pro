@@ -335,7 +335,7 @@
 									<!-- 내 글 목록 -->
 									<div class="tab-pane" id="boardlist" role="tabpanel">
 										<div class="p-4">
-											내 글 목록 구간 입니다.
+											<%@ include file="./myBoard.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>
@@ -344,7 +344,7 @@
 									<!-- 내 좋아요 목록 -->
 									<div class="tab-pane" id="likelist" role="tabpanel">
 										<div class="p-4">
-											내 좋아요 구간 입니다.
+											<%@ include file="./likeBoard.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>
