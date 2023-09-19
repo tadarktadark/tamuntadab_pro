@@ -133,27 +133,16 @@
 							                        </div>
 					                        	</c:otherwise>
 					                        </c:choose>
-					                        <hr>		
-					                        <div class="row">
-					                            <div class="col-xl-2 col-6">
-					                                <div class="card">
-					                                    <img class="card-img-top img-fluid" src="./assets/images/small/img-3.jpg" alt="Card image cap">
-					                                    <div class="py-2 text-center">
-					                                        <a href="javascript: void(0);" class="fw-medium">Download</a>
-					                                    </div>
-					                                </div>
-					                            </div>
-					                            <div class="col-xl-2 col-6">
-					                                <div class="card">
-					                                    <img class="card-img-top img-fluid" src="./assets/images/small/img-4.jpg" alt="Card image cap">
-					                                    <div class="py-2 text-center">
-					                                        <a href="javascript: void(0);" class="fw-medium">Download</a>
-					                                    </div>
-					                                </div>
-					                            </div>
-					                        </div>
-					
-					                        <a href="javascript: void(0);" class="btn btn-primary dropdown-toggle">댓글보기</a>
+					                        <c:if test="${bVo.fileList.size() ne 0}">
+						                        <h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 첨부파일</span></h5>
+			                                	<c:forEach items="${bVo.fileList}" var="file">
+							                        <div class="row mb-2">
+				                                        <a class="fw-medium download-btn"><i class="ri-download-2-fill"></i> ${file.fileOriginName}</a>
+							                        </div>
+			                                    </c:forEach>
+					                        </c:if>
+											<hr> 
+					                        <a href="#" class="btn btn-primary dropdown-toggle">댓글보기</a>
 					
 					                    </div>
 					

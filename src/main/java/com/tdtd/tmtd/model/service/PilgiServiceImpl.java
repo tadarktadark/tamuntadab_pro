@@ -1,13 +1,18 @@
 package com.tdtd.tmtd.model.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tdtd.tmtd.comm.LikeViewUtils;
+import com.tdtd.tmtd.model.mapper.IFileDao;
 import com.tdtd.tmtd.model.mapper.IPilgiDao;
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ClassVo;
@@ -17,6 +22,9 @@ public class PilgiServiceImpl implements IPilgiService {
 	
 	@Autowired
 	private IPilgiDao dao;
+	
+	@Autowired
+	private IFileService fSerivce;
 
 	@Override
 	public int getPilgiCount(String accountId) {
@@ -88,11 +96,20 @@ public class PilgiServiceImpl implements IPilgiService {
 	}
 
 	@Override
-	public int insertPilgi(BoardVo vo, Map<String, Object> map) {
+	public int insertPilgi(BoardVo vo, Map<String, Object> map, MultipartFile[] files, HttpServletRequest request) throws IOException {
 		int n = 0;
 		n += dao.insertPilgi(vo);
 		n += dao.updateClchPilgiState(map);
-		return (n==0)?1:0;
+		if(files!=null) {
+			for (MultipartFile f : files) {
+				Map<String, Object> fMap = fSerivce.fileSave(f, request);
+				fMap.put("fileRefPk", vo.getId());
+				fMap.put("fileOriginName", (String)fMap.get("originalName"));
+				fMap.put("fileSaveName", (String)fMap.get("saveName"));
+				n += fSerivce.insertFile(fMap);
+			}
+		}
+		return (n>2)?1:0;
 	}
 
 	@Override

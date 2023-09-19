@@ -1,7 +1,12 @@
 package com.tdtd.tmtd.model.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ClassVo;
@@ -125,16 +130,19 @@ public interface IPilgiService {
 	public ClassVo getPilgiClassDetail(String clasId);
 	
 	/**
-	 * 필기 작성 및 클래스참여자 필기 작성 여부 업데이트
+	 * 필기 작성 및 클래스참여자 필기 작성 여부 업데이트, 파일 업로드
 	 * @param vo accountId, clasId, content, viewGroup, downloadGroup<br>
 	 * @param map state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
 	 * 				clasId 클래스ID
+	 * @param files 업로드한 파일들
+	 * @param request
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
+	 * @throws IOException 
 	 * @since 2023.09.14
 	 */
-	public int insertPilgi(BoardVo vo, Map<String, Object> map);    
+	public int insertPilgi(BoardVo vo, Map<String, Object> map, MultipartFile[] files, HttpServletRequest request) throws IOException;    
 	
 	/**
 	 * 필기 임시저장                        
