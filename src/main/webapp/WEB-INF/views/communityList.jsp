@@ -59,7 +59,7 @@
 						<c:choose>
 							<c:when test="${sessionScope.community eq 'pilgi'}">
 								<div class="col-sm-auto ms-auto">
-							        <a href="./commynityWriteForm.do?id=1000000313" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>필기</a>
+							        <a href="./communityWriteForm.do?id=1000000313" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>필기</a>
 							    </div>	
 							</c:when>
 							<c:otherwise>

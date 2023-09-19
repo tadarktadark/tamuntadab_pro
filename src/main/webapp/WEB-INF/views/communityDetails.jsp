@@ -136,8 +136,8 @@
 					                        <c:if test="${bVo.fileList.size() ne 0}">
 						                        <h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 첨부파일</span></h5>
 			                                	<c:forEach items="${bVo.fileList}" var="file">
-							                        <div class="row mb-2">
-				                                        <a class="fw-medium download-btn"><i class="ri-download-2-fill"></i> ${file.fileOriginName}</a>
+							                        <div class="mb-2">
+				                                        <a href="./communityDownload.do?save=${file.fileSaveName}&name=${file.fileOriginName}" class="fw-medium download-btn"><i class="ri-download-2-fill"></i> ${file.fileOriginName}</a>
 							                        </div>
 			                                    </c:forEach>
 					                        </c:if>

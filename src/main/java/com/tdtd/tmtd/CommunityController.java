@@ -1,6 +1,7 @@
 package com.tdtd.tmtd;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -52,6 +54,9 @@ public class CommunityController {
 	
 	@Autowired
 	private IJayuService jyService;
+	
+	@Autowired
+	private IFileService fService;
 		
 	@RequestMapping(value="/community.do", method=RequestMethod.GET)
 	public String community(Model model, HttpSession session, String board) {
@@ -118,9 +123,9 @@ public class CommunityController {
 		return result;
 	}
 	
-	@RequestMapping(value="/commynityLike.do", method=RequestMethod.POST)
+	@RequestMapping(value="/communityLike.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> commynityLike(HttpSession session, String type, String id){
+	public Map<String,Object> communityLike(HttpSession session, String type, String id){
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 좋아요 : board {}, type {}, id {}", board, type, id);
 		
@@ -210,8 +215,8 @@ public class CommunityController {
 		return "communityDetails";
 	}
 	
-	@RequestMapping(value="/commynityWriteForm.do", method=RequestMethod.GET)
-	public String commynityWriteForm(Model model, HttpSession session, String id) {
+	@RequestMapping(value="/communityWriteForm.do", method=RequestMethod.GET)
+	public String communityWriteForm(Model model, HttpSession session, String id) {
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 새 글 작성 Form 이동 : board {}, clasId {}", board, id);
 		model.addAttribute("title","커뮤니티");
@@ -247,7 +252,7 @@ public class CommunityController {
 			model.addAttribute("pageTitle", "자유");
 		}
 		
-		return "commynityWriteForm";
+		return "communityWriteForm";
 	}
 	
 	@RequestMapping(value="/getJilmunClassList.do", method=RequestMethod.POST)
@@ -274,8 +279,8 @@ public class CommunityController {
 		return result;
 	}
 	
-	@RequestMapping(value="/commynityWrite.do", method=RequestMethod.POST)
-	public String commynityWrite(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam("file") MultipartFile[] files) throws IOException {
+	@RequestMapping(value="/communityWrite.do", method=RequestMethod.POST)
+	public String communityWrite(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam("file") MultipartFile[] files) throws IOException {
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 작성 : board{} boardVo {} file {}", board, bVo, files);
 		
@@ -288,7 +293,7 @@ public class CommunityController {
 		} 
 		
 		bVo.setAccountId(userInfo.getUserAccountId());
-		System.out.println(bVo.getAccountId());
+		
 		if(board.equals("pilgi")) {
 			model.addAttribute("pageTitle", "필기");
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -310,9 +315,9 @@ public class CommunityController {
 		return "redirect:/communityDetails.do?id="+bVo.getId();
 	}
 		
-	@RequestMapping(value="/commynityUploadImage.do", method = RequestMethod.POST)
+	@RequestMapping(value="/communityUploadImage.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> commynityUploadImage(MultipartFile upload, HttpServletRequest req) {
+	public Map<String, String> communityUploadImage(MultipartFile upload, HttpServletRequest req) {
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이미지 업로드");
 		
 		String ext = upload.getOriginalFilename().substring(upload.getOriginalFilename().lastIndexOf("."));
@@ -370,7 +375,7 @@ public class CommunityController {
 		return map;
 	}
 	
-	@RequestMapping(value="/commynityRemoveImage.do", method = RequestMethod.POST)
+	@RequestMapping(value="/communityRemoveImage.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void removeImage(String saveName, HttpServletRequest req) {
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이미지 삭제 : saveName {}", saveName);		
@@ -389,9 +394,44 @@ public class CommunityController {
 		}
 	}
 	
-	@RequestMapping(value="./commynityDownload.do", method = RequestMethod.POST)
-	public void commynityDownload(HttpServletResponse resp, HttpServletRequest req) {
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 다운로드 : path {}");		
+	@RequestMapping(value="/communityDownload.do", method = RequestMethod.GET)
+	public void communityDownload(HttpServletResponse resp, HttpServletRequest req, String save, String name) throws IOException {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 다운로드 : fileSaveName {}", save);		
+		
+		FileInputStream in = null;
+		ServletOutputStream out = null;
+		
+		try {
+			File file = fService.fileDownload(req,save);
+			System.out.println("읽어온 파일: "+file);
+			
+			byte[] b = new byte[(int)file.length()]; //파일의 크기로 byte의 Array를 생성함
+			System.out.println("읽어온 파일 byte: "+ Arrays.toString(b));
+			
+			resp.reset(); // 브라우저로 응답할 때 header에 있는 정보를 초기화함 (생략가능)
+			
+			resp.setContentType("application/octet-stream");
+			
+			// 파일명 인코딩
+			String encoding = new String(name.getBytes("UTF-8"), "8859_1");
+			
+			//파일 다운로드 버튼을 눌렀을 때 서버에서 전송받은 데이터를 어떻게 처리할 지 브라우저에 알려줘야 함
+			resp.setHeader("Content-Disposition", "attachment; filename="+encoding);
+			
+			in = new FileInputStream(file);
+			out = resp.getOutputStream();
+			
+			int numRead = 0;
+			while((numRead = in.read(b,0,b.length))!=-1) {
+				out.write(b,0,numRead);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			out.flush();
+			out.close();
+			in.close();
+		}
 		
 	}
 }

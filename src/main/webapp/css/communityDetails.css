@@ -472,3 +472,7 @@
 	width:200px;
 	padding-right: 15px;
 }
+
+.download-btn:hover{
+	cursor: pointer;
+}
