@@ -119,6 +119,7 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
 			
 			// 물리적인 주소에서 선택한 파일을 File객체로 만듦
 			File file = new File(path+"/"+saveFileName);
+			System.out.println("file 경로 :"+ file.toString());
 			
 	        if (!file.exists()) {
 	            throw new IOException("File not found: " + saveFileName);

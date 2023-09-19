@@ -2,7 +2,9 @@ package com.tdtd.tmtd;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +33,7 @@ import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IFileService;
 import com.tdtd.tmtd.vo.CareerVo;
+import com.tdtd.tmtd.vo.FileVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -231,6 +235,115 @@ public class CareerController {
 		
 		return "managerCareerCert";
 	}
+	
+	//승인 버튼 클릭시 ajax 실행
+	@GetMapping("/updateS.do")
+	@ResponseBody
+	public Map<String, Object> updateS(@RequestParam Map<String, Object> map){
+		log.info("updateS 받아온 값 : {}", map);
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		int n = service.updateCareerS(map);
+		if(n>0) {
+			response.put("successMessage", "승인 처리가 완료되었습니다");
+		} else {
+			response.put("errorMessage", "승인이 정상 처리가 되지 않았습니다");
+		}
+		
+		return response;
+	}
+	
+	//경력 인증 요청시 제출한 PDF 파일 다운로드
+	@GetMapping("/downloadPdf.do")
+	public void downloadPdf(@RequestParam String careId, HttpServletRequest req, HttpServletResponse resp) throws IOException{
+		log.info("downloadPdf 받아온 값 : {}", careId);
+		
+		FileVo fVo = fileService.getFile(careId);
+		String fileName = fVo.getFileOriginName();
+		
+		FileInputStream in = null;
+		ServletOutputStream out = null;
+		
+		try {
+			File file = fileService.fileDownload(req, fVo.getFileSaveName());
+			
+			System.out.println("읽어온 파일: "+file);
+			
+			byte[] b = new byte[(int)file.length()]; //파일의 크기로 byte의 Array를 생성함
+			System.out.println("읽어온 파일 byte: "+ Arrays.toString(b));
+			
+			resp.reset(); // 브라우저로 응답할 때 header에 있는 정보를 초기화함 (생략가능)
+			
+			resp.setContentType("application/octet-stream");
+			
+			//파일 다운로드 버튼을 눌렀을 때 서버에서 전송받은 데이터를 어떻게 처리할 지 브라우저에 알려줘야 함
+			resp.setHeader("Content-Disposition", "attachment; filename="+fileName);
+			
+			in = new FileInputStream(file);
+			out = resp.getOutputStream();
+			
+			int numRead = 0;
+			while((numRead = in.read(b,0,b.length))!=-1) {
+				out.write(b,0,numRead);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			out.flush();
+			out.close();
+			in.close();
+		}
+		
+	}
+	
+		//목록 삭제 버튼 클릭시 ajax 실행(PDF 파일 삭제 및 STATUS D로 변경)
+		@GetMapping("/updateD.do")
+		@ResponseBody
+		public Map<String, Object> updateD(@RequestParam String careId, HttpServletRequest req) throws IOException{
+			log.info("updateD 받아온 값 : {}", careId);
+			
+			Map<String, Object> response = new HashMap<>();
+			
+			FileVo fVo = fileService.getFile(careId);
+			
+			File file = fileService.fileDownload(req, fVo.getFileSaveName());
+			
+			boolean isDeleted = file.delete();
+			
+			if(!isDeleted) {
+				response.put("errorMessage", "파일 삭제에 실패했습니다");
+				return response;
+			}
+			
+			int n = service.updateCareerD(careId);
+			
+			if(n>0) {
+				response.put("successMessage", "정상 처리 되었습니다");
+			} else {
+				response.put("errorMessage", "정상 처리가 되지 않았습니다");
+			}
+			
+			return response;
+		}
+		
+		@GetMapping("/deleteCareer.do")
+		@ResponseBody
+		public Map<String, Object> deleteCareer(@RequestParam String careId){
+			log.info("updateS 받아온 값 : {}", careId);
+			
+			Map<String, Object> response = new HashMap<>();
+			
+			int n = service.deleteCareer(careId);
+			if(n>0) {
+				response.put("successMessage", "정상 처리 되었습니다");
+			} else {
+				response.put("errorMessage", "정상 처리가 되지 않았습니다");
+			}
+			return response;
+		}
+		
+		
 	
 
 }
