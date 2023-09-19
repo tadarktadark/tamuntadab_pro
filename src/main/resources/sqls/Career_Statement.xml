@@ -53,7 +53,7 @@
                                                 FROM CAREER c
                                                 GROUP BY CARE_COMPANY
                                                 HAVING count(CARE_COMPANY) >= 1)
-   AND CARE_STATUS = 'B'
+   AND CARE_STATUS = 'R'
 </select>
 
 <select id="getCareerList" resultType="careerVo">

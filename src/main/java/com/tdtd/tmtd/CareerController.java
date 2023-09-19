@@ -219,13 +219,10 @@ public class CareerController {
 	//관리자 경력 인증 페이지 이동
 	@GetMapping("/managerCareer.do")
 	public String managerCareer(Model model, String page) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("start", 1);
-		map.put("end", 5);
-		List<CareerVo> lists = service.getCareerList(map);
-		
 		int totalCount = service.getCareerCount();
 		Map<String, Object> paging = PagingUtils.paging(page, totalCount, 5, 5);
+		log.info("paging : {} totalCount : {}", paging, totalCount);
+		List<CareerVo> lists = service.getCareerList(paging);
 		
 		model.addAttribute("title", "강사 관리 페이지");
 		model.addAttribute("pageTitle", "경력 인증 요청 승인");
