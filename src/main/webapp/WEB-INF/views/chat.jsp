@@ -29,7 +29,7 @@
 		                        <div class="status"></div>
 		                    </div>
 		                </div>
-		                <h5 class="fs-16 mb-1 mt-3"><a href="#" class="text-body">${userInfo.userAccountId}</a></h5>
+		                <h5 class="fs-16 mb-1 mt-3"><a href="#" id="nickname" class="text-body">${userInfo.userNickname}</a></h5>
 		                <p class="text-muted mb-0">${(userInfo.userAuth eq 'I')?'강사':'학생'}</p>
 		            </div>
 		        </div>
@@ -53,7 +53,7 @@
 		                            <c:forEach var="room" items="${roomList}">
 		                            	<li class="chatRoomList">
 		                            	<input type="hidden" value="${room.chroId}">
-		                                    <a href="#">
+		                                    <a href="#" onclick="openChat()">
 		                                        <div class="d-flex align-items-center">
 		                                            <div class="flex-grow-1 overflow-hidden">
 		                                                <h5 class="text-truncate fs-15 mb-0">${room.chroTitle}</h5>
@@ -104,7 +104,7 @@
 		        </div>
 		    </div>
 		    <!-- end chat-leftsidebar -->
-		    <div id="chatDetail" style="display: none;" class="w-100 user-chat mt-4 mt-sm-0 ms-lg-3">
+		    <div id="chatDetail" style="display:none;" class="w-100 user-chat mt-4 mt-sm-0 ms-lg-3">
 		        <div class="card">
 		            <div class="p-3 px-lg-4 border-bottom">
 		                <div class="row">
@@ -411,11 +411,11 @@
 		                <div class="row">
 		                    <div class="col">
 		                        <div class="position-relative">
-		                            <input type="text" class="form-control border chat-input" placeholder="Enter Message...">
+		                            <input id="chatInput" type="text" class="form-control border chat-input">
 		                        </div>
 		                    </div>
 		                    <div class="col-auto">
-		                        <button type="submit" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">Send</span> <i class="mdi mdi-send float-end"></i></button>
+		                        <button type="button" id="chatBtn" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">전송</span> <i class="mdi mdi-send float-end"></i></button>
 		                    </div>
 		                </div>
 		            </div>

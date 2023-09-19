@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ServletConfigAware;
 
 import com.tdtd.tmtd.model.service.IChatService;
 import com.tdtd.tmtd.vo.ChamyeoVo;
@@ -25,7 +29,15 @@ import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Controller
-public class ChatController {
+public class ChatController implements ServletConfigAware{
+	
+	private ServletContext servletContext;
+	
+	@Override
+	public void setServletConfig(ServletConfig servletConfig) {
+		servletContext = servletConfig.getServletContext();
+	}
+	
 	
 	@Autowired
 	private IChatService service;
@@ -120,14 +132,6 @@ public class ChatController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	@ResponseBody
 	@GetMapping("/chatRoom.do")
 	public ChatRoomVo chatRoom(String chroId) {
@@ -137,4 +141,36 @@ public class ChatController {
 		return chatRoomVo;
 	}
 
+
+	@GetMapping("/openChatRoom.do")
+	public String openChatRoom(String cr_id, String mem_id, HttpSession session) {
+		session.setAttribute("mem_id", mem_id);
+		session.setAttribute("cr_id", cr_id);
+		
+		//서버 전체에서 계속해서 참여자의 정보를 담기 위해서 ServletContext 객체를 사용한다
+		Map<String, String> chatList = (Map<String, String>) servletContext.getAttribute("chatList");
+		if(chatList ==null) {
+			chatList = new HashMap<String,String>();
+			chatList.put(mem_id, cr_id);
+			servletContext.setAttribute("chatList", chatList);
+		}else {
+			chatList.put(mem_id, cr_id);
+			servletContext.setAttribute("chatList", chatList);
+		}
+		return "chat";
+	}
+
+	@PostMapping(value = "/socketOut.do")
+	@ResponseBody
+	public void socketOut(HttpSession session) {
+		String mem_id = (String) session.getAttribute("mem_id");
+		Map<String, String> chatList = (Map<String, String>)servletContext.getAttribute("chatList");
+		
+		if(chatList != null) {
+			chatList.remove(mem_id);
+		}
+		
+		servletContext.setAttribute("chatList", chatList);
+	}
+	
 }
