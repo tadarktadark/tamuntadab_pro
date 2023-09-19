@@ -11,13 +11,30 @@ import com.tdtd.tmtd.vo.SubjectVo;
 public interface IClassDao {
 
 	/**
+	 * 모든 클래스 조회 (관리자를 위함)
+	 * @param 출력할 클래스목록의 시작번호와 끝번호가 담긴 Map
+	 * @return 페이징 처리된 클래스 목록
+	 * @author 김기훈
+	 * @since 2023-09-19
+	 */
+	public List<ClassVo> getAllClassListForA(Map<String, Object> map);
+	
+	/**
+	 * 모든 클래스 수 조회 (관리자를 위함)
+	 * @return 페이징 처리될 전체 클래스 갯수
+	 * @author 김기훈
+	 * @since 2023-09-19
+	 */
+	public int getAllClassListForACount();
+	
+	/**
 	 * 페이징 처리 후 출력할 클래스 목록 조회
 	 * @param 출력할 클래스목록의 시작번호와 끝번호가 담긴 Map
 	 * @return 페이징 처리된 클래스 목록
 	 * @author 김기훈
 	 * @since 2023-09-10
 	 */
-	public List<ClassVo> getClassList(Map<String, Object> map);
+	public List<ClassVo> getAllClassListForS(Map<String, Object> map);
 	
 	/**
 	 * 페이징 처리될 전체 클래스 수 조회
@@ -25,7 +42,7 @@ public interface IClassDao {
 	 * @author 김기훈
 	 * @since 2023-09-10
 	 */
-	public int getClassListCount();
+	public int getAllClassListForSCount();
 	
 	/**
 	 * 클래스 개설

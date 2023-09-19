@@ -28,9 +28,9 @@ public class ClassServiceImpl implements IClassService {
 	 * @since 2023-09-10
 	 */
 	@Override
-	public List<ClassVo> getClassList(Map<String, Object> map) {
-		log.info("ClassServiceImpl 실행 - getClassList - 페이징 할 클래스 가져오기");
-		return dao.getClassList(map);
+	public List<ClassVo> getAllClassListForS(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - getAllClassListForS - 페이징 할 클래스 가져오기");
+		return dao.getAllClassListForS(map);
 	}
 
 	/**
@@ -40,9 +40,9 @@ public class ClassServiceImpl implements IClassService {
 	 * @since 2023-09-10
 	 */
 	@Override
-	public int getClassListCount() {
-		log.info("ClassServiceImpl 실행 - getClassList - 페이징 할 클래스 갯수 가져오기");
-		return dao.getClassListCount();
+	public int getAllClassListForSCount() {
+		log.info("ClassServiceImpl 실행 - getAllClassListForSCount - 페이징 할 클래스 갯수 가져오기");
+		return dao.getAllClassListForSCount();
 	}
 
 	/**
