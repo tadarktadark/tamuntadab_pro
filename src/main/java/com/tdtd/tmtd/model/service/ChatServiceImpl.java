@@ -1,6 +1,7 @@
 package com.tdtd.tmtd.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,8 @@ public class ChatServiceImpl implements IChatService {
 	}
 
 	@Override
-	public int insertChatRoom(ChatRoomVo vo) {
-		return dao.insertChatRoom(vo);
+	public int insertChatRoom(Map<String, Object> map) {
+		return dao.insertChatRoom(map);
 	}
 
 	@Override
@@ -82,6 +83,11 @@ public class ChatServiceImpl implements IChatService {
 	@Override
 	public UserProfileVo getInstrInfo(String userAccountId) {
 		return dao.getInstrInfo(userAccountId);
+	}
+
+	@Override
+	public int countChatRoom(Map<String, Object> map) {
+		return dao.countChatRoom(map);
 	}
 
 }

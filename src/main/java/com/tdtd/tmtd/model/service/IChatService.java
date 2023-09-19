@@ -1,6 +1,7 @@
 package com.tdtd.tmtd.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ChatRoomVo;
@@ -19,7 +20,7 @@ public interface IChatService {
 //	채팅방 참가자 정보 조회
 	public List<ChatUserVo> getChatUserList(String chusChroId);
 //	채팅방 생성
-	public int insertChatRoom(ChatRoomVo vo);
+	public int insertChatRoom(Map<String, Object> map);
 //	채팅방 참가자 추가
 	public int insertChatUser(ChatUserVo vo);
 //	채팅 저장하기
@@ -36,5 +37,7 @@ public interface IChatService {
 	public List<ChamyeoVo> getClassUser(int clchClasId);
 	//유저 정보 조회
 	public UserProfileVo getInstrInfo(String userAccountId);
+	//채팅방 세기
+	public int countChatRoom(Map<String,Object> map);
 
 }

@@ -28,7 +28,7 @@ SELECT CHUS_SEQ ,CHUS_CHRO_ID ,CHUS_ACCOUNT_ID ,CHUS_TYPE, USER_NICKNAME
         WHERE CHUS_CHRO_ID =#{chusChroId}
 </select>
 <!-- 채팅방 생성 -->
-<insert id="insertChatRoom" parameterType="chatRoomVo">
+<insert id="insertChatRoom" parameterType="Map">
 INSERT INTO CHAT_ROOM
 (CHRO_ID, CHRO_CLAS_ID, CHRO_TITLE, CHRO_CHAT_LOG, CHRO_DATE)
 VALUES(#{chroId}|| TO_CHAR(CHRO_SEQ.NEXTVAL), #{chroClasId}, #{chroTitle}, #{chroChatLog}, CURRENT_DATE)
@@ -77,5 +77,13 @@ SELECT CLCH_ID ,CLCH_ACCOUNT_ID ,CLCH_CLAS_ID ,CLCH_STATUS ,CLCH_YEOKAL
 SELECT USER_ACCOUNT_ID ,USER_NAME ,USER_NICKNAME ,USER_PROFILE_FILE 
 	FROM USER_PROFILE up  
 	WHERE USER_ACCOUNT_ID = #{userAccountId}
+</select>
+<!-- 기존 채팅방 유무 판단 -->
+<select id="countChatRoom" parameterType="Map" resultType="Integer">
+SELECT COUNT(*)
+	FROM CHAT_USER cu
+	JOIN CHAT_ROOM cr ON cu.CHUS_CHRO_ID = cr.CHRO_ID
+	WHERE cr.CHRO_CLAS_ID = #{chroClasId}
+	AND cu.CHUS_ACCOUNT_ID = #{chusAccountId}
 </select>
 </mapper>
