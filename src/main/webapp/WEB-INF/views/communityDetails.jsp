@@ -91,6 +91,9 @@
 					                                <div class="pb-3 pb-xl-0">
 					                                    <div class="btn-toolbar float-end" role="toolbar">
 					                                        <div class="btn-group me-2 mb-2">
+					                                        	<c:if test="${bVo.downloadGroup eq 1}">
+						                                            <button type="button" id="pdf-btn" class="btn btn-primary waves-light waves-effect"><i class=" ri-file-3-fill align-middle"></i></button>
+					                                        	</c:if>
 					                                        	<c:choose>
 						                                        	<c:when test="${sessionScope.userInfo.userNickname eq bVo.accountId}">
 							                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
@@ -128,7 +131,7 @@
 													</div>
 					                        	</c:when>
 					                        	<c:otherwise>
-							                        <div class="ck-content">
+							                        <div class="ck-content" id="ck-content">
 							                        	${bVo.content}
 							                        </div>
 					                        	</c:otherwise>

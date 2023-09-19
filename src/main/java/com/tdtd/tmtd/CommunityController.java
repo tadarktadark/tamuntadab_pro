@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +20,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +29,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerFontProvider;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFile;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.CssAppliers;
+import com.itextpdf.tool.xml.html.CssAppliersImpl;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import com.tdtd.tmtd.comm.LikeViewUtils;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.ElasticsearchService;
@@ -451,5 +470,52 @@ public class CommunityController {
 		Gson gson = new Gson();
 		System.out.println("result : "+gson.toJson(resultList));
 		
+	}
+	
+	@RequestMapping(value="/pilgiPdfDownload.do", method = RequestMethod.POST)
+	public void pilgiPdfDownload(HttpServletResponse response, HttpServletRequest request, String id, String content) throws DocumentException, IOException {
+		log.info("@@@@@@@@@@@@@@@ 필기 PDF 다운로드 : id {}, content \n{}",id, content);
+		System.out.println(content.contains("<img"));
+//		Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+//		PdfWriter writer = PdfWriter.getInstance(document,response.getOutputStream());
+//		writer.setInitialLeading(12.5f);
+//		
+//		response.setContentType("application/pdf");
+//		String fileName = URLEncoder.encode("테스트파일","UTF-8");
+//		
+//		response.setHeader("Content-Transper-Encoding", "binary");
+//		response.setHeader("Content-Disposition", "inline; filename="+fileName+".pdf");
+//		
+//		document.open();
+//		XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
+//		
+//		CSSResolver cssResolver = new StyleAttrCSSResolver();
+//		String cssPath = request.getServletContext().getRealPath("css/communityDetails.css");
+//		CssFile cssFile = helper.getCSS(new FileInputStream(cssPath));
+//		cssResolver.addCss(cssFile);
+//		
+//		XMLWorkerFontProvider fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+//		String fontPath = request.getServletContext().getRealPath("font/MALGUN.TTF");
+//		fontProvider.register(fontPath,"gothic");
+//		CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+//		
+//		HtmlPipelineContext htmlContext = new HtmlPipelineContext(cssAppliers);
+//		htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
+//		
+//		PdfWriterPipeline pdf = new PdfWriterPipeline(document,writer);
+//		HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+//		CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
+//		
+//		XMLWorker worker = new XMLWorker(css, true);
+//		XMLParser xmlParser = new XMLParser(worker, Charset.forName("UTF-8"));
+//		
+//		String htmlStr = "<html><head></head>"
+//						+ content
+//						+ "</body></html>";
+//		StringReader strReader = new StringReader(htmlStr);
+//		
+//		xmlParser.parse(strReader);
+//		document.close();
+//		writer.close();
 	}
 }
