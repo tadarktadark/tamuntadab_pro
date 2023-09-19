@@ -44,6 +44,7 @@ public class CareerController {
 	@Autowired
 	private ICareerService service;
 	
+	//경력 인증 요청 페이지 이동
 	@GetMapping("/instrCareer.do")
 	public String instrCareer(Model model) {
 		model.addAttribute("title","프로필");
@@ -51,11 +52,11 @@ public class CareerController {
 		return "instrCareer";
 	}
 	
+	//강사 개인 경력 인증 요청 목록 조회
 	@GetMapping("/myCareerList.do")
 	public String myCareerList(Model model, HttpSession session, String page) {
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		String accountId = userInfo.getUserAccountId();
-//		String accountId = "TMTD101";
 		
 		int totalCount = service.getMyCareerCount(accountId);
 		
@@ -72,6 +73,7 @@ public class CareerController {
 		return "myCareerList";
 	}
 	
+	//경력증명서 양식 다운로드
 	@RequestMapping(value = "/careerFileDownload.do", method = RequestMethod.GET)
 	public void careerFiledownload(HttpServletResponse resp, HttpServletRequest req) throws IOException {
 		log.info("CareerController careerFiledownload 실행");
@@ -115,6 +117,7 @@ public class CareerController {
 		}
 	}
 
+	//경력증명서 파일 업로드
 	@ResponseBody
 	@PostMapping("/careerUpload.do")
 	public Map<String, Object> fileUpload(HttpServletRequest request,
@@ -126,7 +129,9 @@ public class CareerController {
 
 	    for (MultipartFile f : file) {
 	        try {
-	        	String savedFilePath = (String)fileService.fileSave(f, request).get("path")+"/"+fileService.fileSave(f, request).get("saveName");
+	        	String saveName = (String) fileService.fileSave(f, request).get("saveName");
+	        	String originName = (String) fileService.fileSave(f, request).get("originalName");
+	        	String savedFilePath = (String)fileService.fileSave(f, request).get("path")+"/"+saveName;
 	            List<String> pngFileNames = fileService.convertPdfToPng(savedFilePath, request.getSession().getServletContext().getRealPath("/storage")+"/");
 	            for (String pngFileName : pngFileNames) {
 	                try {
@@ -134,15 +139,40 @@ public class CareerController {
 						ocrMap.put("careId", createId());
 						ocrMap.put("careAccountId", accountId);
 						
+						String companyName = ocrMap.get("careCompany").toString();
+						log.info("새로 등록한 companyName : {}", companyName);
+						
 						for (Object value : ocrMap.values()) {
 						    if (value == null || "".equals(value.toString().trim())) {
 						        response.put("errorMessage", "모든 항목은 반드시 기재되어야 합니다.");
 						        return response;
 						    }
 						}
-
+						
+						Map<String, Object> fileMap = new HashMap<String, Object>();
+						fileMap.put("fileRefPk", ocrMap.get("careId").toString());
+						fileMap.put("fileOriginName", originName);
+						fileMap.put("fileSaveName", saveName);
+						
+						int m = fileService.insertFile(fileMap);
+						log.info("@@@@@@@@@@insertFile 성공 여부 : {}", (m>0)?"true":"false");
+						
+						List<CareerVo> allCareer = service.getMyCareerList(new HashMap<String, Object>(){{
+								put("userAccountId", accountId);
+							}});
+						
+						for (CareerVo sameCareer : allCareer) {
+							log.info("기존 companyName : {}", sameCareer.getCareCompany().trim());
+							log.info("비교 companyName : {}", companyName.trim());
+							if(sameCareer.getCareCompany().trim().equals(companyName.trim())) {
+								int s = service.updateCareerR(sameCareer.getCareId());
+								log.info("R 업데이트 성공 여부 : {}", (s>0)?"true":"false");
+							}
+						}
+						
 						int n = service.insertCareer(ocrMap);
-						if(n > 0) {
+						
+						if(n > 0 || m>0) {
 							response.put("successMessage", "관리자에게 승인 요청되었습니다.");
 							return response;
 						} else {
@@ -167,6 +197,7 @@ public class CareerController {
 	    return response; 
 	}
 	
+	//Career Id 생성 메소드
 	private String createId() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
@@ -183,6 +214,25 @@ public class CareerController {
 			seq = Integer.parseInt(maxIdToday.substring(8))+1;
 		}
 		return datePrefix + String.format("%03d", seq);
+	}
+	
+	//관리자 경력 인증 페이지 이동
+	@GetMapping("/managerCareer.do")
+	public String managerCareer(Model model, String page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("start", 1);
+		map.put("end", 5);
+		List<CareerVo> lists = service.getCareerList(map);
+		
+		int totalCount = service.getCareerCount();
+		Map<String, Object> paging = PagingUtils.paging(page, totalCount, 5, 5);
+		
+		model.addAttribute("title", "강사 관리 페이지");
+		model.addAttribute("pageTitle", "경력 인증 요청 승인");
+		model.addAttribute("lists", lists);
+		model.addAttribute("page", paging.get("page"));
+		
+		return "managerCareerCert";
 	}
 	
 

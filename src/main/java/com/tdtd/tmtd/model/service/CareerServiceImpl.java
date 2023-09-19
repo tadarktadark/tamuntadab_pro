@@ -34,6 +34,11 @@ public class CareerServiceImpl implements ICareerService {
 	public List<CareerVo> getMyCareerList(Map<String, Object> map) {
 		return dao.getMyCareerList(map);
 	}
+	
+	@Override
+	public int getCareerCount() {
+		return dao.getCareerCount();
+	}
 
 	@Override
 	public List<CareerVo> getCareerList(Map<String, Object> map) {
@@ -52,6 +57,11 @@ public class CareerServiceImpl implements ICareerService {
 		return (m>0||n>0)? 1:0;
 	}
 
+	@Override
+	public int updateCareerR(String careId) {
+		return dao.updateCareerR(careId);
+	}
+	
 	@Override
 	public int updateCareerB(Map<String, Object> map) {
 		return dao.updateCareerB(map);

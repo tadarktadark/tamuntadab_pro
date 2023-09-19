@@ -17,6 +17,8 @@ public interface ICareerService {
 		//TDT009 getMyCareerList
 		public List<CareerVo> getMyCareerList(Map<String, Object> map);
 		
+		public int getCareerCount();
+		
 		//TDT010 getCareerList
 		public List<CareerVo> getCareerList(Map<String, Object> map);
 		
@@ -26,6 +28,8 @@ public interface ICareerService {
 		//TDT012 updateCareerS
 		//TDT013 updateCareerCert
 		public int updateCareerS(Map<String, Object> map);
+		
+		public int updateCareerR(String careId);
 		
 		//TDT014 updateCareerB
 		public int updateCareerB(Map<String, Object> map);

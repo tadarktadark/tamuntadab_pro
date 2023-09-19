@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
@@ -24,7 +24,6 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp"%>
 				</div>
-				<!-- <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px;"> -->
 				<div style="width: 800px; margin: 10% auto;">
 					<c:choose>
 						<c:when test="${empty lists}">
@@ -38,23 +37,49 @@
 								style="height: 300px; overflow-y: auto;">
 								<thead>
 									<tr style="text-align: center;">
+										<th scope="col">요청자</th>
 										<th scope="col">회사명</th>
+										<th scope="col">발급담당자명</th>
+										<th scope="col">발급담당자연락처</th>
+										<th scope="col">성명</th>
+										<th scope="col">연락처</th>
 										<th scope="col">소속</th>
-										<th scope="col">직무</th>
-										<th scope="col">상태</th>
-										<th scope="col">상태변경일</th>
-										<th scope="col">반려사유</th>
+										<th scope="col">직위</th>
+										<th scope="col">재직기간</th>
+										<th scope="col">담당업무</th>
+										<c:choose>
+											<c:when test="${career.careStatus eq 'N'}">
+												<th scope="col">승인</th>
+												<th scope="col">반려</th>
+											</c:when>
+											<c:when test="${career.careStatus eq 'B'}">
+											
+											</c:when>
+										</c:choose>
+										<th scope="col">파일보기</th>
+										<th scope="col">수정하기</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="career" items="${lists}" varStatus="vs">
 										<tr style="text-align: center; vertical-align: middle;">
+											<td>${career.careAccountId}</td>
 											<td>${career.careCompany}</td>
+											<td>${career.careIssuer}</td>
+											<td>${career.careIssuerContact}</td>
+											<td>${career.careName}</td>
+											<td>${career.careContact}</td>
 											<td>${career.careSosok}</td>
+											<td>${career.carePosition}</td>
+											<td>${career.carePeriod}</td>
 											<td>${career.careJob}</td>
+											<td><button>승인</button></td>
+											<td><button>반려</button></td>
 											<c:choose>
 												<c:when test="${career.careStatus eq 'N'}">
-													<td><span class="badge bg-warning">승인대기중</span></td>
+													<td>
+													<button>승인</button>
+													<span class="badge bg-warning">승인대기중</span></td>
 												</c:when>
 												<c:when test="${career.careStatus eq 'S'}">
 													<td><span class="badge bg-success">승인</span></td>
@@ -63,20 +88,12 @@
 													<td><span class="badge bg-danger">반려</span></td>
 												</c:otherwise>
 											</c:choose>
-											<td>${career.careStatusDate}</td>
-											<c:choose>
-												<c:when test="${not empty career.careReason}">
-													<td>
-														<button type="button" class="btn btn-info reasonButton"
-														style="padding: 2px 6px; font-size: 12px; line-height: 1;"
-															data-bs-toggle="modal" data-bs-target="#zoomInModal"
-															data-reason="${career.careReason}">사유 보기</button>
-													</td>
-												</c:when>
-												<c:otherwise>
-													<td>-</td>
-												</c:otherwise>
-											</c:choose>
+											<td>
+												<button type="button" class="btn btn-info reasonButton"
+													style="padding: 2px 6px; font-size: 12px; line-height: 1;"
+													data-bs-toggle="modal" data-bs-target="#zoomInModal"
+													data-reason="${career.careReason}">사유 보기</button>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -125,44 +142,9 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
-				</div>
-				</div>
-				
-				<div id="zoomInModal" class="modal fade zoomIn" tabindex="-1"
-					aria-labelledby="zoomInModalLabel" aria-hidden="true"
-					style="display: none;">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="zoomInModalLabel">반려 사유</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<h5 class="fs-16"></h5>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-light"
-									data-bs-dismiss="modal">닫기</button>
-								<button type="button" class="btn btn-primary " onclick="location.href='./instrCareer.do'">재등록</button>
-							</div>
-
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal-dialog -->
-				</div>
-				<!-- /.modal -->
 			</div>
 			<%@ include file="./shared/_footer.jsp"%>
+		</div>
+	</div>
 </body>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#zoomInModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var reason = button.data('reason'); // Extract info from data-* attributes
-        var modal = $(this);
-        modal.find('.modal-body h5').text(reason);
-    });
-});
-</script>
 </html>

@@ -36,6 +36,11 @@ public class CareerDaoImpl implements ICareerDao {
 	public List<CareerVo> getMyCareerList(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getMyCareerList", map);
 	}
+	
+	@Override
+	public int getCareerCount() {
+		return sqlSession.selectOne(NS+"getCareerCount");
+	}
 
 	@Override
 	public List<CareerVo> getCareerList(Map<String, Object> map) {
@@ -55,6 +60,11 @@ public class CareerDaoImpl implements ICareerDao {
 	@Override
 	public int updateCareerCert(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateCareerCert", map);
+	}
+	
+	@Override
+	public int updateCareerR(String careId) {
+		return sqlSession.update(NS+"updateCareerR", careId);
 	}
 
 	@Override

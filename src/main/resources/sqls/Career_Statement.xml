@@ -26,24 +26,43 @@
 </select>
 
 <select id="getMyCareerList" resultType="careerVo">
-	SELECT CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
+	SELECT CARE_ID, CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
 	FROM (
-	    SELECT CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS,
+	    SELECT CARE_ID, CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS,
 	           CARE_STATUS_DATE, CARE_REASON,
 	           ROW_NUMBER() OVER (ORDER BY CARE_STATUS_DATE DESC) AS RN
 	    FROM CAREER
 	    WHERE CARE_ACCOUNT_ID = #{userAccountId}
 	)
-	WHERE RN BETWEEN #{start} AND #{end}
+	<if test="start != null">
+		WHERE RN BETWEEN #{start} AND #{end}
+	</if>
+	
+</select>
+
+<select id="getCareerCount" resultType="Integer">
+	SELECT COUNT(*)
+        FROM CAREER c 
+        WHERE CARE_STATUS = 'N'
+        OR 
+        CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
+                                                FROM CAREER c
+                                                GROUP BY CARE_ACCOUNT_ID
+                                                HAVING count(CARE_ACCOUNT_ID) >= 1)
+   AND CARE_COMPANY IN (SELECT CARE_COMPANY
+                                                FROM CAREER c
+                                                GROUP BY CARE_COMPANY
+                                                HAVING count(CARE_COMPANY) >= 1)
+   AND CARE_STATUS = 'B'
 </select>
 
 <select id="getCareerList" resultType="careerVo">
 	SELECT CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, CARE_SOSOK,
           CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
-          CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON
+          CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON, CARE_COMPANY
 	FROM (SELECT CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, CARE_SOSOK,
                 CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
-                CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON,
+                CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON, CARE_COMPANY,
                 ROW_NUMBER() OVER (ORDER BY CARE_DATE DESC) AS RN
         FROM CAREER c 
         WHERE CARE_STATUS = 'N'
@@ -56,7 +75,7 @@
                                                 FROM CAREER c
                                                 GROUP BY CARE_COMPANY
                                                 HAVING count(CARE_COMPANY) >= 1)
-   AND CARE_STATUS = 'B')
+   AND CARE_STATUS = 'R')
    WHERE RN BETWEEN #{start} AND #{end}
 </select>
 
@@ -73,8 +92,13 @@
 	WHERE CARE_ID=#{careId}
 </update>
 <update id="updateCareerCert">
-	UPDATE INSTR_PROFILE SET INPR_CERT = 'S'
+	UPDATE INSTR_PROFILE SET INPR_CERT = 'S', INPR_REGDATE = CURRENT_DATE
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
+</update>
+
+<update id="updateCareerR">
+	UPDATE CAREER SET CARE_STATUS = 'R', CARE_STATUS_DATE = CURRENT_DATE 
+	WHERE CARE_ID=#{careId}
 </update>
 
 <update id="updateCareerB">
