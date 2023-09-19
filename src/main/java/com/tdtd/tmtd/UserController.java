@@ -1,7 +1,6 @@
 package com.tdtd.tmtd;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,12 +55,30 @@ public class UserController {
 
 	@Autowired
 	private JavaMailSender mailsender;
+	
+	@RequestMapping(value="/updateNickname.do",method = RequestMethod.POST)
+	@ResponseBody
+	public String updateNickname(@RequestParam(name = "nickname") String nickname, HttpSession session) {
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		Map<String,Object> updateInfo = new HashMap<String, Object>();
+		updateInfo.put("userAccountId", userInfo.getUserAccountId());
+		updateInfo.put("userSite", userInfo.getUserSite());
+		updateInfo.put("changeNickName", nickname.trim());
+		
+		String isc = commUserService.searchNickName(updateInfo);
+		if(isc.equals("true")) {
+			userInfo.setUserNickname(nickname);
+			session.setAttribute("userInfo", userInfo);
+			return "true";
+		}
+		return "false";
+	}
 
 	@RequestMapping(value = "uploadImg.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String uplodaImg(@RequestParam MultipartFile file, HttpSession session, HttpServletRequest req)
 			throws IOException {
-		UserProfileVo vo = (UserProfileVo) session.getAttribute("userInfo");
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
 		String originalFileName = file.getOriginalFilename();
 		String saveFileName = UUID.randomUUID().toString()
 				+ originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -77,45 +94,48 @@ public class UserController {
 		if (!storage.exists()) {
 			storage.mkdir();
 		}
-		
 		File newFile = new File(path+"/"+saveFileName);
 		
-		if (vo.getUserProfileFile().equals("./image/profile.png")) {
-		      outputStream = new FileOutputStream(newFile);
-		      int read = 0;
-		      byte[] b = new byte[(int)file.getSize()];
-		      while ((read=inputStream.read(b))!= -1) {
-		          outputStream.write(b,0,read);
-		      }
-		      log.info("{}",path+"/"+saveFileName);
-		} else {
+		outputStream = new FileOutputStream(newFile);
+		
+		//기본 이미지가 아닐 경우 기존 파일 삭제 후 변경
+		if (!userInfo.getUserProfileFile().equals("./image/profile.png")) {
+			String userProfileFile = userInfo.getUserProfileFile();
+			File beforefile = new File(userProfileFile);
+			String fileName = beforefile.getName();
 			// 삭제할 파일 경로
-			String filePath = vo.getUserProfileFile();
+			String filePath = path;
 			// 파일 객체 생성
-			File oldProfile = new File(vo.getUserProfileFile());
-			 int read = 0;
-		      byte[] b = new byte[(int)file.getSize()];
-		      while ((read=inputStream.read(b))!= -1) {
-		          outputStream.write(b,0,read);
-		      }
-			// 파일이 존재하면 삭제
-			if (oldProfile.exists()) {
-			      outputStream = new FileOutputStream(newFile);
-				if (oldProfile.delete()) {
-					//파일 삭제 성공시
-					 read = 0;
-				      b = new byte[(int)file.getSize()];
-				      while ((read=inputStream.read(b))!= -1) {
-				          outputStream.write(b,0,read);
-				      }
-				      return "false";
-				} else {
-					return "false";
-				}
-			} else {
-				System.out.println("파일이 존재하지 않습니다.");
-				return "false";
-			}
+			File oldProfile = new File(filePath+"/"+fileName);
+			log.info("{}",oldProfile);
+			oldProfile.delete();
+		}
+		//파일 업로드 하기
+		 int read = 0;
+		 byte[] b = new byte[(int)file.getSize()];
+		 while ((read=inputStream.read(b))!= -1) {
+			 	outputStream.write(b,0,read);
+		 		}
+		 outputStream.close();
+		 
+		// 웹 상에서 접근 가능한 상대 경로로 변환
+		String webPath = path.substring(path.indexOf("tamuntadab_pro"));
+
+		// 슬래시(/)로 경로를 통일시킵니다
+		webPath = webPath.replace("\\", "/");
+		
+		String newProfile = "/"+webPath+"/"+saveFileName;
+		
+		Map<String,Object> updateInfo = new HashMap<String, Object>();
+		updateInfo.put("userAccountId", userInfo.getUserAccountId());
+		updateInfo.put("userSite", userInfo.getUserSite());
+		updateInfo.put("changeProfile", newProfile);
+		
+		int n = commUserService.updateUserInfo(updateInfo);
+		if(n>0) {
+			userInfo.setUserProfileFile(newProfile);
+			session.setAttribute("userInfo", userInfo);
+			return "true";
 		}
 		return "false";
 	};

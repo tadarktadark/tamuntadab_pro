@@ -46,4 +46,6 @@ public interface ICommUserService {
 	public int updateResetPwToken(Map<String,Object> resetPassword);
 
 	public int updateUserPassword(Map<String,Object> resetPassword);
+	
+	public String searchNickName(Map<String,Object> map);
 }

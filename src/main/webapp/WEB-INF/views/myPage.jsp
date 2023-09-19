@@ -68,7 +68,10 @@
 												<img src="<%=userInfo.getUserProfileFile()%>" alt="<%=userInfo.getUserName()%>의 프로필 사진"
 													class="avatar-lg rounded-circle img-thumbnail">
 												<div class="mt-3">
-													<h5 class="mb-2"><b><%=userInfo.getUserName()%></b></h5>
+													<h5 class="mb-2"><b><%=userInfo.getUserName()%>(<%=userInfo.getUserNickname() %>)</b></h5>
+													<div>
+					                                    <span class="badge rounded-pill bg-success-subtle text-success m-1 userAuth"><%=userInfo.getUserAuth().equals("S")?"학생":"강사" %></span>
+					                                </div>
 													<div class="mt-4">
 													<label for="updateprofile">
 													  <span class="btn btn-primary waves-effect waves-light btn-sm">
@@ -212,7 +215,7 @@
 									<li class="nav-item"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#info" role="tab"
 										aria-selected="false"> <i class="bx bx-user-circle fs-20"></i>
-											<span class="d-none d-sm-block">내 정보 수정</span>
+											<span class="d-none d-sm-block">내 정보</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#payment" role="tab"
@@ -260,40 +263,56 @@
 									</div><!-- 클래스 끝나는 구간 -->
 									
 									<!-- 내 정보 수정 구간 -->
-									<div class="tab-pane" id="info" role="tabpanel">
+									<div>
+									</div>
+									<div class="tab-pane row" id="info" role="tabpanel">
 										<div class="p-4">
-											<div>
-												<div class="pb-3">
-														<div class=" pt-3 px-3">
-														    <div class="input-group w-50">
-													    		<span class="input-group-text"><b>이 메 일</b></span>
-															    <input type="text" class="form-control" value="<%=userInfo.getUserEmail()%>" readonly="readonly" aria-describedby="basic-addon1">
-															</div>
-														</div>
-												</div>
-												
-												<div class="pb-3">
-														<div class=" pt-1 px-3">
-														    <div class="input-group w-50">
-															    <label for="nickname" class="form-label input-group-text"><span><b>닉 네 임</b></span></label>
-															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserNickname()%>" aria-describedby="basic-addon1">
-															    <button class="btn btn-primary">변경하기</button>
-															</div>
-														</div>
-												</div>
-												<div class="pb-3">
-														<div class=" pt-1 px-3">
-														    <div class="input-group w-50">
-															    <label for="nickname" class="form-label input-group-text"><span><b>생 일</b></span></label>
-															    <input type="text" class="form-control" id="nickname"value="<%=userInfo.getUserBirth()%>" aria-describedby="basic-addon1">
-															    <button class="btn btn-primary">변경하기</button>
-															</div>
-														</div>
-												</div>
+											<div class="container-fluid">
+												    <div class="row">
+												        <div class="col-6">
+												            <div class="mb-3">
+												                <label class="form-label"><b>이메일</b></label>
+												                <input type="text" class="form-control bg-light-subtle " readonly="readonly" value="<%=userInfo.getUserEmail()%>">
+												            </div>
+												        </div><!--end col-->
+												        <div class="col-6">
+												            <div class="mb-3">
+												                <label class="form-label"><b>이름</b></label>
+												                <input type="text" readonly="readonly" class="form-control bg-light-subtle" value="<%=userInfo.getUserName()%>">
+												            </div>
+												        </div><!--end col-->
+												        <div class="col-6">
+												            <div class="mb-3">
+												                <label for="compnayNameinput" class="form-label"><b>닉네임</b></label>
+												                <div class="input-group">
+												                	<input type="text" class="form-control" placeholder="변경 할 닉네임을 입력하세요" id="nickname">
+												                	<button class="input-group-button btn btn-primary" id="updateNickName">변경하기</button>
+												                </div>
+												            </div>
+												        </div><!--end col-->
+												        <div class="col-3">
+												            <div class="mb-3">
+												                <label class="form-label">핸드폰 번호</label>
+												                <%
+																	String userPhoneNumber = userInfo.getUserPhoneNumber();
+																	if (userPhoneNumber.length() == 10) {
+																	    userPhoneNumber = userPhoneNumber.replaceFirst("(\\d{3})(\\d{4})(\\d{3})", "$1-$2-$3");
+																	} else if (userPhoneNumber.length() == 11) {
+																	    userPhoneNumber = userPhoneNumber.replaceFirst("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3");
+																	}
+																%>
+												                <input type="text" class="form-control bg-light-subtle" readonly="readonly" value="<%=userPhoneNumber%>" >
+												            </div>
+												        </div><!--end col-->
+												        <div class="col-3">
+												            <div class="mb-3">
+												                <label class="form-label">성별</label>
+												                <input type="text" class="form-control bg-light-subtle" readonly="readonly" value="<%=userInfo.getUserGender().equals("M")?"남자":"여자" %>">
+												            </div>
+												        </div><!--end col-->
+												    </div><!--end row-->
 											</div>
-											<!-- end card body -->
 										</div>
-										<!-- end card -->
 									</div>
 									<!-- 내정보 끝 -->
 									<!-- 결제 내역 -->

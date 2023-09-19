@@ -21,8 +21,8 @@ public class CommUserDaoImpl implements ICommUserDao {
 		return sqlSession.selectOne(NS+"searchEmail",map);
 	}
 	@Override
-	public boolean searchNickName(String userNickName) {
-		return sqlSession.selectOne(NS+"searchNickName",userNickName);
+	public boolean searchNickName(Map<String,Object> map) {
+		return sqlSession.selectOne(NS+"searchNickName",map);
 	}
 
 	@Override

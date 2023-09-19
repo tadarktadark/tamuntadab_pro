@@ -163,8 +163,7 @@
 
 
 	<!-- NOTE [회원관리 : 닉네임 중복 쿼리문] -->
-	<select id="searchNickName" parameterType="java.lang.String"
-		resultType="java.lang.Boolean">
+	<select id="searchNickName"	resultType="java.lang.Boolean">
 		SELECT
 		CASE WHEN COUNT(USER_NICKNAME) > 0 THEN 'TRUE' ELSE
 		'FALSE' END
@@ -184,7 +183,7 @@
 		USER_NICKNAME
 		FROM GOOGLE_USER_PROFILE gup)
 		WHERE
-		USER_NICKNAME=#{userNickname}
+		USER_NICKNAME=#{changeNickName}
 	</select>
 
 	<!--NOTE [회원관리 : 일반유저 회원등록 쿼리] -->
