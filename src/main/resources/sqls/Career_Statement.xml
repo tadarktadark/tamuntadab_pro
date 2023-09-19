@@ -30,7 +30,7 @@
 	FROM (
 	    SELECT CARE_ID, CARE_COMPANY, CARE_SOSOK, CARE_JOB, CARE_STATUS,
 	           CARE_STATUS_DATE, CARE_REASON,
-	           ROW_NUMBER() OVER (ORDER BY CARE_STATUS_DATE DESC) AS RN
+	           ROW_NUMBER() OVER (ORDER BY CARE_ID DESC) AS RN
 	    FROM CAREER
 	    WHERE CARE_ACCOUNT_ID = #{userAccountId}
 	)
@@ -43,17 +43,7 @@
 <select id="getCareerCount" resultType="Integer">
 	SELECT COUNT(*)
         FROM CAREER c 
-        WHERE CARE_STATUS = 'N'
-        OR 
-        CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
-                                                FROM CAREER c
-                                                GROUP BY CARE_ACCOUNT_ID
-                                                HAVING count(CARE_ACCOUNT_ID) >= 1)
-   AND CARE_COMPANY IN (SELECT CARE_COMPANY
-                                                FROM CAREER c
-                                                GROUP BY CARE_COMPANY
-                                                HAVING count(CARE_COMPANY) >= 1)
-   AND CARE_STATUS = 'R'
+        WHERE CARE_STATUS != 'D' AND CARE_STATUS != 'B'
 </select>
 
 <select id="getCareerList" resultType="careerVo">
@@ -63,19 +53,9 @@
 	FROM (SELECT CARE_ID, CARE_ACCOUNT_ID, CARE_NAME, CARE_CONTACT, CARE_SOSOK,
                 CARE_POSITION, CARE_PERIOD, CARE_JOB, CARE_ISSUER, CARE_ISSUER_CONTACT,
                 CARE_DATE, CARE_STATUS, CARE_STATUS_DATE, CARE_REASON, CARE_COMPANY,
-                ROW_NUMBER() OVER (ORDER BY CARE_DATE DESC) AS RN
+                ROW_NUMBER() OVER (ORDER BY CARE_DATE DESC, CARE_ID DESC) AS RN
         FROM CAREER c 
-        WHERE CARE_STATUS = 'N'
-        OR 
-        CARE_ACCOUNT_ID IN (SELECT CARE_ACCOUNT_ID
-                                                FROM CAREER c
-                                                GROUP BY CARE_ACCOUNT_ID
-                                                HAVING count(CARE_ACCOUNT_ID) >= 1)
-   AND CARE_COMPANY IN (SELECT CARE_COMPANY
-                                                FROM CAREER c
-                                                GROUP BY CARE_COMPANY
-                                                HAVING count(CARE_COMPANY) >= 1)
-   AND CARE_STATUS = 'R')
+        WHERE CARE_STATUS != 'D' AND CARE_STATUS != 'B')
    WHERE RN BETWEEN #{start} AND #{end}
 </select>
 

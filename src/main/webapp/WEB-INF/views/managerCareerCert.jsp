@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	charset="UTF-8"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="./js/managerCert.js"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body class="twocolumn-panel">
@@ -45,9 +46,19 @@
 												data-bs-target="#accor_borderedExamplecollapse${vs.index+1}"
 												aria-expanded="false"
 												aria-controls="accor_borderedExamplecollapse${vs.index+1}">
-												요청자 ID: ${career.careAccountId}
-												<c:if test="${career.careStatus eq 'R'}">(기존 반려된 요청)</c:if>
+												<c:choose>
+													<c:when test="${career.careStatus eq 'R'}">
+														<span class="badge bg-warning">반려</span>
+													</c:when>
+													<c:when test="${career.careStatus eq 'S'}">
+														<span class="badge bg-info">승인</span>
+													</c:when>
+												</c:choose>
+												&nbsp;요청자 ID: ${career.careAccountId}
 											</button>
+											<input type="hidden" id="userAccountId"
+												value="${career.careAccountId}"> <input
+												type="hidden" id="careId" value="${career.careId}">
 										</h2>
 										<div id="accor_borderedExamplecollapse${vs.index+1}"
 											class="accordion-collapse collapse"
@@ -89,25 +100,34 @@
 																<c:choose>
 																	<c:when test="${career.careStatus eq 'N'}">
 																		<td><button type="button"
-																				class="btn btn-success w-xs">승인</button></td>
+																				class="btn btn-success w-xs update-button"
+																				onclick="updateS()">승인</button></td>
 																		<td><button type="button"
-																				class="btn btn-warning w-xs">반려</button></td>
+																				class="btn btn-warning w-xs" onclick="updateB()">반려</button></td>
 																		<td>-</td>
+																	</c:when>
+																	<c:when test="${career.careStatus eq 'S'}">
+																		<td>-</td>
+																		<td>-</td>
+																		<td><button type="button"
+																				class="btn btn-danger w-xs" onclick="updateD()">목록삭제</button></td>
 																	</c:when>
 																	<c:when test="${career.careStatus eq 'R'}">
 																		<td>-</td>
 																		<td>-</td>
 																		<td><button type="button"
-																				class="btn btn-danger w-xs">삭제</button></td>
+																				class="btn btn-danger w-xs" onclick="deleteDB()">DB삭제</button></td>
 																	</c:when>
 																</c:choose>
 																<td>
-																	<button type="button" class="btn btn-info w-xs">
+																	<button type="button" class="btn btn-info w-xs"
+																		onclick="location.href='./downloadPdf.do?careId=${career.careId}'">
 																		<i class="mdi mdi-tray-arrow-down"></i> 다운로드
 																	</button>
 																</td>
 																<td>
-																	<button type="button" class="btn btn-secondary w-xs">수정</button>
+																	<button type="button" class="btn btn-secondary w-xs"
+																		onclick="updateContent()">수정</button>
 																</td>
 															</tr>
 														</tbody>
@@ -160,6 +180,38 @@
 							</ul>
 						</c:otherwise>
 					</c:choose>
+				</div>
+				<!-- Varying modal content -->
+				<div class="modal fade" id="varyingcontentModal" tabindex="-1"
+					aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="varyingcontentModalLabel">New
+									message</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form>
+									<div class="mb-3">
+										<label for="recipient-name" class="col-form-label">Recipient:</label>
+										<input type="text" class="form-control" id="recipient-name">
+									</div>
+									<div class="mb-3">
+										<label for="message-text" class="col-form-label">Message:</label>
+										<textarea class="form-control" id="message-text"></textarea>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light"
+									data-bs-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Send
+									message</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp"%>
