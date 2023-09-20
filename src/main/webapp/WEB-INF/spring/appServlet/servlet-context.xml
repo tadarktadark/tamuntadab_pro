@@ -40,6 +40,8 @@
 	<task:scheduled ref="cronServiceImpl" method="registHuman" cron="0 0 * * * *"/>
 	투표 자동 종료 Cron
 	<task:scheduled ref="tupyoServiceImpl" method="updateClassStatusCron" cron="0 0 * * * *"/>
+	강사 경력 인증 중 기한 지난 반려 데이터 자동 삭제
+	<task:scheduled ref="CareerServiceImpl" method="deleteCareerCron" cron="0 0 * * * *"/>
 </task:scheduled-tasks> -->
 	
 <mvc:interceptors>

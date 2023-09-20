@@ -5,8 +5,7 @@ import java.util.Map;
 
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
-import com.tdtd.tmtd.vo.SubjectTagVo;
-import com.tdtd.tmtd.vo.SubjectVo;
+import com.tdtd.tmtd.vo.SugangryoVo;
 
 public interface IClassDao {
 
@@ -45,6 +44,45 @@ public interface IClassDao {
 	public int getAllClassListForSCount();
 	
 	/**
+	 * 카테고리별 모집 중인 클래스 조회 (학생)
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> getCategoryClassListForS(Map<String, Object> map);
+	
+	/**
+	 *카테고리별 모집 중인 클래스 갯수 조회 (학생)
+	 * @return
+	 */
+	public int getCategoryClassListForSCount(String category);
+	
+	/**
+	 * 참여 가능한 모든 클래스 조회 (강사)
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> getAllClassListForI(Map<String, Object> map);
+	
+	/**
+	 * 참여 가능한 모든 클래스 갯수 조회 (강사)
+	 * @return
+	 */
+	public int getAllClassListForICount();
+	
+	/**
+	 * 참여 가능한 클래스 카테고리별 조회 (강사)
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> getCategoryClassListForI(Map<String, Object> map);
+	
+	/**
+	 * 참여 가능한 클래스 카테고리별 조회 총 갯수 (강사)
+	 * @return
+	 */
+	public int getCategoryClassListForICount(String category);
+	
+	/**
 	 * 클래스 개설
 	 * @param vo 개설될 클래스의 정보가 담긴 vo
 	 * @return 생성 성공 갯수 (1)
@@ -52,6 +90,62 @@ public interface IClassDao {
 	 * @since 2023-09-10
 	 */
 	public int addClass(ClassVo vo);
+	
+	/**
+	 * 참여할 세션의 정보 확인
+	 * @param clchAccountId
+	 * @return
+	 */
+	public ChamyeoVo getChamyeojaInfo(String clchAccountId);
+	
+	/**
+	 * 해당 클래스의 모든 참여자 정보 조회
+	 * @param clasId
+	 * @return
+	 */
+	public List<ChamyeoVo> getChamyeojas(String clasId);
+	
+	/**
+	 * 클래스 현재인원 조절
+	 * @param map(nums:변경할 값의 크기, clasId:클래스ID)
+	 * @return
+	 */
+	public int updateClassPeople(Map<String, Object> map);
+	
+	/**
+	 * 클래스 상태 변경
+	 * @param map(clasStatus:변경할 상태, clasId:클래스ID)
+	 * @return
+	 */
+	public int updateClassStatus (Map<String, Object> map);
+	
+	/**
+	 * 참여테이블 수정 (위임)
+	 * @param vo 필요값(clchYeokal, clchClasId, clchAccountId)
+	 * @return
+	 */
+	public int updateChamyeoYeokal(ChamyeoVo vo);
+	
+	/**
+	 * 참여자 삭제
+	 * @param map(clchClasId,clchAccountId)
+	 * @return
+	 */
+	public int delChamyeoja(Map<String, Object> map);
+	
+	/**
+	 * 수강료 확정 요청 생성
+	 * @param vo
+	 * @return
+	 */
+	public int dealSugangryo(SugangryoVo vo);
+	
+	/**
+	 * 클래스의 수강료 요청 상태 조회
+	 * @param sugaClasId
+	 * @return
+	 */
+	public SugangryoVo getSugangryo(String sugaClasId);
 	
 	/**
 	 * 과목 추가

@@ -40,6 +40,9 @@ public interface ICareerService {
 		//TDT016 deleteCareer
 		public int deleteCareer(String careId);
 		
+		//TDT017 deleteCareerCron
+		public int deleteCareerCron();
+		
 		//TDT023 getOneInstrCareer
 		public List<CareerVo> getOneInstrCareer(String userAccountId);
 	

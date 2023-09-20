@@ -34,11 +34,9 @@ public class CommUserServiceImpl implements ICommUserService {
 		return cdao.searchJeongJi(userInfo);
 	}
 
-	
 	@Override
 	public Map<String, Object> commLogin(Map<String, String> userInput) {
 		Map<String,Object> result = new HashMap<String, Object>();
-		
 		if(cdao.commLogin(userInput) !=null) {
 			UserProfileVo uservo = cdao.commLogin(userInput);
 			if(uservo.getUserChadanRegistDate() != null) {
@@ -46,24 +44,34 @@ public class CommUserServiceImpl implements ICommUserService {
 				String time = cdao.checkUserChadanDate(uservo.getUserEmail()); 
 				log.info("{}",time);
 				if(time.equals("782898")) {
+					if(uservo.getUserDelflag().equals("H")) {
+						result.put("status","human");
+						return result;
+					}else{
 					cdao.restoreUserChadanDate(uservo.getUserEmail());
 					result.put("status","success");
 					result.put("userInfo", uservo);
 					cdao.restoreUserChadanDate(uservo.getUserEmail());
 					cdao.restoreUserChadanCount(uservo);
 					cdao.updateTime(uservo);
+					}
 				}else {
 					result.put("status", "printDate");
 					result.put("time", time);
 				}
 				return result;
-			}else {
+			}else{
+				if(uservo.getUserDelflag().equals("H")) {
+					result.put("status","human");
+					return result;
+				}else {
 				result.put("status","success");
 				result.put("userInfo", uservo);
 				cdao.restoreUserChadanDate(uservo.getUserEmail());
 				cdao.restoreUserChadanCount(uservo);
 				cdao.updateTime(uservo);
 				return result;
+				}
 			}
 		}else {
 			int n = cdao.updateChadanCnt(userInput.get("userEmail"));
@@ -131,5 +139,40 @@ public class CommUserServiceImpl implements ICommUserService {
 			}
 		}
 		return "false";
+	}
+
+	@Override
+	public int updatedelflag(Map<String, Object> userToken) {
+		int n = cdao.updatedelflag(userToken);
+		if(n>0) {
+			n += cdao.deleteResetPwToken(userToken);
+		}
+		return n>1?1:0;
+	}
+
+	@Override
+	public int updateUserDelflagToY(UserProfileVo vo) {
+		int n = cdao.insertUserDelTable(vo);
+		int m = cdao.updateUserDelflagToY(vo);
+		return (n+m)>1?1:0;
+	}
+
+	@Override
+	public String checkPayment(UserProfileVo vo) {
+		if(vo.getUserAuth().equals("S")) {
+			int n = cdao.searchUserGyeolje(vo);
+			if(n>0) {
+				return "false";
+			}else {
+				return "true";
+			}
+		}else{
+			int n = cdao.searchUserJeongSan(vo);
+			if(n>0) {
+				return "false";
+			}else {
+				return "true";
+			}
+		}
 	}
 }
