@@ -44,12 +44,12 @@
 						                                                		%>
 						                                                		 <li><a class="dropdown-item" href="./updatePassword.do?tokenValue=mypage">비밀번호 변경</a></li>
 						                                           			     <li>
-							                                                    <a class="dropdown-item" href="#">회원 탈퇴</a>
+							                                                    <a class="dropdown-item" id="delCommUser" href="#">회원 탈퇴</a>
 						                                                		<%
 						                                                	}else{
 						                                                		%>
 																				<li>
-						                                                		<a class="dropdown-item" href="#">연동 해제</a>
+						                                                		<a class="dropdown-item" id="delCommUser" href="#">연동 해제</a>
 						                                                		<%
 						                                                	}
 						                                                %>

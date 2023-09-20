@@ -26,7 +26,6 @@ public class URLVo {
 	private String getKakaorInfo = "https://kapi.kakao.com/v2/user/me";
 	private String getGoogleInfo = "https://www.googleapis.com/oauth2/v2/userinfo";
 	
-	
 	public String getNaverUrl() {
 		return naverUrl;
 	}
