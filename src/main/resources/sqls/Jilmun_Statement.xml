@@ -197,13 +197,32 @@
 		</selectKey>
 	</insert>
 	
+	<!-- 질문 수정 데이터 조회 -->
+	<select id="getJilmunUpdateData" resultType="boardVo">
+		SELECT JIBO_TITLE AS TITLE, CLAS_TITLE  AS CLAS_ID, JIBO_CONTENT AS CONTENT,
+				(SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+				     FROM JSON_TABLE(JIBO_SUBJECT_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt
+				     JOIN SUBJECT_TAG s ON jt.SUBJECT_CODE = s.SUTA_CODE) AS SUBJECT_CODE
+			FROM JILMUN_BOARD LEFT JOIN CLASS
+			ON JIBO_CLAS_ID = CLAS_ID
+			WHERE JIBO_ID=#{id}
+	</select>
+	
 	<!-- 질문 수정 -->
 	<update id="updateJilmun">
 		UPDATE JILMUN_BOARD SET
-			<if test="clasId != null">
-				JIBO_CLAS_ID = #{clasId},  
+			<choose>
+				<when test="clasId == null">
+					JIBO_CLAS_ID = null,  
+				</when>
+				<otherwise>
+					JIBO_CLAS_ID = #{clasId},  
+				</otherwise>
+			</choose>
+			<if test="subjectCode != null">
+				JIBO_SUBJECT_CODE = #{subjectCode},  
 			</if> 
-				JIBO_SUBJECT_CODE = #{subjectCode}, JIBO_CONTENT = #{content}
+				JIBO_CONTENT = #{content}, JIBO_UPDATE=CURRENT_DATE
 			WHERE JIBO_ID = #{id}
 	</update>
 			

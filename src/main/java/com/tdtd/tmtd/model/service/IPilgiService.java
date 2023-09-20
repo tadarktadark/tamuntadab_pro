@@ -134,7 +134,7 @@ public interface IPilgiService {
 	 * @param vo accountId, clasId, content, viewGroup, downloadGroup<br>
 	 * @param map state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
-	 * 				clasId 클래스ID
+	 * 				id 게시글id
 	 * @param files 업로드한 파일들
 	 * @param request
 	 * @return 성공 1, 실패 0
@@ -182,13 +182,32 @@ public interface IPilgiService {
 	public int deletePilgiImsi(String id);   
 	
 	/**
+	 * 필기 수정 데이터 조회
+	 * @param id 필기 id
+	 * @return BoardVo 제목, 과목, 내용, 파일, 조회 그룹, 다운로드 그룹 
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
+	public BoardVo getPilgiUpdateData(String id);
+	
+	/**
 	 * 필기 수정
 	 * @param vo content, viewGroup, downloadGroup, id
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
+	 * @throws IOException 
 	 * @since 2023.09.14
 	 */
-	public int updatePilgi(BoardVo vo);        
+	public int updatePilgi(BoardVo vo, MultipartFile[] files, HttpServletRequest request) throws IOException;   
+	
+	/**
+	 * 필기 수정시 파일 삭제
+	 * @param save 삭제할 파일 저장 이름
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.20
+	 */
+	public int deletePilgiFile(String save);
 	
 	/**
 	 * 필기 임시 삭제 및 복원, 클래스참여자 필기 작성 여부 업데이트
@@ -196,7 +215,7 @@ public interface IPilgiService {
 	 * 			state Y=임시삭제, N=복원
 	 * @param cMap state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
-	 * 				clchId 클래스참여자ID
+	 * 				clasId 클래스ID
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14

@@ -114,8 +114,18 @@ public class PilgiDaoImpl implements IPilgiDao {
 	}
 
 	@Override
+	public BoardVo getPilgiUpdateData(String id) {
+		return session.selectOne(NS+"getPilgiUpdateData", id);
+	}
+	
+	@Override
 	public int updatePilgi(BoardVo vo) {
 		return session.update(NS+"updatePilgi",vo);
+	}
+	
+	@Override
+	public int deletePilgiFile(String save) {
+		return session.delete(NS+"deletePilgiFile",save);
 	}
 
 	@Override

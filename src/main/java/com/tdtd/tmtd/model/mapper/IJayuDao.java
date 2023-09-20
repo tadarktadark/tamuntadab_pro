@@ -134,6 +134,15 @@ public interface IJayuDao {
 	public int insertJayu(BoardVo vo);
 	
 	/**
+	 * 자유 수정 데이터 조회
+	 * @param id 자유 id
+	 * @return BoardVo 제목, 내용
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
+	public BoardVo getJayuUpdateData(String id);
+	
+	/**
 	 * 자유 수정
 	 * @param vo content, id
 	 * @return 성공 1, 실패 0

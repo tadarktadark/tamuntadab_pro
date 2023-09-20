@@ -91,6 +91,11 @@ public class JilmunServiceImpl implements IJilmunService {
 	public int insertJilmun(BoardVo vo) {
 		return dao.insertJilmun(vo);
 	}
+	
+	@Override
+	public BoardVo getJilmunUpdateData(String id) {
+		return dao.getJilmunUpdateData(id);
+	}
 
 	@Override
 	public int updateJilmun(BoardVo vo) {
