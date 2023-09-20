@@ -10,10 +10,12 @@ public interface IReviewService {
 		//TDT026 getMyReview
 		public List<ReviewVo> getMyReview(Map<String, Object> map);
 		
+		public int myReviewTotalCount(String userAccountId);
+		
 		//TDT027 insertReview
 		public int insertReview(ReviewVo vo, Map<String, Object> map);
 		
 		//TDT028 deleteReview
-		public int deleteReview(Map<String, String[]> map);
+		public int deleteReview(String seq, String clasId);
 
 }

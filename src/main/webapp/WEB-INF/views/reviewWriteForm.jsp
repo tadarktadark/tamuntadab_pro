@@ -144,7 +144,7 @@ $(function(){
 });
 	var reviPro = raterJs({
 		starSize : 30,
-		rating : 3,
+		rating : 0,
 		element : document.querySelector("#reviPro"),
 		rateCallback : function rateCallback(rating, done) {
 			this.setRating(rating);
@@ -154,7 +154,7 @@ $(function(){
 
 	var reviPrepare = raterJs({
 		starSize : 30,
-		rating : 3,
+		rating : 0,
 		element : document.querySelector("#reviPrepare"),
 		rateCallback : function rateCallback(rating, done) {
 			this.setRating(rating);
@@ -164,7 +164,7 @@ $(function(){
 
 	var reviAbil = raterJs({
 		starSize : 30,
-		rating : 3,
+		rating : 0,
 		element : document.querySelector("#reviAbil"),
 		rateCallback : function rateCallback(rating, done) {
 			this.setRating(rating);
@@ -174,7 +174,7 @@ $(function(){
 
 	var reviSigan = raterJs({
 		starSize : 30,
-		rating : 3,
+		rating : 0,
 		element : document.querySelector("#reviSigan"),
 		rateCallback : function rateCallback(rating, done) {
 			this.setRating(rating);

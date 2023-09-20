@@ -24,19 +24,24 @@
 </resultMap>
 
 <select id="getMyReview" resultMap="reviewMap">
-	SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, CLCH_ID,
-           (REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0 AS AVG_SCORE,
-           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REV_REGDATE
+	SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,          AVG_SCORE,
+           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE, CLCH_ID
 	FROM (
-	    SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, CLCH_ID,
+	    SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, 
 	           (REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0 AS AVG_SCORE,
-	           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, 
-	           TO_CHAR(REVI_REGDATE,'YYYY-MM-DD') AS REV_REGDATE,
+	           REVI_ABIL, REVI_SIGAN, REVI_DETAIL, CLCH_ID,
+	           TO_CHAR(REVI_REGDATE,'YYYY-MM-DD') AS REVI_REGDATE,
 	           ROW_NUMBER() OVER (ORDER BY REVI_REGDATE DESC, REVI_SEQ DESC) AS RN
-	    FROM REVIEW JOIN CLASS ON CLAS_ID = REVI_CLAS_ID
-	    WHERE CLAS_ACCOUNT_ID = #{userAccountId}
+	    FROM REVIEW JOIN CLASS ON CLAS_ID = REVI_CLAS_ID JOIN CLASS_CHAMYEOJA ON CLCH_CLAS_ID = CLAS_ID
+	    WHERE CLCH_ACCOUNT_ID = #{userAccountId} 
 	)
 	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+
+<select id="myReviewTotalCount" resultType="Integer">
+ SELECT COUNT(*)
+	    FROM REVIEW JOIN CLASS ON CLAS_ID = REVI_CLAS_ID JOIN CLASS_CHAMYEOJA ON CLCH_CLAS_ID = CLAS_ID
+	    WHERE CLCH_ACCOUNT_ID = #{userAccountId} 
 </select>
 
 <insert id="insertReview">
@@ -56,22 +61,18 @@
 
 <delete id="deleteReview">
 	DELETE FROM REVIEW
-	WHERE REVI_SEQ IN
-	<foreach collection="seqs" item="seq" open="(" separator="," close=")">
+	WHERE REVI_SEQ =
+	<!-- <foreach collection="seqs" item="seq" open="(" separator="," close=")"> -->
 		#{seq}
-	</foreach>
+	<!-- </foreach> -->
 </delete>
 
 <update id="updateReviewStatusN">
 	UPDATE CLASS_CHAMYEOJA SET CLCH_REVIEW_STATUS = 'N'
-		WHERE CLCH_ACCOUNT_ID IN
-		<foreach collection="userAccountIds" item="userAccountId" open="(" separator="," close=")">
-			#{userAccountId}
-		</foreach>
-		AND CLCH_CLAS_ID IN
-		<foreach collection="reviClasIds" item="reviClasId" open="(" separator="," close=")">
-			#{reviClasId}
-		</foreach>
+		WHERE CLCH_ID =
+		<!-- <foreach collection="clchIds" item="clchId" open="(" separator="," close=")"> -->
+			#{clchId}
+		<!-- </foreach> -->
 </update>
 
 </mapper>
