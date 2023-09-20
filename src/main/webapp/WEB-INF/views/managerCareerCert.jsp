@@ -53,6 +53,9 @@
 													<c:when test="${career.careStatus eq 'S'}">
 														<span class="badge bg-info">승인</span>
 													</c:when>
+													<c:otherwise>
+														<span class="badge bg-success">요청</span>
+													</c:otherwise>
 												</c:choose>
 												&nbsp;요청자 ID: ${career.careAccountId}
 											</button>
@@ -67,12 +70,13 @@
 											<div class="accordion-body">
 												<div class="table-responsive">
 													<table class="table table-striped"
-														style="height: 100px; overflow-y: auto;">
+														style="width: 1900px; overflow-x: auto;">
 														<thead>
 															<tr style="text-align: center;">
 																<th scope="col">회사명</th>
 																<th scope="col">발급담당자명</th>
 																<th scope="col">발급담당자연락처</th>
+																<th scope="col">발급일</th>
 																<th scope="col">성명</th>
 																<th scope="col">연락처</th>
 																<th scope="col">소속</th>
@@ -91,6 +95,7 @@
 																<td>${career.careCompany}</td>
 																<td>${career.careIssuer}</td>
 																<td>${career.careIssuerContact}</td>
+																<td>${career.careDate}</td>
 																<td>${career.careName}</td>
 																<td>${career.careContact}</td>
 																<td>${career.careSosok}</td>
@@ -103,32 +108,78 @@
 																				class="btn btn-success w-xs update-button"
 																				onclick="updateS()">승인</button></td>
 																		<td><button type="button"
-																				class="btn btn-warning w-xs" onclick="updateB()">반려</button></td>
-																		<td>-</td>
+																				class="btn btn-warning w-xs"
+																				onclick="modalOpen('${career.careId}')">반려</button>
+																		</td>
+																		<td>&nbsp;</td>
+																		<td>
+																			<button type="button" class="btn btn-info w-xs"
+																				onclick="window.open('./downloadPdf.do?careId=${career.careId}', '_blank')">
+																				<i class="mdi mdi-file-find"
+																					style="font-size: 15px; vertical-align: middle;"></i>&nbsp;보기
+																			</button>
+																		</td>
+																		<td>
+																			<button type="button" class="btn btn-secondary w-xs"
+																				onclick="showInput(this)">수정</button>
+																		</td>
 																	</c:when>
 																	<c:when test="${career.careStatus eq 'S'}">
-																		<td>-</td>
-																		<td>-</td>
+																		<td>&nbsp;</td>
+																		<td>&nbsp;</td>
 																		<td><button type="button"
 																				class="btn btn-danger w-xs" onclick="updateD()">목록삭제</button></td>
+																		<td>&nbsp;</td>
+																		<td>&nbsp;</td>
 																	</c:when>
 																	<c:when test="${career.careStatus eq 'R'}">
-																		<td>-</td>
-																		<td>-</td>
+																		<td>&nbsp;</td>
+																		<td>&nbsp;</td>
 																		<td><button type="button"
 																				class="btn btn-danger w-xs" onclick="deleteDB()">DB삭제</button></td>
+																		<td>&nbsp;</td>
+																		<td>&nbsp;</td>
 																	</c:when>
 																</c:choose>
-																<td>
-																	<button type="button" class="btn btn-info w-xs"
-																		onclick="location.href='./downloadPdf.do?careId=${career.careId}'">
-																		<i class="mdi mdi-tray-arrow-down"></i> 다운로드
-																	</button>
+															</tr>
+															<tr class="editInput"
+																style="display: none; text-align: center; vertical-align: middle;">
+																<td><input type="text" name="careCompany"
+																	placeholder="${career.careCompany}"> <input
+																	type="hidden" name="careId" value="${career.careId}">
 																</td>
-																<td>
-																	<button type="button" class="btn btn-secondary w-xs"
-																		onclick="updateContent()">수정</button>
-																</td>
+																<td><input type="text" name="careIssuer"
+																	placeholder="${career.careIssuer}"></td>
+																<td><input type="text" name="careIssuerContact"
+																	placeholder="${career.careIssuerContact}"></td>
+																<td><input type="text" name="careDate"
+																	placeholder="${career.careDate}"></td>
+																<td><input type="text" name="careName"
+																	placeholder="${career.careName}"></td>
+																<td><input type="text" name="careContact"
+																	placeholder="${career.careContact}"></td>
+																<td><input type="text" name="careSosok"
+																	placeholder="${career.careSosok}"></td>
+																<td><input type="text" name="carePosition"
+																	placeholder="${career.carePosition}"></td>
+																<td><input type="text" name="carePeriod"
+																	placeholder="${career.carePeriod}"></td>
+																<td><input type="text" name="careJob"
+																	placeholder="${career.careJob}"></td>
+																<td><button type="button"
+																		class="btn btn-success w-xs" onclick="submitEdit()">
+																		<i class="bx bx-check"
+																			style="font-size: 20px; vertical-align: middle;"></i>
+																	</button></td>
+																<td><button type="button"
+																		class="btn btn-danger w-xs"
+																		onclick="hideEditRow(this)">
+																		<i class="bx bx-x"
+																			style="font-size: 20px; vertical-align: middle;"></i>
+																	</button></td>
+																<td>&nbsp;</td>
+																<td>&nbsp;</td>
+																<td>&nbsp;</td>
 															</tr>
 														</tbody>
 													</table>
@@ -187,29 +238,29 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="varyingcontentModalLabel">New
-									message</h5>
+								<h5 class="modal-title" id="varyingcontentModalLabel">반려 사유
+									등록</h5>
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
-							<div class="modal-body">
-								<form>
+							<form>
+								<div class="modal-body">
+
 									<div class="mb-3">
-										<label for="recipient-name" class="col-form-label">Recipient:</label>
-										<input type="text" class="form-control" id="recipient-name">
+										<label for="message-text" class="col-form-label">사유:</label>
+										<textarea class="form-control" id="careReason"
+											name="careReason"></textarea>
+										<span class="reasonSpan">0</span>/100
 									</div>
-									<div class="mb-3">
-										<label for="message-text" class="col-form-label">Message:</label>
-										<textarea class="form-control" id="message-text"></textarea>
-									</div>
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-light"
-									data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Send
-									message</button>
-							</div>
+									<input type="hidden" name="careId" id="modal-careId">
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-light"
+										data-bs-dismiss="modal">닫기</button>
+									<button type="submit" class="btn btn-primary">전송</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -218,4 +269,18 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+$(function(){
+	// 글자수 제한하기
+	$("#careReason").on('input', function () {
+        var text_length = $(this).val().length;
+        if(text_length > 100) {
+            alert('100자까지만 작성 가능합니다.');
+            $(this).val($(this).val().substring(0, 100));
+        } else {
+            $(".reasonSpan").text(text_length);
+        }
+    });
+})
+</script>
 </html>

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -275,10 +276,13 @@ public class CareerController {
 			
 			resp.reset(); // 브라우저로 응답할 때 header에 있는 정보를 초기화함 (생략가능)
 			
-			resp.setContentType("application/octet-stream");
+			resp.setContentType("application/pdf");
+			
+//			String encoding = new String(fileName.getBytes("EUC-KR"));
+			String encoding = new String(fileName.getBytes("UTF-8"), "8859_1");
 			
 			//파일 다운로드 버튼을 눌렀을 때 서버에서 전송받은 데이터를 어떻게 처리할 지 브라우저에 알려줘야 함
-			resp.setHeader("Content-Disposition", "attachment; filename="+fileName);
+			resp.setHeader("Content-Disposition", "inline; filename="+encoding);
 			
 			in = new FileInputStream(file);
 			out = resp.getOutputStream();
@@ -327,6 +331,7 @@ public class CareerController {
 			return response;
 		}
 		
+		// 경력 DB 삭제
 		@GetMapping("/deleteCareer.do")
 		@ResponseBody
 		public Map<String, Object> deleteCareer(@RequestParam String careId){
@@ -343,6 +348,41 @@ public class CareerController {
 			return response;
 		}
 		
+		//경력 사항 수정
+		@GetMapping("/careerEdit.do")
+		@ResponseBody
+		public Map<String, Object> careerEdit(@ModelAttribute CareerVo data){
+			log.info("careerEdit 받아온 값 : {}", data);
+			
+			Map<String, Object> response = new HashMap<>();
+			
+			int n = service.updateCareer(data);
+			
+			if(n>0) {
+				response.put("successMessage", "수정이 완료 되었습니다");
+			} else {
+				response.put("errorMessage", "정상 처리가 되지 않았습니다");
+			}
+			return response;
+		}
+		
+		//반려 업데이트
+		@PostMapping("/updateB.do")
+		@ResponseBody
+		public Map<String, Object> updateB(@RequestParam Map<String, Object> data){
+			log.info("updateB 받아온 값 : {}", data);
+			
+			Map<String, Object> response = new HashMap<>();
+			
+			int n = service.updateCareerB(data);
+			
+			if(n>0) {
+				response.put("successMessage", "정상 처리 되었습니다");
+			} else {
+				response.put("errorMessage", "정상 처리가 되지 않았습니다");
+			}
+			return response;
+		}
 		
 	
 
