@@ -76,6 +76,11 @@ public class CareerServiceImpl implements ICareerService {
 	public int deleteCareer(String careId) {
 		return dao.deleteCareer(careId);
 	}
+	
+	@Override
+	public int deleteCareerCron() {
+		return dao.deleteCareerCron();
+	}
 
 	@Override
 	public List<CareerVo> getOneInstrCareer(String userAccountId) {

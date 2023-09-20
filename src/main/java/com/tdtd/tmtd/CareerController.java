@@ -278,6 +278,7 @@ public class CareerController {
 			
 			resp.setContentType("application/pdf");
 			
+//			String encoding = new String(fileName.getBytes("EUC-KR"));
 			String encoding = new String(fileName.getBytes("UTF-8"), "8859_1");
 			
 			//파일 다운로드 버튼을 눌렀을 때 서버에서 전송받은 데이터를 어떻게 처리할 지 브라우저에 알려줘야 함
