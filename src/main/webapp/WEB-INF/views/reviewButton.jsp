@@ -8,12 +8,14 @@
 </head>
 <body>
 <div>
+<input type="hidden" id="classId" value="${classId}">
 <button onclick="reivewForm()">후기 등록</button>
 </div>
 </body>
 <script type="text/javascript">
 function reivewForm(){ 
-	var url = "./reviewWriteForm.do";
+	var classId = document.getElementById("classId").value;
+	var url = "./reviewWriteForm.do?classId="+classId;
 	var title = "후기 등록";
 	var width = 800;
     var height = 800;

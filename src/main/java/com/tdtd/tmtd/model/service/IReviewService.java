@@ -11,7 +11,7 @@ public interface IReviewService {
 		public List<ReviewVo> getMyReview(Map<String, Object> map);
 		
 		//TDT027 insertReview
-		public int insertReview(ReviewVo vo);
+		public int insertReview(ReviewVo vo, Map<String, Object> map);
 		
 		//TDT028 deleteReview
 		public int deleteReview(Map<String, String[]> map);

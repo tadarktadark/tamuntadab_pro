@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -276,14 +277,15 @@ public class CareerController {
 			
 			resp.reset(); // 브라우저로 응답할 때 header에 있는 정보를 초기화함 (생략가능)
 			
-			resp.setContentType("application/pdf");
+//			resp.setContentType("application/pdf");
 			
 //			String encoding = new String(fileName.getBytes("EUC-KR"));
-			String encoding = new String(fileName.getBytes("UTF-8"), "8859_1");
+//			String encoding = new String(fileName.getBytes("UTF-8"), "8859_1");
 			
 			//파일 다운로드 버튼을 눌렀을 때 서버에서 전송받은 데이터를 어떻게 처리할 지 브라우저에 알려줘야 함
-			resp.setHeader("Content-Disposition", "inline; filename="+encoding);
-			
+//			resp.setHeader("Content-Disposition", "inline; filename="+encoding);
+//			resp.setHeader("Content-Disposition", "inline; fileName=\"" + URLEncoder.encode("AAAA", "UTF-8") + "\";");
+//			resp.setHeader("title", "한글이다");
 			in = new FileInputStream(file);
 			out = resp.getOutputStream();
 			
