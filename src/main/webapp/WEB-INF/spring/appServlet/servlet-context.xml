@@ -46,9 +46,8 @@
 	
 <mvc:interceptors>
 	<mvc:interceptor>
-		<mvc:mapping path="/**"/>
-		<beans:bean class="com.tdtd.tmtd.interceptor.mainInterceptor" />
+		<mvc:mapping path="/admin.do"/>
+		<beans:bean class="com.tdtd.tmtd.interceptor.AdminInterceptor" />
 	</mvc:interceptor>	
 </mvc:interceptors>
-	
 </beans:beans>

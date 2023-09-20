@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.AdminDaoImpl">
+
+<select id="searchIP" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+		FROM ADMIN_ACCESS_IP_LIST
+		WHERE IP_ADDRESS = #{accessIP}
+</select>
+
+<select id="adminLogin" resultType="">
+SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
+	FROM ADMIN_PROFILE ap 
+		WHERE ADPR_ID =#{adminID}
+		AND ADPR_PASSWORD =#{adminPW}
+		AND ADPR_DELFLAG ='N'
+</select>
+	
 </mapper>

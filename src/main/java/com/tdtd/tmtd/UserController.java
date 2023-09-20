@@ -62,7 +62,7 @@ public class UserController {
 
 	@Autowired
 	private JavaMailSender mailsender;
-
+	
 	@RequestMapping(value="/deleteUser.do",method=RequestMethod.GET)
 	@ResponseBody
 	public String deleteUser(HttpSession session) {
@@ -364,16 +364,19 @@ public class UserController {
 		return "myPage";
 	}
 
-	@RequestMapping(value = "jeongji.do")
+	@RequestMapping(value = "/jeongji.do")
+	@ResponseBody
 	public String jeongji(HttpServletResponse resp, HttpSession session) throws IOException {
-		resp.setContentType("text/html;charset=utf-8");
-		PrintWriter out = resp.getWriter();
-		out.print("<script>alert('정지된 계정입니다.');</script>");
-		out.flush();
-		session.removeAttribute("userInfo");
-		return "index";
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		if(userInfo!=null) {
+			int n = commUserService.searchJeongJi(userInfo);
+			if(n>0) {
+				session.invalidate();
+				return "true";
+			}
+		}
+		return "false";
 	}
-
 	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
 	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
 		int n = commUserService.updatedelflag(tokenValue);
