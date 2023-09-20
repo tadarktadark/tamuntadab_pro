@@ -82,6 +82,11 @@ public class JayuServiceImpl implements IJayuService {
 	}
 
 	@Override
+	public BoardVo getJayuUpdateData(String id) {
+		return dao.getJayuUpdateData(id);
+	}
+	
+	@Override
 	public int updateJayu(BoardVo vo) {
 		return dao.updateJayu(vo);
 	}

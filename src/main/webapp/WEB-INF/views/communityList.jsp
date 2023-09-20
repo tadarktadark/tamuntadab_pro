@@ -112,6 +112,9 @@
 		    	</div>
 			</div>
 			<div class="list-text mb-0" class="sub-list">
+				{{#isClass}}
+      			<span class="badge bg-primary-subtle text-primary">{{clasId}}</span>
+    			{{/isClass}}
 				{{#each subjects}}
 				<span class="badge bg-{{color}}-subtle text-{{color}}">{{subject}}</span>
 				{{/each}}

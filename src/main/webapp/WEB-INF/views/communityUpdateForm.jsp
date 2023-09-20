@@ -7,8 +7,8 @@
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
 <link href="./css/ckeditor.css" rel="stylesheet" type="text/css" />
-<%@ include file="./shared/_head_css.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<%@ include file="./shared/_head_css.jsp" %>
 <link href="./css/communityWriteForm.css" rel="stylesheet" type="text/css" />
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 </head>
@@ -23,13 +23,13 @@
 					<div class="row">
 					    <div class="col-lg-12">
 					        <div class="card">
-					        	<form action="./communityWrite.do" method="post" enctype="multipart/form-data">
+					        	<form action="./communityUpdate.do" method="post" enctype="multipart/form-data">
+					        		<input type="hidden" name="id" value=${boardId}>
 					        		<div class="card-body" id="write-top">
 						        		<c:choose>
 						        			<c:when test="${sessionScope.community eq 'pilgi'}">
 											    <label for="title" class="form-label">제목</label>	
-											    <input type="text" class="form-control" id="title" value="${classVo.clasTitle}" disabled="disabled">
-											    <input type="hidden" class="hidden" id="clasId" name="clasId" value="${classVo.clasId}">
+											    <input type="text" class="form-control" id="title" value="${bVo.title}" disabled="disabled">
 											    <label for="subject" class="form-label">과목</label>
 										    	<div class="list-text mb-0" class="sub-list">
 												    <c:forEach items="${subArr}" var="sub">
@@ -39,7 +39,7 @@
 						        			</c:when>
 						        			<c:otherwise>
 											    <label for="title" class="form-label">제목</label>	
-											    <input type="text" class="form-control" id="title" name="title">
+											    <input type="text" class="form-control" id="title" name="title" value="${bVo.title}">
 						        			</c:otherwise>
 						        		</c:choose>
 							        	<c:if test="${sessionScope.community eq 'jilmun'}">
@@ -47,9 +47,9 @@
 									    	<c:choose>
 									    		<c:when test="${classList.size() > 0}">
 												    <select id="class" name="clasId" class="form-select" aria-label="Default select example">
-														<option value="none" selected>클래스를 선택해주세요.</option>
+														<option value="none" ${(bVo.clasId == null)?"selected":""}>클래스를 선택해주세요.</option>
 														<c:forEach items="${classList}" var="c">															
-															<option value="${c.clasId}">${c.clasTitle}</option>
+															<option value="${c.clasId}" ${(bVo.clasId == c.clasTitle)?"selected":""}>${c.clasTitle}</option>
 														</c:forEach>
 													</select>
 									    		</c:when>
@@ -59,7 +59,26 @@
 									    	</c:choose>
 									    	<label for="subject" class="form-label">과목</label>
 									    	<div class="form-icon right-input">
-										    	<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+								    			<c:if test="${bVo.clasId != null}">
+								    				<div id="class-selected" class="choices cursor-default" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+														<div class="choices__inner cursor-default mb-3">
+															<select disabled="disabled" class="form-control choices__input cursor-default" id="choices-multiple-remove-button" data-choices="" data-choices-removeitem="" name="subject" multiple="" hidden="" tabindex="-1" data-choice="active">
+																<c:forEach items="${subArr}" var="sub">
+																	<option data-custom-properties="[object Object]">${sub}</option>
+																</c:forEach>
+															</select>
+															<div class="choices__list choices__list--multiple">
+																<c:forEach items="${subArr}" var="sub">
+																	<div class="choices__item choices__item--selectable cursor-default" data-item="" data-id="{{no}}" data-value="${sub}" data-custom-properties="[object Object]" aria-selected="true" data-deletable="">
+																		${sub}
+																		<button type="button" class="choices__button cursor-default" aria-label="Remove item: '${sub}'" data-button="">Remove item</button>
+																	</div>
+																</c:forEach>
+															</div>
+														</div>
+													</div>
+									    		</c:if>
+										    	<div style="display:none;" class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
 													<div class="choices__inner mb-3">
 														<div id="selectedSubjects" class="choices__list choices__list--multiple">
 														</div>
@@ -67,13 +86,23 @@
 													</div>
 												</div>
 										    </div>
-											<input type="hidden" id="subjectCode" name="subjectCode">
+											<input type="hidden" id="subjectCode" name="subjectCode" value="none">
 							        	</c:if>
 							        </div>
 						        	<div class="card-body" id="${sessionScope.community.equals('jilmun')?'write-content':''}">
-						        		<textarea id="ckeditor" name="content"></textarea>
+						        		<textarea id="ckeditor" name="content">${bVo.content}</textarea>
  						            </div><!--end card-body -->
  						            <c:if test="${sessionScope.community eq 'pilgi'}">
+ 						            	<c:if test="${bVo.fileList.size() > 0}">
+ 						            		<div class="card-body pt-0">
+						                        <h5><span class="badge badge-label bg-danger"><i class="mdi mdi-circle-medium"></i> 첨부파일</span></h5>
+			                                	<c:forEach items="${bVo.fileList}" var="file">
+							                        <div id="fileBox" class="mb-2">
+				                                        <a id="${file.fileSaveName}" class="fw-medium remove-btn"><i id="${file.fileSaveName}" class="ri-delete-bin-fill"></i> ${file.fileOriginName}</a>
+							                        </div>
+			                                    </c:forEach>
+	 						            	</div>
+				                        </c:if> 						            	
  						            	<div class="card-body gap-3" id="write-bottom">
 							        		<div class="input-group">
 										    	<input type="file" name="file" class="form-control" id="inputGroupFile01" multiple="multiple">
@@ -83,17 +112,17 @@
  						            <div class="card-body gap-3" id="write-bottom">
  						            	<c:if test="${sessionScope.community eq 'pilgi'}">
 										    <select id="viewGroup" name="viewGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
-											    <option value="A" selected>전체 공개</option>
-											    <option value="C">클래스 공개</option>
-											    <option value="I">나만 보기</option>
+											    <option value="A" ${(bVo.viewGroup == 'A')?"selected":""}>전체 공개</option>
+											    <option value="C" ${(bVo.viewGroup == 'C')?"selected":""}>클래스 공개</option>
+											    <option value="I" ${(bVo.viewGroup == 'I')?"selected":""}>나만 보기</option>
 											</select>
 										    <select id="downloadGroup" name="downloadGroup" class="form-select rounded-pill mb-3" aria-label="Default select example">
-											    <option value="A" selected>전체 다운로드</option>
-											    <option value="C">클래스 다운로드</option>
-											    <option value="I">나만 다운로드</option>
+											    <option value="A" ${(bVo.downloadGroup == 'A')?"selected":""}>전체 다운로드</option>
+											    <option value="C" ${(bVo.downloadGroup == 'C')?"selected":""}>클래스 다운로드</option>
+											    <option value="I" ${(bVo.downloadGroup == 'I')?"selected":""}>나만 다운로드</option>
 											</select>
  						            	</c:if>
-									    <input id="write-btn" type="button" class="btn btn-primary" value="작성완료">
+									    <input id="update-btn" type="button" class="btn btn-primary" value="수정하기">
  						            </div>
 					            </form>
 					        </div><!-- end card -->
@@ -102,8 +131,8 @@
 					</div>
 				</div>
 			</div>
-			<%@ include file="./shared/_footer.jsp" %>
 		</div>
+		<%@ include file="./shared/_footer.jsp" %>
 	</div>	
 	<div class="hidden">
 		<button type="button" class="btn btn-primary btn-sm" id="sa-basic"></button>
@@ -151,5 +180,4 @@
 		</div>
 	</script>
 </body>
-
 </html>

@@ -12,6 +12,7 @@
 		<result column="LIKE_USER" property="likeUser"/>
 		<result column="LIKE_COUNT" property="likeCount"/>
 		<result column="VIEW_COUNT" property="viewCount"/>
+		<result column="VIEW_GROUP" property="viewGroup"/>
 		<result column="DOWNLOAD_GROUP" property="downloadGroup"/>
 		<result column="REGDATE" property="regdate"/>
 		<result column="UPDATE" property="update"/>
@@ -352,11 +353,39 @@
 			WHERE PIIM_SEQ =#{id}
 	</delete>
 	
+	<!-- 필기 수정 데이터 조회 -->
+	<select id="getPilgiUpdateData" resultMap="boardMap">
+		SELECT c1.CLAS_TITLE AS TITLE, PIBO_CONTENT AS CONTENT, c2.CLAS_SUBJECT_JEONGBO AS SUBJECT_CODE, 
+				PIBO_VIEW_GROUP AS VIEW_GROUP, PIBO_DOWNLOAD_GROUP AS DOWNLOAD_GROUP, FILE_ORIGIN_NAME, FILE_SAVE_NAME
+			FROM PILGI_BOARD LEFT JOIN CLASS c1
+			ON PIBO_CLAS_ID = c1.CLAS_ID
+			LEFT JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
+								     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
+								     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
+											FROM (SELECT SUBJ_ID, (SELECT JSON_ARRAYAGG(s1.SUTA_TITLE) 
+																     FROM JSON_TABLE(SUBJ_CODE, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt1 
+																     JOIN SUBJECT_TAG s1 
+																     ON jt1.SUBJECT_CODE = s1.SUTA_CODE) AS SUBJ_CODE
+													FROM SUBJECT)) s 
+								     ON jt.SUBJECT_CODE = s.SUBJ_ID), '\', '') AS CLAS_SUBJECT_JEONGBO
+					FROM CLASS) c2
+			ON PIBO_CLAS_ID = c2.CLAS_ID
+			LEFT JOIN "FILE"
+			ON PIBO_ID = FILE_REF_PK
+			WHERE PIBO_ID=#{id}
+	</select>
+	
 	<!-- 필기 수정 -->
 	<update id="updatePilgi">
-		UPDATE PILGI_BOARD SET PIBO_CONTENT=#{content}, PIBO_VIEW_GROUP=#{viewGroup}, PIBO_DOWNLOAD_GROUP=#{downLoadGroup}
+		UPDATE PILGI_BOARD SET PIBO_CONTENT=#{content}, PIBO_VIEW_GROUP=#{viewGroup}, PIBO_DOWNLOAD_GROUP=#{downloadGroup}, PIBO_UPDATE=CURRENT_DATE
 			WHERE PIBO_ID=#{id}
 	</update>
+	
+	<!-- 필기 수정시 파일 삭제 -->
+	<delete id="deletePilgiFile">
+		DELETE FROM "FILE"
+			WHERE FILE_SAVE_NAME=#{save}
+	</delete>
 	
 	<!-- 필기 임시 삭제 및 복원 -->
 	<update id="updatePilgiState">

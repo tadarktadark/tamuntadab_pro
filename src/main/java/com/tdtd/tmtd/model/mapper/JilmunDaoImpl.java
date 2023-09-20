@@ -89,6 +89,11 @@ public class JilmunDaoImpl implements IJilmunDao {
 	public int insertJilmun(BoardVo vo) {
 		return session.insert(NS+"insertJilmun",vo);
 	}
+	
+	@Override
+	public BoardVo getJilmunUpdateData(String id) {
+		return session.selectOne(NS+"getJilmunUpdateData",id);
+	}
 
 	@Override
 	public int updateJilmun(BoardVo vo) {

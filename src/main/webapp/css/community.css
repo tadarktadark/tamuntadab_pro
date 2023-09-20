@@ -20,14 +20,16 @@
 
 .ui-autocomplete {
 	background-color: #f9f9f9;
-	max-height: 200px;
+	max-height: 300px;
 	max-width: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
+	z-index: 2;
 }
 
 .ui-autocomplete li {
 	list-style-type: none;
+	z-index: 1;
 }
 
 .choices__inner {

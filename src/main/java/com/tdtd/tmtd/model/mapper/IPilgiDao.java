@@ -199,7 +199,16 @@ public interface IPilgiDao {
 	 * @author SoHyeon
 	 * @since 2023.09.14
 	 */
-	public int deletePilgiImsi(String id);   
+	public int deletePilgiImsi(String id);
+	
+	/**
+	 * 필기 수정 데이터 조회
+	 * @param id 필기 id
+	 * @return BoardVo 제목, 과목, 내용, 파일, 조회 그룹, 다운로드 그룹 
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
+	public BoardVo getPilgiUpdateData(String id);
 	
 	/**
 	 * 필기 수정
@@ -208,7 +217,16 @@ public interface IPilgiDao {
 	 * @author SoHyeon
 	 * @since 2023.09.14
 	 */
-	public int updatePilgi(BoardVo vo);        
+	public int updatePilgi(BoardVo vo);   
+	
+	/**
+	 * 필기 수정시 파일 삭제
+	 * @param save 삭제할 파일 저장 이름
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.20
+	 */
+	public int deletePilgiFile(String save);
 	
 	/**
 	 * 필기 임시 삭제 또는 복원

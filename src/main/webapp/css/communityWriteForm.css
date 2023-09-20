@@ -23,6 +23,8 @@
 
 footer{
 	margin:0px;
+    font-size: var(--tb-body-font-size);
+    text-align: var(--tb-body-text-align);
 }
 
 .ck-content {
@@ -40,4 +42,8 @@ footer{
 #write-btn{
 	width: 200px;
 	height: 40px;
+}
+
+.remove-btn:hover{
+	cursor: pointer;
 }

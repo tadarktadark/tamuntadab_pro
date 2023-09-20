@@ -305,7 +305,7 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/communityWrite.do", method=RequestMethod.POST)
-	public String communityWrite(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam("file") MultipartFile[] files) throws IOException {
+	public String communityWrite(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam(value = "file", required = false) MultipartFile[] files) throws IOException {
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 작성 : board{} boardVo {} file {}", board, bVo, files);
 		
@@ -517,5 +517,88 @@ public class CommunityController {
 //		xmlParser.parse(strReader);
 //		document.close();
 //		writer.close();
+	}
+	
+	@RequestMapping(value="/communityUpdateForm.do", method=RequestMethod.GET)
+	public String communityUpdateForm(Model model, HttpSession session, String id) {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 글 수정 Form 이동 : board {}, boardId {}", board, id);
+		
+		model.addAttribute("title","커뮤니티");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = new UserProfileVo();
+			userInfo.setUserAccountId("TMTD0");
+		}
+				
+		BoardVo bVo = null;
+		String str = "";
+		String[] array = null;
+		
+		if(board.equals("pilgi")) {			
+			bVo = pService.getPilgiUpdateData(id);
+		} else if(board.equals("jilmun")) {
+			bVo = jmService.getJilmunUpdateData(id);
+			model.addAttribute("classList",jmService.getJilmunClassList(userInfo.getUserAccountId()));
+		} else if(board.equals("jayu")) {
+			bVo = jyService.getJayuUpdateData(id);
+		}
+		
+		model.addAttribute("bVo",bVo);
+		model.addAttribute("boardId",id);
+		
+		if(bVo.getSubjectCode()!=null) {
+			str = bVo.getSubjectCode().substring(1, bVo.getSubjectCode().length() - 1); // 대괄호 제거
+			array = str.split(","); // 쉼표를 기준으로 분리
+
+			for (int i = 0; i < array.length; i++) {
+			    array[i] = array[i].replaceAll("\"", "").trim(); // 큰따옴표 제거 및 공백 제거
+			}
+		}
+		model.addAttribute("subArr",array); 
+		
+		return "communityUpdateForm";
+	}
+	
+	@RequestMapping(value="/removeFile.do", method=RequestMethod.GET)
+	@ResponseBody
+	public int removeFile(Model model, HttpSession session, String save) {
+		log.info("@@@@@@@@@@@@@@@ 필기 파일 삭제 : save {}", save);
+		
+		return pService.deletePilgiFile(save);
+	}
+	
+	@RequestMapping(value="/communityUpdate.do", method=RequestMethod.POST)
+	public String communityUpdate(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam(value = "file", required = false) MultipartFile[] files) throws IOException {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 수정 : board{} boardVo {} file {}", board, bVo, files);
+		
+		model.addAttribute("title","커뮤니티");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		if(userInfo == null) {
+			userInfo = new UserProfileVo();
+			userInfo.setUserAccountId("TMTD0");
+		} 
+		
+		bVo.setAccountId(userInfo.getUserAccountId());
+		
+		if(board.equals("pilgi")) {
+			pService.updatePilgi(bVo, files, request);
+		} else if(board.equals("jilmun")) {
+			if(bVo.getClasId().equals("none")) {
+				bVo.setClasId(null);
+			}
+			if(bVo.getSubjectCode().equals("none")) {
+				bVo.setClasId(null);
+			}
+			jmService.updateJilmun(bVo);
+		} else if(board.equals("jayu")) {
+			model.addAttribute("pageTitle", "자유");
+			jyService.updateJayu(bVo);
+		}
+				
+		return "redirect:/communityDetails.do?id="+bVo.getId();
 	}
 }

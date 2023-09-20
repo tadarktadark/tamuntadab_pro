@@ -91,24 +91,26 @@
 					                                <div class="pb-3 pb-xl-0">
 					                                    <div class="btn-toolbar float-end" role="toolbar">
 					                                        <div class="btn-group me-2 mb-2">
-					                                        	<c:if test="${bVo.downloadGroup eq 1}">
-						                                            <button type="button" id="pdf-btn" class="btn btn-primary waves-light waves-effect"><i class=" ri-file-3-fill align-middle"></i></button>
+					                                        	<c:if test="${bVo.state ne 'P'}">
+						                                        	<c:if test="${bVo.downloadGroup eq 1}">
+							                                            <button type="button" id="pdf-btn" class="btn btn-primary waves-light waves-effect"><i class=" ri-file-3-fill align-middle"></i></button>
+						                                        	</c:if>
+						                                        	<c:choose>
+							                                        	<c:when test="${sessionScope.userInfo.userNickname eq bVo.accountId}">
+								                                            <button type="button" id="delete-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
+								                                            <button type="button" id="update-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-pencil align-middle"></i></button>
+							                                        	</c:when>
+							                                        	<c:otherwise>
+								                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
+							                                        	</c:otherwise>
+						                                        	</c:choose>
 					                                        	</c:if>
-					                                        	<c:choose>
-						                                        	<c:when test="${sessionScope.userInfo.userNickname eq bVo.accountId}">
-							                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
-							                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="bx bx-pencil align-middle"></i></button>
-						                                        	</c:when>
-						                                        	<c:otherwise>
-							                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
-						                                        	</c:otherwise>
-					                                        	</c:choose>
 					                                        </div>
 					                                    </div>
 					                                </div>
 					                            </div>
 						                        <div class="list-text mb-0" class="sub-list">
-						                        	<c:if test="${sessionScope.community eq 'jilmun'}">	
+						                        	<c:if test="${sessionScope.community eq 'jilmun' && bVo.clasId != null && bVo.clasId.length() > 0}">	
 														<span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i>${bVo.clasId}</span>
 													</c:if>
 													<c:forEach items="${subArr}" var="sub">		
@@ -136,7 +138,7 @@
 							                        </div>
 					                        	</c:otherwise>
 					                        </c:choose>
-					                        <c:if test="${bVo.fileList.size() ne 0}">
+					                        <c:if test="${bVo.fileList.size() > 0}">
 						                        <h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 첨부파일</span></h5>
 			                                	<c:forEach items="${bVo.fileList}" var="file">
 							                        <div class="mb-2">

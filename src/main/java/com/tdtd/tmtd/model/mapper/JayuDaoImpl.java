@@ -76,6 +76,11 @@ public class JayuDaoImpl implements IJayuDao {
 	public int insertJayu(BoardVo vo) {
 		return session.insert(NS+"insertJayu",vo);
 	}
+	
+	@Override
+	public BoardVo getJayuUpdateData(String id) {
+		return session.selectOne(NS+"getJayuUpdateData",id);
+	}
 
 	@Override
 	public int updateJayu(BoardVo vo) {

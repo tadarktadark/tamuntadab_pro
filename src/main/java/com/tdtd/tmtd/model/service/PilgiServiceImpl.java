@@ -132,10 +132,32 @@ public class PilgiServiceImpl implements IPilgiService {
 	public int deletePilgiImsi(String id) {
 		return dao.deletePilgiImsi(id);
 	}
+	
+	@Override
+	public BoardVo getPilgiUpdateData(String id) {
+		return dao.getPilgiUpdateData(id);
+	}
 
 	@Override
-	public int updatePilgi(BoardVo vo) {
-		return dao.updatePilgi(vo);
+	public int updatePilgi(BoardVo vo, MultipartFile[] files, HttpServletRequest request) throws IOException {
+		int n = 0;
+		n += dao.updatePilgi(vo);
+				
+		if(files[0].getSize() > 0) {
+			for (MultipartFile f : files) {
+				Map<String, Object> fMap = fSerivce.fileSave(f, request);
+				fMap.put("fileRefPk", vo.getId());
+				fMap.put("fileOriginName", (String)fMap.get("originalName"));
+				fMap.put("fileSaveName", (String)fMap.get("saveName"));
+				n += fSerivce.insertFile(fMap);
+			}
+		}
+		return (n>2)?1:0;
+	}
+	
+	@Override
+	public int deletePilgiFile(String save) {
+		return dao.deletePilgiFile(save);
 	}
 
 	@Override

@@ -133,6 +133,15 @@ public interface IJilmunService {
 	public int insertJilmun(BoardVo vo);
 	
 	/**
+	 * 질문 수정 데이터 조회
+	 * @param id 질문 id
+	 * @return BoardVo 제목, 클래스, 과목, 내용
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
+	public BoardVo getJilmunUpdateData(String id);
+	
+	/**
 	 * 질문 수정
 	 * @param vo 클래스 있을 때 clasId, content, subjectCode, id<br>
 	 * 			클래스 없을 때 content, subjectCode, id

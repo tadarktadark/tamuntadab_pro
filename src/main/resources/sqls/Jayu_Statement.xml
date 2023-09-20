@@ -141,9 +141,16 @@
 		</selectKey>
 	</insert>
 	
+	<!-- 질문 수정 데이터 조회 -->
+	<select id="getJayuUpdateData" resultType="boardVo">
+		SELECT JABO_TITLE  AS TITLE, JABO_CONTENT AS CONTENT
+			FROM JAYU_BOARD
+			WHERE JABO_ID=#{id}
+	</select>
+	
 	<!-- 자유 수정 -->
 	<update id="updateJayu">
-		UPDATE JAYU_BOARD SET JABO_CONTENT = #{content}
+		UPDATE JAYU_BOARD SET JABO_CONTENT = #{content}, JABO_UPDATE=CURRENT_DATE
 			WHERE JABO_ID = #{id}
 	</update>
 			
