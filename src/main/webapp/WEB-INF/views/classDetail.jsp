@@ -31,15 +31,12 @@
 
 .class-detail-content {
 	margin: 40px;
-	16
-	px;
 }
 
-.align-items-center {
+.align-items-center-detail {
 	margin-top: 50px;
 }
 
-<
 style>table {
 	width: 100%;
 	border-collapse: collapse;
@@ -73,7 +70,7 @@ th, td {
 								<div class="card custom-card">
 									<div class="card-body custom-card-body">
 										<div style="text-align: left;">
-											<div class="d-flex align-items-center mb-5">
+											<div class="d-flex align-items-center-detail mb-5">
 												<div class="flex-shrink-0 me-3">
 													<img src="assets/images/users/avatar-3.jpg" alt=""
 														class="rounded-circle avatar-xl">

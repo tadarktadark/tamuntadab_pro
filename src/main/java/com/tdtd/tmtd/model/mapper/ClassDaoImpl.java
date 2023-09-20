@@ -215,4 +215,8 @@ public class ClassDaoImpl implements IClassDao {
 		return sqlSession.selectOne(NS+"SugangryoVo",sugaClasId);
 	}
 	
+	public List<ClassVo> getChamyeoClass(String clchAccountId){
+		log.info("ClassDaoImpl getChamyeoClass 실행");
+		return sqlSession.selectList(NS+"getChamyeoClass",clchAccountId);
+	}
 }

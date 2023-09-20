@@ -83,6 +83,13 @@ public interface IClassDao {
 	public int getCategoryClassListForICount(String category);
 	
 	/**
+	 * 세션에 있는 회원의 모든 참여중 클래스 조회
+	 * @param getChamyeoClass
+	 * @return
+	 */
+	public List<ClassVo> getChamyeoClass(String clchAccountId);
+	
+	/**
 	 * 클래스 개설
 	 * @param vo 개설될 클래스의 정보가 담긴 vo
 	 * @return 생성 성공 갯수 (1)

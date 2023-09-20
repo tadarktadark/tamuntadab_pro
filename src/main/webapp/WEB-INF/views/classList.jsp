@@ -47,7 +47,7 @@
                                                         <i class="bx bx-mail-send fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">전체 클래스</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">모든 클래스를 조회합니다</span>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">모든 클래스 조회</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="float-end">
@@ -61,7 +61,7 @@
                                                         <i class="bx bx-star fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">개발 · 프로그래밍</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">Selected messages</span>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">코드로 세상 변혁</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                         </div>
@@ -73,7 +73,7 @@
                                                         <i class="bx bx-diamond fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">보안 · 네트워크</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">Selected messages</span>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">안전한 연결의 길</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                         </div>
@@ -85,7 +85,7 @@
                                                         <i class="bx bx-file fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">데이터 사이언스</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">Re-edit your messages</span>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">데이터로 미래 예측</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                         </div>
@@ -97,7 +97,7 @@
                                                         <i class="bx bx-envelope-open fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">게임 개발</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">Successfully messages</span>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">재미로 세상을 물들이기</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="float-end">
@@ -111,7 +111,7 @@
                                                         <i class="bx bx-trash fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">하드웨어</h5>
-                                                            <span class="text-muted fs-13 mt-1 text-truncate">Removed messages</span>
+                                                            <span class="text-muted fs-13 mt-1 text-truncate">물리적 기술의 미래</span>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                         </div>
@@ -156,58 +156,10 @@
                                                 </div>
                                             </div>
     
-                                    <div>
-                                        <h6 class="text-muted text-uppercase mb-3">참여 중인 클래스</h6>
-                                        <div class="mb-2">
-                                            <div class="message-list mb-0 p-1">
-                                                <div class="list">
-                                                    <div class="col-mail-1">
-                                                        <div class="d-flex title align-items-center">
-                                                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="">
-                                                            <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">클래스장 닉네임</a></h5>
-                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">서울특별시 금천구 가산동</a>
-                                                            </div>
-                                                        </div>
-                                                        <span class="star-toggle bx bx-star"></span>
-                                                    </div>
-                                                    <div class="col-mail col-mail-2">
-                                                        <a href="classDetail.do" class="subject text-body"><span class="bg-primary badge me-2">참여 중</span>클래스 제목<span class="teaser text-muted fw-normal">과목 명, 과목 명, 과목 명</span>
-                                                        </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>23.08.16</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                   <div class="mb-2" id="chamyeoClassTag">
                                     </div>
     
-                                   <div class="pt-2">
-                                       <h6 class="text-muted text-uppercase mb-3">좋아요 한 클래스</h6>
-                                       <div class="mb-2">
-                                            <div class="message-list mb-0 p-1">
-                                                <div class="list">
-                                                    <div class="col-mail col-mail-1">
-                                                        <div class="d-flex title align-items-center">
-                                                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="">
-                                                            <div class="flex-1 ms-2 ps-1 mt-1">
-                                                                <h5 class="fs-15 mb-0"><a href="" class="text-body">클래스장 닉네임</a></h5>
-                                                                <a href="" class="text-muted text-uppercase fs-13 mt-1">부산광역시 해운대구 우동</a>
-                                                            </div>
-                                                        </div>
-                                                        <span class="star-toggle bx bx-star"></span>
-                                                    </div>
-                                                    <div class="col-mail col-mail-2">
-                                                        <a href="classDetail.do" class="subject text-body">
-                                                        	<span class="bg-warning badge me-2">좋아요</span>
-                                                        	클래스 제목
-                                                        	<span class="teaser text-muted fw-normal"> 과목 명 / 과목 명 / 과목 명</span>
-                                                        	<span class="bg-danger badge me-2">여자만</span>
-                                                        </a>
-                                                        <div class="date"><i class="bx bx-link-alt me-2 fs-15 align-middle"></i>23.09.04</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                   <div class="pt-2" id="joayoClassTag">
                                  	</div>
     
                                     <div class="pt-2" id="normalClass">
