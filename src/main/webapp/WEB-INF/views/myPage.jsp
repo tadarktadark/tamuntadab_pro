@@ -345,16 +345,16 @@
 									
 									<!-- 내 글 목록 -->
 									<div class="tab-pane" id="boardlist" role="tabpanel">
-										<div class="p-4">
-											<%@ include file="./myBoard.jsp"%>
-										</div>
+										
+											<%@ include file="./myWriteBoard.jsp"%>
+										
 										<!-- end card -->
 									</div>
 									<!-- 내글 목록 끝 -->
 									<!-- 내 좋아요 목록 -->
 									<div class="tab-pane" id="likelist" role="tabpanel">
 										<div class="p-4">
-											<%@ include file="./likeBoard.jsp"%>
+											<%@ include file="./myLikeBoard.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>
