@@ -72,4 +72,14 @@ public interface ICommUserDao {
 	
 	public int updateUserPassword(Map<String,Object> resetPassword);
 	
+	public int updatedelflag(Map<String,Object> userToken);
+	
+	public int insertUserDelTable(UserProfileVo vo);
+	
+	public int updateUserDelflagToY(UserProfileVo vo);
+	
+	public int searchUserGyeolje(UserProfileVo vo);
+	
+	public int searchUserJeongSan(UserProfileVo vo);
+	
 }

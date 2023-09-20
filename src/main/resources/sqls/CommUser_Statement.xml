@@ -20,8 +20,76 @@
 		<result column="USER_CHADAN_COUNT" property="userChadanCount" />
 	</resultMap>
 	
+	<select id="searchUserGyeolje" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		 FROM GYEOLJE g 
+		 WHERE GYEO_ACCOUNT_ID = #{userAccountId}
+		 AND NOT GYEO_STATUS IN ('C','P','R')
+	</select>
+	
+	<select id="searchUserJeongSan" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		 FROM JEONGSAN j 
+		 WHERE JEON_INSTR_ID = #{userAccountId}
+		 AND JEON_STATUS = 'N'
+	</select>
+	
+	<update id="updateUserDelflagToY">
+		UPDATE  
+		<choose>
+				<when test='userSite == "T"'>
+					USER_PROFILE SET USER_CHADAN_COUNT=0, USER_CHADAN_REGIST_DATE=NULL, USER_PASSWORD_RESET_TOKEN= NULL,
+				</when>
+				<when test='userSite == "N"'>
+					NAVER_USER_PROFILE SET
+				</when>
+				<when test='userSite == "K"'>
+					KAKAO_USER_PROFILE SET
+				</when>
+				<when test='userSite == "G"'>
+					GOOGLE_USER_PROFILE SET
+				</when>
+		</choose>
+			USER_EMAIL=#{userAccountId}, USER_NAME='탈퇴계정' || (SELECT COUNT(*)  FROM DELETED_USER_PROFILE), 
+			USER_NICKNAME='탈퇴계정' || (SELECT COUNT(*)  FROM DELETED_USER_PROFILE), USER_PHONE_NUMBER=(SELECT COUNT(*)  FROM DELETED_USER_PROFILE),USER_DELFLAG='Y'
+				WHERE USER_ACCOUNT_ID = #{userAccountId}
+	</update>
+	
+	<insert id="insertUserDelTable">
+		INSERT INTO DELETED_USER_PROFILE
+			(USER_ACCOUNT_ID, USER_EMAIL, USER_NAME,
+			USER_NICKNAME, USER_AUTH, USER_PHONE_NUMBER,
+			USER_JOIN_DATE, USER_GENDER, USER_SITE,
+			USER_BIRTH, USER_PROFILE_FILE)
+		SELECT USER_ACCOUNT_ID, USER_EMAIL, USER_NAME, 
+		    USER_NICKNAME, USER_AUTH, USER_PHONE_NUMBER,
+		    USER_JOIN_DATE, USER_GENDER, USER_SITE,
+		    USER_BIRTH, USER_PROFILE_FILE
+		    FROM 
+			<choose>
+				<when test='userSite == "T"'>
+					USER_PROFILE
+				</when>
+				<when test='userSite == "N"'>
+					NAVER_USER_PROFILE
+				</when>
+				<when test='userSite == "K"'>
+					KAKAO_USER_PROFILE
+				</when>
+				<when test='userSite == "G"'>
+					GOOGLE_USER_PROFILE
+				</when>
+			</choose>
+			WHERE  USER_ACCOUNT_ID =#{userAccountId}
+	</insert>
+	
+	<update id="updatedelflag">
+		UPDATE USER_PROFILE SET USER_DELFLAG='N'
+			WHERE USER_PASSWORD_RESET_TOKEN=#{tokenValue}
+	</update>
+	
 	<update id="updateUserPassword" parameterType="java.util.Map">
-		UPDATE USER_PROFILE SET USER_PASSWORD=#{userPassword}
+		UPDATE USER_PROFILE SET 
 			<choose>
 				<when test="tokenValue == 'mypage'">
 					WHERE USER_ACCOUNT_ID =#{userAccountId}

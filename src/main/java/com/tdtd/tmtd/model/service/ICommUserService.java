@@ -24,7 +24,6 @@ public interface ICommUserService {
 	*/
 	public int registCommUser(Map<String,Object> userprofile);
 	
-	
 	/**
 	 * NOTE 사용자의 정보를 바탕으로 해당 유저의 정지 여부를 가져오는 메소드
 	 * @param userInfo 사용자 정보가 담긴 vo
@@ -48,4 +47,10 @@ public interface ICommUserService {
 	public int updateUserPassword(Map<String,Object> resetPassword);
 	
 	public String searchNickName(Map<String,Object> map);
+	
+	public int updatedelflag(Map<String,Object> userToken);
+	
+	public int updateUserDelflagToY(UserProfileVo vo);
+	
+	public String checkPayment (UserProfileVo vo);
 }

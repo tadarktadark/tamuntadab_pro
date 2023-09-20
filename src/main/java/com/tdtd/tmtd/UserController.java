@@ -19,15 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import com.google.gson.Gson;
@@ -55,11 +58,27 @@ public class UserController {
 	@Autowired
 	private ICommUserDao commuserDao;
 
-	@Autowired
-	private IInstrService service;
+	private SocialUserController socialController;
 
 	@Autowired
 	private JavaMailSender mailsender;
+
+	@RequestMapping(value="/deleteUser.do",method=RequestMethod.GET)
+	@ResponseBody
+	public String deleteUser(HttpSession session) {
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		String isc = commUserService.checkPayment(userInfo);
+		if(isc.equals("false")) {
+			return "payment";
+		}
+		int n = commUserService.updateUserDelflagToY(userInfo);
+		if(n>0) {
+			session.invalidate();
+			return "true";
+		}else {
+			return "false";
+		}
+	}
 	
 	@RequestMapping(value="/updateNickname.do",method = RequestMethod.POST)
 	@ResponseBody
@@ -216,12 +235,31 @@ public class UserController {
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String login(@RequestParam Map<String, String> map, HttpSession session) {
+	public String login(@RequestParam Map<String, String> map, HttpSession session, HttpServletRequest req) {
 		Map<String, Object> result = commUserService.commLogin(map);
 		if (result.get("userInfo") != null) {
 			session.setAttribute("userInfo", result.get("userInfo"));
+		}else if(result.get("status").equals("human")) {
+			Map<String,Object> userInfo = new HashMap<String, Object>();
+			userInfo.put("tokenValue", UUID.randomUUID().toString().substring(0, 36));
+			userInfo.put("userEmail", map.get("userEmail"));
+			commUserService.updateResetPwToken(userInfo);
+			MimeMessage msg = mailsender.createMimeMessage();
+			try {
+				MimeMessageHelper msgHelper = new MimeMessageHelper(msg, false, "UTF-8");
+				msgHelper.setFrom("juojuo9809@naver.com");
+				msgHelper.setTo(map.get("userEmail"));
+				msgHelper.setSubject("[타문타답] 휴면해제를 위한 링크입니다.");
+				msgHelper.setText(
+						"휴면해제 주소 :<a href='" + req.getRequestURL().substring(0, req.getRequestURL().lastIndexOf("/"))
+								+ "/updatehuman.do?tokenValue=" + userInfo.get("tokenValue") + "'>" + ""
+								+ req.getRequestURL().substring(0, req.getRequestURL().lastIndexOf("/"))
+								+ "/updatehuman.do?tokenValue=" + userInfo.get("tokenValue") + "</a>",
+						true);
+				mailsender.send(msg);
+				} catch (MessagingException e) {
+			}
 		}
-
 		return gson.toJson(result);
 	}
 
@@ -304,12 +342,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
-	public String registration(@RequestParam Map<String, Object> map) {
+	public String registration(@RequestParam Map<String, Object> map, HttpServletResponse resp) throws IOException {
 		map.put("userAutoLoginToken", (UUID.randomUUID()) + (map.get("userPassword").toString().substring(0, 4))
 				+ (map.get("userGender")) + (map.get("userAuth")) + (map.get("userEmail").toString().substring(0, 2)));
 		int n = commUserService.registCommUser(map);
 		if (n != 1) {
-			return "redirect:/regist.do";
+			resp.sendError(500);
+			return null;
 		} else {
 			return "redirect:/";
 		}
@@ -322,18 +361,6 @@ public class UserController {
 
 	@RequestMapping(value = "/mypage.do")
 	public String mypage(HttpSession session, Model model) {
-		log.info("InstrController instrProfileForm.do 강사 프로필 작성화면");
-		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
-		String accountId = userInfo.getUserAccountId();
-
-		InstrVo vo = service.getMyInstrProfile(accountId);
-		if (vo != null) {
-
-			model.addAttribute("profile", vo);
-		}
-		model.addAttribute("title", "프로필");
-		model.addAttribute("pageTitle", "소개 프로필 등록/수정");
-		model.addAttribute("accountId", accountId);
 		return "myPage";
 	}
 
@@ -347,13 +374,14 @@ public class UserController {
 		return "index";
 	}
 
-	@RequestMapping(value = "human.do")
-	public String human(HttpServletResponse resp, HttpSession session) throws IOException {
-		resp.setContentType("text/html;charset=utf-8");
-		PrintWriter out = resp.getWriter();
-		out.print("<script>alert('휴면 정지된 계정입니다.');</script>");
-		out.flush();
-		session.removeAttribute("userInfo");
-		return "human";
+	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
+	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
+		int n = commUserService.updatedelflag(tokenValue);
+		if(n>0) {
+			return "redirect:/";
+		}else {
+			resp.sendError(500);
+			return null;
+		}
 	}
 }

@@ -85,6 +85,26 @@ public class CommUserDaoImpl implements ICommUserDao {
 	public int updateUserPassword(Map<String, Object> resetPassword) {
 		return sqlSession.update(NS+"updateUserPassword",resetPassword);
 	}
+	@Override
+	public int updatedelflag(Map<String, Object> userToken) {
+		return sqlSession.update(NS+"updatedelflag",userToken);
+	}
+	@Override
+	public int insertUserDelTable(UserProfileVo vo) {
+		return sqlSession.insert(NS+"insertUserDelTable",vo);
+	}
+	@Override
+	public int updateUserDelflagToY(UserProfileVo vo) {
+		return sqlSession.update(NS+"updateUserDelflagToY",vo);
+	}
+	@Override
+	public int searchUserGyeolje(UserProfileVo vo) {
+		return sqlSession.selectOne(NS+"searchUserGyeolje",vo);
+	}
+	@Override
+	public int searchUserJeongSan(UserProfileVo vo) {
+		return sqlSession.selectOne(NS+"searchUserJeongSan",vo);
+	}
 	
 	
 

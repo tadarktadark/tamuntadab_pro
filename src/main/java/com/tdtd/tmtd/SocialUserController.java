@@ -449,4 +449,4 @@ public class SocialUserController {
 			}
 			return userinfo;
 		}
-	}
+}
