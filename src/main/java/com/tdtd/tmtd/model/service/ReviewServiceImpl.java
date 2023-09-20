@@ -19,6 +19,11 @@ public class ReviewServiceImpl implements IReviewService {
 	public List<ReviewVo> getMyReview(Map<String, Object> map) {
 		return dao.getMyReview(map);
 	}
+	
+	@Override
+	public int myReviewTotalCount(String userAccountId) {
+		return dao.myReviewTotalCount(userAccountId);
+	}
 
 	@Override
 	public int insertReview(ReviewVo vo, Map<String, Object> map) {
@@ -30,10 +35,10 @@ public class ReviewServiceImpl implements IReviewService {
 	}
 
 	@Override
-	public int deleteReview(Map<String, String[]> map) {
+	public int deleteReview(String seq, String clasId) {
 		
-		int m = dao.deleteReview(map);
-		int n = dao.updateReviewStatusN(map);
+		int m = dao.deleteReview(seq);
+		int n = dao.updateReviewStatusN(clasId);
 		
 		return (m>0||n>0)?1:0;
 	}

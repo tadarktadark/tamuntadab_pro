@@ -20,6 +20,11 @@ public class ReviewDaoImpl implements IReviewDao {
 	public List<ReviewVo> getMyReview(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getMyReview", map);
 	}
+	
+	@Override
+	public int myReviewTotalCount(String userAccountId) {
+		return sqlSession.selectOne(NS+"myReviewTotalCount", userAccountId);
+	}
 
 	@Override
 	public int insertReview(ReviewVo vo) {
@@ -32,13 +37,13 @@ public class ReviewDaoImpl implements IReviewDao {
 	}
 
 	@Override
-	public int deleteReview(Map<String, String[]> map) {
-		return sqlSession.insert(NS+"deleteReview", map);
+	public int deleteReview(String seq) {
+		return sqlSession.insert(NS+"deleteReview", seq);
 	}
 	
 	@Override
-	public int updateReviewStatusN(Map<String, String[]> map) {
-		return sqlSession.update(NS+"updateReviewStatusN", map);
+	public int updateReviewStatusN(String clasId) {
+		return sqlSession.update(NS+"updateReviewStatusN", clasId);
 	}
 
 }

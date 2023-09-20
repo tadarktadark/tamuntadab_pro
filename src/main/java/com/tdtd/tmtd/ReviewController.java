@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.model.service.IReviewService;
+import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.ReviewVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
@@ -88,6 +89,46 @@ public class ReviewController {
 		
 		if(n>0) {
 			response.put("successMessage", "후기가 등록되었습니다");
+		} else {
+			response.put("errorMessage", "정상 처리가 되지 않았습니다");
+		}
+		return response;
+	}
+	
+	//리뷰 스크롤 api 실행
+	@GetMapping("/getMoreReview.do")
+	@ResponseBody
+	public Map<String, Object> instrReview(@RequestParam Map<String, Object> map){
+		log.info("instrReviewDetail.do 받아온 map : {}",map);
+		
+		List<ReviewVo> lists = service.getMyReview(map);
+		
+		int end = Integer.parseInt(map.get("end").toString());
+		int totalCount = service.myReviewTotalCount(map.get("userAccountId").toString());
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		response.put("lists", lists);
+	    response.put("hasMore", end < totalCount);
+	    
+		return response;
+	}
+	
+	//리뷰 삭제 및 참여자 status update
+	@GetMapping("/deleteReview.do")
+	@ResponseBody
+	public Map<String, Object> deleteReview(@RequestParam Map<String, Object> map){
+		log.info("deleteReview 받아온 값 : {}", map);
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		String seq = (String) map.get("seq");
+		String clchId = (String) map.get("clchId");
+		
+		int n = service.deleteReview(seq, clchId);
+		
+		if(n>0) {
+			response.put("successMessage", "삭제가 완료 되었습니다");
 		} else {
 			response.put("errorMessage", "정상 처리가 되지 않았습니다");
 		}
