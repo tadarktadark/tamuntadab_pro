@@ -29,5 +29,6 @@ public class ReviewVo {
 	private int avgScore;
 	
 	private List<ClassVo> classVo;
+	private List<ChamyeoVo> chamyeoVo;
 
 }

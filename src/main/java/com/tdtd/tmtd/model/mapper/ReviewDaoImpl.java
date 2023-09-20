@@ -25,10 +25,20 @@ public class ReviewDaoImpl implements IReviewDao {
 	public int insertReview(ReviewVo vo) {
 		return sqlSession.insert(NS+"insertReview", vo);
 	}
+	
+	@Override
+	public int updateReviewStatusY(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateReviewStatusY", map);
+	}
 
 	@Override
 	public int deleteReview(Map<String, String[]> map) {
 		return sqlSession.insert(NS+"deleteReview", map);
+	}
+	
+	@Override
+	public int updateReviewStatusN(Map<String, String[]> map) {
+		return sqlSession.update(NS+"updateReviewStatusN", map);
 	}
 
 }
