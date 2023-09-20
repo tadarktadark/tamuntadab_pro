@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.tdtd.tmtd.model.mapper.IClassDao;
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
+import com.tdtd.tmtd.vo.SugangryoVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,7 +42,7 @@ public class ClassServiceImpl implements IClassService {
 	 */
 	@Override
 	public int getAllClassListForSCount() {
-		log.info("ClassServiceImpl 실행 - getAllClassListForSCount - 페이징 할 클래스 갯수 가져오기");
+		log.info("ClassServiceImpl 실행 - getAllClassListForSCount");
 		return dao.getAllClassListForSCount();
 	}
 
@@ -55,6 +56,7 @@ public class ClassServiceImpl implements IClassService {
 	 */
 	@Override
 	public int addClass(ClassVo clVo, ChamyeoVo chVo) {
+		log.info("ClassServiceImpl 실행 - addClass");
 		int n = dao.addClass(clVo);
 		int m = dao.addChamyeoja(chVo);
 		return (n+m==2)?1:0;
@@ -71,6 +73,7 @@ public class ClassServiceImpl implements IClassService {
 	 */
 	@Override
 	public int addClassWithSub(ClassVo cVo,Map<String, Object> submap, Map<String, Object> subTagMap) {
+		log.info("ClassServiceImpl 실행 - addClassWithSub");
 		int classCnt = dao.addClass(cVo);
 		int subjectCnt = dao.addSubject(submap);
 		int subjectTagCnt = dao.addSubjectTag(subTagMap);
@@ -83,6 +86,7 @@ public class ClassServiceImpl implements IClassService {
 	 */
 	@Override
 	public List<String> findSubjId(List<String> titles) {
+		log.info("ClassServiceImpl 실행 - findSubjId");
 		List<String> SubjId = new ArrayList<String>();
 		for (int i = 0; i < titles.size(); i++) {
 			SubjId.add(dao.findSubjId(titles.get(i)));
@@ -98,6 +102,109 @@ public class ClassServiceImpl implements IClassService {
 	 * @since 2023-09-17
 	 */
 	public ClassVo getClassDetail(String clasId) {
+		log.info("ClassServiceImpl 실행 - getClassDetail");
 		return dao.getClassDetail(clasId);
+	}
+
+	@Override
+	public List<ClassVo> getAllClassListForA(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - getAllClassListForA");
+		return dao.getAllClassListForA(map);
+	}
+
+	@Override
+	public int getAllClassListForACount() {
+		log.info("ClassServiceImpl 실행 - getAllClassListForACount");
+		return dao.getAllClassListForACount();
+	}
+
+	@Override
+	public List<ClassVo> getCategoryClassListForS(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - getCategoryClassListForS");
+		return dao.getCategoryClassListForS(map);
+	}
+
+	@Override
+	public int getCategoryClassListForSCount(String category) {
+		log.info("ClassServiceImpl 실행 - getCategoryClassListForSCount");
+		return dao.getCategoryClassListForSCount(category);
+	}
+
+	@Override
+	public List<ClassVo> getAllClassListForI(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - getAllClassListForI");
+		return dao.getAllClassListForI(map);
+	}
+
+	@Override
+	public int getAllClassListForICount() {
+		log.info("ClassServiceImpl 실행 - getAllClassListForICount");
+		return dao.getAllClassListForICount();
+	}
+
+	@Override
+	public List<ClassVo> getCategoryClassListForI(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - getCategoryClassListForI");
+		return dao.getCategoryClassListForI(map);
+	}
+
+	@Override
+	public int getCategoryClassListForICount(String category) {
+		log.info("ClassServiceImpl 실행 - getCategoryClassListForICount");
+		return dao.getCategoryClassListForICount(category);
+	}
+
+	@Override
+	public ChamyeoVo getChamyeojaInfo(String clchAccountId) {
+		log.info("ClassServiceImpl 실행 - getChamyeojaInfo");
+		return dao.getChamyeojaInfo(clchAccountId);
+	}
+
+	@Override
+	public List<ChamyeoVo> getChamyeojas(String clasId) {
+		log.info("ClassServiceImpl 실행 - getChamyeojas");
+		return dao.getChamyeojas(clasId);
+	}
+
+	@Override
+	public int updateClassPeople(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - updateClassPeople");
+		return dao.updateClassPeople(map);
+	}
+
+	@Override
+	public int updateClassStatus(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - updateClassStatus");
+		return dao.updateClassStatus(map);
+	}
+
+	@Override
+	public int updateChamyeoYeokal(ChamyeoVo vo) {
+		log.info("ClassServiceImpl 실행 - updateChamyeoYeokal");
+		return dao.updateChamyeoYeokal(vo);
+	}
+
+	@Override
+	public int delChamyeoja(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - delChamyeoja");
+		return dao.delChamyeoja(map);
+	}
+
+	@Override
+	public int dealSugangryo(SugangryoVo vo) {
+		log.info("ClassServiceImpl 실행 - dealSugangryo");
+		return dao.dealSugangryo(vo);
+	}
+
+	@Override
+	public SugangryoVo getSugangryo(String sugaClasId) {
+		log.info("ClassServiceImpl 실행 - getSugangryo");
+		return dao.getSugangryo(sugaClasId);
+	}
+
+	@Override
+	public int addChamyeoja(ChamyeoVo vo) {
+		log.info("ClassServiceImpl 실행 - addChamyeoja");
+		return dao.addChamyeoja(vo);
 	}
 }

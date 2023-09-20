@@ -40,6 +40,19 @@
 		<collection property="userVo" resultMap="userProfileMap"/>
 		<collection property="subjVo" resultMap="subjectMap"/>
 	</resultMap>
+	
+	<resultMap type="chamyeoVo" id="chamyeoMap">
+		<result column="CLCH_ID" property="clchId"/>
+		<result column="CLCH_ACCOUNT_ID" property="clchAccountId"/>
+		<result column="CLCH_CLAS_ID" property="clchClasId"/>
+		<result column="CLCH_STATUS" property="clchStatus"/>
+		<result column="CLCH_GYEOLJE_STATUS" property="clchGyeoljeStatus"/>
+		<result column="CLCH_YEOKAL" property="clchYeokal"/>
+		<result column="CLCH_PILGI_STATUS" property="clchPilgiStatus"/>
+		<result column="CLCH_REVIEW_STATUS" property="clchReviewStatus"/>
+		<result column="CLCH_INSTR_SUGANGRYO" property="clchInstrSugangryo"/>
+		<collection property="userVo" resultMap="userProfileMap"/>
+	</resultMap>
 
 	<!-- 모든 클래스 조회 (관리자) -->
 		<select id="getAllClassListForA" parameterType="java.util.Map" resultMap="classMap">
@@ -115,7 +128,7 @@
 		        FROM CLASS c,
 		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
 		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
-		        WHERE s.SUBJ_CATEGORY = #{subjCategotry}
+		        WHERE s.SUBJ_CATEGORY = #{subjCategory}
 		        AND c.CLAS_STATUS='모집'
 		        GROUP BY c.CLAS_ID
 		    ) jot ON jot.CLAS_ID = c.CLAS_ID
@@ -124,14 +137,100 @@
 	</select>
 	<!-- 카테고리별 모집 중인 클래스 갯수 조회 (학생) -->
 	<select id="getCategoryClassListForSCount" resultType="java.lang.Integer" parameterType="java.lang.String">
-		SELECT COUNT(*)
+		 SELECT COUNT(*)
+			FROM (
+			    SELECT DISTINCT c.CLAS_ID
+			    FROM CLASS c, JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+			    JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+			    WHERE s.SUBJ_CATEGORY = #{subjCategory}
+			    AND c.CLAS_STATUS='모집'
+			)
+	</select>
+	<!-- 참여 가능한 모든 클래스 조회 (강사) -->
+	<select	id="getAllClassListForI" parameterType="java.util.Map" resultMap="classMap">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
+		       CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
+		FROM (
+		    SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+		           jot.SUBJ_TITLE, up.USER_NICKNAME, c.CLAS_REGDATE, c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN,
+		           ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
 		        FROM CLASS c,
 		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
 		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
-		        WHERE s.SUBJ_CATEGORY = #{subjCategotry}
-		        AND c.CLAS_STATUS='모집'
+		        WHERE c.CLAS_STATUS='모집' OR c.CLAS_STATUS='매칭'
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_YEOKAL = 'M'
+		)WHERE RN BETWEEN #{first} AND #{last}
 	</select>
-	<!-- 참여 가능한 모든 클래스 조회 (강사) -->
+	<!--  참여 가능한 모든 클래스 갯수 조회 (강사) -->
+	<select id="getAllClassListForICount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM CLASS c
+		WHERE CLAS_STATUS='모집' OR CLAS_STATUS='매칭'
+	</select>
+	<!-- 참여 가능한 클래스 카테고리별 조회 (강사) -->
+	<select id="getCategoryClassListForI" parameterType="java.util.Map" resultMap="classMap">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
+		       CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
+		FROM (
+		    SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+		           jot.SUBJ_TITLE, up.USER_NICKNAME, c.CLAS_REGDATE, c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN,
+		           ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE s.SUBJ_CATEGORY = #{subjCategory}
+					AND (c.CLAS_STATUS='모집' OR CLAS_STATUS='매칭')
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_YEOKAL = 'M'
+		)WHERE RN BETWEEN #{first} AND #{last}
+	</select>
+	<!-- 참여 가능한 클래스 카테고리별 조회 총 갯수 (강사) -->
+	<select id="getCategoryClassListForICount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(*)
+			FROM (
+			    SELECT DISTINCT c.CLAS_ID
+			    FROM CLASS c, JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+			    JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+			    WHERE s.SUBJ_CATEGORY = #{subjCategory}
+			    AND (c.CLAS_STATUS='모집' OR c.CLAS_STATUS='매칭')
+			)
+	</select>
+	<!-- 세션에 있는 회원의 모든 참여중 클래스 조회 -->
+	<select id="getChamyeoClass" parameterType="java.util.Map" resultMap="classMap">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
+		       CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_SEONGBYEOL_JEHAN,
+		       CLAS_NAI_JEHAN, CLCH_ACCOUNT_ID
+		FROM (
+		    SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+		           jot.SUBJ_TITLE, up.USER_NICKNAME, c.CLAS_REGDATE, c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN,
+		           cc.CLCH_ACCOUNT_ID,ROW_NUMBER() OVER (ORDER BY c.CLAS_ID DESC) AS RN
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE c.CLAS_STATUS != '종료'
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_ACCOUNT_ID = 'TMTD1'
+		)
+	</select>
 	<!-- 클래스 상세조회 -->
 	<select id="getClassDetail" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
@@ -189,6 +288,7 @@
 		VALUES (SUBJ_ID_SEQ.NEXTVAL, #{subjTitle}, #{subjStudId},
 		#{subjStatus}, #{subjDelflag}, #{subjCode})
 	</insert>
+	
 	<!-- 과목태그 추가 -->
 	<insert id="addSubjectTag">
 	<selectKey resultType="java.lang.String" keyProperty="subjCode" order="BEFORE">
@@ -199,13 +299,72 @@
 	VALUES(COALESCE(#{subjCode}, NULL), #{sutaTitle})
 	</insert>
 
+	<!-- 참여할 세션의 정보 확인 -->
+	<select id="getChamyeojaInfo" parameterType="java.lang.String" resultMap="chamyeoMap">
+		SELECT c.CLAS_ID,
+		       cc.CLCH_ACCOUNT_ID, 
+		       up.USER_GENDER, 
+		       FLOOR(MONTHS_BETWEEN(CURRENT_DATE, up.USER_BIRTH) / 12) AS USER_BIRTH
+		FROM CLASS c 
+		JOIN CLASS_CHAMYEOJA cc ON c.CLAS_ID = cc.CLCH_CLAS_ID
+		JOIN USER_PROFILE up ON up.USER_ACCOUNT_ID = cc.CLCH_ACCOUNT_ID
+		WHERE cc.CLCH_ACCOUNT_ID = #{clchAccountId}
+	</select>
 	<!-- 참여자 추가 -->
 	<insert id="addChamyeoja" parameterType="chamyeoVo">
 		INSERT INTO TMTD.CLASS_CHAMYEOJA 
 		(CLCH_ID, CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS, CLCH_YEOKAL) 
 		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, (SELECT MAX(CLAS_ID) FROM TMTD.CLASS) , #{clchStatus}, 'N', #{clchYeokal})
 	</insert>
-	
+	<!-- 해당 클래스의 모든 참여자 조회 -->
+	<select id="getChamyeojas" parameterType="java.lang.String" resultType="chamyeoVo">
+		SELECT c.CLAS_ID, 
+		       cc.CLCH_ACCOUNT_ID, 
+		       up.USER_GENDER, up.USER_NICKNAME,
+		       FLOOR(MONTHS_BETWEEN(CURRENT_DATE, up.USER_BIRTH) / 12) AS AGE
+		FROM CLASS c 
+		JOIN CLASS_CHAMYEOJA cc ON c.CLAS_ID = cc.CLCH_CLAS_ID
+		JOIN USER_PROFILE up ON up.USER_ACCOUNT_ID = cc.CLCH_ACCOUNT_ID
+		WHERE c.CLAS_ID = #{clasId}
+	</select>
+	<!-- 클래스 현재인원 조절 -->
+	<update id="updateClassPeople" parameterType="java.util.Map">
+		UPDATE CLASS
+			SET CLAS_HYEONJAE_INWON = CLAS_HYEONJAE_INWON + (#{nums})
+			WHERE CLAS_ID = #{clasId}
+	</update>
+	<!-- 클래스 상태 변경 -->
+	<update id="updateClassStatus" parameterType="java.util.Map">
+		UPDATE CLASS
+			SET CLAS_STATUS  = #{clasStatus}
+			WHERE CLAS_ID = #{clasId}
+	</update>
+	<!-- 참여테이블 수정 (위임) -->
+	<update id="updateChamyeoYeokal" parameterType="chamyeoVo">
+		UPDATE CLASS_CHAMYEOJA 
+			SET CLCH_YEOKAL  = #{clchYeokal}
+			WHERE CLCH_CLAS_ID  = #{clchClasId}
+			AND CLCH_ACCOUNT_ID = #{clchAccountId}
+	</update>
+	<!-- 참여자 삭제 -->
+	<delete id="delChamyeoja" parameterType="java.util.Map">
+		DELETE CLASS_CHAMYEOJA
+			WHERE CLCH_CLAS_ID  = #{clchClasId}
+			AND CLCH_ACCOUNT_ID = #{clchAccountId}
+	</delete>
+	<!-- 수강료 확정 요청 생성 -->
+	<insert id="dealSugangryo" parameterType="sugangryoVo">
+		INSERT INTO SUGANGNRYO
+			(SUGA_ID, SUGA_CLAS_ID, SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS)
+			VALUES(SUGA_ID_SEQ.NEXTVAL, #{sugaClasId}, #{sugaAccountId}, #{sugaYocheongGeumaek}, #{sugaYocheongStatus} )
+	</insert>
+	<!-- 클래스의 수강료 요청 상태 조회 -->
+	<select id="getSugangryo" parameterType="java.lang.String" resultType="sugangryoVo">
+		SELECT SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS
+			FROM SUGANGNRYO
+			WHERE SUGA_CLAS_ID = #{sugaClasId}
+	</select>
+	<!-- 과목 이름으로 과목 ID 검색 -->
 	<select id="findSubjId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SUBJ_ID
 		FROM SUBJECT s

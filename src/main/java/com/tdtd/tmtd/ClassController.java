@@ -1,10 +1,13 @@
 package com.tdtd.tmtd;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.PagingVo;
 import com.tdtd.tmtd.vo.SubjectVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,12 +52,58 @@ public class ClassController {
 	@GetMapping("/classListLoad.do")
 	@ResponseBody
 	public String classListLoad(Model model,
-							@RequestParam("page") String pageAttr) {
+								HttpSession session,
+								@RequestParam("page") String pageAttr,
+								@RequestParam("category") String category
+								) {
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		if(userInfo != null) {
+			log.info("ClassController classListLoad 세션의 유저 정보 수정1: {}", userInfo);
+		}else {
+			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
+		}
+		
+		//받아 온 카테고리 정보를 Dao에 넣을 값으로 변환
+		switch (category) {
+	    case "2":
+	        category = "개발 · 프로그래밍";
+	        break;
+	    case "3":
+	        category = "보안 · 네트워크";
+	        break;
+	    case "4":
+	        category = "데이터 사이언스";
+	        break;
+	    case "5":
+	        category = "게임 개발";
+	        break;
+	    case "6":
+	        category = "하드웨어";
+	        break;
+		}
 		
 		
-		int totalClass = cService.getAllClassListForSCount();
+		//세션과 조회할 목록에 따라 페이징 처리할 게시글의 총 갯수 지정
+		int totalClass = 0;
+
+		String userAuth = (userInfo != null) ? userInfo.getUserAuth() : null;
+
+		if ("I".equals(userAuth)) {
+		    if ("1".equals(category) || category == null) {
+		        totalClass = cService.getAllClassListForICount();
+		    } else {
+		        totalClass = cService.getCategoryClassListForICount(category);
+		    }
+		} else {
+		    if ("1".equals(category) || category == null) {
+		        totalClass = cService.getAllClassListForSCount();
+		    } else {
+		        totalClass = cService.getCategoryClassListForSCount(category);
+		    }
+		}
 		
-		log.info("ClassController subjectManage 가져온 현재 페이지 = {}", pageAttr);
+		log.info("ClassController classListLoad 가져온 현재 페이지 = {}", pageAttr);
 		int thisPage = 0;
 		if (pageAttr == null) {
 		    thisPage = 1;
@@ -61,7 +111,7 @@ public class ClassController {
 			thisPage = Integer.parseInt(pageAttr);
 		}
 		
-		log.info("ClassController subjectManage 형변환 한 페이지 = {}", thisPage);
+		log.info("ClassController classListLoad 형변환 한 페이지 = {}", thisPage);
 		//페이지에 사용될 정보 담기
 		PagingVo pVo = new PagingVo();
 		pVo.setTotalCount(totalClass);
@@ -75,11 +125,29 @@ public class ClassController {
 		log.info("ClassController 페이징에 사용될 정보 pageVO : {}", pVo);
 		Map<String, Object> pagingMap = PagingUtils.paging(pageAttr, pVo.getTotalCount(), pVo.getCountList(), pVo.getCountPage());
 			
-		//페이징 처리해서 처리할 리스트 가져오기
+		//페이징 처리해서 처리할 리스트를 상황별로 가져오기
 		Map<String, Object> listMap = new HashMap<String, Object>();
 		listMap.put("first", pagingMap.get("start"));
 		listMap.put("last", pagingMap.get("end"));
-		List<ClassVo> classList = cService.getAllClassListForS(listMap);
+		
+		
+		List<ClassVo> classList;
+
+		if ("I".equals(userAuth)) {
+		    if ("1".equals(category) || category == null) {
+		        classList = cService.getAllClassListForI(listMap);
+		    } else {
+		        listMap.put("subjCategory", category);
+		        classList = cService.getCategoryClassListForI(listMap);
+		    }
+		} else {
+		    if ("1".equals(category) || category == null) {
+		        classList = cService.getAllClassListForS(listMap);
+		    } else {
+		        listMap.put("subjCategory", category);
+		        classList = cService.getCategoryClassListForS(listMap);
+		    }
+		}
 		
 		Map<String, Object> result = new HashMap<>();
 	    result.put("pVo", pVo);
@@ -98,7 +166,7 @@ public class ClassController {
 		model.addAttribute("pageTitle", "클래스 생성");
 		return "classWrite";
 	}
-
+	
 	@PostMapping("classWrite.do")
 	public String classWrite(Model model, 
 	                         @RequestParam("classTitle") String classTitle,
