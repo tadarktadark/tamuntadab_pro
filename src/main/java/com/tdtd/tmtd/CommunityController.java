@@ -625,4 +625,47 @@ public class CommunityController {
 		
 		return "redirect:/community.do?board="+board;
 	}
+	
+	@RequestMapping(value="/getMyWriteList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> getMyWriteList(HttpSession session, String board, String page){
+		log.info("@@@@@@@@@@@@@@@ 마이페이지 내 글 목록 조회 : board {}, page {}", board, page);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int pageCount; // 전체 게시글 수
+		Map<String, Object> pMap = new HashMap<String, Object>(); // page 객체 및 start, end
+		Map<String, Object> bMap = new HashMap<String, Object>(); // board 관련 accountId, start, end
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		if(board.equals("pilgi")) {
+			pageCount = pService.getMyPilgiCount(userInfo.getUserAccountId());
+			pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		} else if(board.equals("jilmun")) {
+			pageCount = jmService.getMyJilmunCount(userInfo.getUserAccountId());
+			pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		} else if(board.equals("jayu")) {
+			pageCount = jyService.getMyJayuCount(userInfo.getUserAccountId());
+			pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		}
+		
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("pVo", pMap.get("page"));
+		
+		if(board.equals("pilgi")) {
+			result.put("board", "pilgi");
+			result.put("bVo", pService.getMyPilgiList(bMap));
+		} else if(board.equals("jilmun")) {
+			result.put("board", "jilmun");
+			result.put("bVo", jmService.getMyJilmunList(bMap));
+		} else if(board.equals("jayu")) {
+			result.put("board", "jayu");
+			result.put("bVo", jyService.getMyJayuList(bMap));
+		}
+		
+		return result;
+	}
 }
