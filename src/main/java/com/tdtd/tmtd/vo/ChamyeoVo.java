@@ -1,5 +1,7 @@
 package com.tdtd.tmtd.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -26,5 +28,5 @@ public class ChamyeoVo {
 	private String clchReviewStatus  ;
 	private int clchInstrSugangryo;
 	
-	
+	private List<UserProfileVo> userVo;
 }

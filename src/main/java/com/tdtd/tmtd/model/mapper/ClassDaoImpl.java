@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
-import com.tdtd.tmtd.vo.SubjectTagVo;
-import com.tdtd.tmtd.vo.SubjectVo;
+import com.tdtd.tmtd.vo.SugangryoVo;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
+@Slf4j
 public class ClassDaoImpl implements IClassDao {
 
 	@Autowired
@@ -28,6 +30,7 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	@Override
 	public List<ClassVo> getAllClassListForS(Map<String, Object> map) {
+		log.info("ClassDaoImpl getAllClassListForS 실행");
 		return sqlSession.selectList(NS+"getAllClassListForS",map);
 	}
 	
@@ -39,6 +42,7 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	@Override
 	public int getAllClassListForSCount() {
+		log.info("ClassDaoImpl getAllClassListForSCount 실행");
 		return sqlSession.selectOne(NS+"getAllClassListForSCount");
 	}
 	
@@ -51,6 +55,7 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	@Override
 	public int addClass(ClassVo vo) {
+		log.info("ClassDaoImpl addClass 실행");
 		int n = sqlSession.insert(NS+"addClass",vo);
 		return n;
 	}
@@ -64,6 +69,7 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	@Override
 	public int addSubject(Map<String, Object> map) {
+		log.info("ClassDaoImpl addSubject 실행");
 		return sqlSession.insert(NS+"addSubject",map);
 	}
 	
@@ -76,6 +82,7 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	@Override
 	public int addSubjectTag(Map<String, Object> map) {
+		log.info("ClassDaoImpl addSubjectTag 실행");
 		return sqlSession.insert(NS+"addSubjectTag",map);
 	}
 
@@ -88,6 +95,7 @@ public class ClassDaoImpl implements IClassDao {
 	 */
 	@Override
 	public int addChamyeoja(ChamyeoVo vo) {
+		log.info("ClassDaoImpl addChamyeoja 실행");
 		return sqlSession.insert(NS+"addChamyeoja",vo);
 	}
 	
@@ -97,6 +105,7 @@ public class ClassDaoImpl implements IClassDao {
 	 * @since 2023-09-10
 	 */
 	public String findSubjId(String title) {
+		log.info("ClassDaoImpl findSubjId 실행");
 		return sqlSession.selectOne(NS+"findSubjId", title);
 	};
 	
@@ -106,19 +115,104 @@ public class ClassDaoImpl implements IClassDao {
 	 * @return 클래스 id에 해당하는 클래스의 정보 Vo
 	 */
 	public ClassVo getClassDetail(String clasId) {
+		log.info("ClassDaoImpl getClassDetail 실행");
 		return sqlSession.selectOne(NS+"getClassDetail", clasId);
 	}
 
 	@Override
 	public List<ClassVo> getAllClassListForA(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("ClassDaoImpl getAllClassListForA 실행");
+		return sqlSession.selectList(NS+"getAllClassListForA",map);
 	}
 
 	@Override
 	public int getAllClassListForACount() {
-		// TODO Auto-generated method stub
-		return 0;
+		log.info("ClassDaoImpl getAllClassListForACount 실행");
+		return sqlSession.selectOne(NS+"getAllClassListForACount");
+	}
+
+	@Override
+	public List<ClassVo> getCategoryClassListForS(Map<String, Object> map) {
+		log.info("ClassDaoImpl getCategoryClassListForS 실행");
+		return sqlSession.selectList(NS+"getCategoryClassListForS",map);
+	}
+
+	@Override
+	public int getCategoryClassListForSCount(String category) {
+		log.info("ClassDaoImpl getCategoryClassListForSCount 실행");
+		return sqlSession.selectOne(NS+"getCategoryClassListForSCount",category);
+	}
+
+	@Override
+	public List<ClassVo> getAllClassListForI(Map<String, Object> map) {
+		log.info("ClassDaoImpl getAllClassListForI 실행");
+		return sqlSession.selectList(NS+"getAllClassListForI",map);
+	}
+
+	@Override
+	public int getAllClassListForICount() {
+		log.info("ClassDaoImpl getAllClassListForICount 실행");
+		return sqlSession.selectOne(NS+"getAllClassListForICount");
+	}
+
+	@Override
+	public List<ClassVo> getCategoryClassListForI(Map<String, Object> map) {
+		log.info("ClassDaoImpl getCategoryClassListForI 실행");
+		return sqlSession.selectList(NS+"getCategoryClassListForI",map);
+	}
+
+	@Override
+	public int getCategoryClassListForICount(String category) {
+		log.info("ClassDaoImpl getCategoryClassListForICount 실행");
+		return sqlSession.selectOne(NS+"getCategoryClassListForICount",category);
+	}
+
+	@Override
+	public ChamyeoVo getChamyeojaInfo(String clchAccountId) {
+		log.info("ClassDaoImpl getChamyeojaInfo 실행");
+		return sqlSession.selectOne(NS+"getChamyeojaInfo",clchAccountId);
+	}
+
+	@Override
+	public List<ChamyeoVo> getChamyeojas(String clasId) {
+		log.info("ClassDaoImpl getChamyeojas 실행");
+		return sqlSession.selectList(NS+"getChamyeojas",clasId);
+	}
+
+	@Override
+	public int updateClassPeople(Map<String, Object> map) {
+		log.info("ClassDaoImpl updateClassPeople 실행");
+		return sqlSession.update(NS+"updateClassPeople", map);
+	}
+
+	@Override
+	public int updateClassStatus(Map<String, Object> map) {
+		log.info("ClassDaoImpl updateClassStatus 실행");
+		return sqlSession.update(NS+"updateClassStatus", map);
+	}
+
+	@Override
+	public int updateChamyeoYeokal(ChamyeoVo vo) {
+		log.info("ClassDaoImpl updateChamyeoYeokal 실행");
+		return sqlSession.update(NS+"updateChamyeoYeokal", vo);
+	}
+
+	@Override
+	public int delChamyeoja(Map<String, Object> map) {
+		log.info("ClassDaoImpl delChamyeoja 실행");
+		return sqlSession.delete(NS+"delChamyeoja", map);
+	}
+
+	@Override
+	public int dealSugangryo(SugangryoVo vo) {
+		log.info("ClassDaoImpl dealSugangryo 실행");
+		return sqlSession.insert(NS+"dealSugangryo",vo);
+	}
+
+	@Override
+	public SugangryoVo getSugangryo(String sugaClasId) {
+		log.info("ClassDaoImpl getSugangryo 실행");
+		return sqlSession.selectOne(NS+"SugangryoVo",sugaClasId);
 	}
 	
 }

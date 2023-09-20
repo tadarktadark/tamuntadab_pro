@@ -13,7 +13,6 @@
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_topbar.jsp"%>
 		<%@ include file="./shared/_sidebar.jsp"%>
-
 	<div class="main-content">
 			<div class="page-content">
 				<div class="container-fluid">
@@ -43,7 +42,7 @@
     
                                         <div class="card p-0 overflow-hidden mt-4 shadow-none">
                                             <div class="mail-list">
-                                                <a href="#" class="active bg-primary-subtle ">
+                                                <a href="javascript:ajaxPaging(1,1)" class="active bg-primary-subtle" id="category1">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-mail-send fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -57,7 +56,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <a href="#" class="border-bottom">
+                                                <a href="javascript:ajaxPaging(1,2)" class="border-bottom" id="category2">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-star fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -69,7 +68,7 @@
                                                     </div>
                                                 </a>
         
-                                                <a href="#" class="border-bottom">
+                                                <a href="javascript:ajaxPaging(1,3)" class="border-bottom" id="category3">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-diamond fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -81,7 +80,7 @@
                                                     </div>
                                                 </a>
         
-                                                <a href="#" class="border-bottom">
+                                                <a href="javascript:ajaxPaging(1,4)" class="border-bottom" id="category4">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-file fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -93,7 +92,7 @@
                                                     </div>
                                                 </a>
         
-                                                <a href="#" class="border-bottom">
+                                                <a href="javascript:ajaxPaging(1,5)" class="border-bottom"id="category5">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-envelope-open fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -107,7 +106,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <a href="#">
+                                                <a href="javascript:ajaxPaging(1,6)">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-trash fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -145,60 +144,16 @@
     
                                         <div class="">
                                             <div class="row mb-4">
-                                            <div class="col-xl-3 col-md-12">
-                                                <div class="pb-3 pb-xl-0">
-                                                    <form class="email-search">
-                                                        <div class="position-relative">
-                                                            <input type="text" class="form-control bg-light" placeholder="Search...">
-                                                            <span class="bx bx-search fs-18"></span>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-9 col-md-12">
-                                                <div class="pb-3 pb-xl-0">
-                                                    <div class="btn-toolbar float-end" role="toolbar">
-                                                        <div class="btn-group me-2 mb-2">
-                                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="bx bxs-inbox align-middle"></i></button>
-                                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="bx bx-info-circle align-middle"></i></button>
-                                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
-                                                        </div>
-                                                        <div class="btn-group me-2 mb-2">
-                                                            <button type="button" class="btn btn-primary waves-light waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <i class="bx bx-folder align-middle"></i> <i class="mdi mdi-chevron-down ms-1 align-middle"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item" href="#">Updates</a>
-                                                                <a class="dropdown-item" href="#">Social</a>
-                                                                <a class="dropdown-item" href="#">Team Manage</a>
+                                                <div class="col-xl-3 col-md-12">
+                                                    <div class="pb-3 pb-xl-0">
+                                                        <form class="email-search">
+                                                            <div class="position-relative">
+                                                                <input type="text" class="form-control bg-light" placeholder="Search...">
+                                                                <span class="bx bx-search fs-18"></span>
                                                             </div>
-                                                        </div>
-                                                        <div class="btn-group me-2 mb-2">
-                                                            <button type="button" class="btn btn-primary waves-light waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                <i class="bx bx-purchase-tag-alt align-middle"></i> <i class="mdi mdi-chevron-down ms-1 align-middle"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item" href="#">Updates</a>
-                                                                <a class="dropdown-item" href="#">Social</a>
-                                                                <a class="dropdown-item" href="#">Team Manage</a>
-                                                            </div>
-                                                        </div>
-                        
-                                                        <div class="btn-group me-2 mb-2">
-                                                            <button type="button" class="btn btn-primary waves-light waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                More <i class="bx bx-dots-vertical ms-2 align-middle"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item" href="#">Mark as Unread</a>
-                                                                <a class="dropdown-item" href="#">Mark as Important</a>
-                                                                <a class="dropdown-item" href="#">Add to Tasks</a>
-                                                                <a class="dropdown-item" href="#">Add Star</a>
-                                                                <a class="dropdown-item" href="#">Mute</a>
-                                                            </div>
-                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                            </div>
                                             </div>
     
                                     <div>
