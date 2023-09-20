@@ -8,12 +8,12 @@
 		WHERE IP_ADDRESS = #{accessIP}
 </select>
 
-<select id="adminLogin" resultType="">
-SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
-	FROM ADMIN_PROFILE ap 
-		WHERE ADPR_ID =#{adminID}
-		AND ADPR_PASSWORD =#{adminPW}
-		AND ADPR_DELFLAG ='N'
-</select>
+<!-- <select id="adminLogin" resultType=""> -->
+<!-- SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS  -->
+<!-- 	FROM ADMIN_PROFILE ap  -->
+<!-- 		WHERE ADPR_ID =#{adminID} -->
+<!-- 		AND ADPR_PASSWORD =#{adminPW} -->
+<!-- 		AND ADPR_DELFLAG ='N' -->
+<!-- </select> -->
 	
 </mapper>

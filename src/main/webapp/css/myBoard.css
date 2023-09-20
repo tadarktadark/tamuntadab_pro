@@ -1,5 +1,38 @@
 @charset "UTF-8";
 
 .card{
+	border: 0px;
 	--tb-card-border-radius: 0px;	
+}
+
+tr, td{
+	text-align: center;
+}
+
+.title{
+	text-align: left;
+}
+
+.title a {
+	width: 300px;
+	margin: 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.form-check{
+	text-align: center;
+}
+
+tbody .form-check:hover, .title a{
+	cursor: pointer;
+}
+
+.form-check img {
+	width: 30px;
+	height: 30px;
+}
+
+tr button{
+	border:none;
 }
