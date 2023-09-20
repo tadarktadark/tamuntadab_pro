@@ -19,7 +19,7 @@
 <script src="./assets/libs/rater-js/index.js"></script>
 <!-- rating init -->
 <script src="./assets/js/pages/rating.init.js"></script>
-<script src="./js/myReviewList.js"></script>
+<script src="./js/myReview.js"></script>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
