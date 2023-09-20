@@ -320,7 +320,9 @@
 	<update id="updateClchPilgiState">
 		UPDATE CLASS_CHAMYEOJA SET CLCH_PILGI_STATUS = #{state}
 			WHERE CLCH_ACCOUNT_ID = #{accountId}
-				AND CLCH_CLAS_ID = #{clasId}
+				AND CLCH_CLAS_ID = (SELECT PIBO_CLAS_ID
+										FROM PILGI_BOARD
+										WHERE PIBO_ID=#{id})
 	</update>
 	
 	<!-- 필기 임시저장 -->

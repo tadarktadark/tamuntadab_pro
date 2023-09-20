@@ -99,6 +99,7 @@ public class PilgiServiceImpl implements IPilgiService {
 	public int insertPilgi(BoardVo vo, Map<String, Object> map, MultipartFile[] files, HttpServletRequest request) throws IOException {
 		int n = 0;
 		n += dao.insertPilgi(vo);
+		map.put("id", vo.getId());
 		n += dao.updateClchPilgiState(map);
 				
 		if(files[0].getSize() > 0) {

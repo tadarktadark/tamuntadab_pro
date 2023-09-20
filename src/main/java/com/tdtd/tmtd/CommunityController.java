@@ -324,7 +324,6 @@ public class CommunityController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("state", "Y");
 			map.put("accountId", userInfo.getUserAccountId());
-			map.put("clasId", bVo.getClasId());
 			pService.insertPilgi(bVo, map, files, request);
 		} else if(board.equals("jilmun")) {
 			model.addAttribute("pageTitle", "질문");
@@ -600,5 +599,30 @@ public class CommunityController {
 		}
 				
 		return "redirect:/communityDetails.do?id="+bVo.getId();
+	}
+	
+	@RequestMapping(value="/communityDelete.do", method=RequestMethod.GET)
+	public String communityDelete(Model model, HttpSession session, String id){
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 삭제 : board{} id {}", board, id);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		if(board.equals("pilgi")) {
+			Map<String, Object> bMap = new HashMap<String, Object>();
+			bMap.put("id", id);
+			bMap.put("state", "Y");
+			Map<String, Object> cMap = new HashMap<String, Object>();
+			cMap.put("state", "N");
+			cMap.put("accountId", userInfo.getUserAccountId());
+			cMap.put("id", id);
+			pService.updatePilgiState(bMap, cMap);
+		} else if(board.equals("jilmun")) {
+			jmService.deleteJilmun(id);
+		} else if(board.equals("jayu")) {
+			jyService.deleteJayu(id);
+		}
+		
+		return "redirect:/community.do?board="+board;
 	}
 }

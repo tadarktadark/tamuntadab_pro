@@ -97,8 +97,8 @@
 						                                        	</c:if>
 						                                        	<c:choose>
 							                                        	<c:when test="${sessionScope.userInfo.userNickname eq bVo.accountId}">
-								                                            <button type="button" id="delete-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
 								                                            <button type="button" id="update-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-pencil align-middle"></i></button>
+								                                            <button type="button" id="delete-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
 							                                        	</c:when>
 							                                        	<c:otherwise>
 								                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
@@ -165,6 +165,8 @@
 	<div class="hidden">
 		<div id="boardId">${bVo.id}</div>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
+		<button type="button" class="btn btn-primary btn-sm" id="sa-delete"></button>
+		<button type="button" class="btn btn-primary btn-sm" id="sa-pilgi-delete"></button>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>

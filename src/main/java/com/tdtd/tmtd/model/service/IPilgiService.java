@@ -134,7 +134,7 @@ public interface IPilgiService {
 	 * @param vo accountId, clasId, content, viewGroup, downloadGroup<br>
 	 * @param map state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
-	 * 				clasId 클래스ID
+	 * 				id 게시글id
 	 * @param files 업로드한 파일들
 	 * @param request
 	 * @return 성공 1, 실패 0
@@ -215,7 +215,7 @@ public interface IPilgiService {
 	 * 			state Y=임시삭제, N=복원
 	 * @param cMap state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
-	 * 				clchId 클래스참여자ID
+	 * 				clasId 클래스ID
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14

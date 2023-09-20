@@ -157,7 +157,7 @@ public interface IPilgiDao {
 	 * 클래스 참여자 상태 변경
 	 * @param map state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
-	 * 				clasId 클래스ID
+	 * 				id 게시글id
 	 * @return
 	 * @author SoHyeon
 	 * @since 2023.09.16
