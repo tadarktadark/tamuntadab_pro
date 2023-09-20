@@ -23,6 +23,8 @@
 					<%@ include file="./shared/_page_title.jsp"%>
 					<div class="align-items-center">
 						<form action="javascript:void(0);" class="row g-3">
+						<input type="hidden" id="reviClasId" value="${reviClasId}">
+						<input type="hidden" name="reviStudName" value="${reviStudName}">
 							<div class="col-md-6">
 								<label for="reviPro" class="form-label">전문성</label><br>
 								<div id="reviPro" dir="ltr" class="star-rating"
@@ -49,7 +51,7 @@
 							</div>
 							<div class="col-12 mb-3">
 								<label for="VertimeassageInput" class="form-label">상세 내용</label><br>
-								<textarea class="form-control" id="detailText" rows="10"
+								<textarea class="form-control" id="reviDetail" name="reviDetail" rows="10"
 									placeholder="상세 내용을 작성해주세요"></textarea>
 									<span class="detailSpan">0</span>/300
 							</div>
@@ -68,7 +70,7 @@
 <script type="text/javascript">
 $(function(){
 	// 글자수 제한하기
-	$("#detailText").on('input', function () {
+	$("#reviDetail").on('input', function () {
         var text_length = $(this).val().length;
         if(text_length > 300) {
             alert('300자까지만 작성 가능합니다.');
@@ -78,8 +80,68 @@ $(function(){
             $(".detailSpan").text(text_length);
         }
     });
-})
-
+	
+	 $("form").on('submit', function(e) {
+	        e.preventDefault();
+	        
+	        var form = this;
+	        var formData = new FormData(form);
+	        
+	        var reviClasId = $('#reviClasId').val();
+	        
+	        formData.append("reviClasId", parseInt(reviClasId));
+	        formData.append("reviPro", parseInt(reviPro.getRating()));
+	        formData.append("reviPrepare", parseInt(reviPrepare.getRating()));
+	        formData.append("reviAbil", parseInt(reviAbil.getRating()));
+	        formData.append("reviSigan", parseInt(reviSigan.getRating()));
+	        for (var pair of formData.entries()) {
+	            console.log(pair[0]+ ', '+ pair[1]); 
+	        }
+	        $.ajax({
+	    		url: "./insertReview.do",
+	    		method: "post",
+	    		data: formData,
+	    		processData: false,
+	    		contentType: false, 
+	    		success: function(response){
+	    			 if (response.successMessage) {
+	    				Swal.fire({
+	    						        title: response.successMessage,
+	    						        text: '',
+	    						        icon: 'success',
+	    						        customClass:{
+	    						            confirmButton:'btn btn-primary w-xs mt-2'
+	    						        }
+	    						    }).then((result) => {
+	    						    window.close();
+	    						});
+	    		      }
+	    		     if (response.errorMessage) {
+	    				Swal.fire({
+	                                title: response.errorMessage,
+	                                text: '',
+	                                icon: 'error',
+	                                 customClass: {
+	                                    confirmButton: 'btn btn-primary w-xs mt-2',
+	                                }
+	                            });
+	    			}
+	    		},
+	    		error: function(err){
+	    			console.error(err);
+	    			Swal.fire({
+	                                title: '에러발생',
+	                                text: '',
+	                                icon: 'error',
+	                                 customClass: {
+	                                    confirmButton: 'btn btn-primary w-xs mt-2',
+	                                }
+	                            });
+	    		}
+	    		
+	    	})
+	});
+});
 	var reviPro = raterJs({
 		starSize : 30,
 		rating : 3,

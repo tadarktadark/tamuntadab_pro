@@ -13,7 +13,10 @@ public interface IReviewDao {
 	//TDT027 insertReview
 	public int insertReview(ReviewVo vo);
 	
+	public int updateReviewStatusY(Map<String, Object> map);
+	
 	//TDT028 deleteReview
 	public int deleteReview(Map<String, String[]> map);
 	
+	public int updateReviewStatusN(Map<String, String[]> map);
 }

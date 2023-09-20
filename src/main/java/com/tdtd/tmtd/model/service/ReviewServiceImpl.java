@@ -21,13 +21,21 @@ public class ReviewServiceImpl implements IReviewService {
 	}
 
 	@Override
-	public int insertReview(ReviewVo vo) {
-		return dao.insertReview(vo);
+	public int insertReview(ReviewVo vo, Map<String, Object> map) {
+		
+		int m = dao.insertReview(vo);
+		int n = dao.updateReviewStatusY(map);
+		
+		return (m>0||n>0)?1:0;
 	}
 
 	@Override
 	public int deleteReview(Map<String, String[]> map) {
-		return dao.deleteReview(map);
+		
+		int m = dao.deleteReview(map);
+		int n = dao.updateReviewStatusN(map);
+		
+		return (m>0||n>0)?1:0;
 	}
 
 }
