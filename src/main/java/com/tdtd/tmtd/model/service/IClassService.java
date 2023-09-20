@@ -83,6 +83,13 @@ public interface IClassService {
 	public int getCategoryClassListForICount(String category);
 	
 	/**
+	 * 세션에 있는 회원의 모든 참여중 클래스 조회
+	 * @param getChamyeoClass
+	 * @return
+	 */
+	public List<ClassVo> getChamyeoClass(String clchAccountId);
+	
+	/**
 	 * 기존 과목을 통한 클래스 개설 후, 해당 클래스에 개설자를 클래스장으로 포함시킨다
 	 * 사용 Dao = addClass, addChamyeoja Dao
 	 * @param vo 개설될 클래스의 정보가 담긴 vo

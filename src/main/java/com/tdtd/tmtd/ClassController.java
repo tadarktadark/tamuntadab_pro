@@ -59,7 +59,7 @@ public class ClassController {
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		if(userInfo != null) {
-			log.info("ClassController classListLoad 세션의 유저 정보 수정1: {}", userInfo);
+			log.info("ClassController classListLoad 세션의 유저 정보: {}", userInfo);
 		}else {
 			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
 		}
@@ -132,7 +132,6 @@ public class ClassController {
 		
 		
 		List<ClassVo> classList;
-
 		if ("I".equals(userAuth)) {
 		    if ("1".equals(category) || category == null) {
 		        classList = cService.getAllClassListForI(listMap);
@@ -149,9 +148,21 @@ public class ClassController {
 		    }
 		}
 		
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
+		List<ClassVo> chamyeoClass;
+		if(userAccountId != null) {
+			chamyeoClass = cService.getChamyeoClass(userAccountId);
+		}else {
+			chamyeoClass = null;
+		}
+		
 		Map<String, Object> result = new HashMap<>();
 	    result.put("pVo", pVo);
 	    result.put("classList", classList);
+	    if(chamyeoClass != null) {
+	    	result.put("chamyeoClass", chamyeoClass);
+		}
 	    log.info("ClassController 페이징에 쓰일 정보 pVo = {}", pVo);
 	    log.info("ClassController 페이징에 쓰일 정보 classList = {}", classList);
 	    
