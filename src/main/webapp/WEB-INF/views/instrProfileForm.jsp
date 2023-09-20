@@ -220,10 +220,10 @@
 	<%@ include file="./shared/_footer.jsp"%>
 </body>
 <script type="text/javascript" charset="UTF-8">
-window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-});
+// window.addEventListener('beforeunload', function (e) {
+//     e.preventDefault();
+//     e.returnValue = '';
+// });
 
 function deleteRow(button) {
 	var row = $(button).closest('tr');
