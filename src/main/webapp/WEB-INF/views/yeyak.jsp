@@ -23,11 +23,11 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					<div class="btn-group" id="btn-sido">
-					    <button class="btn btn-primary dropdown-toggle sido-title" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <button id="sido-title" class="btn btn-primary dropdown-toggle sido-title" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					    	전체(<span></span>)
 					    </button>
 					    <div class="dropdown-menu dropdownmenu-primary sido-group" data-simplebar data-simplebar-track="primary">
-					        <a id="" class="dropdown-item sido-title click-btn">전체(<span></span>)</a>
+					        <a class="dropdown-item sido-dropdown sido-title click-btn">전체(<span></span>)</a>
 						</div>
 					</div>
 					<br>

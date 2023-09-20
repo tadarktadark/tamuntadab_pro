@@ -30,3 +30,7 @@ input::placeholder{
 #gyeolje-won{
 	text-align: right;
 }
+
+#sido-title, #sigungu-title{
+	width:115px;
+}
