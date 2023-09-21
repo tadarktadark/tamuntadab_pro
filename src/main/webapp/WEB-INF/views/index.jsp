@@ -93,14 +93,23 @@ a {
 				<div class="container-fluid" style="text-align: center;">
 
 					<span style="font-size: 1.2em;">타문타답에서 연봉을 올리세요!</span>
-					<div id="searchModal" style="margin: auto 20%; margin-top: 10px;">
-						<div class="position-relative w-100">
-							<input type="text" class="form-control form-control-lg border-2"
-								placeholder="검색어를 입력하세요" autocomplete="off" id="search-options"
-								value=""> <span
-								class="bx bx-search search-widget-icon fs-19"></span>
-						</div>
-					</div>
+					<form action="./classList.do" method="get" style="margin: auto 20%; margin-top: 10px;">
+					    <div class="position-relative w-100">
+					        <input type="text" class="form-control form-control-lg border-2" name="searchQuery" placeholder="모집중인 클래스 검색" autocomplete="off" id="search-options" value="">
+					        <input type="hidden" name="page" value="1">
+					        <button type="submit" style="border: none; background: none; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
+					            <span class="bx bx-search search-widget-icon fs-19"></span>
+					        </button>
+					    </div>
+					</form>
+<!-- 					<div id="searchModal" style="margin: auto 20%; margin-top: 10px;"> -->
+<!-- 						<div class="position-relative w-100"> -->
+<!-- 							<input type="text" class="form-control form-control-lg border-2" -->
+<!-- 								placeholder="모집중인 클래스 검색" autocomplete="off" id="search-options" -->
+<!-- 								value=""> <span -->
+<!-- 								class="bx bx-search search-widget-icon fs-19"></span> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
 					<div id="subjectDiv">
 						<span class="badge bg-secondary-subtle text-secondary  badge-border" style="width: 300px;">
 					이런 과목들을 배울 수 있어요</span>
