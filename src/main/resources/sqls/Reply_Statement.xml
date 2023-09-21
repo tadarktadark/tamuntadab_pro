@@ -1,4 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.ReplyDaoImpl">
+	<!-- 게시글의 총 댓글 수 조회 -->
+	<select id="getReplyCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM (SELECT CORE_SEQ 
+					FROM COMMUNITY_REPLY
+					WHERE CORE_BOARD_ID = #{boardId}
+				UNION ALL
+				SELECT SACR_SEQ 
+					FROM SAKJE_COMMUNITY_REPLY
+					WHERE SACR_BOARD_ID = #{boardId})
+	</select>
+	
+	<!-- 게시글의 댓글 목록 조회 -->
+	<select id="getReplyList" resultType="replyVo">
+		SELECT SEQ, WRITER_ID, CONTENT , ROOT_SEQ, STEP, "DEPTH", CHAETAEK, REGDATE,"UPDATE", STATE
+			FROM (SELECT SEQ, WRITER_ID, CONTENT , ROOT_SEQ, STEP, "DEPTH", CHAETAEK, REGDATE,"UPDATE",STATE,
+						ROW_NUMBER() OVER(ORDER BY CHAETAEK DESC, ROOT_SEQ, STEP) rn
+						FROM (SELECT CORE_SEQ AS SEQ, USER_NICKNAME AS WRITER_ID, 
+									CASE WHEN CORE_STEP > 0 THEN LPAD(' ',1+(CORE_STEP*6)*3, '<![CDATA[&nbsp;]]>') || '<![CDATA[<i class="ri-send-plane-2-fill"></i>]]>' || CORE_CONTENT ELSE CORE_CONTENT END AS CONTENT , 
+									CASE (SELECT CORE_CHAETAEK 
+										FROM COMMUNITY_REPLY
+										WHERE CORE_SEQ=(SELECT CORE_ROOT_SEQ
+															FROM COMMUNITY_REPLY c1
+															WHERE c1.CORE_SEQ=c2.CORE_SEQ)) WHEN 'Y' THEN 0 ELSE CORE_ROOT_SEQ END AS ROOT_SEQ, 
+									CORE_STEP AS STEP, CORE_DEPTH AS "DEPTH", 
+									CORE_CHAETAEK AS CHAETAEK, CORE_STATE AS STATE,
+									CASE TO_CHAR(CORE_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(CORE_REGDATE, 'HH24:MI')ELSE TO_CHAR(CORE_REGDATE, 'yyyy. mm. dd') END AS REGDATE,
+									CASE TO_CHAR(CORE_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(CORE_UPDATE, 'HH24:MI')ELSE TO_CHAR(CORE_UPDATE, 'yyyy. mm. dd') END AS "UPDATE" 
+								FROM COMMUNITY_REPLY c2 JOIN USER_PROFILE
+								ON CORE_WRITER_ID = USER_ACCOUNT_ID
+								WHERE CORE_BOARD_ID = #{boardId}
+							UNION ALL
+							SELECT SACR_SEQ AS SEQ, 'DEL@' AS WRITER_ID , 
+									CASE WHEN SACR_STEP > 0 THEN LPAD(' ',1+(SACR_STEP*6)*3, '<![CDATA[&nbsp;]]>') || '<![CDATA[<i class="ri-send-plane-2-fill"></i>]]>' || TO_CLOB('작성자에 의해 삭제된 글입니다.') ELSE TO_CLOB('작성자에 의해 삭제된 글입니다.') END AS CONTENT ,
+									CASE (SELECT CORE_CHAETAEK 
+										FROM COMMUNITY_REPLY
+										WHERE CORE_SEQ=(SELECT SACR_ROOT_SEQ
+															FROM SAKJE_COMMUNITY_REPLY s1
+															WHERE s1.SACR_SEQ=s2.SACR_SEQ)) WHEN 'Y' THEN 0 ELSE SACR_ROOT_SEQ END AS ROOT_SEQ, 
+									SACR_STEP AS STEP, SACR_DEPTH AS "DEPTH", 
+									'N' AS CHAETAEK, 'Y' AS STATE,
+									CASE TO_CHAR(SACR_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(SACR_REGDATE, 'HH24:MI')ELSE TO_CHAR(SACR_REGDATE, 'yyyy. mm. dd') END AS REGDATE,
+									CASE TO_CHAR(SACR_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(SACR_REGDATE, 'HH24:MI')ELSE TO_CHAR(SACR_REGDATE, 'yyyy. mm. dd') END AS "UPDATE"
+								FROM SAKJE_COMMUNITY_REPLY s2
+								WHERE SACR_BOARD_ID = #{boardId}))
+			WHERE rn BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 댓글 작성 : 댓글 STEP 업데이트 -->
+	<update id="updateReplyStep">
+		UPDATE COMMUNITY_REPLY SET CORE_STEP = CORE_STEP+1
+			WHERE CORE_SEQ IN (SELECT CORE_SEQ
+									FROM COMMUNITY_REPLY
+									WHERE CORE_ROOT_SEQ = (SELECT CORE_ROOT_SEQ
+																FROM COMMUNITY_REPLY
+																WHERE CORE_SEQ = #{rootSeq})
+										AND CORE_STEP > (SELECT CORE_STEP
+																FROM COMMUNITY_REPLY
+																WHERE CORE_SEQ = #{rootSeq}))
+	</update>
+	
+	<!-- 댓글 작성 : 삭제 댓글 STEP 업데이트 -->
+	<update id="updateSakjeStep">
+	UPDATE SAKJE_COMMUNITY_REPLY SET SACR_STEP = SACR_STEP+1
+		WHERE SACR_SEQ IN (SELECT SACR_SEQ
+								FROM SAKJE_COMMUNITY_REPLY
+								WHERE SACR_ROOT_SEQ = (SELECT CORE_ROOT_SEQ
+															FROM COMMUNITY_REPLY
+															WHERE CORE_SEQ = #{rootSeq})
+									AND SACR_STEP > (SELECT CORE_STEP
+															FROM COMMUNITY_REPLY
+															WHERE CORE_SEQ = #{rootSeq}))
+	</update>
+	
+	<!-- 댓글 작성 -->
+	<insert id="insertReply">
+		INSERT INTO COMMUNITY_REPLY(CORE_SEQ, CORE_BOARD_ID, CORE_WRITER_ID, CORE_CONTENT, 
+								CORE_ROOT_SEQ, 
+								CORE_STEP, 
+								CORE_DEPTH)
+					VALUES(COMMUNITY_REPLY_SEQ.NEXTVAL, #{boardId}, #{writerId}, #{content}, 
+							(SELECT CORE_ROOT_SEQ
+								FROM COMMUNITY_REPLY
+								WHERE CORE_SEQ = #{rootSeq}), 
+							(SELECT CORE_STEP+1
+								FROM COMMUNITY_REPLY
+								WHERE CORE_SEQ = #{rootSeq}), 
+							(SELECT CORE_DEPTH+1
+								FROM COMMUNITY_REPLY
+								WHERE CORE_SEQ = #{rootSeq}))
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply">
+		UPDATE COMMUNITY_REPLY SET CORE_CONTENT = #{content}, CORE_UPDATE = CURRENT_DATE
+			WHERE CORE_SEQ=#{seq}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+		DELETE FROM COMMUNITY_REPLY
+			WHERE CORE_SEQ=#{seq}
+	</delete>
+	
+	<!-- 삭제 댓글 정보 조회 -->
+	<select id="getReplyDetail" resultType="replyVo">
+		SELECT CORE_SEQ AS SEQ, CORE_BOARD_ID AS BOARD_ID, CORE_ROOT_SEQ AS ROOT_SEQ, CORE_STEP AS "STEP", CORE_DEPTH AS "DEPTH"
+			FROM COMMUNITY_REPLY
+			WHERE CORE_SEQ=#{seq}
+	</select>
+	
+	<!-- 삭제 댓글 입력 -->
+	<insert id="insertSakje">
+		INSERT INTO SAKJE_COMMUNITY_REPLY(SACR_SEQ, SACR_BOARD_ID, SACR_ROOT_SEQ, SACR_STEP, SACR_DEPTH)
+						VALUES(#{seq}, #{boardId}, #{rootseq}, #{step}, #{depth})
+	</insert>
+				
+	<!-- 댓글 채택 -->
+	<update id="updateChaetaekY">
+		UPDATE COMMUNITY_REPLY SET CORE_CHAETAEK ='Y'
+			WHERE CORE_SEQ =#{seq}
+	</update>
+	
+	<!-- 채택 보드 업데이트 -->
+	<update id="updateChaetaekBoard">
+		UPDATE JILMUN_BOARD SET JIBO_CHAETAEK='Y'
+			WHERE JIBO_ID=#{boardId}
+	</update>
 </mapper>
