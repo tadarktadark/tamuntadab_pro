@@ -85,7 +85,7 @@ th, td {
 													<tr>
 														<td class="icon-cell"><i class="bi bi-pencil"></i></td>
 														<td style="width: 150px;">클래스 제목</td>
-														<td><small class="fs-15"> ${cVo.clasTitle} </small><span class="bg-warning badge me-2">${cVo.clasStatus}</span></td>
+														<td><small class="fs-15"> ${cVo.clasTitle} </small><span class="bg-success badge me-2">${cVo.clasStatus}</span></td>
 													</tr>
 													<tr>
 														<td class="icon-cell"><i class="bi bi-book"></i></td>
@@ -195,11 +195,36 @@ th, td {
 								style="margin-left: 16px; margin-right: 16px;">
 								<div class="card">
 									<div class="card-body">
-										<a href="./myClass.do?clasId=${cVo.clasId}" id="joinButton"
-											class="btn btn-secondary waves-effect" style="width: 250px;">참여하기</a>
+										<!-- Trigger Button -->
+										<button type="button" class="btn btn-secondary waves-effect" data-bs-toggle="modal" data-bs-target="#topmodal" id="joinButton" style="width: 250px;">참여하기</button>
 
+										<!-- Modal -->
+										<div>
+											 <div id="topmodal" class="modal fade" tabindex="-1" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-body text-center p-5">
+															<lord-icon src="https://cdn.lordicon.com/pithnlch.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:120px;height:120px"></lord-icon>
+															<div class="mt-4">
+															<h4 class="mb-3">이 클래스에 참여합니다</h4>
+															<p class="text-muted mb-4">
+																해당 클래스의 조건에 부합한다면 <br>
+																별도의 승인 절차 없이 클래스에 참여 됩니다.<br>
+																클래스에 참여 하시겠습니까?
+															</p>
+															<div class="hstack gap-2 justify-content-center">
+																<button type="button" class="btn btn-link link-secondary fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> 아니오</button>
+																<button type="button" class="btn btn-secondary waves-effect">네</button>
+															</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												</div>
+											</div>
+										<div id="sidabar-messange">
+										</div>
 										<h5 class="mt-3 fs-15 text-uppercase">클래스 요약</h5>
-
 										<div class="card p-0 overflow-hidden mt-3 shadow-none">
 											<div class="mail-list">
 												<a class="border-bottom">
@@ -240,7 +265,7 @@ th, td {
 												</a> 
 												<a class="border-bottom">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span> 
-													평균 연령 : 구현해야됨
+													평균 연령 : 개발중...
 												</a>
 												<a class="border-bottom">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
@@ -268,6 +293,8 @@ th, td {
 				var userAge = "${chamyeoVo.userVo[0].userBirth}";
 				var naiJehan = "${cVo.clasNaiJehan}";
 				var isSession = "${not empty chamyeoVo}" === "true" ? true : false;
+				var isJoined = "${isJoined}"
+				var clasId = "${cVo.clasId}"
 			</script>
 			<script type="text/javascript" src="./js/classDetail.js"></script>
 		</div>
