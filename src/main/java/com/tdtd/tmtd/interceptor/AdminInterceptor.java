@@ -25,9 +25,7 @@ public class AdminInterceptor implements AsyncHandlerInterceptor {
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws Exception {
 			int n = adminService.checkIP(request.getRemoteAddr().toString().trim());
-			log.info("{}",n);
 			if(n==0) {
-				log.info("접속 불가능");
 				response.sendRedirect("./");
 				return false;
 			}
