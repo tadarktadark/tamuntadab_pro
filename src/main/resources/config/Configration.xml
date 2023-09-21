@@ -55,5 +55,6 @@
 		<mapper resource="sqls/Tupyo_Statement.xml"/>
 		<mapper resource="sqls/Yeyak_Statement.xml"/>
 		<mapper resource="sqls/Cron_Statement.xml"/>
+		<mapper resource="sqls/Main_Statement.xml"/>
 	</mappers>
 </configuration>
