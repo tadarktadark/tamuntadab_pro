@@ -29,26 +29,25 @@ public class ReviewController {
 	@Autowired
 	private IReviewService service;
 	
-	//내 후기 리스트 조회 페이지 이동
-	@GetMapping("/myReviewList.do")
-	public String myReviewList(Model model, HttpSession session) {
-		log.info("ReviewController myReviewList.do 내 후기 리스트 조회 페이지 이동");
-		
-		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		String userAccountId = userInfo.getUserAccountId();
-		
-		List<ReviewVo> lists = service.getMyReview(new HashMap<String, Object>(){{
-								put("userAccountId", userAccountId); 
-								put("start", 1); 
-								put("end", 5);
-							}});
-		
-		model.addAttribute("title", "후기");
-		model.addAttribute("pageTitle", "내 작성 후기");
-		model.addAttribute("lists", lists);
+	//내 후기 리스트 페이지 이동
+//	@GetMapping("/myReviewList.do")
+//	public String myReviewList(Model model, HttpSession session) {
+//		log.info("ReviewController myReviewList.do 내 후기 리스트 조회 페이지 이동");
+//		
+//		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+//		String userAccountId = userInfo.getUserAccountId();
+//		
+//		List<ReviewVo> lists = service.getMyReview(new HashMap<String, Object>(){{
+//								put("userAccountId", userAccountId); 
+//								put("start", 1); 
+//								put("end", 5);
+//							}});
+//		
+//		model.addAttribute("title", "후기");
+//		model.addAttribute("pageTitle", "내 작성 후기");
+//		model.addAttribute("lists", lists);
 //		return "myReviewList";
-		return "testMyReview";
-	}
+//	}
 	
 	//후기 작성 페이지 이동
 	@GetMapping("/reviewWriteForm.do")
@@ -66,12 +65,14 @@ public class ReviewController {
 		return "reviewWriteForm";
 	}
 	
+	//후기 작성 버튼 페이지 임시 생성
 	@GetMapping("/reviewButton.do")
 	public String reviewButton(Model model, String classId) {
 		model.addAttribute("classId", classId);
 		return "reviewButton";
 	}
 	
+	//리뷰 insert 및 참여자 status 업데이트
 	@PostMapping(value = "/insertReview.do")
 	@ResponseBody
 	public Map<String, Object> insertReview(@ModelAttribute ReviewVo rVo, HttpSession session){

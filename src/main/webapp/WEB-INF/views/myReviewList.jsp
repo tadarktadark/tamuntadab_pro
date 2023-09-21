@@ -7,46 +7,41 @@
 	data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
-<title>${title}|타문타답</title>
-<%@ include file="./shared/_vender_scripts.jsp"%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	charset="UTF-8"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-<%@ include file="./shared/_head_css.jsp"%>
 <!-- rater-js plugin -->
 <script src="./assets/libs/rater-js/index.js"></script>
 <!-- rating init -->
 <script src="./assets/js/pages/rating.init.js"></script>
+<!-- simplebarjs -->
+<script src="./assets/libs/simplebar/simplebar.min.js"></script>
 <script src="./js/myReview.js"></script>
-</head>
-<body class="twocolumn-panel">
-	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp"%>
-		<%@ include file="./shared/_sidebar.jsp"%>
+<style type="text/css">
+#moreList::-webkit-scrollbar {
+    width: 10px;
+}
 
-		<div class="main-content">
-			<div class="page-content">
-				<div class="container-fluid">
-					<%@ include file="./shared/_page_title.jsp"%>
-				</div>
+#moreList::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+#moreList::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+#moreList::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+</style>
+</head>
+<div class="bg-light" style="padding:10px;">
 				<input type="hidden" id="userAccountId"
 					value="${userInfo.userAccountId}">
-				<div id="review" style="width: 40%; margin: auto 30%;">
+				<div id="review" style="width: 80%; margin: auto 10%;">
 					<div id="reviewContent">
-						<!-- <div class="vstack gap-3">
-							<div class="bg-light border p-1 px-2" style="height: 50px; display: flex; justify-content: space-between;">
-								<div style="display:flex; align-items:center;">
-								<input class="form-check-input" type="checkbox" value=""
-									id="cardtableCheck"> &nbsp;전체 선택
-								</div>
-								<button type="button" class="btn btn-danger w-xs"
-									onclick="#">
-									<p>삭제</p>
-								</button>
-							</div>
-						</div> -->
 						<div id="moreList"
 							style="width: auto; height: 700px; overflow: auto;">
 							<c:forEach var="review" items="${lists}">
@@ -119,12 +114,7 @@
 						</div>
 					</div>
 				</div>
-
-			</div>
-		</div>
-	</div>
-	<%@ include file="./shared/_footer.jsp"%>
-</body>
+</div>
 <script id="review-template" type="text/x-handlebars-template">
 	{{#each this}}
 											<div class="card">
