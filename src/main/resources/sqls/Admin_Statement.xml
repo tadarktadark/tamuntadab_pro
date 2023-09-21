@@ -2,18 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.AdminDaoImpl">
 
+<resultMap type="adminVo" id="adminMap">
+	<result column="ADPR_ID" property="adprId" />
+	<result column="ADPR_NAME" property="adprName" />
+	<result column="ADPR_AUTH" property="adprAuth"/>
+	<result column="ADPR_LAST_ACCESS" property="adprLastAccess" />
+</resultMap>
+
 <select id="searchIP" resultType="java.lang.Integer">
 	SELECT COUNT(*)
 		FROM ADMIN_ACCESS_IP_LIST
 		WHERE IP_ADDRESS = #{accessIP}
 </select>
 
-<!-- <select id="adminLogin" resultType=""> -->
-<!-- SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS  -->
-<!-- 	FROM ADMIN_PROFILE ap  -->
-<!-- 		WHERE ADPR_ID =#{adminID} -->
-<!-- 		AND ADPR_PASSWORD =#{adminPW} -->
-<!-- 		AND ADPR_DELFLAG ='N' -->
-<!-- </select> -->
+<select id="adminLogin" resultMap="adminMap">
+	SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
+		FROM ADMIN_PROFILE ap 
+			WHERE ADPR_ID =#{adminId}
+			AND ADPR_PASSWORD =#{adminPW}
+			AND ADPR_DELFLAG ='N'
+</select>
+
+<update id="updateAdminAccTime">
+	UPDATE ADMIN_PROFILE SET ADPR_LAST_ACCESS = CURRENT_DATE 
+ 		WHERE ADPR_ID = #{adprId}
+</update>
+
+<update id="updateAdminPw">
+	UPDATE ADMIN_PROFILE SET ADPR_PASSWORD = #{adminPW}
+ 		WHERE ADPR_ID = #{adminId}
+</update>
 	
 </mapper>

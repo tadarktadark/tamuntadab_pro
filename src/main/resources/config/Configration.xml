@@ -6,6 +6,7 @@
 	</settings>
 	
 	<typeAliases>
+		<typeAlias type="com.tdtd.tmtd.vo.AdminVo" alias="adminVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.BoardVo" alias="boardVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.CareerVo" alias="careerVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ChamyeoVo" alias="chamyeoVo"/>
@@ -55,5 +56,6 @@
 		<mapper resource="sqls/Tupyo_Statement.xml"/>
 		<mapper resource="sqls/Yeyak_Statement.xml"/>
 		<mapper resource="sqls/Cron_Statement.xml"/>
+		<mapper resource="sqls/Main_Statement.xml"/>
 	</mappers>
 </configuration>

@@ -194,4 +194,13 @@ public interface IClassService {
 	 * @since 2023-09-10
 	 */
 	public int addChamyeoja(ChamyeoVo vo);
+	
+	/**
+	 * 참여자 추가 (일반)
+	 * @param vo 추가할 클래스 참여자의 정보가 담긴 Vo
+	 * @return 생성 성공 갯수 (1)
+	 * @author 김기훈
+	 * @since 2023-09-21
+	 */
+	public int addChamyeojaGeneral(ChamyeoVo vo);
 }
