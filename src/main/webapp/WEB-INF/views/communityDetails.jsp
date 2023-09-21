@@ -101,7 +101,7 @@
 								                                            <button type="button" id="delete-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
 							                                        	</c:when>
 							                                        	<c:otherwise>
-								                                            <button type="button" class="btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
+								                                            <button type="button" id="singo-btn" class="btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
 							                                        	</c:otherwise>
 						                                        	</c:choose>
 					                                        	</c:if>
@@ -161,18 +161,56 @@
 			</div>
 			<%@ include file="./shared/_footer.jsp" %>
 		</div>
-	</div>	
+	</div>
+	<!-- Varying modal content -->
+	<div class="modal fade" id="varyingcontentModal" tabindex="-1" aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header bg-primary pb-3">
+	                <h5 class="modal-title text-white" id="varyingcontentModalLabel"><i class="ri-alarm-warning-line"></i> 게시글 신고</h5>
+	            </div>
+	            <div class="modal-body pt-0">
+	                <form id="user-singo">
+	                	<input type="hidden" name="daesangId" value="${bVo.id}">
+	                    <div class="mb-3">
+	                        <label class="col-form-label text-primary"><i class="ri-check-line"></i> 신고 사유를 선택해주세요.</label>
+	                        <div id="singo-list"></div>
+	                    </div>
+	                    <div class="mb-0" id="sayu-insert">
+	                        <label for="message-text" class="col-form-label text-primary"><i class="ri-edit-2-line"></i> 기타 사유를 입력해주세요.</label>
+	                        <textarea class="form-control" name="content" id="message-text"></textarea>
+	                    </div>
+	                </form>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
+	                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" Sid="singo-submit">신고</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 	<div class="hidden">
 		<div id="boardId">${bVo.id}</div>
+		<button type="button" class="btn btn-primary btn-sm" id="sa-basic"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-delete"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-pilgi-delete"></button>
+		<button type="button" id="modal-btn" class="btn btn-primary waves-light waves-effect" data-bs-toggle="modal" data-bs-target="#varyingcontentModal" data-bs-whatever="@mdo"></button>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script src="./assets/js/app.js"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>
 	<script src="./js/communityDetails.js"></script>
+	<script id="singo-category-template" type="text/x-handlebars-template">
+		<div class="form-check mb-2">
+			<input class="form-check-input category" type="radio" name="category" id="singoSayu{{no}}" value="{{id}}">
+			<label class="form-check-label" for="singoSayu{{no}}">
+				{{category}}
+			</label>
+		</div>
+	</script>
 </body>
 </html>
