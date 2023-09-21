@@ -113,6 +113,7 @@ $(function(){
 	    						            confirmButton:'btn btn-primary w-xs mt-2'
 	    						        }
 	    						    }).then((result) => {
+	    						    window.opener.location.reload();
 	    						    window.close();
 	    						});
 	    		      }
