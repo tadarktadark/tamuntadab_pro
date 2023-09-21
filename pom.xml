@@ -43,6 +43,12 @@
 		    <groupId>ch.qos.logback</groupId>
 		    <artifactId>logback-classic</artifactId>
 		    <version>1.4.5</version>
+		    <exclusions>
+			    <exclusion>
+						<groupId>org.slf4j</groupId>
+					    <artifactId>slf4j-api</artifactId>
+				 </exclusion>
+		    </exclusions>
 		</dependency>
 		
 		<!-- 로그처리를 자동으로 해주는 라이브러리 -->
@@ -226,6 +232,12 @@
 		    <groupId>com.zaxxer</groupId>
 		    <artifactId>HikariCP</artifactId>
 		    <version>4.0.3</version>
+		    <exclusions>
+			    <exclusion>
+						<groupId>org.slf4j</groupId>
+					    <artifactId>slf4j-api</artifactId>
+				 </exclusion>
+		    </exclusions>
 		</dependency>		
 
 		<!-- 엘라스틱 서치 -->
@@ -233,6 +245,12 @@
 			<groupId>org.elasticsearch.client</groupId>		
 			<artifactId>elasticsearch-rest-high-level-client</artifactId>
 			<version>7.15.0</version>
+			<exclusions>
+			    <exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+					    <artifactId>log4j-api</artifactId>
+				 </exclusion>
+		    </exclusions>
 		</dependency>
 		
 		<!-- jstree -->
