@@ -1,4 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.SingoDaoImpl">
+	<resultMap type="singoDaesangVo" id="singoDaesangMap">
+		<result column="ID" property="id"/>
+		<result column="DAESANG_ID" property="daesangId"/>
+		<result column="DAESANG_CONTENT" property="daesangContent"/>
+		<result column="ACCOUNT_ID" property="accountId"/>
+		
+		<collection property="sayuList" resultMap="singoSayuMap"></collection>
+	</resultMap>
+	<resultMap type="singoSayuVo" id="singoSayuMap">
+		<result column="SAYU_ACCOUNT_ID" property="sayuAccountId"/>
+		<result column="CATEGORY" property="category"/>
+		<result column="CONTENT" property="content"/>
+		<result column="REGDATE" property="regdate"/>
+	</resultMap>
+	
+	<!-- 신고 카테코리 조회 -->
+	<select id="getSingoCategory" resultType="singoSayuVo">
+		SELECT ID, CATEGORY
+			FROM (SELECT SICA_ID AS ID, SICA_EXPLANATION AS CATEGORY,
+					CASE SICA_ID WHEN 'SCAT10' THEN 1 ELSE 0 END AS NUM
+					FROM SINGO_CATEGORY
+					WHERE SICA_DELFLAG = 'N')
+			ORDER BY NUM ASC, ID
+	</select>
+	
+	<!-- 신고 대상 입력 : SIDA_ID 조회 -->
+	<select id="getSingoDaesangId" resultType="singoDaesangVo">
+		SELECT SIDA_ID AS ID, SIDA_COUNT AS "COUNT" 
+			FROM SINGO_DAESANG
+			WHERE SIDA_STATE = 'N'
+				AND SIDA_DAESANG_ID =#{daesangId}
+	</select>
+		
+	<!-- SIDA_ID가 없을 경우 : 신고 대상에 추가 -->
+	<insert id="insertSingoDaesang">	
+		INSERT INTO SINGO_DAESANG(SIDA_ID, SIDA_DAESANG_ID)
+						VALUES((SELECT 'SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(MAX(TO_NUMBER(SUBSTR(SIDA_ID,11)))+1,4,'0')
+												FROM SINGO_DAESANG
+												WHERE SUBSTR(SIDA_ID,1,10)='SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{daesangId})
+		<selectKey keyProperty="id" resultType="java.lang.String" order="AFTER">
+			SELECT 'SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(SIDA_ID,11))),0),4,'0') AS ID
+					FROM SINGO_DAESANG
+					WHERE SUBSTR(SIDA_ID,1,10)='SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')
+		</selectKey>
+	</insert>
+	
+	<!-- SIDA_ID가 있는 경우 : 신고 대상 업데이트 -->
+	<update id="updateSingo">
+		UPDATE SINGO_DAESANG SET SIDA_COUNT=SIDA_COUNT+1
+			<if test="count==4">
+				,SIDA_STATE = 'P'
+			</if>
+			WHERE SIDA_ID=#{id}
+	</update>
+	
+	<!-- SIDA_COUNT가 4였다면?(신고해서 5가 된다면?) : 대상(보드) 상태 변경 -->
+	<update id="updateBoardState">
+		<if test="board=='pilgi'">
+			UPDATE PILGI_BOARD SET PIBO_STATE = #{state}
+				WHERE PIBO_ID=#{daesangId}
+		</if>
+		<if test="board=='jilmun'">
+			UPDATE JILMUN_BOARD SET JIBO_STATE = #{state}
+				WHERE JIBO_ID=#{daesangId}
+		</if>
+		<if test="board=='jayu'">
+			UPDATE JAYU_BOARD SET JABO_STATE = #{state}
+				WHERE JABO_ID=#{daesangId}
+		</if>
+		<if test="board=='reply'">
+			UPDATE COMMUNITY_REPLY SET CORE_STATE = #{state}
+				WHERE CORE_SEQ=#{daesangId}
+		</if>
+	</update>
+		
+	<!-- 신고사유 입력 - SCAT10일 경우 CONTENT도 삽입 -->
+	<insert id="insertSingoSayu">
+		INSERT INTO SINGO_SAYU(SISA_SEQ, SISA_ACCOUNT_ID, SISA_SIDA_ID, SISA_CATEGORY
+			<if test="content!=null">
+				, SISA_CONTENT
+			</if>
+			)
+						VALUES(SINGO_SAYU_SEQ.NEXTVAL, #{sayuAccountId}, #{id}, #{category}
+						<if test="content!=null">
+							,#{content}
+						</if> 
+						)
+	</insert>
+	
+	<!-- TDF025	TDW55532 5회 신고된 게시글 조회 -->
+	<select id="getMaxSingo" resultMap="singoDaesangMap">
+		SELECT SIDA_ID AS ID, SIDA_DAESANG_ID AS DAESANG_ID, CORE_CONTENT AS DAESANG_CONTENT, CORE_WRITER_ID AS ACCOUNT_ID, 
+				SISA_ACCOUNT_ID AS SAYU_ACCOUNT_ID, SICA_EXPLANATION AS CATEGORY , SISA_CONTENT AS CONTENT, SISA_REGDATE AS REGDATE  
+			FROM SINGO_DAESANG JOIN SINGO_SAYU
+			ON SIDA_ID = SISA_SIDA_ID
+			JOIN SINGO_CATEGORY
+			ON SISA_CATEGORY = SICA_ID
+			JOIN COMMUNITY_REPLY 
+			ON SIDA_DAESANG_ID=CORE_SEQ
+			WHERE SIDA_STATE='P'
+	</select>
+	
+	<!-- 5회 신고된 게시글 처리 -->
+	<update id="updateSingoDaesangState">
+		UPDATE SINGO_DAESANG SET SIDA_STATE =#{state}
+			WHERE SIDA_ID=#{id}
+	</update>
+	
+	<!-- 5회 신고된 게시글 처리 후 신고 유저 조회 -->
+	<select id="getSingoUser" resultType="singoDaesangVo">
+		SELECT SIUS_SEQ AS ID, SIUS_ACCOUNT_ID AS ACCOUNT_ID , SIUS_COUNT AS "COUNT" , SIUS_STATE AS STATE
+			FROM SINGO_USER
+			WHERE SIUS_ACCOUNT_ID = #{accountId}
+				AND SIUS_STATE='N'
+	</select>
+	
+	<!-- 없으면 신고 유저 추가 -->
+	<insert id="insertSingoUser">
+		INSERT INTO SINGO_USER(SIUS_SEQ, SIUS_ACCOUNT_ID)
+			VALUES(SINGO_USER_SEQ.NEXTVAL, #{accountId})
+	</insert>
+	
+	<!-- 있으면 신고 유저 count 업데이트 -->
+	<update id="updateSingoUserCount">
+		UPDATE SINGO_USER SET SIUS_COUNT=SIUS_COUNT+1
+			<if test="count==4">
+				,SIUS_STATE='Y'
+			</if>
+			WHERE SIUS_SEQ=#{ID}
+	</update>
 </mapper>

@@ -562,7 +562,7 @@ public class CommunityController {
 	
 	@RequestMapping(value="/removeFile.do", method=RequestMethod.GET)
 	@ResponseBody
-	public int removeFile(Model model, HttpSession session, String save) {
+	public int removeFile(String save) {
 		log.info("@@@@@@@@@@@@@@@ 필기 파일 삭제 : save {}", save);
 		
 		return pService.deletePilgiFile(save);
@@ -625,7 +625,7 @@ public class CommunityController {
 		
 		return "redirect:/community.do?board="+board;
 	}
-	
+		
 	@RequestMapping(value="/getMyWriteList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> getMyWriteList(HttpSession session, String board, String page){

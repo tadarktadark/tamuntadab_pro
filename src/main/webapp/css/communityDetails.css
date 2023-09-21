@@ -476,3 +476,19 @@
 .download-btn:hover{
 	cursor: pointer;
 }
+
+.modal-header h5{
+	font-weight: 1000 !important;
+}
+
+#singo-list{
+	margin-left: 20px;
+}
+
+.col-form-label{
+	font-weight: bold;
+}
+
+#sayu-insert{
+	display: none;
+}
