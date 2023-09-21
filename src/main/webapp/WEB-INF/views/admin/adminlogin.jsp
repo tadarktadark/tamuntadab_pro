@@ -7,7 +7,11 @@
 <title>타문타답 | 우리가 만드는 커리큘럼 | 관리자</title>
 <!--     @Html.Partial("~/Views/Shared/_title_meta.cshtml") -->
     <%@ include file="./shared/_head_css.jsp" %>
-    <link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+    <%@ include file="./shared/_vender_scripts.jsp" %>
+    <link href="../assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="../assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="../js/adminLogin.js"></script>
 </head>
 <body>
     <section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100 bg-light">
@@ -23,15 +27,15 @@
                                             <h5 class="text-primary fs-20 fw-bolder">관리자 로그인</h5>
                                         </div>
                                         <div class="p-2 mt-4">
-                                            <form action="./adminLogin.do" class="auth-input">
+                                            <form class="auth-input" id="loginForm">
                                                 <div class="mb-3">
-                                                    <label for="username" class="form-label fw-bolder">관리자 아이디</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="아이디를 입력하세요">
+                                                    <label for="adminId" class="form-label fw-bolder">관리자 아이디</label>
+                                                    <input type="text" class="form-control"name="adminID" id="adminId" placeholder="아이디를 입력하세요">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label fw-bolder" for="password-input">비밀번호</label>
+                                                    <label class="form-label fw-bolder" for="adminPW">비밀번호</label>
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
-                                                        <input type="password" class="form-control pe-5 password-input" placeholder="비밀번호를 입력하세요" id="password-input">
+                                                        <input type="password" name="adminPW" class="form-control pe-5 password-input" placeholder="비밀번호를 입력하세요" id="adminPW">
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon h-100" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                                     </div>
                                                 </div>
@@ -50,7 +54,6 @@
                                     <div class="bg-overlay bg-dark"></div>
                                     <div class="card-body p-4 d-flex justify-content-between flex-column position-relative">
                                         <div class="auth-image mb-3">
-                                            <img src="~/assets/images/logo-light-full.png" alt="" height="26" />
                                         </div>
 
                                         <div class="my-auto">
@@ -112,10 +115,10 @@
         <!--end container-->
     </section>
     <!--Swiper slider js-->
-    <script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
+    <script src="../assets/libs/swiper/swiper-bundle.min.js"></script>
     <!-- swiper.init js -->
-    <script src="./assets/js/pages/auth.init.js"></script>
+    <script src="../assets/js/pages/auth.init.js"></script>
 
-    <script src="./assets/js/pages/password-addon.init.js"></script>
+    <script src="../assets/js/pages/password-addon.init.js"></script>
 </body>
 </html>

@@ -44,10 +44,17 @@
 	<task:scheduled ref="CareerServiceImpl" method="deleteCareerCron" cron="0 0 * * * *"/>
 </task:scheduled-tasks> -->
 	
+
 <mvc:interceptors>
 	<mvc:interceptor>
-		<mvc:mapping path="/admin.do"/>
+		<mvc:mapping path="/admin/admin.do"/>
 		<beans:bean class="com.tdtd.tmtd.interceptor.AdminInterceptor" />
 	</mvc:interceptor>	
+	<mvc:interceptor>
+		<mvc:mapping path="/admin/**"/>
+		<mvc:exclude-mapping path="/admin/admin.do"/>
+		<mvc:exclude-mapping path="/admin/adminLogin.do"/>
+		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAfterLoginInterceptor" />
+	</mvc:interceptor>
 </mvc:interceptors>
 </beans:beans>

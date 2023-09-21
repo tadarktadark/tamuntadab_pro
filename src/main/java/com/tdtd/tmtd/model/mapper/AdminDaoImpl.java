@@ -1,8 +1,12 @@
 package com.tdtd.tmtd.model.mapper;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.tdtd.tmtd.vo.AdminVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,5 +22,16 @@ public class AdminDaoImpl implements IAdminDao {
 	public int checkIP(String accessIP) {
 		return sqlSession.selectOne(NS+"searchIP",accessIP);
 	}
+
+	@Override
+	public AdminVo adminLogin(Map<String, Object> adminInput) {
+		return sqlSession.selectOne(NS+"adminLogin",adminInput);
+	}
+
+	@Override
+	public int updateAdminAccTime(AdminVo adminInfo) {
+		return sqlSession.update(NS+"updateAdminAccTime",adminInfo);
+	}
+	
 	
 }
