@@ -1,6 +1,12 @@
-<%@page import="com.tdtd.tmtd.vo.UserProfileVo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="com.tdtd.tmtd.vo.AdminVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link href="../assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<script src="../assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<script src="../js/adminAuth.js"></script>
+<% AdminVo adminInfo = (AdminVo)request.getSession().getAttribute("adminInfo"); %>
 <div class="app-menu navbar-menu">
     <div class="container-fluid">
         <!-- LOGO -->
@@ -21,13 +27,13 @@
                         <div class="collapse menu-dropdown" id="admin4User">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >회원 목록</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','U')" >회원 목록</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >강사 관리</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','U')" >강사 관리</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >신고 관리</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','U','B')" >신고 관리</a>
                                 </li>
                             </ul>
                         </div>
@@ -39,13 +45,13 @@
                         <div class="collapse menu-dropdown" id="admin4Pay">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >결제 관리</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','P')">결제 관리</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >정산 관리</a>
+                                    <a href="#" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>','P')">정산 관리</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >환불 관리</a>
+                                    <a href="#" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>','P')">환불 관리</a>
                                 </li>
                             </ul>
                         </div>
@@ -57,35 +63,34 @@
                         <div class="collapse menu-dropdown" id="admin4yeyak">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >예약 조회</a>
+                                    <a href="#" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>','P')">예약 조회</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >예약 추가</a>
+                                    <a href="#" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>','P')">예약 추가</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >예약 수정</a>
+                                    <a href="#" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>','P')">예약 수정</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                   <li class="nav-item ">
-                        <a class="nav-link menu-link fs-3" href="#admin4admin" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarComm">
+                        <a class="nav-link menu-link fs-3 admin4admin" href="#admin4admin" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarComm">
                             <i class=" bx bx-lock-alt fs-3"></i> <span data-key="admin4admin">총관리자</span>
                         </a>
                         <div class="collapse menu-dropdown" id="admin4admin">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >관리자 목록</a>
+                                    <a href="./adminList.do" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>')">관리자 목록</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" >관리자 추가</a>
+                                    <a href="./adminInsert.do" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>')">관리자 추가</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                 </ul>
             </div>
-            <!-- Sidebar -->
         </div>
 	</div>
 </div>
