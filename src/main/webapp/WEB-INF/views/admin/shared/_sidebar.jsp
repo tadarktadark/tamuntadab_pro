@@ -7,15 +7,12 @@
         <div class="navbar-brand-box">
             <a href="./adminMain.do" class="logo logo-dark">
 	            <span class="logo-lg">
-	                <img src="../image/logo.png" alt="" height="45">
+	                <img src="../image/logo.png" alt="" height="80" width="200">
 	            </span>
             </a>
         </div>
-        <div id="scrollbar">
+        <div id="scrollbar" class="mt-5" >
             <div class="container-fluid">
-                <div id="two-column-menu">
-                </div>
-
                 <ul class="navbar-nav" id="navbar-nav">
                   <li class="nav-item ">
                         <a class="nav-link menu-link fs-3" href="#admin4User" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarComm">

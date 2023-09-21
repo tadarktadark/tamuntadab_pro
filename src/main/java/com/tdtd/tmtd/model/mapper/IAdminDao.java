@@ -11,4 +11,6 @@ public interface IAdminDao {
 	public AdminVo adminLogin(Map<String,Object> adminInput);
 	
 	public int updateAdminAccTime(AdminVo adminInfo);
+	
+	public int updateAdminPw(Map<String,Object> setPassword);
 }

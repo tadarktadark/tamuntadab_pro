@@ -27,5 +27,10 @@
 	UPDATE ADMIN_PROFILE SET ADPR_LAST_ACCESS = CURRENT_DATE 
  		WHERE ADPR_ID = #{adprId}
 </update>
+
+<update id="updateAdminPw">
+	UPDATE ADMIN_PROFILE SET ADPR_PASSWORD = #{adminPW}
+ 		WHERE ADPR_ID = #{adminId}
+</update>
 	
 </mapper>
