@@ -44,7 +44,7 @@
                                             <div class="mail-list">
                                                 <a href="javascript:ajaxPaging(1,1)" class="active bg-primary-subtle" id="category1">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bx bx-mail-send fs-20 align-middle me-3"></i>
+                                                        <i class="bx bx-book-open fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">전체 클래스</h5>
                                                             <span class="text-muted fs-13 mt-1 text-truncate">모든 클래스 조회</span>
@@ -58,7 +58,7 @@
                                                 </a>
                                                 <a href="javascript:ajaxPaging(1,2)" class="border-bottom" id="category2">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bx bx-star fs-20 align-middle me-3"></i>
+                                                        <i class="bx bx-extension fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">개발 · 프로그래밍</h5>
                                                             <span class="text-muted fs-13 mt-1 text-truncate">코드로 세상 변혁</span>
@@ -70,7 +70,7 @@
         
                                                 <a href="javascript:ajaxPaging(1,3)" class="border-bottom" id="category3">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bx bx-diamond fs-20 align-middle me-3"></i>
+                                                        <i class="bx bx-shield fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">보안 · 네트워크</h5>
                                                             <span class="text-muted fs-13 mt-1 text-truncate">안전한 연결의 길</span>
@@ -82,7 +82,7 @@
         
                                                 <a href="javascript:ajaxPaging(1,4)" class="border-bottom" id="category4">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bx bx-file fs-20 align-middle me-3"></i>
+                                                        <i class="bx bx-trending-up fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">데이터 사이언스</h5>
                                                             <span class="text-muted fs-13 mt-1 text-truncate">데이터로 미래 예측</span>
@@ -94,7 +94,7 @@
         
                                                 <a href="javascript:ajaxPaging(1,5)" class="border-bottom"id="category5">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bx bx-envelope-open fs-20 align-middle me-3"></i>
+                                                        <i class="bx bx-joystick fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">게임 개발</h5>
                                                             <span class="text-muted fs-13 mt-1 text-truncate">재미로 세상을 물들이기</span>
@@ -108,7 +108,7 @@
                                                 </a>
                                                 <a href="javascript:ajaxPaging(1,6)">
                                                     <div class="d-flex align-items-center">
-                                                        <i class="bx bx-trash fs-20 align-middle me-3"></i>
+                                                        <i class="bx bx-hdd fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
                                                             <h5 class="fs-15 mb-0">하드웨어</h5>
                                                             <span class="text-muted fs-13 mt-1 text-truncate">물리적 기술의 미래</span>
