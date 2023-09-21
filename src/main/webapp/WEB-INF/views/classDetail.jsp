@@ -4,7 +4,7 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
-	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
+	data-topbar="light" data-sidebar="light" data-sidebar-size="smprofile"
 	data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
@@ -72,7 +72,7 @@ th, td {
 										<div style="text-align: left;">
 											<div class="d-flex align-items-center-detail mb-5">
 												<div class="flex-shrink-0 me-3">
-													<img src="assets/images/users/avatar-3.jpg" alt=""
+													<img src="${cVo.userVo[0].userProfileFile}" alt="userProfileFile"
 														class="rounded-circle avatar-xl">
 												</div>
 												<table>
@@ -195,7 +195,7 @@ th, td {
 								style="margin-left: 16px; margin-right: 16px;">
 								<div class="card">
 									<div class="card-body">
-										<a href="./myClass.do?clasId=${cVo.clasId}"
+										<a href="./myClass.do?clasId=${cVo.clasId}" id="joinButton"
 											class="btn btn-secondary waves-effect" style="width: 250px;">참여하기</a>
 
 										<h5 class="mt-3 fs-15 text-uppercase">클래스 요약</h5>
@@ -240,11 +240,11 @@ th, td {
 												</a> 
 												<a class="border-bottom">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span> 
-													퍙균 연령 : 구현해야됨
+													평균 연령 : 구현해야됨
 												</a>
 												<a class="border-bottom">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
-													날짜 : ${cVo.clasSueopNaljja}
+													수업 날짜 : ${cVo.clasSueopNaljja}
 												</a>
 												<a class="border-bottom">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
@@ -262,6 +262,13 @@ th, td {
 			</div>
 			<%@ include file="./shared/_footer.jsp"%>
 			<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+			<script>
+				var userGender = "${chamyeoVo.userVo[0].userGender}";
+				var genJehan = "${cVo.clasSeongbyeolJehan}";
+				var userAge = "${chamyeoVo.userVo[0].userBirth}";
+				var naiJehan = "${cVo.clasNaiJehan}";
+				var isSession = "${not empty chamyeoVo}" === "true" ? true : false;
+			</script>
 			<script type="text/javascript" src="./js/classDetail.js"></script>
 		</div>
 	</div>

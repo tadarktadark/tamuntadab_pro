@@ -293,6 +293,7 @@ public class ClassController {
 	
 	@GetMapping("/classDetail.do")
 	public String classDetail(Model model,
+							HttpSession session,
 							@RequestParam("clasId") String clasId) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 상세");
@@ -300,7 +301,17 @@ public class ClassController {
 		ClassVo cVo = cService.getClassDetail(clasId);
 		log.info("ClassController 클래스 상세 페이지 조회, 가져온 클래스 정보 = {}",cVo);
 		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		ChamyeoVo chamyeoVo; 
+		String userId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		if(userId != null) {
+			chamyeoVo = cService.getChamyeojaInfo(userId);
+		}else
+			chamyeoVo = null;
+		log.info("ClassController 클래스 상세 페이지 조회, 가져온 클래스 정보 = {}",cVo);
+		
 		model.addAttribute("cVo", cVo);
+		model.addAttribute("chamyeoVo", chamyeoVo);
 		return "classDetail";
 	}
 	
