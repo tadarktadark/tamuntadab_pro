@@ -59,7 +59,7 @@ public class ElasticsearchService {
 	        String title = (String) formData.get("title");
 	        applyTitleCondition(boolQueryBuilder, title);
 	        
-	        List<String> classname = (List<String>) formData.get("classname");
+	        List<Integer> classname = (List<Integer>) formData.get("classname");
 	        applyClassNameCondition(boolQueryBuilder, classname);
 	        
 	        Map<String, Object> ageMap = (Map<String, Object>)formData.get("age");
@@ -145,7 +145,8 @@ public class ElasticsearchService {
 	            BoolQueryBuilder boolSubjectQueryBulider = QueryBuilders.boolQuery();
 	            for(String subject : subjects){
 	                MultiMatchQueryBuilder multiMatchQueryStringBuilder =
-	                        QueryBuilders.multiMatchQuery(subject).field("subjects").field("inpr_subjects_major");
+//	                        QueryBuilders.multiMatchQuery(subject).field("subjects").field("inpr_subjects_major");
+	                		QueryBuilders.multiMatchQuery(subject, "subjects", "inpr_subjects_major");
 	                boolSubjectQueryBulider.should(multiMatchQueryStringBuilder);
 	            }
 	            boolQueryBuilder.filter(boolSubjectQueryBulider);
@@ -175,10 +176,10 @@ public class ElasticsearchService {
 		}
 		
 		private void applyClassNameCondition(BoolQueryBuilder boolQueryBuilder,
-					List<String> classname) {
+					List<Integer> classname) {
 			if(classname != null && !classname.isEmpty()) {
 				BoolQueryBuilder boolSubjectQueryBulider = QueryBuilders.boolQuery();
-	            for(String c : classname){
+	            for(int c : classname){
 	                MultiMatchQueryBuilder multiMatchQueryStringBuilder =
 	                        QueryBuilders.multiMatchQuery(c).field("classname");
 	                boolSubjectQueryBulider.should(multiMatchQueryStringBuilder);

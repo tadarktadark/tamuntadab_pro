@@ -90,7 +90,7 @@
 							        	</c:if>
 							        </div>
 						        	<div class="card-body" id="${sessionScope.community.equals('jilmun')?'write-content':''}">
-						        		<textarea id="ckeditor" name="content">${bVo.content}</textarea>
+						        		<textarea id="ckeditor" name="content" style="display:none;">${bVo.content}</textarea>
  						            </div><!--end card-body -->
  						            <c:if test="${sessionScope.community eq 'pilgi'}">
  						            	<c:if test="${bVo.fileList.size() > 0}">
