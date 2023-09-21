@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -37,7 +38,9 @@ import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
 import com.tdtd.tmtd.model.service.ICommUserService;
 import com.tdtd.tmtd.model.service.IInstrService;
+import com.tdtd.tmtd.model.service.IReviewService;
 import com.tdtd.tmtd.vo.InstrVo;
+import com.tdtd.tmtd.vo.ReviewVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +57,9 @@ public class UserController {
 
 	@Autowired
 	private ICommUserService commUserService;
+	
+	@Autowired
+	private IReviewService reviewService;
 	
 	@Autowired
 	private ICommUserDao commuserDao;
@@ -361,6 +367,18 @@ public class UserController {
 
 	@RequestMapping(value = "/mypage.do")
 	public String mypage(HttpSession session, Model model) {
+		//리뷰 작성 목록 조회를 위한 데이터 전송
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		String userAccountId = userInfo.getUserAccountId();
+		
+		List<ReviewVo> lists = reviewService.getMyReview(new HashMap<String, Object>(){{
+								put("userAccountId", userAccountId); 
+								put("start", 1); 
+								put("end", 5);
+							}});
+		
+		model.addAttribute("lists", lists);
+		
 		return "myPage";
 	}
 

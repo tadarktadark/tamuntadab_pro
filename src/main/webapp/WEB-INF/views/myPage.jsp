@@ -253,12 +253,12 @@
 										<li class="nav-item"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#boardlist" role="tab"
 										aria-selected="false"> <i class="ri ri-file-list-line fs-20"></i>
-											<span class="d-none d-sm-block">내 글 목록</span>
+											<span class="d-none d-sm-block">내 커뮤니티</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
-										data-bs-toggle="tab" href="#likelist" role="tab"
+										data-bs-toggle="tab" href="#reviewlist" role="tab"
 										aria-selected="false"> <i class="ri ri-heart-add-line fs-20"></i>
-											<span class="d-none d-sm-block">내 좋아요 목록</span>
+											<span class="d-none d-sm-block">내 후기</span>
 									</a></li>
 								</ul>
 								<!-- 클래스 구간 -->
@@ -351,10 +351,10 @@
 										<!-- end card -->
 									</div>
 									<!-- 내글 목록 끝 -->
-									<!-- 내 좋아요 목록 -->
-									<div class="tab-pane" id="likelist" role="tabpanel">
+									<!-- 내 후기 목록 -->
+									<div class="tab-pane" id="reviewlist" role="tabpanel">
 										<div class="p-4">
-											<%@ include file="./myLikeBoard.jsp"%>
+											<%@ include file="./myReviewList.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>

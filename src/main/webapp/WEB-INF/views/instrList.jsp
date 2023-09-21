@@ -176,6 +176,7 @@
 	</div>
 </body>
 <script type="text/javascript">
+	//과목 태그 엘라스틱 서치에서 값 불러오기
 	function searchElastic(query, callback) {
 		$.ajax({
 			url : 'http://192.168.8.164:9200/subject_tag/_search',
@@ -203,6 +204,15 @@
 								value : option._source.code
 							};
 						});
+				
+				// 검색 결과가 없는 경우 처리
+	            if (results.length === 0) {
+	                results.push({
+	                    label: "검색 결과가 없습니다",
+	                    value: "noresult"
+	                });
+	            }
+				
 				callback(results);
 			},
 			error : function() {
@@ -210,7 +220,8 @@
 			}
 		});
 	}
-
+	
+	//과목 창에 검색시 자동완성
 	$(function() {
 		$("#subjects")
 				.autocomplete(
@@ -225,6 +236,9 @@
 								return false;
 							},
 							select : function(event, ui) {
+								if(ui.item.value == "noresult"){
+									return false;
+								}
 								this.value = '';
 
 								// 선택된 값들이 추가될 div 요소
@@ -262,6 +276,7 @@
 			return $("<li>").append("<a>" + item.label + "</a>").appendTo(ul);
 		};
 
+		//엔터 버튼 막기 (엔터버튼으로 출력한 과목 태그가 사라짐 방지)
 		$('#subjects').on('keydown', function(event) {
 			if (event.key === 'Enter') {
 				event.preventDefault();
@@ -392,7 +407,7 @@
 .ui-autocomplete {
 	background-color: #f9f9f9;
 	max-height: 200px;
-	max-width: 150px;
+	max-width: 250px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }

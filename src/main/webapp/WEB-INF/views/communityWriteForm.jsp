@@ -71,7 +71,7 @@
 							        	</c:if>
 							        </div>
 						        	<div class="card-body" id="${sessionScope.community.equals('jilmun')?'write-content':''}">
-						        		<textarea id="ckeditor" name="content"></textarea>
+						        		<textarea id="ckeditor" name="content" style="display:none;"></textarea>
  						            </div><!--end card-body -->
  						            <c:if test="${sessionScope.community eq 'pilgi'}">
  						            	<div class="card-body gap-3" id="write-bottom">
@@ -119,6 +119,7 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script type="text/javascript" src="./js/ckeditor.js"></script>
+	<script type="text/javascript" src="./js/community.js"></script>
 	<script type="text/javascript" src="./js/communityWriteForm.js"></script>
 	<script id="select-template" type="text/x-handlebars-template">
 		<div id="class-selected" class="choices cursor-default" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">

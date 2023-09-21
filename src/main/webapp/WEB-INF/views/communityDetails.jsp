@@ -147,8 +147,57 @@
 			                                    </c:forEach>
 					                        </c:if>
 											<hr> 
-					                        <a href="#" class="btn btn-primary dropdown-toggle">댓글보기</a>
-					
+					                        <a id="reply-btn" class="btn btn-primary">댓글보기&ensp;<i class="ri-arrow-down-s-line"></i></a>
+											<div id="reply-list" class="list-group mt-3">
+											    <div class="list-group-item">
+											        <p class="list-text mb-2">{{content}}</p>
+											        <div class="d-flex align-items-center reply-group mb-1">
+											        	<div class="flex-grow-1 reply-icon">
+											        		<a href="#" class="reply-icon"><i class="ri-alarm-warning-line"></i></a>
+											        		<a href="#" class="reply-icon"><i class="bx bx-trash align-middle"></i></a>
+											        		<a href="#" class="reply-icon"><i class="bx bx-pencil align-middle"></i></a>
+											        		<a href="#" class="reply-icon"><i class="ri-message-3-fill"></i></a>											        		
+											        		<a href="#" class="reply-icon"><i class="ri-check-double-fill"></i></a>											        		
+											        	</div>
+											            <div class="ms-3 float-end">
+											                <h5 class="list-title fs-15 mb-0">
+											                	<i class="ri-check-double-fill text-success"></i> 
+											                	<i class="ri-user-fill"></i> {{writerId}}</h5>
+											                <div class="list-text mb-0 fs-12">
+													        	<span class="text-danger"><i class="ri-restart-line"></i>&ensp;2023.09.18&ensp;</span>
+												        		<i class="ri-timer-2-fill"></i>&ensp;2023.09.10&ensp;
+											                </div>
+											            </div>
+											        </div>
+											        <div class="list-group-item">
+												        <div>
+												        	<textarea></textarea>
+												        </div>
+												        <div>
+												        	<span  class="flex-grow-1">100/300</span>
+												        	<button class="badge text-bg-primary ms-3 float-end">작성</button>
+												        </div>
+												    </div>
+											        <div class="list-group-item">
+												        <p class="list-text mb-2">{{content}}</p>
+												        <div class="d-flex align-items-center reply-group">
+												        	<div class="flex-grow-1 reply-icon">
+												        		<a href="#" class="reply-icon"><i class="ri-alarm-warning-line"></i></a>
+												        		<a href="#" class="reply-icon"><i class="bx bx-trash align-middle"></i></a>
+												        		<a href="#" class="reply-icon"><i class="bx bx-pencil align-middle"></i></a>									        		
+												        	</div>
+												            <div class="ms-3 float-end">
+												                <h5 class="list-title fs-15 mb-0">
+												                	<i class="ri-user-fill"></i> {{writerId}}</h5>
+												                <div class="list-text mb-0 fs-12">
+														        	<span class="text-danger"><i class="ri-restart-line"></i>&ensp;2023.09.18&ensp;</span>
+													        		<i class="ri-timer-2-fill"></i>&ensp;2023.09.10&ensp;
+												                </div>
+												            </div>
+												        </div>
+												    </div>
+											    </div>
+											</div>
 					                    </div>
 					
 					                </div>
@@ -184,7 +233,7 @@
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
-	                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" Sid="singo-submit">신고</button>
+	                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="singo-submit">신고</button>
 	            </div>
 	        </div>
 	    </div>
@@ -205,6 +254,14 @@
 	<script src="./js/community.js" charset="UTF-8"></script>
 	<script src="./js/communityDetails.js"></script>
 	<script id="singo-category-template" type="text/x-handlebars-template">
+		<div class="form-check mb-2">
+			<input class="form-check-input category" type="radio" name="category" id="singoSayu{{no}}" value="{{id}}">
+			<label class="form-check-label" for="singoSayu{{no}}">
+				{{category}}
+			</label>
+		</div>
+	</script>
+	<script id="reply-list-template" type="text/x-handlebars-template">
 		<div class="form-check mb-2">
 			<input class="form-check-input category" type="radio" name="category" id="singoSayu{{no}}" value="{{id}}">
 			<label class="form-check-label" for="singoSayu{{no}}">

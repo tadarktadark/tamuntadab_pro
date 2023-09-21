@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -104,9 +105,9 @@ public class CommunityController {
 	
 	@RequestMapping(value="/getCommunityList.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page){
+	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page, String[] boardId){
 		String board = (String)session.getAttribute("community");
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 조회 : board {}, orderBy {}, page {}", board, orderBy, page);
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 조회 : board {}, orderBy {}, page {}, boardId {}", board, orderBy, page, boardId);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		if(userInfo == null) {
@@ -460,15 +461,31 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/communitySearch.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public void communitySearch(HttpSession session, @RequestBody Map<String, Object> formData) throws IOException {
+	@ResponseBody
+	public List<String> communitySearch(HttpSession session, @RequestBody Map<String, Object> formData) throws IOException {
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 검색 : board {}, formData {}",board, formData);		
 		
-		List<Map<String, Object>> resultList = eService.search(formData, board, 10);
+		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
 		
-		Gson gson = new Gson();
-		System.out.println("result : "+gson.toJson(resultList));
+		while (true) {
+			List<Map<String, Object>> resultOne = eService.search(formData, board, 10);
+			if(resultOne.size()>0) {				
+				resultList.addAll(resultOne);
+				formData.put("page",(Integer)formData.get("page")+1);
+			} else {
+				break;
+			}
+		}
 		
+		List<String> boardList = new ArrayList<String>();
+		for (Map<String, Object> map : resultList) {
+			boardList.add((String)map.get("id"));
+		}
+		
+		System.out.println(boardList);
+		
+		return boardList;
 	}
 	
 	@RequestMapping(value="/pilgiPdfDownload.do", method = RequestMethod.POST)
