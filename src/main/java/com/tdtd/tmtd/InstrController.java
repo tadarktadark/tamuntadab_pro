@@ -74,10 +74,6 @@ public class InstrController {
 			instrVo.setSubjectsMajorTitle(subjectsMajorTitle);
 			instrVo.setSubjectsTitle(subjectsTitle);
 			
-			//userBirth가 Date타입일 경우
-//			LocalDate birthDate = instrVo.getUserProfileVo().get(0).getUserBirth().toInstant()
-//					.atZone(ZoneId.systemDefault())
-//					.toLocalDate();
 			String birthDateString = instrVo.getUserProfileVo().get(0).getUserBirth();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			LocalDateTime birthDateTime = LocalDateTime.parse(birthDateString, formatter);

@@ -1,6 +1,7 @@
 package com.tdtd.tmtd;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,5 +79,25 @@ public class AdminController {
 		adminService.updateAdminPw(adminInfo, setPW);
 		session.invalidate();
 		return "/admin/adminlogin";
+	}
+	
+	@RequestMapping(value="/admin/adminList.do",method = RequestMethod.GET)
+	public String adminList(Model model) {
+		model.addAttribute("title","총 관리자");
+		model.addAttribute("pageTitle", "관리자 목록");
+		return "/admin/adminList";
+	}
+	@RequestMapping(value="/admin/adminInsert.do",method = RequestMethod.GET)
+	public String adminInsert(Model model) {
+		model.addAttribute("title","총 관리자");
+		model.addAttribute("pageTitle", "관리자 추가");
+		return "/admin/adminInsert";
+	}
+	@RequestMapping(value="/admin/searchAdminList.do",method = RequestMethod.GET)
+	@ResponseBody
+	public String searchAdminList(Map<String,Object> map) {
+		List<AdminVo> adminList = adminService.getAdminList(map);
+		map.put("admin", adminList);
+		return gson.toJson(map);
 	}
 }

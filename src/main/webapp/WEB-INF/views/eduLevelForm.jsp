@@ -125,29 +125,67 @@
 $(function() {
     var schoolNames = [];
 
-    // Load JSON file
+    // 고등학교 JSON 파일 로드
     $.getJSON('./json/highschools.json', function(data) {
         $.each(data, function(key, val) {
             schoolNames.push(val.SCHUL_NM);
         });
 
         $('#highSchool').autocomplete({
-            source: schoolNames,
-            minLength: 1 
+            source: function(request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                var results = $.grep(schoolNames, function(item){
+                    return matcher.test(item);
+                });
+                if (!results.length) {
+                    results = ["검색 결과가 없습니다"];
+                }
+                response(results);
+            },
+            minLength: 1,
+            select: function(event, ui) {
+                if (ui.item.value === "검색 결과가 없습니다") {
+                    event.preventDefault();
+                }
+            },
+            focus: function(event, ui) {
+                if (ui.item.value === "검색 결과가 없습니다") {
+                    event.preventDefault();
+                }
+            }
         });
     });
     
     var univNames = [];
 
-	// Load JSON file for university names
+	// 대학교 JSON 파일 로드
 	$.getJSON('./json/university.json', function(data) {
 		$.each(data.records, function(index, record) {
 			univNames.push(record['학교명']);
 		});
 
 		$('#univSchool').autocomplete({
-			source: univNames,
-			minLength: 1 
+			 source: function(request, response) {
+	                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+	                var results = $.grep(univNames, function(item){
+	                    return matcher.test(item);
+	                });
+	                if (!results.length) {
+	                    results = ["검색 결과가 없습니다"];
+	                }
+	                response(results);
+	            },
+	            minLength: 1,
+	            select: function(event, ui) {
+	                if (ui.item.value === "검색 결과가 없습니다") {
+	                    event.preventDefault();
+	                }
+	            },
+	            focus: function(event, ui) {
+	                if (ui.item.value === "검색 결과가 없습니다") {
+	                    event.preventDefault();
+	                }
+	            }
 		});
    });
 	
@@ -161,6 +199,7 @@ body {
 .ui-autocomplete {
 	background-color: #f9f9f9;
 	max-height: 200px;
+	max-width: 590px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
