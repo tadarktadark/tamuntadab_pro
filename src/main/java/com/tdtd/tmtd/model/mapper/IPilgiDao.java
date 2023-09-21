@@ -16,19 +16,21 @@ public interface IPilgiDao {
 	
 	/**
 	 * 필기 조회 가능한 게시글 개수	 
-	 * @param accountId 현재 로그인한 계정
+	 * @param map accountId 현재 로그인한 계정<br>
+	 * 			List<String> boardId 리스트
 	 * @return 조회 가능한 게시글 개수
 	 * @author SoHyeon
 	 * @since 2023.09.14
 	 */
-	public int getPilgiCount(String accountId);      
+	public int getPilgiCount(Map<String, Object> map);      
 	
 	/**
 	 * 필기 목록 조회(정렬)
 	 * @param map accountId 현재 로그인한 계정, <br>
 	 * 				orderBy={"like","view","reply"} defalut="date" 정렬, <br> 
 	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
+	 * 				end 종료 게시글<br>
+	 * 				List\<String\> boardId 리스트
 	 * @return 필기 목록(게시글ID, 작성자, 제목(클래스명), 댓글수, 과목, 좋아요 여부, 좋아요 개수, 조회수, 등록일)
 	 * @author SoHyeon
 	 * @since 2023.09.14
