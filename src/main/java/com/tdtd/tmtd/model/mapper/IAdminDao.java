@@ -1,5 +1,6 @@
 package com.tdtd.tmtd.model.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.tdtd.tmtd.vo.AdminVo;
@@ -13,4 +14,6 @@ public interface IAdminDao {
 	public int updateAdminAccTime(AdminVo adminInfo);
 	
 	public int updateAdminPw(Map<String,Object> setPassword);
+	
+	public List<AdminVo> getAdminList(Map<String,Object> map);
 }

@@ -32,5 +32,10 @@
 	UPDATE ADMIN_PROFILE SET ADPR_PASSWORD = #{adminPW}
  		WHERE ADPR_ID = #{adminId}
 </update>
+
+<select id="getAdminList" resultMap="adminMap">
+	SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
+			FROM ADMIN_PROFILE
+</select>
 	
 </mapper>

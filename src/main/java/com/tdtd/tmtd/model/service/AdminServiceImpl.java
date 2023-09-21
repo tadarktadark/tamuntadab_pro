@@ -1,5 +1,6 @@
 package com.tdtd.tmtd.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,10 @@ public class AdminServiceImpl implements IAdminService {
 		int n = adminDao.updateAdminPw(adminInput);
 		int m = adminDao.updateAdminAccTime(adminInfo);
 		return (n>0||m>0)?1:0;
+	}
+
+	@Override
+	public List<AdminVo> getAdminList(Map<String, Object> map) {
+		return adminDao.getAdminList(map);
 	}
 }

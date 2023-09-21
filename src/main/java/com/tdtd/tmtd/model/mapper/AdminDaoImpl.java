@@ -1,5 +1,6 @@
 package com.tdtd.tmtd.model.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -36,5 +37,10 @@ public class AdminDaoImpl implements IAdminDao {
 	@Override
 	public int updateAdminPw(Map<String, Object> setPassword) {
 		return sqlSession.update(NS+"updateAdminPw",setPassword);
+	}
+
+	@Override
+	public List<AdminVo> getAdminList(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getAdminList",map);
 	}
 }
