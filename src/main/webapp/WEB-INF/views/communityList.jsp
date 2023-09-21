@@ -83,7 +83,9 @@
 		</div>
 	</div>	
 	<div class="hidden">
+		<button type="button" class="btn btn-primary btn-sm" id="sa-basic"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
+		<button type="button" class="btn btn-primary btn-sm" id="sa-error">Click me</button>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/js/app.js"></script>

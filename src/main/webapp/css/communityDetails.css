@@ -492,3 +492,21 @@
 #sayu-insert{
 	display: none;
 }
+
+.reply-icon{
+	height: 20px;	
+	display: inline-block;
+  	vertical-align: text-bottom;
+}
+
+.reply-group .reply-icon{
+	align-self: flex-end;
+}
+.float-end .list-title{
+	width: 100%;
+	text-align: right;
+}
+
+div textarea {
+	width: 100%;
+}
