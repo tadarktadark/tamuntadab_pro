@@ -59,7 +59,8 @@
 						<c:choose>
 							<c:when test="${sessionScope.community eq 'pilgi'}">
 								<div class="col-sm-auto ms-auto">
-							        <a href="./communityWriteForm.do?id=1000000313" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>필기</a>
+							        <a href="./communityWriteForm.do?id=1000000313" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>작성</a>
+							        <a href="./community.do?board=pilgi&id=1000000082" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>보기</a>
 							    </div>	
 							</c:when>
 							<c:otherwise>
@@ -83,6 +84,8 @@
 		</div>
 	</div>	
 	<div class="hidden">
+		<input id="clasId" value="${clasId}">
+		<input id="clasTitle" value="${clasTitle}">
 		<button type="button" class="btn btn-primary btn-sm" id="sa-basic"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-error">Click me</button>

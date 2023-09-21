@@ -85,12 +85,16 @@ public class CommunityController {
 	private ElasticsearchService eService;
 		
 	@RequestMapping(value="/community.do", method=RequestMethod.GET)
-	public String community(Model model, HttpSession session, String board) {
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : board {}", board);
+	public String community(Model model, HttpSession session, String board, String clasId) {
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : board {}, clasId {}", board, clasId);
 		model.addAttribute("title","커뮤니티");
 		
 		if(board.equals("pilgi")) {
 			model.addAttribute("pageTitle", "필기");
+			if(clasId != null) {				
+				model.addAttribute("clasId", clasId);
+				model.addAttribute("clasTitle", pService.getPilgiClassDetail(clasId).getClasTitle());
+			}
 			session.setAttribute("community","pilgi");
 		}else if(board.equals("jilmun")) {
 			model.addAttribute("pageTitle", "질문");
@@ -105,9 +109,9 @@ public class CommunityController {
 	
 	@RequestMapping(value="/getCommunityList.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page, String[] boardId){
+	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page, String clasId, @RequestParam(value="boardId[]", required = false) String[] boardId){
 		String board = (String)session.getAttribute("community");
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 조회 : board {}, orderBy {}, page {}, boardId {}", board, orderBy, page, boardId);
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 조회 : board {}, orderBy {}, page {}, clasId{}, boardId {}", board, orderBy, page, clasId, boardId);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		if(userInfo == null) {
@@ -122,7 +126,11 @@ public class CommunityController {
 		bMap.put("orderBy", orderBy);
 		
 		if(board.equals("pilgi")) {
-			pageCount = pService.getPilgiCount(userInfo.getUserAccountId());
+			bMap.put("clasId", clasId);
+			if(boardId != null) {				
+				bMap.put("boardId", Arrays.asList(boardId));
+			}
+			pageCount = pService.getPilgiCount(bMap);
 			pMap = PagingUtils.paging(page, pageCount, 10, 5);
 		} else if(board.equals("jilmun")) {
 			pageCount = jmService.getJilmunCount();
@@ -482,8 +490,6 @@ public class CommunityController {
 		for (Map<String, Object> map : resultList) {
 			boardList.add((String)map.get("id"));
 		}
-		
-		System.out.println(boardList);
 		
 		return boardList;
 	}

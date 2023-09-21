@@ -19,8 +19,8 @@ public class PilgiDaoImpl implements IPilgiDao {
 	private final String NS = "com.tdtd.tmtd.model.mapper.PilgiDaoImpl.";
 	
 	@Override
-	public int getPilgiCount(String accountId) {
-		return session.selectOne(NS+"getPilgiCount",accountId);
+	public int getPilgiCount(Map<String, Object> map) {
+		return session.selectOne(NS+"getPilgiCount",map);
 	}
 
 	@Override

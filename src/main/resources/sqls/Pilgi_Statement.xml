@@ -28,7 +28,7 @@
 	<!-- 필기 조회가능한 게시글 개수 -->
 	<select id="getPilgiCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
-			FROM (SELECT PIBO_ID
+			FROM (SELECT PIBO_ID, PIBO_CLAS_ID
 					FROM PILGI_BOARD
 					WHERE PIBO_STATE IN ('N', 'P')
 						AND PIBO_VIEW_GROUP = 'C'
@@ -36,10 +36,16 @@
 												FROM CLASS_CHAMYEOJA
 												WHERE CLCH_ACCOUNT_ID=#{accountId})
 				UNION ALL
-				SELECT PIBO_ID
+				SELECT PIBO_ID, PIBO_CLAS_ID
 					FROM PILGI_BOARD
 					WHERE PIBO_STATE IN ('N', 'P')
 						AND PIBO_VIEW_GROUP = 'A')
+		<if test="boardId != null">
+			WHERE PIBO_ID IN
+			<foreach collection="boardId"  item="id" open="(" separator="," close=")"> <!-- item은 값만 담는 변수 -->
+				#{id}
+			</foreach>
+		</if>
 	</select>
 	
 	<!-- 필기 목록 조회(정렬) -->
@@ -88,7 +94,14 @@
 							LEFT JOIN CLASS
 							ON PIBO_CLAS_ID = CLAS_ID
 							WHERE PIBO_STATE IN ('N', 'P')
-								AND PIBO_VIEW_GROUP = 'A'))
+								AND PIBO_VIEW_GROUP = 'A')
+			<if test="boardId != null">
+				WHERE ID IN
+				<foreach collection="boardId"  item="id" open="(" separator="," close=")"> <!-- item은 값만 담는 변수 -->
+					#{id}
+				</foreach>
+			</if>
+			)
 			LEFT JOIN (SELECT CLAS_ID, REPLACE((SELECT JSON_ARRAYAGG(s.SUBJ_CODE) 
 								     FROM JSON_TABLE(CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_CODE VARCHAR2(400) PATH '$')) jt 
 								     JOIN (SELECT SUBJ_ID, SUBSTR(SUBJ_CODE, 3, LENGTH(SUBJ_CODE)-4) SUBJ_CODE
