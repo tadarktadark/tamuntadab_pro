@@ -31,5 +31,10 @@ public class AdminServiceImpl implements IAdminService {
 	public int updateAdminAccTime(AdminVo adminInfo) {
 		return adminDao.updateAdminAccTime(adminInfo);
 	}
-
+	@Override
+	public int updateAdminPw(AdminVo adminInfo, Map<String, Object> adminInput) {
+		int n = adminDao.updateAdminPw(adminInput);
+		int m = adminDao.updateAdminAccTime(adminInfo);
+		return (n>0||m>0)?1:0;
+	}
 }

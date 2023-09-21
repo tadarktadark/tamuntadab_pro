@@ -44,6 +44,7 @@ public class AdminController {
 			return gson.toJson(result);
 		}else if (vo.getAdprLastAccess()==null){
 			result.put("status", "setPW");
+			session.setAttribute("adminInfo", vo);
 			return gson.toJson(result);
 		}else {
 			result.put("status", "success");
@@ -60,14 +61,21 @@ public class AdminController {
 	}
 	@RequestMapping(value="/admin/adminMain.do",method = RequestMethod.GET)
 	public String adminMainPage(HttpServletResponse response) {
-		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-		response.setHeader("Pragma", "no-cache");
-		response.setDateHeader("Expires", 0);
 		return "/admin/adminIndex";
 	}
 	
-	@RequestMapping(value="/admin/adminSessionCheck.do",method = RequestMethod.GET)
-	public String sessionCheck(HttpSession session) {
-		return "/admin/adminIndex";
+	@RequestMapping(value="/admin/adminSetPassword.do",method = RequestMethod.GET)
+	public String setPasswordForm() {
+		return "/admin/adminSetPassword";
+	}
+	@RequestMapping(value="/admin/adminSetPassword.do",method = RequestMethod.POST)
+	public String setPassword(HttpSession session, @RequestParam String adminPW) {
+		AdminVo adminInfo = (AdminVo) session.getAttribute("adminInfo");
+		Map<String,Object> setPW = new HashMap<String,Object>();
+		setPW.put("adminId", adminInfo.getAdprId());
+		setPW.put("adminPW", adminPW);
+		adminService.updateAdminPw(adminInfo, setPW);
+		session.invalidate();
+		return "/admin/adminlogin";
 	}
 }

@@ -32,6 +32,9 @@ public class AdminDaoImpl implements IAdminDao {
 	public int updateAdminAccTime(AdminVo adminInfo) {
 		return sqlSession.update(NS+"updateAdminAccTime",adminInfo);
 	}
-	
-	
+
+	@Override
+	public int updateAdminPw(Map<String, Object> setPassword) {
+		return sqlSession.update(NS+"updateAdminPw",setPassword);
+	}
 }

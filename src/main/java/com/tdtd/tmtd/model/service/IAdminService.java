@@ -11,4 +11,6 @@ public interface IAdminService {
 	public AdminVo adminLogin(Map<String,Object> adminInput);
 	
 	public int updateAdminAccTime(AdminVo adminInfo);
+	
+	public int updateAdminPw(AdminVo adminInfo, Map<String,Object> adminInput);
 }
