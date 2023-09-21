@@ -367,8 +367,7 @@ public class UserController {
 
 	@RequestMapping(value = "/mypage.do")
 	public String mypage(HttpSession session, Model model) {
-		log.info("ReviewController myReviewList.do 내 후기 리스트 조회 페이지 이동");
-		
+		//리뷰 작성 목록 조회를 위한 데이터 전송
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		String userAccountId = userInfo.getUserAccountId();
 		
@@ -378,8 +377,6 @@ public class UserController {
 								put("end", 5);
 							}});
 		
-		model.addAttribute("title", "후기");
-		model.addAttribute("pageTitle", "내 작성 후기");
 		model.addAttribute("lists", lists);
 		
 		return "myPage";

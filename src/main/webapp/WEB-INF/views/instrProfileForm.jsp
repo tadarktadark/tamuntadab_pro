@@ -220,11 +220,7 @@
 	<%@ include file="./shared/_footer.jsp"%>
 </body>
 <script type="text/javascript" charset="UTF-8">
-// window.addEventListener('beforeunload', function (e) {
-//     e.preventDefault();
-//     e.returnValue = '';
-// });
-
+//기존 DB 저장된 학력 데이터 삭제 버튼 클릭시 작동
 function deleteRow(button) {
 	var row = $(button).closest('tr');
     var isDbRow = row.attr('class') === 'isDb';
@@ -287,6 +283,7 @@ function deleteRow(button) {
      }
 }
 
+//저장 버튼 클릭시 유효값 검사 및 alert
 $('form').on('submit', function(e) {
     e.preventDefault();
     
@@ -394,7 +391,7 @@ body {
 .ui-autocomplete {
 	background-color: #f9f9f9;
 	max-height: 200px;
-	max-width: 150px;
+	max-width: 250px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	overflow-y: auto;
