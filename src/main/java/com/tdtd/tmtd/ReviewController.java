@@ -46,7 +46,8 @@ public class ReviewController {
 		model.addAttribute("title", "후기");
 		model.addAttribute("pageTitle", "내 작성 후기");
 		model.addAttribute("lists", lists);
-		return "myReviewList";
+//		return "myReviewList";
+		return "testMyReview";
 	}
 	
 	//후기 작성 페이지 이동
