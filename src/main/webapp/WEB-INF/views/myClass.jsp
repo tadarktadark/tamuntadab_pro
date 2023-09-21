@@ -375,9 +375,6 @@
 												<div class="event-details">
 													<div class="d-flex mb-2">
 														<div class="flex-grow-1 d-flex align-items-center">
-															<div class="flex-shrink-0 me-3">
-																<i class="ri-calendar-event-line text-muted fs-16"></i>
-															</div>
 															<div class="flex-grow-1">
 																<h6 class="d-none fw-semibold mb-0"
 																	id="event-start-date-tag"></h6>
@@ -587,14 +584,11 @@
 		</div>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
+	<script src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 	<script src="./assets/libs/fullcalendar/main.min.js"></script>
 	<script src="./js/myClass.js"></script>
 	<script src="./assets/js/app.js"></script>
-	<script
-		src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-	<script
-		src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+	<script src="./assets/js/pages/modal.init.js"></script>
 	<script src="./assets/libs/flatpickr/flatpickr.min.js"></script>
-
 </body>
 </html>
