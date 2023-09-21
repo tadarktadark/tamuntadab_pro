@@ -17,6 +17,11 @@
 	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script type="text/javascript" src="./js/instrList.js"></script>
 <%@ include file="./shared/_head_css.jsp"%>
+<style type="text/css">
+.team-box {
+	cursor: pointer;
+}
+</style>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -83,7 +88,7 @@
 			<div id="moreList" class="row output-area" style="width: auto; height: 450px; overflow: auto;">
 			<c:forEach var="instr" items="${lists}" varStatus="vs">
 				<div class="col-xxl-3 col-md-6">
-					<div class="card team-box">
+					<div class="card team-box" onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
 								<div class="col">
@@ -302,7 +307,7 @@
 <script id="instrList-template" type="text/x-handlebars-template">
 {{#each this}}
 				<div class="col-xxl-3 col-md-6">
-					<div class="card team-box">
+					<div class="card team-box" onclick="location.href='./instrDetail.do?seq={{inprSeq}}&loginId={{userInfo.userAccountId}}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
 								<div class="col">
@@ -338,10 +343,8 @@
 							</div>
 
 							<div class="text-center">
-								<a href="./instrDetail.do?seq={{inprSeq}}&loginId={{userInfo.userAccountId}}" class="member-name">
 									<h5 class="fs-16 mb-1">{{userProfileVo.[0].userNickname}}</h5>
 									<span class="text-muted fs-13 mt-1 text-truncate">만 {{inprAge}} 세</span>
-								</a>
 								<div class="row output-area">
 									<div class="col-6">
 										<div class="mt-3">

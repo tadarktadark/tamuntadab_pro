@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tdtd.tmtd.model.mapper.MainDaoImpl">
+
+<resultMap type="classVo" id="classMap">
+		<result column="CLAS_ID" property="clasId"/>
+		<result column="CLAS_TITLE" property="clasTitle"/>
+		<result column="CLAS_LOCATION" property="clasLocation"/>
+		<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
+		<result column="CLAS_SUGANGRYO" property="clasSugangRyo"/>
+		<result column="CLAS_SUBJECT_JEONGBO" property="clasSubjectJeongbo"/>
+		<result column="CLAS_REGDATE" property="clasRegdate"/>
+		<result column="CLAS_SEONGBYEOL_JEHAN" property="clasSeongbyeolJehan"/>
+		<result column="CLAS_NAI_JEHAN" property="clasNaiJehan"/>
+		<result column="CLAS_STATUS" property="clasStatus"/>
+		<result column="CLAS_MAGAM_GIHAN" property="clasMagamGihan"/>
+		<result column="CLAS_HYEONJAE_INWON" property="clasHyeonjaeInwon"/>
+		<result column="CLAS_HUIMANG_INWON" property="clasHuimangInwon"/>
+		<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
+		<result column="CLAS_CHOISO_SUGANGNYO" property="clasChoisoSugangnyo"/>
+		<result column="CLAS_CHOIDAE_SUGANGNYO" property="clasChoidaeSugangnyo"/>
+		<result column="CLAS_MOJIP_YEONJANG_HOITSU" property="clasMojipYeonjangHoitsu"/>
+		<result column="CLAS_CONTENT" property="clasContent"/>
+		<result column="CLAS_ACCOUNT_ID" property="clasAccountId"/>
+		<collection property="userVo" resultMap="userProfileMap"/>
+		<collection property="subjVo" resultMap="subjectMap"/>
+</resultMap>
+<resultMap type="userProfileVo" id="userProfileMap">
+		<result column="USER_PROFILE_FILE" property="userProfileFile"/>
+		<result column="USER_NICKNAME" property="userNickname"/>
+		<result column="USER_BIRTH" property="userBirth"/>
+		<result column="USER_ACCOUNT_ID" property="userAccountId"/>
+		<result column="USER_GENDER" property="userGender"/>
+</resultMap>
+
+<resultMap type="subjectVo" id="subjectMap">
+		<result column="SUBJ_ID" property="subjId"/>
+		<result column="SUBJ_TITLE" property="subjTitle"/>
+		<result column="SUBJ_STUD_ID" property="subjStudId"/>
+		<result column="SUBJ_STATUS" property="subjStatus"/>
+		<result column="SUBJ_CODE" property="subjCode"/>
+</resultMap>
+
+<resultMap type="instrVo" id="instrMap">
+	<result column="INPR_SEQ" property="inprSeq"/>
+	<result column="INPR_ACCOUNT_ID" property="inprAccountId"/>
+	<result column="INPR_INTRO" property="inprIntro"/>
+	<result column="INPR_FEE" property="inprFee"/>
+	<result column="INPR_CERT" property="inprCert"/>
+	<result column="INPR_LIKE" property="inprLike"/>
+	<result column="INPR_LIKE_COUNT" property="inprLikeCount"/>
+	<result column="INPR_VIEW_COUNT" property="inprViewCount"/>
+	<result column="INPR_SITE_YOUTUBE" property="inprSiteYoutube"/>
+	<result column="INPR_SITE_WEB" property="inprSiteWeb"/>
+	<result column="INPR_SITE_MOBILE" property="inprSiteMobile"/>
+	<result column="SUBJECTS_TITLE" property="subjectsTitle"/>
+	<result column="SUBJECTS_MAJOR_TITLE" property="subjectsMajorTitle"/>
+	<result column="INPR_SUBJECTS" property="inprSubjects"/>
+	<result column="INPR_SUBJECTS_MAJOR" property="inprSubjectsMajor"/>
+	<result column="INGI" property="ingi"/>
+	
+	<collection property="userProfileVo" resultMap="userProfileMap"/>
+	<collection property="classVo" resultMap="classMap"/>
+	<collection property="subjectVo" resultMap="subjectMap"/>
+</resultMap>
+
+<select id="getAllSubjectTag" resultType="subjectTagVo">
+	SELECT SUTA_TITLE
+	FROM SUBJECT_TAG
+</select>
+
+<select id="getAllClass" resultMap="classMap">
+SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON, CLAS_SUEOP_NALJJA,
+				jot.SUBJ_TITLE,up.USER_NICKNAME, c.CLAS_REGDATE, c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN, up.USER_PROFILE_FILE
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE c.CLAS_STATUS='모집'
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_YEOKAL = 'M'
+		    ORDER BY c.CLAS_STATUS DESC, CLAS_REGDATE DESC
+</select>
+
+<select id="getIngiInstr" resultMap="instrMap">
+SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, USER_ACCOUNT_ID,INPR_LIKE_COUNT,INGI,
+	    SUBJECTS_TITLE, SUBJECTS_MAJOR_TITLE, USER_BIRTH, INPR_FEE, USER_GENDER, USER_JOIN_DATE, INPR_VIEW_COUNT	   
+FROM (SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, USER_ACCOUNT_ID,INPR_LIKE_COUNT,
+	    SUBJECTS_TITLE, SUBJECTS_MAJOR_TITLE, USER_BIRTH, INPR_FEE, USER_GENDER, USER_JOIN_DATE, INPR_VIEW_COUNT,
+		CASE WHEN NTILE(10) OVER (ORDER BY NVL(INPR_LIKE_COUNT, 0) DESC) = 1 THEN 'HOT' ELSE NULL END AS INGI
+	FROM (
+	SELECT INPR_SEQ, INPR_ACCOUNT_ID, USER_PROFILE_FILE, INPR_CERT, USER_ACCOUNT_ID,
+		    USER_NICKNAME, USER_BIRTH, INPR_FEE, USER_GENDER,
+		    (SELECT JSON_ARRAYAGG(s.SUTA_TITLE) 
+		     FROM JSON_TABLE(INPR_SUBJECTS, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
+		     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_TITLE,
+		    (SELECT JSON_ARRAYAGG(s.SUTA_TITLE)
+		     FROM JSON_TABLE(INPR_SUBJECTS_MAJOR, '$[*]' COLUMNS (subject_code VARCHAR2(400) PATH '$')) jt
+		     JOIN SUBJECT_TAG s ON jt.subject_code = s.SUTA_CODE) AS SUBJECTS_MAJOR_TITLE,
+		    INPR_LIKE_COUNT, INPR_VIEW_COUNT, USER_JOIN_DATE
+	FROM INSTR_PROFILE 
+	JOIN USER_PROFILE ON INPR_ACCOUNT_ID = USER_ACCOUNT_ID
+	LEFT JOIN CLASS ON INPR_ACCOUNT_ID = CLAS_ACCOUNT_ID
+	LEFT JOIN REVIEW ON CLAS_ID = REVI_CLAS_ID
+	GROUP BY USER_PROFILE_FILE, USER_NICKNAME, INPR_FEE, USER_GENDER, INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INPR_LIKE_COUNT, INPR_ACCOUNT_ID, INPR_CERT, INPR_VIEW_COUNT, USER_ACCOUNT_ID, USER_JOIN_DATE,INPR_SEQ, USER_BIRTH
+	ORDER BY NVL(INPR_LIKE_COUNT, 0) DESC, INPR_SEQ DESC
+	))
+	WHERE INGI = 'HOT'
+</select>
+
+</mapper>
