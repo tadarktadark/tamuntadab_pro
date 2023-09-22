@@ -4,4 +4,3 @@
 <script src="./assets/js/plugins.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script type="text/javascript" src="./js/logout.js"></script>
-
