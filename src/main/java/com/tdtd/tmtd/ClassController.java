@@ -40,7 +40,7 @@ public class ClassController {
 	private ISubjectService sService;
 
 	@GetMapping("/classList.do")
-	public String classList(Model model, @RequestParam("page") String pageAttr) {
+	public String classList(Model model) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 목록");
 		
