@@ -14,8 +14,7 @@
 </head>
 <body class="twocolumn-panel" data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp" %>
-		<%@ include file="./shared/_sidebar.jsp" %>
+		<%@ include file="./shared/_menu.jsp" %>
 		
 		<div class="main-content">
 			<div class="page-content">
@@ -63,7 +62,7 @@
 									    			<c:when test="${bVo.clasId != null}">
 									    				<div id="class-selected" class="choices cursor-default" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
 															<div class="choices__inner cursor-default mb-3">
-																<select disabled="disabled" class="form-control choices__input cursor-default" id="choices-multiple-remove-button" data-choices="" data-choices-removeitem="" name="subject" multiple="" hidden="" tabindex="-1" data-choice="active">
+																<select disabled="disabled" class="form-control choices__input cursor-default" id="choices-multiple-remove-button" data-choices="" data-choices-removeitem="" name="subject" hidden="" tabindex="-1" data-choice="active">
 																	<c:forEach items="${subArr}" var="sub">
 																		<option data-custom-properties="[object Object]">${sub}</option>
 																	</c:forEach>
@@ -90,8 +89,8 @@
 										    			<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
 															<div class="choices__inner mb-3 form-control">
 																<div id="selectedSubjects" class="choices__list choices__list--multiple">
-																	<c:forEach items="${subArr}" var="sub">
-																		<div class="choices__item choices__item--selectable" data-item="" data-value="${sub}" data-custom-properties="[object Object]" aria-selected="true" data-deletable="" data-type="select-multiple">
+																	<c:forEach items="${subArr}" var="sub" varStatus="vs">
+																		<div class="choices__item choices__item--selectable" data-item="" data-value="${codeArr[vs.index]}" data-custom-properties="[object Object]" aria-selected="true" data-deletable="" data-type="select-multiple">
 																			${sub}
 																			<button type="button" class="choices__button subject-remove-btn" aria-label="Remove item: '${sub}'" data-button="">Remove item</button>
 																		</div>

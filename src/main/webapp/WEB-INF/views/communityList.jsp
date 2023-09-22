@@ -13,8 +13,7 @@
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp" %>
-		<%@ include file="./shared/_sidebar.jsp" %>
+		<%@ include file="./shared/_menu.jsp" %>
 		
 		<div class="main-content">
 			<div class="page-content">
