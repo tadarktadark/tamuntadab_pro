@@ -95,6 +95,7 @@
 				</c:if>
 				<c:if test="${isMaster eq 'false'}">
 				<button class="btn btn-danger btn-icon" onclick="closeWindow()"><i class="ri-close-fill"></i></button>
+				<div style="text-align: center;"><i class="mdi mdi-vote"></i> 현재는 투표가 없습니다</div>
 				</c:if>
 			</div>
 		</c:otherwise>
