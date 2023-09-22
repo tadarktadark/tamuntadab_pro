@@ -66,12 +66,12 @@
 					<label class="form-check-label" for="gender"> 여 </label>
 					</div><br>
 					<div>
-					<input class="form-check-input" type="radio" name="sort" id="order" value="like" checked> 
-					<label class="form-check-label"	for="sortType"> 인기순 </label> 
-					<input class="form-check-input"	type="radio" name="sort" id="order" value="reg"> 
-					<label class="form-check-label" for="sortType"> 등록일순 </label>
-					<input class="form-check-input" type="radio" name="sort" id="order" value="basic"> 
-					<label class="form-check-label" for="sortType"> 정확도순 </label>
+					<input class="form-check-input" type="radio" name="order" id="order" value="like" checked> 
+					<label class="form-check-label"	for="order"> 인기순 </label> 
+					<input class="form-check-input"	type="radio" name="order" id="order" value="view"> 
+					<label class="form-check-label" for="order"> 조회순 </label>
+					<input class="form-check-input" type="radio" name="order" id="order" value="reg"> 
+					<label class="form-check-label" for="order"> 등록일순 </label>
 					</div>
 				</div>
 				<div class="col-3" style="margin-top: 80px;">
@@ -170,9 +170,6 @@
 			</div>
 			<button id="scrollToTopButton" class="btn rounded-pill btn-secondary" style="position: fixed; right: 10px; bottom: 70px;">
 			<i class="mdi mdi-arrow-up-bold"></i></button>
-			<div id="more" style="display: none; text-align: center;">
-				<button type="button" class="btn btn-outline-secondary">검색 결과 더보기</button>
-			</div>
 			</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp"%>
@@ -324,9 +321,9 @@
 		});
 </script>
 <script id="instrList-template" type="text/x-handlebars-template">
-{{#each this}}
+{{#each lists}}
 				<div class="col-xxl-3 col-md-6">
-					<div class="card team-box" onclick="location.href='./instrDetail.do?seq={{inprSeq}}&loginId={{userInfo.userAccountId}}'">
+					<div class="card team-box" onclick="location.href='./instrDetail.do?seq={{inprSeq}}&loginId={{../userInfo.userAccountId}}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
 								<div class="col">
@@ -354,9 +351,9 @@
 							</div>
 							<div class="text-center mb-3">
 								<div class="avatar-lg mx-auto">
-								<img src="{{#if userInfo}} {{userProfileVo.[0].userProfileFile}} {{else}} ./assets/images/users/user-dummy-img.jpg {{/if}}" alt="" 
-								data-bs-toggle="{{#if userInfo}}{{else}}tooltip{{/if}}" 
-								title="{{#if userInfo}}{{else}}로그인 후 볼 수 있습니다.{{/if}}"
+								<img src="{{#if ../userInfo}} {{userProfileVo.[0].userProfileFile}} {{else}} ./assets/images/users/user-dummy-img.jpg {{/if}}" alt="" 
+								data-bs-toggle="{{#if ../userInfo}}{{else}}tooltip{{/if}}" 
+								title="{{#if ../userInfo}}{{else}}로그인 후 볼 수 있습니다.{{/if}}"
 								class="member-img img-fluid d-block rounded-circle">
 								</div>
 							</div>

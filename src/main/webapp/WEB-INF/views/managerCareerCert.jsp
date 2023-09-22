@@ -106,7 +106,7 @@
 																	<c:when test="${career.careStatus eq 'N'}">
 																		<td><button type="button"
 																				class="btn btn-success w-xs update-button"
-																				onclick="updateS()">승인</button></td>
+																				onclick="updateS('${career.careId}', '${career.careAccountId}')">승인</button></td>
 																		<td><button type="button"
 																				class="btn btn-warning w-xs"
 																				onclick="modalOpen('${career.careId}')">반려</button>
@@ -128,7 +128,7 @@
 																		<td>&nbsp;</td>
 																		<td>&nbsp;</td>
 																		<td><button type="button"
-																				class="btn btn-danger w-xs" onclick="updateD()">목록삭제</button></td>
+																				class="btn btn-danger w-xs" onclick="updateD('${career.careId}')">목록삭제</button></td>
 																		<td>&nbsp;</td>
 																		<td>&nbsp;</td>
 																	</c:when>
@@ -136,7 +136,7 @@
 																		<td>&nbsp;</td>
 																		<td>&nbsp;</td>
 																		<td><button type="button"
-																				class="btn btn-danger w-xs" onclick="deleteDB()">DB삭제</button></td>
+																				class="btn btn-danger w-xs" onclick="deleteDB('${career.careId}')">DB삭제</button></td>
 																		<td>&nbsp;</td>
 																		<td>&nbsp;</td>
 																	</c:when>

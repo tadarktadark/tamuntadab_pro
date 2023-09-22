@@ -123,47 +123,63 @@ public class InstrController {
 		return response;
 	}
 	
-	//강사 게시판 페이지 내 강사 검색 실행 AJAX
+	//엘라스틱 서치 검색
 	@ResponseBody
 	@PostMapping(value ="/instrSearch.do", produces = "application/json;charset=UTF-8")
-	public String instrSearch(@RequestBody Map<String, Object> formData, HttpSession session) throws IOException {
+	public Map<String, Object> instrSearch(@RequestBody Map<String, Object> formData, HttpSession session) throws IOException {
 		log.info("########### instrSearch.do 받아온 값: {}", formData); 
-		List<Map<String, Object>> resultList = searchService.search(formData, "instr_profile", 8);
-		 
-		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		String accountId = userInfo != null ? userInfo.getUserAccountId() : null;
-		
+		List<Map<String, Object>> resultList = new ArrayList<Map<String,Object>>();
+			while (true) {
+				List<Map<String, Object>> resultOne = searchService.search(formData, "instr_profile", 10);
+				if(resultOne.size()>0) {				
+					resultList.addAll(resultOne);
+					formData.put("page",(Integer)formData.get("page")+1);
+				} else {
+					break;
+				}
+		}
+		List<String> idsList = new ArrayList<String>();
 		for (Map<String,Object> result : resultList) {
 			log.info("%%%%%%%%%%%%%%%%%%%%%% result : {}", result);
-		        if(result != null && result.containsKey("user_birth")) {
-		            String birthDateStr = (String) result.get("user_birth");
-		            if(birthDateStr != null){
-		                birthDateStr= birthDateStr.split("T")[0]; //날짜 부분만 추출
-		                int age = calculateAge(birthDateStr);
-		                result.put("user_age", age);
-		                log.info("%%%%%%%%%%%%%%%%%%%%%% user_age : {}", result.get("user_age"));
-		            }
-
-		        // login_info 필드 추가
-		        result.put("login_info", accountId);
-		    }
+			idsList.add((String)result.get("inpr_account_id"));
 		}
 		
-		 Gson gson = new Gson();
-		 
-		 log.info("########### instrSearch.do 반환할 값: {}", gson.toJson(resultList)); 
-		 return gson.toJson(resultList);
-	}
-	
-	//elasticsearch 데이터 강사 만 나이 변환 메소드
-	private int calculateAge(String birthDate) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	    LocalDate dob = LocalDate.parse(birthDate, formatter);
-	    LocalDate now = LocalDate.now();
-	    
-	    Period period = Period.between(dob, now);
-	    
-	    return period.getYears();
+		if(idsList.size() == 0) {
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("lists", null);
+	        return response;
+	    }
+		
+		String order = (String)formData.get("order");
+		
+		List<InstrVo> lists = service.getAllInstr(new HashMap<String, Object>(){{
+													put("inprIds", idsList);
+													put("start", 1);
+													put("end", idsList.size());
+													put("order", order);
+												}});
+		
+		for (InstrVo instrVo : lists) {
+			
+			String birthDateString = instrVo.getUserProfileVo().get(0).getUserBirth();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime birthDateTime = LocalDateTime.parse(birthDateString, formatter);
+			
+			LocalDate birthDate = birthDateTime.toLocalDate();
+			
+			int age = Period.between(birthDate, LocalDate.now()).getYears();
+			instrVo.setInprAge(age);
+		};
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		log.info("userInfo : {}",userInfo);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("lists", lists);
+		response.put("userInfo", userInfo);
+		
+		log.info("검색 결과 : {}", response);
+		return response;
 	}
 	
 	// 강사 상세 조회 페이지 이동
@@ -309,6 +325,7 @@ public class InstrController {
 		if(userId == null || userId.equals("")) {
 			userId = "";
 		}
+		
 		String inprAccountId = map.get("inprAccountId").toString();
 		
 		InstrVo users = service.getlikeViewUser(inprAccountId);
@@ -327,7 +344,12 @@ public class InstrController {
 		
 		Map<String, Object> view = LikeViewUtils.view(userId, viewUsers);
 		view.put("inprAccountId", inprAccountId);
-		service.updateInstrView(view);
+		log.info("view 내용 : {}", view);
+		int n = service.updateInstrView(view);
+		
+		if(n>0) {
+			log.info("view 업데이트 성공");
+		}
 		
 		Map<String, Object> result = new HashMap<String, Object>(){{
 			put("viewCount", view.get("count"));

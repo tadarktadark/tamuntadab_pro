@@ -82,8 +82,8 @@ public class ElasticsearchService {
 		        searchSourceBuilder.from(pageNumber * pageSize);
 		    	searchSourceBuilder.size(pageSize);
 		        
-		        String sortType = (String) formData.get("sort");
-				applySortCondition(searchSourceBuilder, sortType);
+//		        String sortType = (String) formData.get("sort");
+//				applySortCondition(searchSourceBuilder, sortType);
 				
 		        SearchRequest searchRequest = new SearchRequest(index);
 		        searchRequest.source(searchSourceBuilder);
@@ -116,27 +116,27 @@ public class ElasticsearchService {
 			}
 		 
 		 // 검색 결과 출력 순서 설정 좋아요순/등록일순/기본(정확도순) -> 그밖에 원하는 order by 필드에 이름 설정해주면 됨
-		 private void applySortCondition(SearchSourceBuilder builder,
-                 String sort){
-					if(sort!=null && !sort.equals("")){
-					switch(sort){
-					case "like":
-					 builder.sort("like_count", SortOrder.DESC);
-					 break;
-					case "reg":
-					 builder.sort("regdate", SortOrder.DESC);
-					 break;
-					case "basic":
-					 // Elasticsearch 기본 정확도 점수(_score)로 정렬
-					 builder.sort("_score", SortOrder.DESC);
-					 break;
-					default:
-						logger.warn("Unknown sort type: {}", sort);
-						break;
-					}
-				}
-
-		 	}
+//		 private void applySortCondition(SearchSourceBuilder builder,
+//                 String sort){
+//					if(sort!=null && !sort.equals("")){
+//					switch(sort){
+//					case "like":
+//					 builder.sort("like_count", SortOrder.DESC);
+//					 break;
+//					case "reg":
+//					 builder.sort("regdate", SortOrder.DESC);
+//					 break;
+//					case "basic":
+//					 // Elasticsearch 기본 정확도 점수(_score)로 정렬
+//					 builder.sort("_score", SortOrder.DESC);
+//					 break;
+//					default:
+//						logger.warn("Unknown sort type: {}", sort);
+//						break;
+//					}
+//				}
+//
+//		 	}
 		
 		// subjects 일치 단어 검색
 	    private void applySubjectCondition(BoolQueryBuilder boolQueryBuilder,

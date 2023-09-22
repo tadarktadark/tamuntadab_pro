@@ -132,17 +132,19 @@ SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, US
 	    SUBJECTS_TITLE, SUBJECTS_MAJOR_TITLE, REVIEW_COUNT,USER_BIRTH, INPR_FEE, USER_GENDER, USER_JOIN_DATE, INPR_VIEW_COUNT,
 		CASE WHEN NTILE(10) OVER (ORDER BY NVL(INPR_LIKE_COUNT, 0) DESC) = 1 THEN 'HOT' ELSE NULL END AS INGI,
 		ROW_NUMBER() OVER (
-                   <choose>
-		<when test="order == 'reg'">
-			ORDER BY USER_JOIN_DATE DESC, INPR_SEQ DESC
-		</when>
-		<when test="order == 'view'">
-			ORDER BY NVL(INPR_VIEW_COUNT, 0) DESC, INPR_SEQ DESC
-		</when>
-		<otherwise>
-			ORDER BY NVL(INPR_LIKE_COUNT, 0) DESC, INPR_SEQ DESC
-		</otherwise>
-		</choose>) AS RN
+		        ORDER BY 
+		            <choose>
+		                <when test="order == 'reg'">
+		                    USER_JOIN_DATE DESC, INPR_SEQ DESC
+		                </when>
+		                <when test="order == 'view'">
+		                    NVL(INPR_VIEW_COUNT, 0) DESC, INPR_SEQ DESC
+		                </when>
+		                <otherwise>
+		                    NVL(INPR_LIKE_COUNT, 0) DESC, INPR_SEQ DESC
+		                </otherwise>
+		            </choose>
+		) AS RN
 	FROM (
 	SELECT INPR_SEQ, INPR_ACCOUNT_ID, USER_PROFILE_FILE, INPR_CERT, USER_ACCOUNT_ID,
 		    USER_NICKNAME, USER_BIRTH, INPR_FEE, USER_GENDER,
@@ -159,10 +161,18 @@ SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, US
 	LEFT JOIN REVIEW ON CLAS_ID = REVI_CLAS_ID
 	GROUP BY USER_PROFILE_FILE, USER_NICKNAME, INPR_FEE, USER_GENDER, INPR_SUBJECTS, INPR_SUBJECTS_MAJOR, INPR_LIKE_COUNT, INPR_ACCOUNT_ID, INPR_CERT, INPR_VIEW_COUNT, USER_ACCOUNT_ID, USER_JOIN_DATE,INPR_SEQ, USER_BIRTH
 	)
-	
+	<if test="inprIds != null">
+		WHERE INPR_ACCOUNT_ID IN 
+		<foreach collection="inprIds" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</if>
 )
  WHERE RN BETWEEN #{start} AND #{end}
 </select>
+
+
+
 
 <select id="getAllInstrCount" resultType="Integer">
 SELECT COUNT(*)
@@ -185,12 +195,14 @@ SELECT COUNT(*)
 </select>
 
 <update id="updateInstrLike">
-	UPDATE INSTR_PROFILE SET INPR_LIKE = #{list}, INPR_LIKE_COUNT = #{count}, INPR_REGDATE = CURRENT_DATE
+	UPDATE INSTR_PROFILE SET INPR_LIKE = #{list}, INPR_LIKE_COUNT = #{count},
+	INPR_REGDATE = CURRENT_DATE
 	WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </update>
 
 <update id="updateInstrView">
-	UPDATE INSTR_PROFILE SET INPR_VIEW = #{list}, INPR_VIEW_COUNT = #{count}, INPR_REGDATE = CURRENT_DATE
+	UPDATE INSTR_PROFILE SET INPR_VIEW = #{list}, INPR_VIEW_COUNT = #{count},
+	INPR_REGDATE = CURRENT_DATE
 	WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </update>
 
