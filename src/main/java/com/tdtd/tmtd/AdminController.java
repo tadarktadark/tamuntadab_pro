@@ -88,10 +88,15 @@ public class AdminController {
 		return "/admin/adminList";
 	}
 	@RequestMapping(value="/admin/adminInsert.do",method = RequestMethod.GET)
-	public String adminInsert(Model model) {
-		model.addAttribute("title","총 관리자");
-		model.addAttribute("pageTitle", "관리자 추가");
-		return "/admin/adminInsert";
+	public String adminInsert(Model model, HttpSession session) {
+		AdminVo adminInfo = (AdminVo) session.getAttribute("adminInfo");
+		if(adminInfo.getAdprAuth().equals("T")){
+			model.addAttribute("title","총 관리자");
+			model.addAttribute("pageTitle", "관리자 추가");
+			return "/admin/adminInsert";
+		}else{
+			return "redirect:/admin/adminMain.do";
+		}
 	}
 	@RequestMapping(value="/admin/searchAdminList.do",method = RequestMethod.GET)
 	@ResponseBody
