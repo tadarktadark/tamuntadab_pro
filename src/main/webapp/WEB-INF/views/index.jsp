@@ -13,20 +13,11 @@
 	rel="stylesheet" type="text/css" />
 <%@ include file="./shared/_vender_scripts.jsp"%>
 <%@ include file="./shared/_head_css.jsp"%>
-<script
-	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="./js/index.js"></script>
-<script
-	src="
-https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js
-"></script>
-<link
-	href="
-https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css
-"
-	rel="stylesheet">
-<link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet"
-	type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
+<link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css" rel="stylesheet">
+<link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 <!--Swiper slider js-->
 <script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
 <!-- swiper.init js -->
@@ -91,8 +82,7 @@ a {
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp"%>
-		<%@ include file="./shared/_sidebar.jsp"%>
+		<%@ include file="./shared/_menu.jsp"%>
 
 		<div class="main-content">
 			<div class="page-content">

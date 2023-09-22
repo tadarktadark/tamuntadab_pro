@@ -13,7 +13,7 @@ File: Main Js File
     /**
      *  global variables
      */
-    var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
+    var navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML; 
     var horizontalMenuSplit = 4; // after this number all horizontal menus will be moved in More menu options
     var default_lang = "en"; // set Default Language
     var language = localStorage.getItem("language");
@@ -1130,28 +1130,28 @@ File: Main Js File
         var newMenus = "";
         var splitItem = "";
 
-        Array.from(menuData).forEach(function (item, index) {
-            if (index + 1 === splitMenu) {
-                splitItem = item;
-            }
-            if (index + 1 > splitMenu) {
-                newMenus += item.outerHTML;
-                item.remove();
-            }
-
-            if (index + 1 === menuData.length) {
-                if (splitItem.insertAdjacentHTML) {
-                    splitItem.insertAdjacentHTML(
-                        "afterend",
-                        '<li class="nav-item">\
-						<a class="nav-link" href="#sidebarMore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMore">\
-							<i class="ri-briefcase-2-line"></i> ' + extraMenuName + '\
-						</a>\
-						<div class="collapse menu-dropdown" id="sidebarMore"><ul class="nav nav-sm flex-column">' + newMenus + "</ul></div>\
-					</li>");
-                }
-            }
-        });
+//        Array.from(menuData).forEach(function (item, index) {
+//            if (index + 1 === splitMenu) {
+//                splitItem = item;
+//            }
+//            if (index + 1 > splitMenu) {
+//                newMenus += item.outerHTML;
+//                item.remove();
+//            }
+//
+//            if (index + 1 === menuData.length) {
+//                if (splitItem.insertAdjacentHTML) {
+//                    splitItem.insertAdjacentHTML(
+//                        "afterend",
+//                        '<li class="nav-item">\
+//						<a class="nav-link" href="#sidebarMore" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMore">\
+//							<i class="ri-briefcase-2-line"></i> ' + extraMenuName + '\
+//						</a>\
+//						<div class="collapse menu-dropdown" id="sidebarMore"><ul class="nav nav-sm flex-column">' + newMenus + "</ul></div>\
+//					</li>");
+//                }
+//            }
+//        });
     }
 
     function hideShowLayoutOptions(dataLayout) {
