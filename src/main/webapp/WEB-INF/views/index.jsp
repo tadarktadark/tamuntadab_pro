@@ -34,7 +34,10 @@ https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css
 <style type="text/css">
 .flex-container {
 	width: 500px;
-	margin: auto 20%; display : flex;
+	margin-bottom: 10px;
+	margin-left: 20%;
+	margin-right: 20%;
+	display : flex;
 	justify-content: space-between;
 	display: flex;
 }
@@ -94,8 +97,9 @@ a {
 		<div class="main-content">
 			<div class="page-content">
 				<div class="container-fluid" style="text-align: center;">
-
-					<span style="font-size: 1.2em;">타문타답에서 연봉을 올리세요!</span>
+					<div>
+					<span style="font-size: 1.4em;">타문타답에서 연봉을 올리세요!</span>
+					</div>
 					<form action="./classList.do" method="get"
 						style="margin: auto 20%; margin-top: 10px;">
 						<div class="position-relative w-100">
@@ -112,12 +116,13 @@ a {
 					<div id="subjectDiv">
 						<span
 							class="badge bg-secondary-subtle text-secondary  badge-border"
-							style="width: 300px;"> 이런 과목들을 배울 수 있어요</span>
+							style="width: 300px; text-align: left;"><i class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런 과목들을 배울 수 있어요
+							</span>
 						<div id="subjectTagSlider"></div>
 					</div>
 					<span class="badge bg-success-subtle text-success  badge-border"
-						style="width: 300px; display: block; margin-top: 3%; margin-bottom: 10px; margin-left: 20%; margin-right: 20%; font-size: 1.2em;">
-						모집 중인 클래스<i class="bx bx-book-bookmark"></i>
+						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; margin-left: 20%; margin-right: 20%; font-size: 1.2em;">
+						<i class="bx bxs-book-reader" style="vertical-align: middle;"></i>&nbsp;모집 중인 클래스
 					</span>
 					<div id="classDiv">
 						<div id="classSlider" class="swiper effect-coverflow-swiper"
@@ -167,8 +172,8 @@ a {
 					</div>
 
 					<span class="badge bg-danger-subtle text-danger badge-border"
-						style="width: 300px; display: block; margin-top: 3%; margin-bottom: 10px; margin-left: 20%; margin-right: 20%; font-size: 1.2em;">
-						인기강사<i class="bx bxs-hot"></i>
+						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; margin-left: 20%; margin-right: 20%; font-size: 1.2em;">
+						<i class="bx bxs-hot" style="vertical-align: middle;"></i>&nbsp;인기강사
 					</span>
 					<div class="flex-container">
 						<div id="ingiInstrDiv1">
