@@ -154,6 +154,16 @@ public class TupyoServiceImpl implements ITupyoService {
 		return dao.countVotedUser(tupySeq);
 	}
 
+	@Override
+	public TupyoVo getTupyoBySeq(int tupySeq) {
+		return dao.getTupyoBySeq(tupySeq);
+	}
+
+	@Override
+	public int delTupyoUserByClassId(Map<String, Object> map) {
+		return dao.delTupyoUserByClassId(map);
+	}
+
 	
 
 

@@ -188,6 +188,31 @@ WHERE TRUNC(TUPY_ENDDATE) <= TRUNC(SYSDATE);
 
 
 
+--클래스 아이디 유저 아이디
+
+SELECT *
+	FROM TUPYO_USER tu 
+	WHERE TUUS_ACCOUNT_ID ='TMTD16';
+
+
+DELETE FROM TUPYO_USER tu 
+	WHERE TUUS_ACCOUNT_ID ='TMTD16' AND TUUS_OPTION_SEQ = (
+															SELECT TUUS_OPTION_SEQ 
+																FROM TUPYO_USER tu 
+																WHERE TUUS_OPTION_SEQ =(SELECT TUOP_SEQ 
+																FROM TUPYO_OPTION to2 
+																WHERE TUOP_TUPY_SEQ =(SELECT TUPY_SEQ 
+																FROM TUPYO t 
+																WHERE TUPY_CLAS_ID = 1000000254))
+													);
+
+
+
+
+
+
+
+
 -----------------------------투표 끝----------------------------
 
 ----------------------------공지 시작---------------------------

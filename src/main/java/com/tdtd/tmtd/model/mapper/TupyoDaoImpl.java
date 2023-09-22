@@ -161,6 +161,16 @@ public class TupyoDaoImpl implements ITupyoDao {
 	public int countVotedUser(int tupySeq) {
 		return sqlSession.selectOne(NS+"countVotedUser",tupySeq);
 	}
+
+	@Override
+	public TupyoVo getTupyoBySeq(int tupySeq) {
+		return sqlSession.selectOne(NS+"getTupyoBySeq",tupySeq);
+	}
+
+	@Override
+	public int delTupyoUserByClassId(Map<String, Object> map) {
+		return sqlSession.delete(NS+"delTupyoUserByClassId",map);
+	}
 	
 	
 	

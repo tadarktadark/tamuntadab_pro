@@ -123,15 +123,23 @@ public class TupyoController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
-	public void insertTupyo(@RequestBody TupyoUserVo vo) {
+	public String insertTupyo(@RequestBody TupyoUserVo vo) {
 		int tuusOptionSeq = vo.getTuusOptionSeq();
 		String tuusAccountId = vo.getTuusAccountId();
+		TupyoOptionVo tuopVo = service.getTupyoOption(tuusOptionSeq);
+		int tupySeq = tuopVo.getTuopTupySeq();
+		TupyoVo tupyVo = service.getTupyoBySeq(tupySeq);
+		String tupyStatus = tupyVo.getTupyStatus();
+		if(tupyStatus.equals("F")) {
+			return "finishedTupyo";
+		}
 		System.out.println("웨엥웨웨웨웽엥"+tuusOptionSeq);
 		System.out.println(""+tuusAccountId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
 		map.put("tuusAccountId", tuusAccountId);
 		service.insertTupyoUser(map);
+		return "success";
 	}
 	
 	@ResponseBody
