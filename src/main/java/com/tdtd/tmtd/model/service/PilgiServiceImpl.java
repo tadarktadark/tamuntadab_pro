@@ -27,8 +27,8 @@ public class PilgiServiceImpl implements IPilgiService {
 	private IFileService fSerivce;
 
 	@Override
-	public int getPilgiCount(String accountId) {
-		return dao.getPilgiCount(accountId);
+	public int getPilgiCount(Map<String, Object> map) {
+		return dao.getPilgiCount(map);
 	}
 
 	@Override
