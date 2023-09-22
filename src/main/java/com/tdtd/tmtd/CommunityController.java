@@ -555,7 +555,9 @@ public class CommunityController {
 				
 		BoardVo bVo = null;
 		String str = "";
+		String code = "";
 		String[] array = null;
+		String[] codeArr = null;
 		
 		if(board.equals("pilgi")) {			
 			bVo = pService.getPilgiUpdateData(id);
@@ -569,15 +571,20 @@ public class CommunityController {
 		model.addAttribute("bVo",bVo);
 		model.addAttribute("boardId",id);
 		
+		System.out.println(bVo.getId());
 		if(bVo.getSubjectCode()!=null) {
 			str = bVo.getSubjectCode().substring(1, bVo.getSubjectCode().length() - 1); // 대괄호 제거
+			code = bVo.getId().substring(1, bVo.getId().length() - 1);
 			array = str.split(","); // 쉼표를 기준으로 분리
+			codeArr = code.split(",");
 
 			for (int i = 0; i < array.length; i++) {
 			    array[i] = array[i].replaceAll("\"", "").trim(); // 큰따옴표 제거 및 공백 제거
+			    codeArr[i] = codeArr[i].replaceAll("\"", "").trim();
 			}
 		}
 		model.addAttribute("subArr",array); 
+		model.addAttribute("codeArr", codeArr);
 		
 		return "communityUpdateForm";
 	}
