@@ -109,9 +109,9 @@ public class CommunityController {
 	
 	@RequestMapping(value="/getCommunityList.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page, String clasId, @RequestParam(value="boardId[]", required = false) String[] boardId){
+	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page, @RequestParam(value="boardId[]", required = false) String[] boardId){
 		String board = (String)session.getAttribute("community");
-		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 조회 : board {}, orderBy {}, page {}, clasId{}, boardId {}", board, orderBy, page, clasId, boardId);
+		log.info("@@@@@@@@@@@@@@@ 커뮤니티 목록 조회 : board {}, orderBy {}, page {}, boardId {}", board, orderBy, page, boardId);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		if(userInfo == null) {
@@ -126,7 +126,6 @@ public class CommunityController {
 		bMap.put("orderBy", orderBy);
 		
 		if(board.equals("pilgi")) {
-			bMap.put("clasId", clasId);
 			if(boardId != null) {				
 				bMap.put("boardId", Arrays.asList(boardId));
 			}
