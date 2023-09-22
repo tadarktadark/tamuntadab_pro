@@ -59,32 +59,43 @@
 									    	</c:choose>
 									    	<label for="subject" class="form-label">과목</label>
 									    	<div class="form-icon right-input">
-								    			<c:if test="${bVo.clasId != null}">
-								    				<div id="class-selected" class="choices cursor-default" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
-														<div class="choices__inner cursor-default mb-3">
-															<select disabled="disabled" class="form-control choices__input cursor-default" id="choices-multiple-remove-button" data-choices="" data-choices-removeitem="" name="subject" multiple="" hidden="" tabindex="-1" data-choice="active">
-																<c:forEach items="${subArr}" var="sub">
-																	<option data-custom-properties="[object Object]">${sub}</option>
-																</c:forEach>
-															</select>
-															<div class="choices__list choices__list--multiple">
-																<c:forEach items="${subArr}" var="sub">
-																	<div class="choices__item choices__item--selectable cursor-default" data-item="" data-id="{{no}}" data-value="${sub}" data-custom-properties="[object Object]" aria-selected="true" data-deletable="">
-																		${sub}
-																		<button type="button" class="choices__button cursor-default" aria-label="Remove item: '${sub}'" data-button="">Remove item</button>
-																	</div>
-																</c:forEach>
+									    		<c:choose>
+									    			<c:when test="${bVo.clasId != null}">
+									    				<div id="class-selected" class="choices cursor-default" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+															<div class="choices__inner cursor-default mb-3">
+																<select disabled="disabled" class="form-control choices__input cursor-default" id="choices-multiple-remove-button" data-choices="" data-choices-removeitem="" name="subject" multiple="" hidden="" tabindex="-1" data-choice="active">
+																	<c:forEach items="${subArr}" var="sub">
+																		<option data-custom-properties="[object Object]">${sub}</option>
+																	</c:forEach>
+																</select>
+																<div class="choices__list choices__list--multiple">
+																	<c:forEach items="${subArr}" var="sub">
+																		<div class="choices__item choices__item--selectable cursor-default" data-item="" data-id="{{no}}" data-value="${sub}" data-custom-properties="[object Object]" aria-selected="true" data-deletable="">
+																			${sub}
+																			<button type="button" class="choices__button cursor-default" aria-label="Remove item: '${sub}'" data-button="">Remove item</button>
+																		</div>
+																	</c:forEach>
+																</div>
 															</div>
 														</div>
-													</div>
-									    		</c:if>
-										    	<div style="display:none;" class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
-													<div class="choices__inner mb-3">
-														<div id="selectedSubjects" class="choices__list choices__list--multiple">
+												    	<div style="display:none;" class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+															<div class="choices__inner mb-3">
+																<div id="selectedSubjects" class="choices__list choices__list--multiple">
+																</div>
+																<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목을 추가해보세요!" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
+															</div>
 														</div>
-														<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목을 추가해보세요!" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
-													</div>
-												</div>
+									    			</c:when>
+									    			<c:otherwise>
+										    			<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+															<div class="choices__inner mb-3">
+																<div id="selectedSubjects" class="choices__list choices__list--multiple">
+																</div>
+																<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목을 추가해보세요!" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
+															</div>
+														</div>
+									    			</c:otherwise>
+									    		</c:choose>
 										    </div>
 											<input type="hidden" id="subjectCode" name="subjectCode" value="none">
 							        	</c:if>
