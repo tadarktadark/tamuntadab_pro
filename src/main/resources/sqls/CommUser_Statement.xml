@@ -89,7 +89,7 @@
 	</update>
 	
 	<update id="updateUserPassword" parameterType="java.util.Map">
-		UPDATE USER_PROFILE SET 
+		UPDATE USER_PROFILE SET USER_PASSWORD = #{userPassword}
 			<choose>
 				<when test="tokenValue == 'mypage'">
 					WHERE USER_ACCOUNT_ID =#{userAccountId}
