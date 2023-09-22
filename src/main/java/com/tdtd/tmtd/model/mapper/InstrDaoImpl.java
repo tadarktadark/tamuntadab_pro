@@ -66,7 +66,7 @@ public class InstrDaoImpl implements IInstrDao {
 
 	@Override
 	public int updateInstrView(Map<String, Object> map) {
-		return sqlSession.update(NS+"updateInstrLike", map);
+		return sqlSession.update(NS+"updateInstrView", map);
 	}
 	
 	@Override
