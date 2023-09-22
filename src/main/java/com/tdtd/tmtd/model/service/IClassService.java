@@ -203,4 +203,11 @@ public interface IClassService {
 	 * @since 2023-09-21
 	 */
 	public int addChamyeojaGeneral(ChamyeoVo vo);
+	
+	/**
+	 * 상태별 클래스 조회
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> getClassListByStatus(String clchAccountId);
 }

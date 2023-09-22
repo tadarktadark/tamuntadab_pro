@@ -367,7 +367,7 @@
 										<div class="modal-body p-4">
 											<form class="needs-validation" name="event-form"
 												id="form-event">
-												<div class="text-end">
+												<div class="text-end" style="display: none;">
 													<a href="#" class="btn btn-sm btn-soft-primary"
 														id="edit-event-btn" data-id="new-event"
 														onclick="editEvent(this)" role="button" hidden="true">Edit</a>
@@ -375,21 +375,26 @@
 												<div class="event-details">
 													<div class="d-flex mb-2">
 														<div class="flex-grow-1 d-flex align-items-center">
+															<div class="flex-shrink-0 me-3">
+                                                                <i class="ri-calendar-event-line text-muted fs-16"></i>
+                                                            </div>
 															<div class="flex-grow-1">
 																<h6 class="d-none fw-semibold mb-0"
 																	id="event-start-date-tag"></h6>
 															</div>
 														</div>
 													</div>
-													<div class="d-flex align-items-center mb-2">
-														<div class="flex-shrink-0 me-3">
-															<i class="ri-time-line text-muted fs-16"></i>
-														</div>
-														<div class="flex-grow-1">
-															<h6 class="d-block fw-semibold mb-0">
-																<span id="event-timepicker1-tag"></span> - <span
-																	id="event-timepicker2-tag"></span>
-															</h6>
+													<div style="display: none;">
+														<div class="d-flex align-items-center mb-2">
+															<div class="flex-shrink-0 me-3">
+																<i class="ri-time-line text-muted fs-16"></i>
+															</div>
+															<div class="flex-grow-1">
+																<h6 class="d-block fw-semibold mb-0">
+																	<span id="event-timepicker1-tag"></span> - <span
+																		id="event-timepicker2-tag"></span>
+																</h6>
+															</div>
 														</div>
 													</div>
 													<div class="d-flex align-items-center mb-2">
@@ -556,7 +561,7 @@
 													<!--end col-->
 												</div>
 												<!--end row-->
-												<div class="hstack gap-2 justify-content-end">
+												<div class="hstack gap-2 justify-content-end" style="display: none;">
 													<button type="button" class="btn btn-soft-danger"
 														id="btn-delete-event" hidden="true">
 														<i class="ri-close-line align-bottom"></i> Delete
@@ -584,6 +589,7 @@
 		</div>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
+	<input type="hidden" id="clasId" value="${param.clasId}" />
 	<script src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 	<script src="./assets/libs/fullcalendar/main.min.js"></script>
 	<script src="./js/myClass.js"></script>

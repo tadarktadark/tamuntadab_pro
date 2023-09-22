@@ -355,4 +355,28 @@ public class ClassController {
 
 		return gson.toJson(cVoList);
 	}
+	
+	@PostMapping("/myPageClass.do")
+	public String myPageClass(Model model, HttpSession session, @RequestParam("page") String pageAttr) {
+	
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("ClassController classListLoad 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
+		}
+		
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		List<ClassVo> cVoListP = cService.getChamyeoClass(userAccountId);
+		log.info("ClassController 달력 로드에 쓰일 정보 pVo = {}", cVoListP);
+		List<ClassVo> cVoListE = cService.getClassListByStatus(userAccountId);
+		log.info("ClassController 달력 로드에 쓰일 정보 pVo = {}", cVoListE);
+		Map<String, Object> cVoMap = new HashMap<String, Object>();
+		cVoMap.put("cVoListP",cVoListP);
+		cVoMap.put("cVoListE",cVoListE);
+		
+		Gson gson = new Gson();
+
+		return gson.toJson(cVoMap);
+	}
 }

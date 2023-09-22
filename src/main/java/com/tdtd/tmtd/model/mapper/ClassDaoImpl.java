@@ -224,4 +224,14 @@ public class ClassDaoImpl implements IClassDao {
 		log.info("ClassDaoImpl addChamyeojaGeneral 실행");
 		return sqlSession.insert(NS+"addChamyeojaGeneral",vo);
 	}
+	
+	/**
+	 * 상태별 클래스 조회
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> getClassListByStatus(String clchAccountId){
+		log.info("ClassDaoImpl getClassListByStatus 실행");
+		return sqlSession.selectList(NS+"getClassListByStatus",clchAccountId);
+	}
 }
