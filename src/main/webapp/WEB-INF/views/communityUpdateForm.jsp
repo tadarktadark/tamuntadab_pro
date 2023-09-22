@@ -72,14 +72,14 @@
 																	<c:forEach items="${subArr}" var="sub">
 																		<div class="choices__item choices__item--selectable cursor-default" data-item="" data-id="{{no}}" data-value="${sub}" data-custom-properties="[object Object]" aria-selected="true" data-deletable="">
 																			${sub}
-																			<button type="button" class="choices__button cursor-default" aria-label="Remove item: '${sub}'" data-button="">Remove item</button>
+																			<button type="button" class="choices__button cursor-default " aria-label="Remove item: '${sub}'" data-button="">Remove item</button>
 																		</div>
 																	</c:forEach>
 																</div>
 															</div>
 														</div>
 												    	<div style="display:none;" class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
-															<div class="choices__inner mb-3">
+															<div class="choices__inner mb-3 form-control">
 																<div id="selectedSubjects" class="choices__list choices__list--multiple">
 																</div>
 																<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목을 추가해보세요!" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
@@ -88,7 +88,7 @@
 									    			</c:when>
 									    			<c:otherwise>
 										    			<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
-															<div class="choices__inner mb-3">
+															<div class="choices__inner mb-3 form-control">
 																<div id="selectedSubjects" class="choices__list choices__list--multiple">
 																</div>
 																<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목을 추가해보세요!" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
