@@ -29,14 +29,14 @@ import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 @Controller
-public class ChatController implements ServletConfigAware{
+public class ChatController/* implements ServletConfigAware*/{
 	
-	private ServletContext servletContext;
+//	private ServletContext servletContext;
 	
-	@Override
-	public void setServletConfig(ServletConfig servletConfig) {
-		servletContext = servletConfig.getServletContext();
-	}
+//	@Override
+//	public void setServletConfig(ServletConfig servletConfig) {
+//		servletContext = servletConfig.getServletContext();
+//	}
 	
 	
 	@Autowired
@@ -142,35 +142,35 @@ public class ChatController implements ServletConfigAware{
 	}
 
 
-	@GetMapping("/openChatRoom.do")
-	public String openChatRoom(String cr_id, String mem_id, HttpSession session) {
-		session.setAttribute("mem_id", mem_id);
-		session.setAttribute("cr_id", cr_id);
-		
-		//서버 전체에서 계속해서 참여자의 정보를 담기 위해서 ServletContext 객체를 사용한다
-		Map<String, String> chatList = (Map<String, String>) servletContext.getAttribute("chatList");
-		if(chatList ==null) {
-			chatList = new HashMap<String,String>();
-			chatList.put(mem_id, cr_id);
-			servletContext.setAttribute("chatList", chatList);
-		}else {
-			chatList.put(mem_id, cr_id);
-			servletContext.setAttribute("chatList", chatList);
-		}
-		return "chat";
-	}
-
-	@PostMapping(value = "/socketOut.do")
-	@ResponseBody
-	public void socketOut(HttpSession session) {
-		String mem_id = (String) session.getAttribute("mem_id");
-		Map<String, String> chatList = (Map<String, String>)servletContext.getAttribute("chatList");
-		
-		if(chatList != null) {
-			chatList.remove(mem_id);
-		}
-		
-		servletContext.setAttribute("chatList", chatList);
-	}
+//	@GetMapping("/openChatRoom.do")
+//	public String openChatRoom(String cr_id, String mem_id, HttpSession session) {
+//		session.setAttribute("mem_id", mem_id);
+//		session.setAttribute("cr_id", cr_id);
+//		
+//		//서버 전체에서 계속해서 참여자의 정보를 담기 위해서 ServletContext 객체를 사용한다
+//		Map<String, String> chatList = (Map<String, String>) servletContext.getAttribute("chatList");
+//		if(chatList ==null) {
+//			chatList = new HashMap<String,String>();
+//			chatList.put(mem_id, cr_id);
+//			servletContext.setAttribute("chatList", chatList);
+//		}else {
+//			chatList.put(mem_id, cr_id);
+//			servletContext.setAttribute("chatList", chatList);
+//		}
+//		return "chat";
+//	}
+//
+//	@PostMapping(value = "/socketOut.do")
+//	@ResponseBody
+//	public void socketOut(HttpSession session) {
+//		String mem_id = (String) session.getAttribute("mem_id");
+//		Map<String, String> chatList = (Map<String, String>)servletContext.getAttribute("chatList");
+//		
+//		if(chatList != null) {
+//			chatList.remove(mem_id);
+//		}
+//		
+//		servletContext.setAttribute("chatList", chatList);
+//	}
 	
 }

@@ -52,8 +52,8 @@
 		                            <ul class="list-unstyled chat-list p-3">
 		                            <c:forEach var="room" items="${roomList}">
 		                            	<li class="chatRoomList">
-		                            	<input type="hidden" value="${room.chroId}">
 		                                    <a href="#" onclick="openChat()">
+			                            	<input type="hidden" value="${room.chroId}">
 		                                        <div class="d-flex align-items-center">
 		                                            <div class="flex-grow-1 overflow-hidden">
 		                                                <h5 class="text-truncate fs-15 mb-0">${room.chroTitle}</h5>
