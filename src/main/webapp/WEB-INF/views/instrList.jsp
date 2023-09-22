@@ -25,11 +25,10 @@
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp"%>
-		<%@ include file="./shared/_sidebar.jsp"%>
+		<%@ include file="./shared/_menu.jsp"%>
 		<div class="main-content">
 			<div class="page-content">
-				<div class="container-fluid" style="margin: auto 150px;">
+				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp"%>
 			<div class="card">
 			<div class="card-body">
@@ -91,7 +90,7 @@
 
 			<div id="moreList" class="row output-area" style="width: auto; height: 450px; overflow: auto;">
 			<c:forEach var="instr" items="${lists}" varStatus="vs">
-				<div class="col-xxl-3 col-md-6">
+				<div class="col-md-6">
 					<div class="card team-box" onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
@@ -322,7 +321,7 @@
 </script>
 <script id="instrList-template" type="text/x-handlebars-template">
 {{#each lists}}
-				<div class="col-xxl-3 col-md-6">
+				<div class="col-md-6">
 					<div class="card team-box" onclick="location.href='./instrDetail.do?seq={{inprSeq}}&loginId={{../userInfo.userAccountId}}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
