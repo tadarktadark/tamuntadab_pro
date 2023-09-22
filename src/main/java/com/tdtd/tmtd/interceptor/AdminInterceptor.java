@@ -26,7 +26,7 @@ public class AdminInterceptor implements AsyncHandlerInterceptor {
 				throws Exception {
 			int n = adminService.checkIP(request.getRemoteAddr().toString().trim());
 			if(n==0) {
-				response.sendRedirect("../");
+				response.sendRedirect("../main.do");
 				return false;
 			}
 			return AsyncHandlerInterceptor.super.preHandle(request, response, handler);

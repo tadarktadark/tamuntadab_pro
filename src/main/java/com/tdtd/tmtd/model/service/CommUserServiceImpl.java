@@ -126,6 +126,11 @@ public class CommUserServiceImpl implements ICommUserService {
 		}
 		return n==2?1:0;
 	}
+	
+	@Override
+	public int checkPassword(Map<String, Object> resetPassword) {
+		return cdao.checkPassword(resetPassword);
+	}
 
 	@Override
 	public String searchNickName(Map<String,Object> map) {
@@ -175,4 +180,10 @@ public class CommUserServiceImpl implements ICommUserService {
 			}
 		}
 	}
+
+	@Override
+	public String jeongjidate(UserProfileVo userInfo) {
+		return cdao.jeongjidate(userInfo);
+	}
+
 }

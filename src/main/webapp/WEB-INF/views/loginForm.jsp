@@ -17,6 +17,7 @@
 		<%@ include file="./shared/_topbar.jsp" %>
 		<%@ include file="./shared/_sidebar.jsp" %>
 		<div class="main-content">
+		<div class="page-content">
 			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100 bg-light">
 		        <div class="container w-25">
 		            <div class="row rounded-pill ">
@@ -108,6 +109,7 @@
 		            </div>
 		        </div><!--end container-->
 		    </section>
+		    </div>
 		<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>	

@@ -31,6 +31,8 @@ public interface ICommUserService {
 	 */
 	public int searchJeongJi(UserProfileVo userInfo);
 	
+	public String jeongjidate(UserProfileVo userInfo);
+	
 	/**
 	 * 로그인 시 기능이 합쳐진 메소드
 	 */
@@ -46,6 +48,8 @@ public interface ICommUserService {
 
 	public int updateUserPassword(Map<String,Object> resetPassword);
 	
+	public int checkPassword(Map<String,Object> resetPassword);
+	
 	public String searchNickName(Map<String,Object> map);
 	
 	public int updatedelflag(Map<String,Object> userToken);
@@ -53,4 +57,6 @@ public interface ICommUserService {
 	public int updateUserDelflagToY(UserProfileVo vo);
 	
 	public String checkPayment (UserProfileVo vo);
+	
+	
 }

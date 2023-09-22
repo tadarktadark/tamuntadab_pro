@@ -46,6 +46,29 @@
 	
 
 <mvc:interceptors>
+<!-- 	<mvc:interceptor> -->
+<!-- 		<mvc:mapping path="/**"/> -->
+<!-- 		<mvc:exclude-mapping path="/login.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/main.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/updatePassword.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/sendToken.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/resetPassword.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/loginForm.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/autoLogin.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/regist.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/searchEmail.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/sendMail.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/sendSMS.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/registration.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/registForm.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/naverRedirect.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/kakaoRedirect.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/googleRedirect.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/GoogleRegist.do"/> -->
+<!-- 		<mvc:exclude-mapping path="/admin/**"/> -->
+<!-- 		<mvc:exclude-mapping path="/admin/admin.do"/> -->
+<!-- 		<beans:bean class="com.tdtd.tmtd.interceptor.SessionInterceptor"/> -->
+<!-- 	</mvc:interceptor> -->
 	<mvc:interceptor>
 		<mvc:mapping path="/admin/admin.do"/>
 		<beans:bean class="com.tdtd.tmtd.interceptor.AdminInterceptor" />
@@ -56,5 +79,19 @@
 		<mvc:exclude-mapping path="/admin/adminLogin.do"/>
 		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAfterLoginInterceptor" />
 	</mvc:interceptor>
+    <mvc:interceptor>
+        <mvc:mapping path="/**" />
+        <beans:bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <beans:property name="cacheSeconds" value="0" />
+            <beans:property name="useExpiresHeader" value="true" />
+            <beans:property name="useCacheControlHeader" value="true" />
+            <beans:property name="useCacheControlNoStore" value="true" />
+            <beans:property name="cacheMappings">
+                <beans:props>
+                    <beans:prop key="/images/**">8600</beans:prop>
+                </beans:props>
+            </beans:property>
+        </beans:bean>
+    </mvc:interceptor>
 </mvc:interceptors>
 </beans:beans>

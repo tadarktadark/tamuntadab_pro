@@ -105,6 +105,14 @@ public class CommUserDaoImpl implements ICommUserDao {
 	public int searchUserJeongSan(UserProfileVo vo) {
 		return sqlSession.selectOne(NS+"searchUserJeongSan",vo);
 	}
+	@Override
+	public int checkPassword(Map<String, Object> resetPassword) {
+		return sqlSession.selectOne(NS+"checkPassword",resetPassword);
+	}
+	@Override
+	public String jeongjidate(UserProfileVo userInfo) {
+		return sqlSession.selectOne(NS+"jeongjidate",userInfo);
+	}
 	
 	
 
