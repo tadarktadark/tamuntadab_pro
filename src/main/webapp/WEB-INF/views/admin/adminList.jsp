@@ -32,7 +32,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="table-responsive table-card">
-                                    <script id="entry-template" type="text/x-handlebars-template">
+<!--                                     <script id="entry-template" type="text/x-handlebars-template"> -->
                                         <table class="table table-hover table-nowrap align-middle mb-0">
                                             <thead>
                                                 <tr class="text-muted text-uppercase">

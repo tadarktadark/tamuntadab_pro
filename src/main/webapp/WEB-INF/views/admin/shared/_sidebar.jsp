@@ -27,13 +27,13 @@
                         <div class="collapse menu-dropdown" id="admin4User">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','U')" >회원 목록</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','M')" >회원 목록</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','U')" >강사 관리</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','M')" >강사 관리</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','U','B')" >신고 관리</a>
+                                    <a href="#" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','M','B')" >신고 관리</a>
                                 </li>
                             </ul>
                         </div>
@@ -81,10 +81,10 @@
                         <div class="collapse menu-dropdown" id="admin4admin">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="./adminList.do" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>')">관리자 목록</a>
+                                    <a href="./adminList.do" class="nav-link fs-5"  onclick="check('<%=adminInfo.getAdprAuth()%>','T')">관리자 목록</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./adminInsert.do" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>')">관리자 추가</a>
+                                    <a href="./adminInsert.do" class="nav-link fs-5" onclick="check('<%=adminInfo.getAdprAuth()%>','T')">관리자 추가</a>
                                 </li>
                             </ul>
                         </div>
