@@ -278,18 +278,6 @@ a {
 		</div>
 	</div>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
-	<%
-	// 세션에 값이 없으면 자바스크립트 코드 실행
-	if (session.getAttribute("userInfo") == null) {
-	%>
-	<script src="./js/autoLogin.js"></script>
-	<%
-	} else if ((session.getAttribute("userInfo") != null)) {
-	%>
-	<script src="./js/jeongjiCheck.js"></script>
-	<%
-	}
-	%>
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
