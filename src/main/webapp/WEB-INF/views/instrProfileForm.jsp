@@ -353,14 +353,14 @@ $('form').on('submit', function(e) {
                     title:'성공적으로 저장되었습니다.',
                     icon:'success'
                 }).then(function() {
-                    window.location.href = './home.do';
+                	window.history.back();
                 });
             } else {
                 Swal.fire({
                     title:'저장 실패',
                     icon:'error'
                 }).then(function() {
-                    location.reload();
+                	window.location.href = './main.do';
                 });
             }
         },
@@ -370,7 +370,7 @@ $('form').on('submit', function(e) {
    });
 		} else if (result.isDenied) {
 			Swal.fire('변경사항이 적용되지 않았습니다', '', 'info').then(function() {
-                window.location.href = './home.do';
+				window.history.back();
             });
 		}
 	});
