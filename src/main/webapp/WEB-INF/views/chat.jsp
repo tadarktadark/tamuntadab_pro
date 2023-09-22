@@ -12,8 +12,7 @@
 </head>
 <body>
 <div id="layout-wrapper">
-	<%@ include file="./shared/_topbar.jsp"%>
-	<%@ include file="./shared/_sidebar.jsp" %>
+	<%@ include file="./shared/_menu.jsp"%>
 	<div class="main-content">
 		<div class="page-content">
 			<div class="container-fluid">
@@ -51,9 +50,8 @@
 		                            </div>
 		                            <ul class="list-unstyled chat-list p-3">
 		                            <c:forEach var="room" items="${roomList}">
-		                            	<li class="chatRoomList">
-		                                    <a href="#" onclick="openChat()">
-			                            	<input type="hidden" value="${room.chroId}">
+		                            	<li class="chatRoomList" value="${room.chroId}" onclick="openChat(this)">
+		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
 		                                            <div class="flex-grow-1 overflow-hidden">
 		                                                <h5 class="text-truncate fs-15 mb-0">${room.chroTitle}</h5>
@@ -152,7 +150,7 @@
 		            </div>
 		
 		            <div class="chat-conversation p-3" data-simplebar>
-		                <ul class="list-unstyled mb-0">
+		                <ul  id="total-chat-list" class="list-unstyled mb-0">
 		                    <li class="chat-day-title">
 		                        <span class="title">Thursday</span>
 		                    </li>
@@ -411,7 +409,7 @@
 		                <div class="row">
 		                    <div class="col">
 		                        <div class="position-relative">
-		                            <input id="chatInput" type="text" class="form-control border chat-input">
+		                            <input id="chatInput" type="text" class="form-control border chat-input" onkeypress="if(event.keyCode==13) $('#chat_btn').click();">
 		                        </div>
 		                    </div>
 		                    <div class="col-auto">

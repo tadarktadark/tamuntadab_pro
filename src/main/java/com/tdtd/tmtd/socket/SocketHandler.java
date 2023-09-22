@@ -44,6 +44,8 @@ public class SocketHandler extends TextWebSocketHandler {
 		Map<String, Object> mySession = session.getAttributes();
 		String crSession = (String)mySession.get("cr_id");
 		String memSession = (String)mySession.get("mem_id");
+		System.out.println(crSession);
+		System.out.println(memSession);
 		
 		if(msg.indexOf("#&nick_")!=-1) {
 			for(WebSocketSession s : list) {
@@ -58,8 +60,8 @@ public class SocketHandler extends TextWebSocketHandler {
 			String msg2 = msg.substring(0,msg.indexOf(":")).trim();
 			for(WebSocketSession s : list) {
 				Map<String, Object> sessionMap = s.getAttributes();
-				String otherCrSession = (String)mySession.get("cr_id");
-				String otherMemSession = (String)mySession.get("mem_id");
+				String otherCrSession = (String)sessionMap.get("cr_id");
+				String otherMemSession = (String)sessionMap.get("mem_id");
 				
 				if(crSession.equals(otherCrSession)) {//같은 그룹
 					if(msg2.equals(otherMemSession)) {
