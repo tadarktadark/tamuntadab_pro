@@ -203,4 +203,11 @@ public interface IClassDao {
 	 * @return 클래스 id에 해당하는 클래스의 정보 Vo
 	 */
 	public ClassVo getClassDetail(String clasId);
+	
+	/**
+	 * 세션 사용자의종료된 클래스 조회
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> getClassListByStatus(String clchAccountId);
 }

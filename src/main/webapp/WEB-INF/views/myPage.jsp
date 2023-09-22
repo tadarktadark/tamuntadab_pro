@@ -266,7 +266,7 @@
 									<div class="tab-pane active" id="class" role="tabpanel">
 										<div class="p-4">
 											<div>
-												클래스 구간
+												<%@ include file="./myPageClass.jsp"%>
 											</div>
 											<!-- end card body -->
 										</div>
@@ -329,7 +329,7 @@
 									<!-- 결제 내역 -->
 									<div class="tab-pane" id="payment" role="tabpanel">
 										<div class="p-4">
-											결제 구간 입니다.
+											<%@ include file="./myPayment.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>

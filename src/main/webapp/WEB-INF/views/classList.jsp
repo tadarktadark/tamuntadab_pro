@@ -51,7 +51,7 @@
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="float-end">
-                                                                <span class="bg-primary badge">18</span>
+<!--                                                                 <span class="bg-primary badge"></span> -->
                                                             </div>
                                                         </div>
                                                     </div>
@@ -101,7 +101,7 @@
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <div class="float-end">
-                                                                <span class="bg-primary badge">08</span>
+<!--                                                                 <span class="bg-primary badge">08</span> -->
                                                             </div>
                                                         </div>
                                                     </div>

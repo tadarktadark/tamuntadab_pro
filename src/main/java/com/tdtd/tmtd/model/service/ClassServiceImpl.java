@@ -217,4 +217,9 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - addChamyeojaGeneral");
 		return dao.addChamyeojaGeneral(vo);
 	}
+	
+	public List<ClassVo> getClassListByStatus(String clchAccountId){
+		log.info("ClassServiceImpl 실행 - getClassListByStatus");
+		return dao.getClassListByStatus(clchAccountId);
+	}
 }
