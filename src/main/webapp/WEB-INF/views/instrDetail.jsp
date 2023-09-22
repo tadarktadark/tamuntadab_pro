@@ -239,7 +239,8 @@ a {
 											<div class="col-6">
 												<button type="button" class="btn btn-info w-sm"
 													disabled="disabled">강의명</button>
-												<a href="#">${history.classVo[0].clasTitle}</a>
+												<a data-bs-toggle="tooltip"
+									title="필기 보러가기" class="w-100" href="./community.do?board=pilgi&clasId=${history.classVo[0].clasId}">${history.classVo[0].clasTitle}</a>
 											</div>
 											<div class="col-6">
 												<button type="button" class="btn btn-warning w-sm"
@@ -436,7 +437,8 @@ a {
 						<div class="col-6">
 							<button type="button" class="btn btn-info w-sm"
 								disabled="disabled">강의명</button>
-									<a href="#">{{classVo.[0].clasTitle}}</a>
+									<a data-bs-toggle="tooltip"
+									title="필기 보러가기" class="w-100" href="./community.do?board=pilgi&clasId={{classVo.[0].clasId}}">{{classVo.[0].clasTitle}}</a>
 						</div>
 						<div class="col-6">
 							<button type="button" class="btn btn-warning w-sm"

@@ -34,12 +34,16 @@
 			<div class="card">
 			<div class="card-body">
 			<form class="row g-3 search-form" id="searchForm">
-				<div class="subjectsAuto col-md-6">
-					<label for="subjects" class="form-label">과목</label> 
-					<div id="selectedSubjects"
-									class="choices__list choices__list--multiple"></div>
-					<input type="search" class="form-control" id="subjects" name="subjects" placeholder="과목명을 입력하세요">
+			<div class="form-icon right-input col-md-6">
+				<label for="subjects" class="form-label">과목</label>
+				<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+					<div class="choices__inner">
+						<div id="selectedSubjects" class="choices__list choices__list--multiple">
+					</div>
+					<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목명을 입력하세요" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
+					</div>
 				</div>
+			 </div>
 				<div class="col-md-6">
 					<label for="nickname" class="form-label">이름(닉네임)</label> <input
 						type="text" class="form-control" id="nickname" name="nickname"

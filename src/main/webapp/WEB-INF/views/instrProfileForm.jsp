@@ -121,6 +121,8 @@
 									<div class="col-lg-3">
 										<label for="inprSubjects" class="form-label">가능한 과목</label>
 									</div>
+									<div class="choices__inner choices hstack gap-3"
+										data-type="multiple">
 									<div id="selectedSubjects" class="col-lg-9 choices__list choices__list--multiple">
 									<c:if test="${not empty profile.subjectsTitle}">
 										 <script type="text/javascript" charset="UTF-8">
@@ -149,8 +151,6 @@
 									    	</script>
 									   </c:if>
 									</div>
-									<div class="choices__inner choices hstack gap-3"
-										data-type="multiple">
 										<input type="search" id="inprSubjects"
 											class="choices__input choices__input--cloned">
 									</div>
@@ -162,11 +162,11 @@
 										<label for="inprSubjectsMajor" class="form-label">전문
 											분야 과목</label>
 									</div>
+									<div class="col-md-2 choices__inner choices"
+										data-type="multiple">
 									<div id="selectedSubjectsMajor"
 										class="col-lg-9 choices__list choices__list--multiple">
 									</div>
-									<div class="col-md-2 choices__inner choices"
-										data-type="multiple">
 										<input type="search" id="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
