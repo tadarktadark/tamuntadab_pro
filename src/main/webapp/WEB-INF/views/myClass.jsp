@@ -44,9 +44,7 @@
 	<input name="clasId" type="hidden" value="${param.clasId}">
 	<!-- 지우지마 형 -->
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp"%>
-		<%@ include file="./shared/_sidebar.jsp"%>
-
+		<%@ include file="./shared/_menu.jsp" %>
 		<div class="main-content">
 			<div class="page-content">
 				<div class="container-fluid">

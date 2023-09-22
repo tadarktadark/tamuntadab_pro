@@ -210,4 +210,13 @@ public interface IClassDao {
 	 * @return
 	 */
 	public List<ClassVo> getClassListByStatus(String clchAccountId);
+	
+	/**
+	 * 클래스 like문 검색
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> searchClassList(Map<String, Object> map);
+	
+	public int searchClassListCount (String subject);
 }

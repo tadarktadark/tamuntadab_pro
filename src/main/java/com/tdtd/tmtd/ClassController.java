@@ -43,7 +43,7 @@ public class ClassController {
 	public String classList(Model model, @RequestParam("page") String pageAttr) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 목록");
-
+		
 		return "classList";
 	}
 
@@ -141,6 +141,90 @@ public class ClassController {
 				classList = cService.getCategoryClassListForS(listMap);
 			}
 		}
+
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+
+		List<ClassVo> chamyeoClass;
+		if (userAccountId != null) {
+			chamyeoClass = cService.getChamyeoClass(userAccountId);
+		} else {
+			chamyeoClass = null;
+		}
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("pVo", pVo);
+		result.put("classList", classList);
+		if (chamyeoClass != null) {
+			result.put("chamyeoClass", chamyeoClass);
+		}
+		log.info("ClassController 페이징에 쓰일 정보 pVo = {}", pVo);
+		log.info("ClassController 페이징에 쓰일 정보 classList = {}", classList);
+
+		Gson gson = new Gson();
+
+		return gson.toJson(result);
+	}
+	
+	
+	
+	@GetMapping("/searchListLoad.do")
+	@ResponseBody
+	public String searchListLoad(Model model, HttpSession session, @RequestParam("page") String pageAttr,
+			@RequestParam("subject") String subject) {
+
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("ClassController searchListLoad 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("ClassController searchListLoad 세션의 유저 정보 : 정보없음");
+		}
+
+		// 세션과 조회할 목록에 따라 페이징 처리할 게시글의 총 갯수 지정
+		
+
+		String userAuth = (userInfo != null) ? userInfo.getUserAuth() : null;
+		
+		int totalClass = 0;
+		if ("I".equals(userAuth)) {
+			totalClass = cService.searchClassListCount(subject);
+		} else {
+			totalClass = cService.searchClassListCount(subject);
+		}
+		log.info("ClassController classListLoad 가져온 총 게시물 갯수 = {}", totalClass);
+
+		log.info("ClassController classListLoad 가져온 현재 페이지 = {}", pageAttr);
+		int thisPage = 0;
+		if (pageAttr == null) {
+			thisPage = 1;
+		} else {
+			thisPage = Integer.parseInt(pageAttr);
+		}
+
+		log.info("ClassController classListLoad 형변환 한 페이지 = {}", thisPage);	
+		
+		// 페이지에 사용될 정보 담기
+		PagingVo pVo = new PagingVo();
+		pVo.setTotalCount(totalClass);
+		pVo.setCountList(20);
+		pVo.setCountPage(5);
+		pVo.setTotalPage(pVo.getTotalPage());
+		pVo.setPage(thisPage);
+		pVo.setStartPage(pVo.getPage());
+		pVo.setEndPage(pVo.getPage());
+
+		log.info("ClassController 페이징에 사용될 정보 pageVO : {}", pVo);
+		Map<String, Object> pagingMap = PagingUtils.paging(pageAttr, pVo.getTotalCount(), pVo.getCountList(),
+				pVo.getCountPage());
+
+		// 페이징 처리해서 처리할 리스트를 상황별로 가져오기
+		Map<String, Object> listMap = new HashMap<String, Object>();
+		listMap.put("first", pagingMap.get("start"));
+		listMap.put("last", pagingMap.get("end"));
+		listMap.put("subject", subject);
+		
+		log.info("ClassController 페이징에 사용될 정보 : {}", listMap);
+		
+		List<ClassVo> classList = cService.searchClassList(listMap);
 
 		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
 
