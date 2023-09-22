@@ -145,9 +145,7 @@
 															<tr class="editInput"
 																style="display: none; text-align: center; vertical-align: middle;">
 																<td><input type="text" name="careCompany"
-																	placeholder="${career.careCompany}"> <input
-																	type="hidden" name="careId" value="${career.careId}">
-																</td>
+																	placeholder="${career.careCompany}"></td>
 																<td><input type="text" name="careIssuer"
 																	placeholder="${career.careIssuer}"></td>
 																<td><input type="text" name="careIssuerContact"
@@ -167,7 +165,7 @@
 																<td><input type="text" name="careJob"
 																	placeholder="${career.careJob}"></td>
 																<td><button type="button"
-																		class="btn btn-success w-xs" onclick="submitEdit()">
+																		class="btn btn-success w-xs" onclick="submitEdit('${career.careId}')">
 																		<i class="bx bx-check"
 																			style="font-size: 20px; vertical-align: middle;"></i>
 																	</button></td>
