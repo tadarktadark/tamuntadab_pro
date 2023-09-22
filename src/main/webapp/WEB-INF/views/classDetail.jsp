@@ -263,7 +263,7 @@ th, td {
 														</c:otherwise>
 													</c:choose>
 												</a> 
-												<a class="border-bottom">
+												<a class="border-bottom" style="display: none;">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span> 
 													평균 연령 : 개발중...
 												</a>
