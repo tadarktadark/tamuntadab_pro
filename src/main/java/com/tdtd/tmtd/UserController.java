@@ -64,8 +64,6 @@ public class UserController {
 	@Autowired
 	private ICommUserDao commuserDao;
 
-	private SocialUserController socialController;
-
 	@Autowired
 	private JavaMailSender mailsender;
 	
@@ -175,10 +173,15 @@ public class UserController {
 	public String updatePassword(@RequestParam Map<String, Object> map, HttpServletResponse resp, HttpServletRequest req, HttpSession session) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html; charset=UTF-8");
-		
+		int checkisc = 0;
 		if(session.getAttribute("userInfo")!=null) {
 			UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 			map.put("userAccountId",userInfo.getUserAccountId());
+			
+			checkisc = commUserService.checkPassword(map);
+			if(checkisc==1) {
+				return "<script>alert('기존 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.');location.href=history.back();</script>";
+			}
 			int m = commuserDao.updateUserPassword(map);
 			if(m>0) {
 				return "<script>alert('비밀번호가 변경되었습니다.'); location.href='./';</script>";
@@ -187,6 +190,9 @@ public class UserController {
 			}
 		}
 		int n = commUserService.updateUserPassword(map);
+		if(checkisc==1) {
+			return "<script>alert('기존 비밀번호와 같은 비밀번호로는 변경할 수 없습니다.');location.href=history.back();</script>";
+		}
 		if (n > 0) {
 			return "<script>alert('비밀번호가 변경되었습니다.'); location.href='./';</script>";
 		} else {
@@ -231,7 +237,7 @@ public class UserController {
 	@RequestMapping(value = "/logout.do")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:main.do";
 	}
 
 	@RequestMapping(value = "/loginForm.do")
@@ -356,7 +362,7 @@ public class UserController {
 			resp.sendError(500);
 			return null;
 		} else {
-			return "redirect:/";
+			return "redirect:main.do";
 		}
 	}
 
@@ -386,20 +392,22 @@ public class UserController {
 	@ResponseBody
 	public String jeongji(HttpServletResponse resp, HttpSession session) throws IOException {
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
-		if(userInfo!=null) {
+		Map<String,Object> result = new HashMap<String, Object>();
 			int n = commUserService.searchJeongJi(userInfo);
 			if(n>0) {
+				String date = commUserService.jeongjidate(userInfo);
+				result.put("status", "true");
+				result.put("date", date);
 				session.invalidate();
-				return "true";
+				return gson.toJson(result);
 			}
-		}
-		return "false";
+		return gson.toJson(result.put("status", "false"));
 	}
 	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
 	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
 		int n = commUserService.updatedelflag(tokenValue);
 		if(n>0) {
-			return "redirect:/";
+			return "redirect:main.do";
 		}else {
 			resp.sendError(500);
 			return null;

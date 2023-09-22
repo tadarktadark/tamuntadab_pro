@@ -38,7 +38,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 
                 <ul class="navbar-nav" id="navbar-nav">
                     <li class="nav-item">
-                        <a href="./classList.do?page=1" class="nav-link menu-link"> <i class="ri-apps-2-line"></i> <span data-key="t-class">클래스</span> </a>
+                        <a href="./classList.do" class="nav-link menu-link"> <i class="ri-apps-2-line"></i> <span data-key="t-class">클래스</span> </a>
                     </li>
                     <li class="nav-item">
                         <a href="./instrList.do" class="nav-link menu-link"> <i class="ri-account-circle-line"></i> <span data-key="t-instr">강사</span> </a>
@@ -295,7 +295,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			                        <h6 class="dropdown-header"><%=userInfo.getUserNickname()%>님 어서오세요</h6>
 			                        <a class="dropdown-item" href="./mypage.do"><i class="ri-profile-line text-muted fs-17 align-middle me-1"></i> <span class="align-middle">MyPage</span></a>
 			                        <a class="dropdown-item" href="./chatList.do"><i class="bx bx-message-alt-detail text-muted fs-17 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
-			                        <a class="dropdown-item" id="logout" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
+			                        <a class="dropdown-item" id="logout" href="./logout.do" onclick="localStorage.removeItem('autoLoginToken');"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
 								</div>
 							</div>
 								<%
@@ -311,7 +311,22 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 <!-- Left Sidebar End -->
 <!-- Vertical Overlay-->
 <div class="vertical-overlay"></div>
-
+<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<%
+	// 세션에 값이 없으면 자바스크립트 코드 실행
+	if (session.getAttribute("userInfo") == null) {
+	%>
+	<script src="./js/autoLogin.js"></script>
+	<%
+	}
+	%>
+	<%
+	if ((session.getAttribute("userInfo") != null)) {
+	%>
+	<script src="./js/jeongjiCheck.js"></script>
+	<%
+	}
+	%>
 
 <!-- Modal -->
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">

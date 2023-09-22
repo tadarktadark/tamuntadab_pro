@@ -46,6 +46,8 @@ public interface ICommUserDao {
 	 */
 	public int searchJeongJi(UserProfileVo userInfo);
 	
+	public String jeongjidate(UserProfileVo userInfo);
+
 	public UserProfileVo commLogin(Map<String,String> userInput);
 	
 	public int updateChadanCnt(String userEmail);
@@ -71,6 +73,8 @@ public interface ICommUserDao {
 	public int deleteResetPwToken(Map<String,Object> resetPassword);
 	
 	public int updateUserPassword(Map<String,Object> resetPassword);
+
+	public int checkPassword(Map<String,Object> resetPassword);
 	
 	public int updatedelflag(Map<String,Object> userToken);
 	

@@ -100,6 +100,20 @@
 			</choose>
 	</update>
 	
+	<select id="checkPassword" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM USER_PROFILE up
+		<choose>
+			<when test="tokenValue == 'mypage'">
+				WHERE USER_ACCOUNT_ID =#{userAccountId}
+			</when>
+			<otherwise>
+				WHERE USER_PASSWORD_RESET_TOKEN=#{tokenValue}
+			</otherwise>
+		</choose>
+		AND USER_PASSWORD =#{userPassword}
+	</select>
+	
 	<update id="deleteResetPwToken">
 		UPDATE USER_PROFILE SET USER_PASSWORD_RESET_TOKEN = null 
 		WHERE USER_PASSWORD_RESET_TOKEN = #{tokenValue}
@@ -319,5 +333,10 @@
 		WHERE USJE_ACCOUNT_ID =
 		#{userAccountId}
 		AND NOT USJE_JEONGJI_SANGTAE IN ('N')
+	</select>
+	<select id="jeongjidate" resultType="java.lang.String">
+	SELECT TO_CHAR(TO_DATE(USJE_JEONGJI_REGIST_DATE+USJE_JEONGJI_DAY,'YY-MM-dd'),'YYYY-MM-DD') AS JEONGJI_END_DAY
+		FROM USER_JEONGJI uj
+		WHERE USJE_ACCOUNT_ID =#{userAccountId}
 	</select>
 </mapper>
