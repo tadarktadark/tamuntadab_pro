@@ -23,15 +23,33 @@
 <!-- swiper.init js -->
 <script src="./assets/js/pages/swiper.init.js"></script>
 <style type="text/css">
+.card-fixed-height::-webkit-scrollbar {
+    width: 10px;
+}
+
+.card-fixed-height::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+.card-fixed-height::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+.card-fixed-height::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 .flex-container {
-	width: 500px;
 	margin-bottom: 10px;
-	margin-left: 20%;
-	margin-right: 20%;
 	display : flex;
-	justify-content: space-between;
+ 	justify-content: space-between; 
 	display: flex;
 }
+
+.team-box {
+    width: 90%;
+}
+
 
 a {
 	text-decoration: none;
@@ -40,10 +58,11 @@ a {
 
 #subjectDiv {
 	text-align: left;
-	margin: 15px 20%;
+	margin: 15px;
 }
 
 #subjectDiv>span {
+	font-size: 1.2em;
 	display: block;
 	margin-bottom: 10px;
 }
@@ -59,7 +78,6 @@ a {
 }
 
 #subjectDiv .badge {
-	font-size: 1.2em;
 	width: 30px;
 	padding: 5px 10px;
 }
@@ -91,7 +109,7 @@ a {
 					<span style="font-size: 1.4em;">타문타답에서 연봉을 올리세요!</span>
 					</div>
 					<form action="./classList.do" method="get"
-						style="margin: auto 20%; margin-top: 10px;">
+						style="margin-top: 10px;">
 						<div class="position-relative w-100">
 							<input type="text" class="form-control form-control-lg border-2"
 								name="searchQuery" placeholder="모집중인 클래스 검색" autocomplete="off"
@@ -111,12 +129,12 @@ a {
 						<div id="subjectTagSlider"></div>
 					</div>
 					<span class="badge bg-success-subtle text-success  badge-border"
-						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; margin-left: 20%; margin-right: 20%; font-size: 1.2em;">
+						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; font-size: 1.2em;">
 						<i class="bx bxs-book-reader" style="vertical-align: middle;"></i>&nbsp;모집 중인 클래스
 					</span>
 					<div id="classDiv">
 						<div id="classSlider" class="swiper effect-coverflow-swiper"
-							style="width: 90%;">
+							style="width: 100%;">
 							<div class="swiper-wrapper" style="height: 230px;">
 								<c:forEach var="regClass" items="${classes}">
 									<div class="swiper-slide">
@@ -162,7 +180,7 @@ a {
 					</div>
 
 					<span class="badge bg-danger-subtle text-danger badge-border"
-						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; margin-left: 20%; margin-right: 20%; font-size: 1.2em;">
+						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; font-size: 1.2em;">
 						<i class="bx bxs-hot" style="vertical-align: middle;"></i>&nbsp;인기강사
 					</span>
 					<div class="flex-container">
@@ -354,7 +372,7 @@ a {
 <script id="subjects-template" type="text/x-handlebars-template">
 {{#each this}}
 	<span class="badge rounded-pill text-bg-secondary"
-		style="font-size: 1.1em; width: 30px; padding: auto 10px;">{{sutaTitle}}</span>
+		style="font-size: 1em; width: 30px; padding: auto 10px;">{{sutaTitle}}</span>
 {{/each}}
 </script>
 </html>
