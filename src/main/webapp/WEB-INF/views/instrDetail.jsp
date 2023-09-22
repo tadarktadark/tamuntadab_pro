@@ -348,9 +348,9 @@ a {
 					</div>
 
 					<div id="chatting" style="position: fixed; color: #50AF49;">
-						<button type="button" class="btn btn-outline-success btn-icon"
+						<button type="button" onclick="handleChatClick()" class="btn btn-outline-success btn-icon"
 							style="font-size: 1.7em;">
-							<a href="./intsrChatRoom.do?instrAccountId=TMTD103&studAccountId=${userInfo.userAccountId}"> <i class="ri-customer-service-2-line"></i></a>
+							<i class="ri-customer-service-2-line"></i>
 						</button>
 						<br> 문의하기
 					</div>
@@ -374,6 +374,19 @@ a {
 		</div>
 </body>
 <script type="text/javascript">
+function handleChatClick() {
+	var instrAccountId = $('#userAccountId').val();
+	var userAccountId = $('#loginId').val();
+	
+	if (!userAccountId) {
+		Swal.fire('로그인 후 이용 가능합니다').then(() => {
+            window.location.href = "./loginForm.do";
+        });
+    } else {
+        window.location.href = "./intsrChatRoom.do?instrAccountId="+instrAccountId+"&studAccountId="+ userAccountId;
+    }
+}
+
 	$(function() {
 		var tooltipTriggerList = [].slice.call(document
 				.querySelectorAll('[data-bs-toggle="tooltip"]'))
