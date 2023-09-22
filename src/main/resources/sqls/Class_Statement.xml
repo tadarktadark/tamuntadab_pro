@@ -407,4 +407,46 @@
 		    WHERE CLCH_ACCOUNT_ID = #{clchAccountId}
 		)
 	</select>
+	<select id="searchClassList" parameterType="java.util.Map" resultMap="classMap">
+			SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, USER_PROFILE_FILE,
+		CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE,CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
+		FROM (
+			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
+				jot.SUBJ_TITLE,up.USER_NICKNAME, c.CLAS_REGDATE,c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN, up.USER_PROFILE_FILE,
+				ROW_NUMBER() OVER (ORDER BY c.CLAS_REGDATE DESC) AS RN
+	    FROM CLASS c
+	    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+	    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+	    JOIN (
+	        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+	        FROM CLASS c,
+	             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+	        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+	        WHERE c.CLAS_STATUS='모집'
+	        GROUP BY c.CLAS_ID
+	    ) jot ON jot.CLAS_ID = c.CLAS_ID
+	    WHERE CLCH_YEOKAL = 'M'
+	    AND (c.CLAS_TITLE LIKE '%'||#{subject}||'%' OR jot.SUBJ_TITLE LIKE '%'||#{subject}||'%')
+	)
+	WHERE RN BETWEEN #{first} AND #{last}
+	</select>
+	<select id="searchClassListCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(*) 
+		FROM (
+		    SELECT c.CLAS_ID
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    JOIN (
+		        SELECT c.CLAS_ID, LISTAGG(s.SUBJ_TITLE, ', ') WITHIN GROUP (ORDER BY s.SUBJ_ID) AS SUBJ_TITLE
+		        FROM CLASS c,
+		             JSON_TABLE(c.CLAS_SUBJECT_JEONGBO, '$[*]' COLUMNS (SUBJECT_ID VARCHAR2(20) PATH '$')) jt
+		        JOIN SUBJECT s ON jt.SUBJECT_ID = s.SUBJ_ID
+		        WHERE c.CLAS_STATUS='모집'
+		        GROUP BY c.CLAS_ID
+		    ) jot ON jot.CLAS_ID = c.CLAS_ID
+		    WHERE CLCH_YEOKAL = 'M'
+		    AND (c.CLAS_TITLE LIKE '%'||#{subject}||'%' OR jot.SUBJ_TITLE LIKE '%'||#{subject}||'%')
+		)
+	</select>
 </mapper>

@@ -210,4 +210,18 @@ public interface IClassService {
 	 * @return
 	 */
 	public List<ClassVo> getClassListByStatus(String clchAccountId);
+
+	/**
+	 * 클래스 like문 search
+	 * @param map
+	 * @return
+	 */
+	public List<ClassVo> searchClassList(Map<String, Object> map);
+	
+	/**
+	 * 클래스 like문 search 갯수
+	 * @param subject
+	 * @return
+	 */
+	public int searchClassListCount (String subject);
 }

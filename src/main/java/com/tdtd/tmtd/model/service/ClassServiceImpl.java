@@ -222,4 +222,14 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - getClassListByStatus");
 		return dao.getClassListByStatus(clchAccountId);
 	}
+	
+	public List<ClassVo> searchClassList(Map<String, Object> map){
+		log.info("ClassServiceImpl 실행 - searchClassList");
+		return dao.searchClassList(map);
+	}
+	
+	public int searchClassListCount (String subject) {
+		log.info("ClassServiceImpl 실행 - searchClassListCount");
+		return dao.searchClassListCount(subject);
+	}
 }

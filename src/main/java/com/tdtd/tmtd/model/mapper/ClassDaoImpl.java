@@ -234,4 +234,14 @@ public class ClassDaoImpl implements IClassDao {
 		log.info("ClassDaoImpl getClassListByStatus 실행");
 		return sqlSession.selectList(NS+"getClassListByStatus",clchAccountId);
 	}
+	
+	public List<ClassVo> searchClassList(Map<String, Object> map){
+		log.info("ClassDaoImpl searchClassList 실행");
+		return sqlSession.selectList(NS+"searchClassList",map);
+	}
+	
+	public int searchClassListCount (String subject) {
+		log.info("ClassDaoImpl searchClassListCount 실행");
+		return sqlSession.selectOne(NS+"searchClassListCount",subject);
+	}
 }

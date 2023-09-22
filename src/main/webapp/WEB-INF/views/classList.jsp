@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
 <%@ include file="./shared/_head_css.jsp"%>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -33,10 +34,10 @@
                         <div class="col-12">
     
                             <!-- Left sidebar -->
-                            <div class="email-leftbar">
+                            <div class="email-leftbar" style="width: 270px;">
                                 <div class="card">
                                     <div class="card-body">
-                                        <button type="button" class="btn btn-danger waves-effect waves-light w-100" onclick="location.href='./classWrite.do'" data-bs-toggle="modal" data-bs-target="#composemodal" >
+                                        <button type="button" class="btn btn-primary waves-effect waves-light w-100" onclick="location.href='./classWrite.do'" data-bs-toggle="modal" data-bs-target="#composemodal" >
                                             새 클래스 개설
                                         </button>
     
@@ -106,7 +107,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <a href="javascript:ajaxPaging(1,6)">
+                                                <a href="javascript:ajaxPaging(1,6)" class="border-bottom" id="category6">
                                                     <div class="d-flex align-items-center">
                                                         <i class="bx bx-hdd fs-20 align-middle me-3"></i>
                                                         <div class="flex-grow-1">
@@ -137,34 +138,52 @@
                             <!-- End Left sidebar -->
     
                             <!-- Right Sidebar -->
-                            <div class="email-rightbar mb-3">
-    
+                            <div class="email-rightbar mb-3" style="margin-left: 280px;">
                                 <div class="card">
                                     <div class="card-body">
-    
                                         <div class="">
                                             <div class="row mb-4">
-                                                <div class="col-xl-3 col-md-12">
-                                                    <div class="pb-3 pb-xl-0">
-                                                        <form class="email-search">
-                                                            <div class="position-relative">
-                                                                <input type="text" class="form-control bg-light" placeholder="Search...">
-                                                                <span class="bx bx-search fs-18"></span>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-    
-                                   <div class="mb-2" id="chamyeoClassTag">
-                                    </div>
-    
-                                   <div class="pt-2" id="joayoClassTag">
-                                 	</div>
-    
-                                    <div class="pt-2" id="normalClass">
-                                    </div>
-                               </div>
+											    <div class="col-xl-3 col-md-12">
+											        <div class="pb-3 pb-xl-0">
+											            <form class="email-search">
+											                <div class="position-relative">
+											                    <div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
+											                        <div class="choices__inner" style="width:400px;">
+											                            <div id="selectedSubjects" class="choices__list choices__list--multiple" >
+											                            </div>
+											                            <div class="input-group" >
+											                                <input type="search" id="subjects" name="subjects" placeholder="과목 또는 클래스명으로 검색" class="form-control bg-light" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null" style="width:300px;">
+											                                <button type="submit" class="btn btn-primary right-btn">검색</button>
+											                            </div>
+											                        </div>
+											                    </div>
+											                </div>
+											            </form>
+											        </div>
+											    </div>
+											</div>
+                                            <!-- Collapse with Icon -->
+												<div class="hstack gap-3 mb-3">
+												    <a class="link-success" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
+												        <i class="ri-arrow-down-circle-line fs-16"></i>
+												        참여 중인 클래스 목록
+												        <i class="ri-arrow-down-circle-line fs-16"></i>
+												    </a>
+												</div>
+												<div class="collapse" id="collapseWithicon">
+												    <div class="card mb-0">
+												        <div class="card-body">
+												        	 <div class="mb-2" id="chamyeoClassTag">
+		                                   					 </div>
+												        </div>
+												    </div>
+												</div>
+		                                    <div class="pt-2" id="joayoClassTag">
+		                                 	</div>
+		    
+		                                    <div class="pt-2" id="normalClass">
+		                                    </div>
+		                               </div>
     
                                     </div>
                                 </div>
