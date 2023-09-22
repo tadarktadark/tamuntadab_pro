@@ -45,6 +45,12 @@ SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TUPY_STARTDATE,TUPY_ENDDATE,TUPY
 	WHERE TUPY_CLAS_ID =#{tupyClasId}
 </select>
 
+<select id="getTupyoBySeq" parameterType="Integer" resultType="tupyoVo">
+SELECT TUPY_SEQ ,TUPY_CLAS_ID ,TUPY_TOTAL_USER ,TUPY_STARTDATE,TUPY_ENDDATE,TUPY_STATUS
+	FROM TUPYO t
+	WHERE TUPY_SEQ = #{tupySeq}
+</select>
+
 <select id="getAllTupyoOption" parameterType="java.lang.Integer" resultType="tupyoOptionVo">
 SELECT TUOP_SEQ ,TUOP_TUPY_SEQ ,TUOP_INSTR ,TUOP_FEE 
 	FROM TUPYO_OPTION to2 
@@ -204,6 +210,21 @@ SELECT COUNT(*)
 								WHERE TUOP_TUPY_SEQ = #{tupySeq}
 							)
 </select>
+
+
+<delete id="delTupyoUserByClassId" parameterType="Map">
+DELETE FROM TUPYO_USER tu 
+	WHERE TUUS_ACCOUNT_ID =#{accountId} AND TUUS_OPTION_SEQ = (
+															SELECT TUUS_OPTION_SEQ 
+																FROM TUPYO_USER tu 
+																WHERE TUUS_OPTION_SEQ =(SELECT TUOP_SEQ 
+																FROM TUPYO_OPTION to2 
+																WHERE TUOP_TUPY_SEQ =(SELECT TUPY_SEQ 
+																FROM TUPYO t 
+																WHERE TUPY_CLAS_ID = #{clasId}))
+													)
+</delete>
+
 
 
 </mapper>

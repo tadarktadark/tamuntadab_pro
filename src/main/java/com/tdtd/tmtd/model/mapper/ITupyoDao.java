@@ -17,6 +17,8 @@ public interface ITupyoDao {
 	public List<ChamyeoVo> getAllInstr(int clchClasId);
 	//투표 조회
 	public TupyoVo getTupyo(int tupyClasId);
+	//투표 SEQ로 조회
+	public TupyoVo getTupyoBySeq(int tupySeq);
 	//선택지 조회
 	public List<TupyoOptionVo> getAllTupyoOption(int tuopTupySeq);
 	//특정 선택지 조회
@@ -57,6 +59,8 @@ public interface ITupyoDao {
 	public int delTupyoOption(int tupySeq);
 	//투표유저 삭제
 	public int delAllTupyoUser(int tupySeq);
+	//클래스아이디로 투표 유저 삭제
+	public int delTupyoUserByClassId(Map<String, Object> map);
 	//유저 정보 조회
 	public UserProfileVo getMember(String accountId);
 	//찬반 투표 결과 전체 조회
@@ -67,7 +71,6 @@ public interface ITupyoDao {
 	public int updateClassStatusCron();
 	//투표한 유저 수
 	public int countVotedUser(int tupySeq);
-
 	
 	
 }
