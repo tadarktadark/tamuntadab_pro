@@ -24,6 +24,13 @@ public class ReplyVo {
 	private String update;
 	private String state;
 	
+	public ReplyVo(String boardId, String writerId, String content) {
+		super();
+		this.boardId = boardId;
+		this.writerId = writerId;
+		this.content = content;
+	}
+	
 	public ReplyVo(String boardId, String writerId, String content, int rootSeq) {
 		super();
 		this.boardId = boardId;

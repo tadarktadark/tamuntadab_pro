@@ -499,14 +499,42 @@
   	vertical-align: text-bottom;
 }
 
-.reply-group .reply-icon{
+.reply-group .reply-align{
 	align-self: flex-end;
 }
-.float-end .list-title{
+.float-end .list-title, .float-end .list-text{
 	width: 100%;
 	text-align: right;
 }
 
 div textarea {
 	width: 100%;
+}
+
+#page-list{
+	height: 35px;
+}
+
+#re-btn{
+	border: 0px;
+}
+
+.reply-icon:hover{
+	cursor: pointer;
+}
+
+.re-reply-group{
+	font-size: 12px;
+}
+
+.re-reply-group .list-text{
+	font-size: 9px;
+}
+
+h6, h5, h4{
+	font-weight: bold;
+}
+
+#re-write-btn, #re-cancel-btn, #re-update, #re-cancel{
+	border: 0px;
 }

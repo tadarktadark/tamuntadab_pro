@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
+<!-- <link href="./css/ckeditor.css" rel="stylesheet" type="text/css" /> -->
 <%@ include file="./shared/_head_css.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
@@ -72,9 +73,13 @@
 					                                			</c:otherwise>
 					                                		</c:choose>
 					                                		<div>
-							                                    <h4 id="title">${bVo.title}</h4>
+							                                    <h4 id="title">${bVo.title}
+							                                    	<c:if test="${bVo.chaetaek eq 'Y'}">
+							                                    		&ensp;<i class="ri-check-double-fill text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="채택된 글은 수정 또는 삭제가 불가능합니다."></i>
+							                                    	</c:if>
+							                                    </h4>
 							                                    <p class="list-text mb-0 fs-12 ml-5 text-muted"> 
-													        		<i class="ri-user-fill"></i>&ensp;${bVo.accountId}&ensp;
+													        		<i class="ri-user-fill"></i>&ensp;<span id="boardAccountId">${bVo.accountId}</span>&ensp;
 													        		<c:if test="${bVo.update ne bVo.regdate}">
 														        		<span class="text-success"><i class="ri-restart-line"></i>&ensp;${bVo.update}&ensp;</span>
 													        		</c:if>
@@ -90,18 +95,19 @@
 					                                <div class="pb-3 pb-xl-0">
 					                                    <div class="btn-toolbar float-end" role="toolbar">
 					                                        <div class="btn-group me-2 mb-2">
+					                                        	<div class="hidden" id="boardId">${bVo.id}</div>
 					                                        	<c:if test="${bVo.state ne 'P'}">
 						                                        	<c:if test="${bVo.downloadGroup eq 1}">
 							                                            <button type="button" id="pdf-btn" class="btn btn-primary waves-light waves-effect"><i class=" ri-file-3-fill align-middle"></i></button>
 						                                        	</c:if>
 						                                        	<c:choose>
-							                                        	<c:when test="${sessionScope.userInfo.userNickname eq bVo.accountId}">
+							                                        	<c:when test="${sessionScope.userInfo.userNickname eq bVo.accountId && bVo.chaetaek ne 'Y'}">
 								                                            <button type="button" id="update-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-pencil align-middle"></i></button>
 								                                            <button type="button" id="delete-btn" class="btn btn-primary waves-light waves-effect"><i class="bx bx-trash align-middle"></i></button>
 							                                        	</c:when>
-							                                        	<c:otherwise>
-								                                            <button type="button" id="singo-btn" class="btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
-							                                        	</c:otherwise>
+							                                        	<c:when test="${sessionScope.userInfo.userNickname ne bVo.accountId}">
+								                                            <button type="button" class="singo-btn btn btn-primary waves-light waves-effect"><i class="ri-alarm-warning-line"></i></button>
+							                                        	</c:when>
 						                                        	</c:choose>
 					                                        	</c:if>
 					                                        </div>
@@ -121,7 +127,7 @@
 					                        <c:choose>
 					                        	<c:when test="${bVo.state eq 'P'}">
 					                        		<div class="hstack gap-3 mb-3">
-													    <a id="contentShow" class="link-danger" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
+													    <a class="link-danger contentShow" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
 													        <i class="ri-arrow-down-circle-line fs-16"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
 													    </a>
 													</div>
@@ -147,57 +153,33 @@
 					                        </c:if>
 											<hr> 
 					                        <a id="reply-btn" class="btn btn-primary">댓글보기&ensp;<i class="ri-arrow-down-s-line"></i></a>
-											<div id="reply-list" class="list-group mt-3">
-											    <div class="list-group-item">
-											        <p class="list-text mb-2">{{content}}</p>
-											        <div class="d-flex align-items-center reply-group mb-1">
-											        	<div class="flex-grow-1 reply-icon">
-											        		<a href="#" class="reply-icon"><i class="ri-alarm-warning-line"></i></a>
-											        		<a href="#" class="reply-icon"><i class="bx bx-trash align-middle"></i></a>
-											        		<a href="#" class="reply-icon"><i class="bx bx-pencil align-middle"></i></a>
-											        		<a href="#" class="reply-icon"><i class="ri-message-3-fill"></i></a>											        		
-											        		<a href="#" class="reply-icon"><i class="ri-check-double-fill"></i></a>											        		
-											        	</div>
-											            <div class="ms-3 float-end">
-											                <h5 class="list-title fs-15 mb-0">
-											                	<i class="ri-check-double-fill text-success"></i> 
-											                	<i class="ri-user-fill"></i> {{writerId}}</h5>
-											                <div class="list-text mb-0 fs-12">
-													        	<span class="text-danger"><i class="ri-restart-line"></i>&ensp;2023.09.18&ensp;</span>
-												        		<i class="ri-timer-2-fill"></i>&ensp;2023.09.10&ensp;
-											                </div>
-											            </div>
-											        </div>
-											        <div class="list-group-item">
-												        <div>
-												        	<textarea></textarea>
-												        </div>
-												        <div>
-												        	<span  class="flex-grow-1">100/300</span>
-												        	<button class="badge text-bg-primary ms-3 float-end">작성</button>
-												        </div>
+											<div id="reply-list" class="list-group mt-3" style="display:none;">
+												<div id="reply-group">
+												</div>
+											    <div id="page-list" class="row align-items-center mt-3 gy-3">
+												    <div class="col-sm-auto ms-auto mt-0">
+											            <ul class="pagination mb-0">
+											            </ul>
 												    </div>
-											        <div class="list-group-item">
-												        <p class="list-text mb-2">{{content}}</p>
-												        <div class="d-flex align-items-center reply-group">
-												        	<div class="flex-grow-1 reply-icon">
-												        		<a href="#" class="reply-icon"><i class="ri-alarm-warning-line"></i></a>
-												        		<a href="#" class="reply-icon"><i class="bx bx-trash align-middle"></i></a>
-												        		<a href="#" class="reply-icon"><i class="bx bx-pencil align-middle"></i></a>									        		
-												        	</div>
-												            <div class="ms-3 float-end">
-												                <h5 class="list-title fs-15 mb-0">
-												                	<i class="ri-user-fill"></i> {{writerId}}</h5>
-												                <div class="list-text mb-0 fs-12">
-														        	<span class="text-danger"><i class="ri-restart-line"></i>&ensp;2023.09.18&ensp;</span>
-													        		<i class="ri-timer-2-fill"></i>&ensp;2023.09.10&ensp;
-												                </div>
-												            </div>
-												        </div>
-												    </div>
-											    </div>
+												</div>
 											</div>
-					                    </div>
+											<c:if test="${bVo.state ne 'P'}">
+												<form id="rootReplyWrite" action="./replyWrite.do" method="post">
+													<div class="mt-3">
+														<input type="hidden" name="seq" id="updateSeq">
+														<input type="hidden" name="boardId" value="${bVo.id}">
+													    <textarea id="ckeditor" name="content" style="display:none;"></textarea>											    
+													</div>
+													<div class="pt-3 float-end" id="reply-write-btn-group">
+														<input id="reply-write-btn" type="button" class="btn btn-primary" value="댓글작성">
+													</div>
+													<div class="pt-3 float-end" id="reply-update-btn-group" style="display:none;">
+														<input id="reply-cancel-btn" type="button" class="btn btn-soft-primary" value="수정취소">
+														<input id="reply-update-btn" type="button" class="btn btn-primary ms-2" value="댓글수정">
+													</div>
+												</form>
+											</c:if>
+										</div>
 					
 					                </div>
 					
@@ -219,7 +201,7 @@
 	            </div>
 	            <div class="modal-body pt-0">
 	                <form id="user-singo">
-	                	<input type="hidden" name="daesangId" value="${bVo.id}">
+	                	<input type="hidden" name="daesangId" id="daesangId">
 	                    <div class="mb-3">
 	                        <label class="col-form-label text-primary"><i class="ri-check-line"></i> 신고 사유를 선택해주세요.</label>
 	                        <div id="singo-list"></div>
@@ -238,17 +220,21 @@
 	    </div>
 	</div>
 	<div class="hidden">
-		<div id="boardId">${bVo.id}</div>
+		<div id="loginUser">${sessionScope.userInfo.userNickname}</div>
+		<div id="chaetaek">${bVo.chaetaek}</div>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-basic"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-delete"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-pilgi-delete"></button>
+		<button type="button" class="btn btn-primary btn-sm" id="sa-reply-length"></button>
 		<button type="button" id="modal-btn" class="btn btn-primary waves-light waves-effect" data-bs-toggle="modal" data-bs-target="#varyingcontentModal" data-bs-whatever="@mdo"></button>
 	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
+	<script type="text/javascript" src="./js/ckeditor.js"></script>
 	<script src="./assets/js/app.js"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>
 	<script src="./js/communityDetails.js"></script>
@@ -260,13 +246,144 @@
 			</label>
 		</div>
 	</script>
+	<script id="page-list-template" type="text/x-handlebars-template">
+		{{#each page}}
+		<li class="page-item {{state}}">
+			<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
+		</li>
+		{{/each}}
+	</script>
 	<script id="reply-list-template" type="text/x-handlebars-template">
-		<div class="form-check mb-2">
-			<input class="form-check-input category" type="radio" name="category" id="singoSayu{{no}}" value="{{id}}">
-			<label class="form-check-label" for="singoSayu{{no}}">
-				{{category}}
-			</label>
-		</div>
+		<div class="list-group-item bg-light">
+			{{#isDel}}
+			{{#stateNotP}}
+	        <div class="list-text mb-2">{{{content}}}</div>
+			{{else}}
+			<div class="hstack gap-3 mb-3">
+				<a class="link-danger contentShow" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
+					<i class="ri-arrow-down-circle-line fs-16"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
+				</a>
+			</div>
+			<div class="collapse" id="collapseWithicon">
+				<div class="list-text mb-2">
+					{{{content}}}
+				</div>
+			</div>
+			{{/stateNotP}}
+			{{else}}
+			<p style="color:red;" class="list-text mb-2">{{content}}</p>
+			{{/isDel}}	
+	        <div class="d-flex align-items-center reply-group mb-1">
+	        	<div class="flex-grow-1 reply-align">
+	        		<div class="hidden replySeq">{{seq}}</div>
+					{{#isDel}}
+					{{#stateNotP}}
+	        			{{#isNotWriter}}
+	        			<a class="singo-btn reply-align reply-icon"><i class="ri-alarm-warning-line"></i></a>
+	        			{{else}}
+						{{#notChaetaek}}
+	        			<a class="reply-delete-btn reply-align reply-icon"><i class="bx bx-trash align-middle"></i></a>
+						<a class="reply-update-btn reply-align reply-icon"><i class="bx bx-pencil align-middle"></i></a>
+						{{/notChaetaek}}
+						{{/isNotWriter}}
+	        			<a class="re-reply-btn reply-align reply-icon"><i class="ri-message-3-fill"></i></a>
+						{{#noChaetaek}}
+						<a class="reply-chaetaek-btn reply-align reply-icon"><i class="ri-check-double-fill"></i></a>
+						{{/noChaetaek}}
+					{{/stateNotP}}
+					{{/isDel}}											        		
+	        	</div>
+	            <div class="ms-3 float-end">
+	                <h5 class="list-title fs-15 mb-0">
+	                	{{#isChaetaek}}
+	                	<i class="ri-check-double-fill text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="채택된 글은 수정 또는 삭제가 불가능합니다."></i> 
+						{{/isChaetaek}}
+	                	<i class="ri-user-fill"></i> {{writerId}}</h5>
+	                <div class="list-text mb-0 fs-12">
+						{{#isUpdate}}
+			        	<span class="text-danger"><i class="ri-restart-line"></i>&ensp;{{update}}&ensp;</span>
+						{{/isUpdate}}
+		        		<i class="ri-timer-2-fill"></i>&ensp;{{regdate}}&ensp;
+	                </div>
+	            </div>
+	        </div>
+			{{#each re-reply}}
+			<div class="list-group-item re-reply-group ms-3">
+				{{#isReDel}}
+				{{#reStateNotP}}
+				<p class="list-text mb-2">{{{re-content}}}</p>
+				{{else}}
+				<div class="hstack gap-3 mb-3">
+					<a class="link-danger contentShow" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
+						<i class="ri-arrow-down-circle-line fs-16"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
+					</a>
+				</div>
+				<div class="collapse" id="collapseWithicon">
+					<div class="list-text mb-2">
+						{{{re-content}}}
+					</div>
+				</div>
+				{{/reStateNotP}}
+				{{else}}
+				<p style="color:red;" class="list-text mb-2">{{re-content}}</p>
+				{{/isReDel}}
+				<div class="d-flex align-items-center reply-group">
+					<div class="flex-grow-1 reply-align">
+						<div class="hidden replySeq">{{re-seq}}</div>
+						{{#isReDel}}
+						{{#reStateNotP}}
+							{{#isReWriter}}
+							<a class="singo-btn reply-align reply-icon"><i class="ri-alarm-warning-line"></i></a>
+							{{else}}
+							<a class="reply-delete-btn reply-align reply-icon"><i class="bx bx-trash align-middle"></i></a>
+							<a class="re-update-btn reply-align reply-icon"><i class="bx bx-pencil align-middle"></i></a>
+							{{/isReWriter}}
+						{{/reStateNotP}}
+						{{/isReDel}}										        		
+					</div>
+					<div class="ms-3 float-end">
+						<h6 class="list-title fs-12 mb-0"><i class="ri-user-fill"></i> {{re-writerId}}</h6>
+						<div class="list-text mb-0 fs-9">
+							{{#isReUpdate}}
+								<span class="text-danger"><i class="ri-restart-line"></i>&ensp;{{re-update}}&ensp;</span>
+							{{/isReUpdate}}
+							<i class="ri-timer-2-fill"></i>&ensp;{{re-regdate}}&ensp;
+						</div>
+					</div>
+				</div>
+			</div>
+			{{/each}}
+	    </div>
+	</script>
+	<script id="re-reply-template" type="text/x-handlebars-template">
+		<div id="re-insert" class="list-group-item re-reply-group ms-3">
+			<form id="re-write-form" action="./insertReReply.do" method="post">
+	        	<div>
+					<input type="hidden" name="boardId" id="re-boardId">
+					<input type="hidden" name="rootSeq" id="re-rootSeq">
+	        		<textarea id="re-textBox" name="content" style="resize: none;" maxlength="300" rows="3"></textarea>
+	        	</div>
+	        	<div>
+	        		<span class="flex-grow-1"><span id="textCount">0</span>/300</span>
+	        		<button id="re-write-btn" class="badge text-bg-primary ms-1 float-end">작성</button>
+	        		<button id="re-cancel-btn" class="badge bg-primary-subtle text-primary float-end">취소</button>
+	        	</div>
+			</form>
+	    </div>
+	</script>
+	<script id="re-update-template" type="text/x-handlebars-template">
+		<form id="re-update-form" action="./updateReReply.do" method="post">
+	       	<div>
+				<input type="hidden" name="boardId" id="re-boardId">
+				<input type="hidden" name="seq" id="re-seq">
+	       		<textarea id="re-textBox" name="content" style="resize: none;" maxlength="300" rows="3">{{content}}</textarea>
+	       	</div>
+	       	<div>
+	       		<span class="flex-grow-1"><span id="textCount">{{length}}</span>/300</span>
+	       		<button id="re-update" class="badge text-bg-primary ms-1 float-end">작성</button>
+	       		<button id="re-cancel" class="badge bg-primary-subtle text-primary float-end">취소</button>
+	       	</div>
+		</form>
 	</script>
 </body>
 </html>

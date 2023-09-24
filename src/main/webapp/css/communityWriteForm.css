@@ -21,10 +21,16 @@
 	padding-top: 0px;
 }
 
-footer{
-	margin:0px;
-    font-size: var(--tb-body-font-size);
-    text-align: var(--tb-body-text-align);
+.cursor-default:hover, .cursor-default *:hover{
+	cursor: default;
+}
+
+#write-btn, #update-btn, #cancel-btn{
+	height: 40px;
+}
+
+.remove-btn:hover{
+	cursor: pointer;
 }
 
 .ck-content {
@@ -33,16 +39,4 @@ footer{
 
 .ck-editor__editable {
     max-height: 450px;
-}
-
-.cursor-default:hover, .cursor-default *:hover{
-	cursor: default;
-}
-
-#write-btn{
-	height: 40px;
-}
-
-.remove-btn:hover{
-	cursor: pointer;
 }

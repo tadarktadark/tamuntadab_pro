@@ -37,13 +37,13 @@
 	<!-- SIDA_ID가 없을 경우 : 신고 대상에 추가 -->
 	<insert id="insertSingoDaesang">	
 		INSERT INTO SINGO_DAESANG(SIDA_ID, SIDA_DAESANG_ID)
-						VALUES((SELECT 'SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(MAX(TO_NUMBER(SUBSTR(SIDA_ID,11)))+1,4,'0')
-												FROM SINGO_DAESANG
-												WHERE SUBSTR(SIDA_ID,1,10)='SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{daesangId})
+				VALUES((SELECT 'SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(SIDA_ID,11))),0)+1,4,'0')
+										FROM SINGO_DAESANG
+										WHERE SUBSTR(SIDA_ID,1,10)='SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{daesangId})
 		<selectKey keyProperty="id" resultType="java.lang.String" order="AFTER">
 			SELECT 'SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(SIDA_ID,11))),0),4,'0') AS ID
-					FROM SINGO_DAESANG
-					WHERE SUBSTR(SIDA_ID,1,10)='SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')
+				FROM SINGO_DAESANG
+				WHERE SUBSTR(SIDA_ID,1,10)='SI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')
 		</selectKey>
 	</insert>
 	

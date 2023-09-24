@@ -1,7 +1,4 @@
 @charset "UTF-8";
-.view-detail:hover, .page-link:hover{
-	cursor: pointer;
-}
 
 .rigth-btn{
 	width: 100px;
@@ -13,9 +10,4 @@
 
 .order-by:hover {
 	cursor: pointer;
-}
-
-.page-link{
-	width: 35px;
-	height: 35px;
 }

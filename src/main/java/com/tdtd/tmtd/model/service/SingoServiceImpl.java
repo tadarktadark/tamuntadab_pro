@@ -36,6 +36,7 @@ public class SingoServiceImpl implements ISingoService {
 				n += dao.updateBoardState(map);
 			}
 		} else {
+			dVo = new SingoDaesangVo();
 			dVo.setDaesangId(daesangId);
 			n += dao.insertSingoDaesang(dVo);
 		}

@@ -1,9 +1,13 @@
 package com.tdtd.tmtd;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IReplyService;
 import com.tdtd.tmtd.vo.ReplyVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,11 +41,95 @@ public class ReplyController {
 		rMap.put("boardId", boardId);
 		rMap.put("start", pMap.get("start"));
 		rMap.put("end", pMap.get("end"));
-		List<ReplyVo> list = service.getReplyList(rMap);
+		List<ReplyVo> list = service.getRootReplyList(rMap);
+		
+		List<Integer> rootSeq = new ArrayList<Integer>();
+		for (int i = 0; i < list.size(); i++) {
+			rootSeq.add(list.get(i).getRootSeq());		
+		}
+		
+		rMap.put("rootSeq", rootSeq);
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("page", pMap.get("page"));
-		result.put("reply", list);
+		result.put("rootReply", list);
+		result.put("reReply", service.getReReplyList(rMap));
 		return result;
+	}
+	
+	@RequestMapping(value="/replyWrite.do", method=RequestMethod.POST)
+	public String replyWrite(HttpSession session, ReplyVo vo) {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ ROOT 댓글 작성 : board {}, ReplyVo {}", board, vo);
+				
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		vo.setWriterId(userInfo.getUserAccountId());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("board", board);
+		map.put("boardId", vo.getBoardId());
+		service.insertRootReply(vo, map);
+		
+		return "redirect:/communityDetails.do?id="+vo.getBoardId();
+	}
+	
+	@RequestMapping(value="/getUpdateContent.do", produces = "text/plain; charset=UTF-8", method=RequestMethod.POST)
+	@ResponseBody
+	public String getUpdateContent(String seq) {
+		log.info("@@@@@@@@@@@@@@@ 댓글 수정 데이터 조회 : seq {}", seq);
+		
+		return service.getUpdateContent(seq);
+	}
+	
+	@RequestMapping(value="/replyUpdate.do", method=RequestMethod.POST)
+	public String replyUpdate(HttpSession session, ReplyVo vo) {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ ROOT 댓글 수정 : board {}, ReplyVo {}", board, vo);
+		
+		service.updateReply(vo);
+		
+		return "redirect:/communityDetails.do?id="+vo.getBoardId();
+	}
+	
+	@RequestMapping(value="/replyDelete.do", method=RequestMethod.GET)
+	public String replyDelete(HttpSession session, String boardId, int seq) {
+		String board = (String)session.getAttribute("community");
+		log.info("@@@@@@@@@@@@@@@ 댓글 삭제 : board {}, boardId {}, seq {}", board, boardId, seq);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("seq", seq);
+		map.put("board", board);
+		map.put("boardId", boardId);
+		service.deleteReply(map);
+		
+		return "redirect:/communityDetails.do?id="+boardId;
+	}
+	
+	@RequestMapping(value="/insertReReply.do", method=RequestMethod.POST)
+	public String insertReReply(HttpSession session, ReplyVo vo) {
+		log.info("@@@@@@@@@@@@@@@ 대댓글 입력 : vo {}", vo);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		vo.setWriterId(userInfo.getUserAccountId());
+		service.insertReReply(vo);
+		
+		return "redirect:/communityDetails.do?id="+vo.getBoardId();
+	}
+	
+	@RequestMapping(value="/updateReReply.do", method=RequestMethod.POST)
+	public String updateReReply(HttpSession session, ReplyVo vo) {
+		log.info("@@@@@@@@@@@@@@@ 대댓글 수정 : vo {}", vo);
+		
+		service.updateReply(vo);
+		
+		return "redirect:/communityDetails.do?id="+vo.getBoardId();
+	}
+	
+	@RequestMapping(value="/replyChaetaek.do", method=RequestMethod.GET)
+	public String replyChaetaek(int seq, String boardId) {
+		log.info("@@@@@@@@@@@@@@@ 대댓글 채틱 : seq {}, boardId {}", seq, boardId);
+		
+		service.updateChaetaek(seq, boardId);
+		
+		return "redirect:/communityDetails.do?id="+boardId;
 	}
 }

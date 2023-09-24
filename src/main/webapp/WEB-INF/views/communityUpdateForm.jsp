@@ -138,6 +138,7 @@
 											    <option value="I" ${(bVo.downloadGroup == 'I')?"selected":""}>나만 다운로드</option>
 											</select>
  						            	</c:if>
+									    <input id="cancel-btn" type="button" class="btn btn-soft-primary" value="수정취소">
 									    <input id="update-btn" type="button" class="btn btn-primary" value="수정하기">
  						            </div>
 					            </form>

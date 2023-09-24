@@ -92,6 +92,7 @@
 											    <option value="I">나만 다운로드</option>
 											</select>
  						            	</c:if>
+									    <input id="cancel-btn" type="button" class="btn btn-soft-primary" value="작성취소">
 									    <input id="write-btn" type="button" class="btn btn-primary" value="작성완료">
  						            </div>
 					            </form>

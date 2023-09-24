@@ -107,11 +107,16 @@
 		        	<img src="./image/heart_{{heart}}.png" alt="" class="avatar-sm rounded-circle like-do" id="{{id}}"/>
 		    	</div>
 		    	<div class="flex-grow-1 ms-3">
-		        	<h5 class="list-title fs-15 mb-1">{{title}}</h5>
+		        	<h5 class="list-title fs-15 mb-1">
+						{{title}}
+						{{#isChaetaek}}
+							&ensp;<i class="ri-check-double-fill text-success"></i>
+						{{/isChaetaek}}
+					</h5>
 		        	<p class="list-text mb-0 fs-12"> 
-			        		<i class=" ri-timer-2-fill"></i>&ensp;{{regdate}}&ensp;
-				    		<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
-			        		<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
+			        	<i class=" ri-timer-2-fill"></i>&ensp;{{regdate}}&ensp;
+				    	<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
+			        	<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
 		        	</p>
 		    	</div>
 			</div>
