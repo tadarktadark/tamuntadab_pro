@@ -21,7 +21,7 @@
 		<div class="d-lg-flex">
 		    <div class="chat-leftsidebar card">
 		        <div class="card-body">
-		            <div class="text-center bg-light rounded px-4 py-4">
+		            <div class="text-center bg-light rounded px-4 py-5">
 		                <div class="chat-user-status">
 		                    <img src="${userInfo.userProfileFile}" class="avatar-md rounded-circle" alt="">
 		                    <input type="hidden" id="profileImg" value="${userInfo.userProfileFile}">
@@ -39,7 +39,7 @@
 		                <li class="nav-item">
 		                    <a href="#chat" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
 		                        <i class="bx bx-chat fs-20 d-sm-none"></i>
-		                        <span class="d-none d-sm-block">Chat</span>
+		                        <span class="d-none d-sm-block">채팅</span>
 		                    </a>
 		                </li>
 		            </ul>
@@ -64,38 +64,6 @@
 		                                    </a>
 		                                </li>
 		                            </c:forEach>
-		                                <li class="active">
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Jennie Sherlock</h5>
-		                                            </div>
-		                                            <div class="flex-shrink-0">
-		                                                <span class="badge bg-danger rounded-pill">1</span>
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
-		                                <li>
-		                                    <a href="#">
-		                                        <div class="d-flex align-items-center">
-		                                            <div class="flex-shrink-0 user-img online align-self-center me-3">
-		                                                <div class="avatar-xs align-self-center">
-		                                                    <span class="avatar-title rounded-circle bg-primary-subtle  text-primary fs-15 fs-15">
-		                                                        S
-		                                                    </span>
-		                                                </div>
-		                                                <span class="user-status"></span>
-		                                            </div>
-		
-		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">Stacie Dube</h5>
-		                                            </div>
-		                                            <div class="flex-shrink-0">
-		                                            </div>
-		                                        </div>
-		                                    </a>
-		                                </li>
 		                            </ul>
 		                        </div>
 		                    </div>
