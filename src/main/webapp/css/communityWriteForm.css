@@ -25,7 +25,7 @@
 	cursor: default;
 }
 
-#write-btn{
+#write-btn, #update-btn, #cancel-btn{
 	height: 40px;
 }
 
