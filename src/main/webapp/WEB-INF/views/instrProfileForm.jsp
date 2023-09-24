@@ -25,10 +25,10 @@
 				</div>
 				<div class="card">
 					<div class="card-body">
-						<form action="./insertInstrProfile.do" method="post">
+						<form action="./insertInstrProfile.do" method="post" style="width: 90%;">
 							<input type="hidden" value="${accountId}" name="inprAccountId">
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div>
 									<label for="inprIntro" class="form-label">한줄 소개</label>
 									<textarea class="form-control" name="inprIntro" id="inprIntro"
 										rows="3" placeholder="자신을 소개하는 한마디를 적어주세요(100자 이내)">${not empty profile ? profile.inprIntro : ''}</textarea>
@@ -36,7 +36,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div>
 									<label for="inprSiteYoutube" class="form-label">유튜브 링크</label>
 									<input type="url" class="form-control" id="inprSiteYoutube"
 										name="inprSiteYoutube" placeholder="소개할 자신의 유튜브 url"
@@ -44,7 +44,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div>
 									<label for="inprSiteWeb" class="form-label">웹사이트 링크</label> <input
 										type="url" class="form-control" id="inprSiteWeb"
 										name="inprSiteWeb" placeholder="소개할 웹 홈페이지"
@@ -52,7 +52,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div>
 									<label for="inprSiteMobile" class="form-label">모바일 사이트
 										링크</label> <input type="url" class="form-control" id="inprSiteMobile"
 										name="inprSiteMobile" placeholder="소개할 모바일 홈페이지"
@@ -60,7 +60,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;" class="table-responsive">
+								<div class="table-responsive">
 									<label for="formtextInput" class="form-label"
 										style="margin-right: 10px;">학력</label>
 									<button type="button" class="btn btn btn-outline-secondary"
@@ -116,7 +116,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div>
 									<div class="col-lg-3">
 										<label for="inprSubjects" class="form-label">가능한 과목</label>
 									</div>
@@ -156,7 +156,7 @@
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div style="width: 700px;">
+								<div>
 									<div class="col-lg-3">
 										<label for="inprSubjectsMajor" class="form-label">전문
 											분야 과목</label>

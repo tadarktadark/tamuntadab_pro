@@ -23,8 +23,10 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp"%>
 				</div>
+				<div class="card">
+					<div class="card-body">
 				<!-- <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px;"> -->
-				<div style="width: 800px; margin: 10% auto;">
+				<div style="margin: 10%;">
 					<c:choose>
 						<c:when test="${empty lists}">
 							<div class="alert alert-warning" role="alert"
@@ -33,7 +35,7 @@
 							</div>
 						</c:when>
 						<c:otherwise>
-							<table class="table table-striped"
+							<table class="table table-bordered table-striped"
 								style="height: 300px; overflow-y: auto;">
 								<thead>
 									<tr style="text-align: center;">
@@ -123,6 +125,8 @@
 							</ul>
 						</c:otherwise>
 					</c:choose>
+				</div>
+				</div>
 				</div>
 				</div>
 				</div>

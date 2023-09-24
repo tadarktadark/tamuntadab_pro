@@ -24,11 +24,13 @@
 		            <div class="text-center bg-light rounded px-4 py-4">
 		                <div class="chat-user-status">
 		                    <img src="${userInfo.userProfileFile}" class="avatar-md rounded-circle" alt="">
+		                    <input type="hidden" id="profileImg" value="${userInfo.userProfileFile}">
 		                    <div class="">
 		                        <div class="status"></div>
 		                    </div>
 		                </div>
 		                <h5 class="fs-16 mb-1 mt-3"><a href="#" id="nickname" class="text-body">${userInfo.userNickname}</a></h5>
+		                <input id="userAccountId" type="hidden" value="${userInfo.userAccountId}">
 		                <p class="text-muted mb-0">${(userInfo.userAuth eq 'I')?'강사':'학생'}</p>
 		            </div>
 		        </div>
@@ -50,7 +52,7 @@
 		                            </div>
 		                            <ul class="list-unstyled chat-list p-3">
 		                            <c:forEach var="room" items="${roomList}">
-		                            	<li class="chatRoomList" value="${room.chroId}" onclick="openChat(this)">
+		                            	<li class="chatRoomList" value="${room.chroId}">
 		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
 		                                            <div class="flex-grow-1 overflow-hidden">
@@ -149,259 +151,8 @@
 		                </div>
 		            </div>
 		
-		            <div class="chat-conversation p-3" data-simplebar>
+		            <div id="chat-conversation" class="chat-conversation p-3" data-simplebar>
 		                <ul  id="total-chat-list" class="list-unstyled mb-0">
-		                    <li class="chat-day-title">
-		                        <span class="title">Thursday</span>
-		                    </li>
-		                    <li>
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <img src="~/assets/images/users/avatar-6.jpg" class="rounded-circle avatar-sm" alt="">
-		                                <div class="flex-1 ms-3">
-		                                    <div class="d-flex justify-content-between">
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jennie Sherlock </h5>
-		                                        <span class="time fw-normal text-muted me-0 me-md-4">Thursday 10:02 AM</span>
-		                                    </div>
-		                                    <div class="ctext-wrap">
-		                                        <div class="ctext-wrap-content bg-light">
-		                                            <p class="mb-0">
-		                                                Hi Jordan! </br>
-		                                                Feels like it's been a while! Home are you? Do you
-		                                                have ant time for the remainder of the week to help me with an ongoing project?
-		                                            </p>
-		
-		                                        </div>
-		                                        <div class="dropdown align-self-start">
-		                                            <a href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                                <i class="bx bx-dots-vertical-rounded fs-18 me-2"></i>
-		                                            </a>
-		                                            <div class="dropdown-menu">
-		                                                <a class="dropdown-item" href="#">Copy</a>
-		                                                <a class="dropdown-item" href="#">Save</a>
-		                                                <a class="dropdown-item" href="#">Forward</a>
-		                                                <a class="dropdown-item" href="#">Delete</a>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </li>
-		
-		                    <li class="right">
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <div class="flex-1 me-3">
-		                                    <div class="d-flex justify-content-between">
-		                                        <span class="time fw-normal text-muted ms-0 ms-md-4">Thursday 10:02 AM</span>
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jimmie Williams </h5>
-		                                    </div>
-		                                    <div class="ctext-wrap">
-		                                        <div class="ctext-wrap-content">
-		                                            <p class="mb-0 text-start">
-		                                                Hi Martin, Glad to hear from you, I'm fine,what about you? and how it's going with the velocity website?
-		                                                </br>
-		                                                Of course I will help with this project
-		                                            </p>
-		
-		                                        </div>
-		                                        <div class="dropdown align-self-start">
-		                                            <a href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                                <i class="bx bx-dots-vertical-rounded fs-18 me-2"></i>
-		                                            </a>
-		                                            <div class="dropdown-menu">
-		                                                <a class="dropdown-item" href="#">Copy</a>
-		                                                <a class="dropdown-item" href="#">Save</a>
-		                                                <a class="dropdown-item" href="#">Forward</a>
-		                                                <a class="dropdown-item" href="#">Delete</a>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                                <img src="~/assets/images/users/avatar-3.jpg" class="rounded-circle avatar-sm" alt="">
-		                            </div>
-		
-		                        </div>
-		
-		                    </li>
-		
-		                    <li>
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <img src="~/assets/images/users/avatar-6.jpg" class="rounded-circle avatar-sm" alt="">
-		                                <div class="flex-1 ms-3">
-		                                    <div class="d-flex justify-content-between">
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jennie Sherlock </h5>
-		                                        <span class="time fw-normal text-muted me-0 me-md-4">Thursday 10:04 AM</span>
-		                                    </div>
-		                                    <div class="ctext-wrap">
-		                                        <div class="ctext-wrap-content bg-light">
-		                                            <p class="mb-0">
-		                                                Super, I will get you the new brief for our own site over to you this evening, so you have time to read over I'm good thank you!
-		                                            </p>
-		                                        </div>
-		                                        <div class="dropdown align-self-start">
-		                                            <a href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                                <i class="bx bx-dots-vertical-rounded fs-18 me-2"></i>
-		                                            </a>
-		                                            <div class="dropdown-menu">
-		                                                <a class="dropdown-item" href="#">Copy</a>
-		                                                <a class="dropdown-item" href="#">Save</a>
-		                                                <a class="dropdown-item" href="#">Forward</a>
-		                                                <a class="dropdown-item" href="#">Delete</a>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                            </div>
-		
-		                        </div>
-		                    </li>
-		
-		                    <li class="chat-day-title">
-		                        <span class="title">Today</span>
-		                    </li>
-		
-		                    <li class="right">
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <div class="flex-1 me-3">
-		                                    <div class="d-flex justify-content-between">
-		                                        <span class="time fw-normal text-muted ms-0 ms-md-4">Today 10:08 AM</span>
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jimmie Williams </h5>
-		                                    </div>
-		                                    <div class="ctext-wrap">
-		                                        <div class="ctext-wrap-content">
-		                                            <p class="mb-0 text-start">
-		                                                Of course I can, just catching up with Steve on it and i'll write it out. Speak tomorrow! Let me know if you have any questions!
-		                                            </p>
-		
-		                                            <p class="mb-0 text-start mt-2">
-		                                                img-1.jpg & img-2.jpg images for a New Projects
-		                                            </p>
-		
-		                                            <ul class="list-inline message-img mt-2 mb-0">
-		                                                <li class="list-inline-item message-img-list">
-		                                                    <a class="d-inline-block" href="">
-		                                                        <img src="~/assets/images/small/img-1.jpg" alt="" class="rounded img-thumbnail">
-		                                                    </a>
-		                                                </li>
-		
-		                                                <li class="list-inline-item message-img-list">
-		                                                    <a class="d-inline-block" href="">
-		                                                        <img src="~/assets/images/small/img-2.jpg" alt="" class="rounded img-thumbnail">
-		                                                    </a>
-		                                                </li>
-		                                            </ul>
-		                                        </div>
-		
-		                                        <div class="dropdown align-self-start">
-		                                            <a href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                                <i class="bx bx-dots-vertical-rounded fs-18 me-2"></i>
-		                                            </a>
-		                                            <div class="dropdown-menu">
-		                                                <a class="dropdown-item" href="#">Copy</a>
-		                                                <a class="dropdown-item" href="#">Save</a>
-		                                                <a class="dropdown-item" href="#">Forward</a>
-		                                                <a class="dropdown-item" href="#">Delete</a>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		
-		                                </div>
-		                                <img src="~/assets/images/users/avatar-3.jpg" class="rounded-circle avatar-sm" alt="">
-		                            </div>
-		                        </div>
-		                    </li>
-		
-		                    <li>
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <img src="~/assets/images/users/avatar-6.jpg" class="rounded-circle avatar-sm" alt="">
-		                                <div class="flex-1 ms-3">
-		                                    <div class="d-flex justify-content-between">
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jennie Sherlock </h5>
-		                                        <span class="time fw-normal text-muted me-0 me-md-4">Today 10:04 AM</span>
-		                                    </div>
-		                                    <div class="ctext-wrap">
-		                                        <div class="ctext-wrap-content bg-light">
-		                                            <p class="mb-0">
-		                                                Thank You very much, I am waiting Project.
-		                                            </p>
-		                                        </div>
-		                                        <div class="dropdown align-self-start">
-		                                            <a href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                                <i class="bx bx-dots-vertical-rounded fs-18 me-2"></i>
-		                                            </a>
-		                                            <div class="dropdown-menu">
-		                                                <a class="dropdown-item" href="#">Copy</a>
-		                                                <a class="dropdown-item" href="#">Save</a>
-		                                                <a class="dropdown-item" href="#">Forward</a>
-		                                                <a class="dropdown-item" href="#">Delete</a>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </li>
-		
-		                    <li class="right">
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <div class="flex-1 me-3">
-		                                    <div class="d-flex justify-content-between">
-		                                        <span class="time fw-normal text-muted ms-0 ms-md-4">Today 10:08 AM</span>
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jimmie Williams </h5>
-		                                    </div>
-		                                    <div class="ctext-wrap">
-		                                        <div class="ctext-wrap-content">
-		                                            <p class="mb-0 text-start">
-		                                                When someone thanks us, our automatic response is to say, “You’re welcome.” This is something that we have
-		                                                learned from our parents and family and have been doing for a long time.
-		                                            </p>
-		                                        </div>
-		
-		                                        <div class="dropdown align-self-start">
-		                                            <a href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                                <i class="bx bx-dots-vertical-rounded fs-18 me-2"></i>
-		                                            </a>
-		                                            <div class="dropdown-menu">
-		                                                <a class="dropdown-item" href="#">Copy</a>
-		                                                <a class="dropdown-item" href="#">Save</a>
-		                                                <a class="dropdown-item" href="#">Forward</a>
-		                                                <a class="dropdown-item" href="#">Delete</a>
-		                                            </div>
-		                                        </div>
-		                                    </div>
-		
-		                                </div>
-		                                <img src="~/assets/images/users/avatar-3.jpg" class="rounded-circle avatar-sm" alt="">
-		                            </div>
-		                        </div>
-		                    </li>
-		                    <li class="right"><!-- 내 채팅인지 아닌지에 따라서 왼쪽인지 오른쪽인지 -->
-		                        <div class="conversation-list">
-		                            <div class="d-flex">
-		                                <div class="flex-1 me-3">
-		                                    <div class="d-flex justify-content-between"><!-- 시간과 이름 -->
-		                                        <span class="time fw-normal text-muted ms-0 ms-md-4">Thursday 10:02 AM</span>
-		                                        <h5 class="fs-16 conversation-name align-middle"> Jimmie Williams </h5>
-		                                    </div>
-		                                    <div class="ctext-wrap"><!-- 채팅 내용 -->
-		                                        <div class="ctext-wrap-content">
-		                                            <p class="mb-0 text-start">
-		                                                Hi Martin, Glad to hear from you, I'm fine,what about you? and how it's going with the velocity website?
-		                                                </br>
-		                                                Of course I will help with this project
-		                                            </p>
-		                                        </div>
-		                                    </div>
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </li>
 		                </ul>
 		            </div>
 		
@@ -409,7 +160,7 @@
 		                <div class="row">
 		                    <div class="col">
 		                        <div class="position-relative">
-		                            <input id="chatInput" type="text" class="form-control border chat-input" onkeypress="if(event.keyCode==13) $('#chat_btn').click();">
+		                            <input id="chatInput" type="text" class="form-control border chat-input" autocomplete="off">
 		                        </div>
 		                    </div>
 		                    <div class="col-auto">

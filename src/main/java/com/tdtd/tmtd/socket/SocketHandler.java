@@ -39,15 +39,15 @@ public class SocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 		String msg = message.getPayload();
+		System.out.println("msg : "+msg);
 		String txt = "";
 		
 		Map<String, Object> mySession = session.getAttributes();
 		String crSession = (String)mySession.get("cr_id");
 		String memSession = (String)mySession.get("mem_id");
-		System.out.println(crSession);
-		System.out.println(memSession);
+
 		
-		if(msg.indexOf("#&nick_")!=-1) {
+		if(msg.indexOf("#&user_")!=-1) {
 			for(WebSocketSession s : list) {
 				Map<String, Object> sessionMap = s.getAttributes();
 				String otherCrSession = (String)sessionMap.get("cr_id");
@@ -57,14 +57,22 @@ public class SocketHandler extends TextWebSocketHandler {
 				}
 			}
 		}else {
-			String msg2 = msg.substring(0,msg.indexOf(":")).trim();
+			String sentUserId = msg.substring(0,msg.indexOf(":")).trim();
+			String sentNickName = msg.substring(msg.indexOf("#&nickName_")+11,msg.indexOf("#&profileImg_")).trim();
+			String sentImg = msg.substring(msg.indexOf("#&profileImg_")+13,msg.length()).trim();
+			System.out.println(sentUserId+sentNickName+sentImg);
 			for(WebSocketSession s : list) {
 				Map<String, Object> sessionMap = s.getAttributes();
 				String otherCrSession = (String)sessionMap.get("cr_id");
 				String otherMemSession = (String)sessionMap.get("mem_id");
 				
+				System.out.println("crSession : "+crSession);
+				System.out.println("otherCrSession : "+otherCrSession);
+				System.out.println("otherMemSession : "+otherMemSession);
+				System.out.println(sentUserId);
+				
 				if(crSession.equals(otherCrSession)) {//같은 그룹
-					if(msg2.equals(otherMemSession)) {
+					if(sentUserId.equals(otherMemSession)) {
 						String newMsg = "[나]"+msg.replace(msg.substring(0,msg.trim().indexOf(":")+1), "");
 						txt=newMsg;
 					}else {
