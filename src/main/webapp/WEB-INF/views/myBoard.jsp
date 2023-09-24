@@ -13,15 +13,18 @@
 		<!-- Nav tabs -->
 		<ul class="nav nav-pills nav-customs nav-danger"
 			role="tablist">
-			<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#border-navs" role="tab">필기</a>
-			</li>
-			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">질문</a></li>
-			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">자유</a></li>
+			<li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#write-pilgi" role="tab">작성 필기</a></li>
+			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">작성 질문</a></li>
+			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">작성 자유</a></li>
+			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">작성 댓글</a></li>
+			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">좋아요 필기</a></li>
+			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">좋아요 질문</a></li>
+			<li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#border-navs" role="tab">좋아요 자유</a></li>
 		</ul>
 		<div class="card mb-0">
 			<!-- Tab panes -->
 			<div class="tab-content text-muted">
-				<div class="tab-pane active" id="border-navs" role="tabpanel">
+				<div class="tab-pane active" id="write-pilgi" role="tabpanel">
 					<div class="card-body pt-3">
 	                    <div id="customerList">
 	                        <div class="table-responsive table-card">
@@ -41,22 +44,11 @@
 	                                            </div>
 	                                        </th>
 	                                        <th class="bg-primary">제목</th>
-	                                        <c:choose>
-				                            	<c:when test="${board == 'pilgi'}">
-			                                        <th class="bg-primary">공개</th>
-			                                        <th class="bg-primary">다운로드</th>
-				                            	</c:when>
-			                            		<c:otherwise>	             
-			                                        <th class="bg-primary">조횟수</th>
-			                                        <th class="bg-primary">좋아요</th>
-			                                        <th class="bg-primary">댓글</th>
-			                            		</c:otherwise>
-			                            	</c:choose>
+	                                        <th class="bg-primary">공개</th>
+	                                        <th class="bg-primary">다운로드</th>
 	                                        <th class="bg-primary">작성일</th>
 	                                        <th class="bg-primary">상태</th>
-	                                        <c:if test="${board == 'pilgi'}">
-		                                        <th class="bg-primary"></th>
-	                                        </c:if>
+	                                        <th class="bg-primary">관리</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody class="list form-check-all">
@@ -87,38 +79,21 @@
 	                                </tbody>
 	                            </table>
 	                        </div>
-   	                        <div class="d-flex justify-content-end mt-3">
-	                            <div class="pagination-wrap hstack gap-2">
-	                                <a class="page-item pagination-prev disabled" href="#">
-	                                    Previous
-	                                </a>
-	                                <ul class="pagination listjs-pagination mb-0"></ul>
-	                                <a class="page-item pagination-next" href="#">
-	                                    Next
-	                                </a>
-	                            </div>
-	                        </div>
 	                    </div>
 	                </div>
 				</div>
+	            <div class="d-flex justify-content-end mt-3">
+		            <div class="pagination-wrap hstack gap-2">
+		                <a class="page-item pagination-prev disabled" href="#">
+		                    Previous
+		                </a>
+		                <ul class="pagination listjs-pagination mb-0"></ul>
+		                <a class="page-item pagination-next" href="#">
+		                    Next
+		                </a>
+		            </div>
+		        </div>
 			</div>
-		</div>
-		<div id="zoomInModal" class="modal fade zoomIn" tabindex="-1"
-			aria-labelledby="zoomInModalLabel" aria-hidden="true"
-			style="display: none;">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="zoomInModalLabel">반려 사유</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<h5 class="fs-16"></h5>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
 		</div>
 	</div>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>

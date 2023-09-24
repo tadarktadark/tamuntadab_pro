@@ -346,7 +346,7 @@
 									<!-- 내 글 목록 -->
 									<div class="tab-pane" id="boardlist" role="tabpanel">
 										
-											<%@ include file="./myWriteBoard.jsp"%>
+											<%@ include file="./myBoard.jsp"%>
 										
 										<!-- end card -->
 									</div>
