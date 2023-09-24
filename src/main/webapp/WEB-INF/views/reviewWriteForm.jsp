@@ -18,8 +18,8 @@
 <body>
 	<div id="layout-wrapper">
 		<div class="main-content">
-			<div class="page-content">
-				<div class="container-fluid">
+			<div class="page-content" style="width: 80%;">
+				<div class="container-fluid" >
 					<%@ include file="./shared/_page_title.jsp"%>
 					<div class="align-items-center">
 						<form action="javascript:void(0);" class="row g-3">

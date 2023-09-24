@@ -40,7 +40,7 @@
 <div class="bg-light" style="padding:10px;">
 				<input type="hidden" id="userAccountId"
 					value="${userInfo.userAccountId}">
-				<div id="review" style="width: 80%; margin: auto 10%;">
+				<div id="review">
 					<div id="reviewContent">
 						<div id="moreList"
 							style="width: auto; height: 700px; overflow: auto;">

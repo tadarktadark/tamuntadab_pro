@@ -26,7 +26,7 @@ public class ReviewVo {
 	private int reviSigan;
 	private String reviDetail;
 	private String reviRegdate;
-	private int avgScore;
+	private double avgScore;
 	
 	private List<ClassVo> classVo;
 	private List<ChamyeoVo> chamyeoVo;

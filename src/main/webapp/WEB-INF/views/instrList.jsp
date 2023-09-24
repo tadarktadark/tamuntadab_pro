@@ -18,6 +18,22 @@
 <script type="text/javascript" src="./js/instrList.js"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 <style type="text/css">
+#moreList::-webkit-scrollbar {
+    width: 10px;
+}
+
+#moreList::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+#moreList::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+#moreList::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 .team-box {
 	cursor: pointer;
 }
