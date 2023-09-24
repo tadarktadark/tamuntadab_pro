@@ -6,7 +6,7 @@
 	height:30px;
 }
 
-.like-do:hover{
+.like-do:hover, .view-detail:hover, .page-link:hover{
 	cursor: pointer;
 }
 
@@ -47,4 +47,15 @@
 
 #subjects {
     flex-grow: 1; /* 해당 요소가 남은 공간을 채우도록 설정 */
+}
+
+.page-link{
+	width: 35px;
+	height: 35px;
+}
+
+footer{
+	margin:0px;
+    font-size: var(--tb-body-font-size);
+    text-align: var(--tb-body-text-align);
 }

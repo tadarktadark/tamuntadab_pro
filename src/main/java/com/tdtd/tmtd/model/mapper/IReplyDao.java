@@ -12,47 +12,75 @@ public interface IReplyDao {
 	 * @param boardId 게시글id
 	 * @return 총 댓글 수
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.23
 	 */
 	public int getReplyCount(String boardId);
 		
 	/**
-	 * 게시글의 댓글 목록 조회
+	 * 게시글의 ROOT 댓글 목록 조회
 	 * @param map boardId 게시글id<br>
 	 * 				start<br>
 	 * 				end
-	 * @return List seq, writerId, content, rootSeq, step, depth, chaetaek, regdate, update, state
+	 * @return List seq, writerId, content, rootSeq, step, chaetaek, regdate, update, state
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.23
 	 */
-	public List<ReplyVo> getReplyList(Map<String, Object> map);
+	public List<ReplyVo> getRootReplyList(Map<String, Object> map);
+	
+	/**
+	 * 게시글의 대댓글 목록 조회
+	 * @param map boardId 게시글id<br>
+	 * 				rootSeq String[] 조회할 root 댓글의 seq
+	 * @return List seq, writerId, content, rootSeq, step, chaetaek, regdate, update, state
+	 * @author SoHyeon
+	 * @since 2023.09.23
+	 */
+	public List<ReplyVo> getReReplyList(Map<String, Object> map);
 		
 	/**
-	 * 댓글 작성 : 댓글 STEP 업데이트
-	 * @param rootSeq
+	 * ROOT 댓글 작성
+	 * @param vo boardId, writerId, content
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.23
 	 */
-	public int updateReplyStep(int rootSeq);
+	public int insertRootReply(ReplyVo vo);
 	
 	/**
-	 * 댓글 작성 : 삭제 댓글 STEP 업데이트
-	 * @param rootSeq
+	 * ROOT 댓글 개수 조회
+	 * @param map board, boardId
+	 * @return ROOT 댓글 개수
+	 * @author SoHyeon
+	 * @since 2023.09.24
+	 */
+	public int getRootReplyCount(Map<String, Object> map);
+	
+	/**
+	 * 게시판 root 댓글 개수 수정
+	 * @param map board, count
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.24
 	 */
-	public int updateSakjeStep(int rootSeq);
+	public int updateBoardReplyCount(Map<String, Object> map);
 	
 	/**
-	 * 댓글 작성
+	 * 대댓글 작성
 	 * @param vo boardId, writerId, content, rootSeq
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.23
 	 */
-	public int insertReply(ReplyVo vo);
+	public int insertReReply(ReplyVo vo);
+	
+	/**
+	 * 수정 댓글 데이터 조회
+	 * @param seq 수정 댓글 seq
+	 * @return 수정 댓글 content
+	 * @author SoHyeon
+	 * @since 2023.09.24
+	 */
+	public String getUpdateContent(String seq);
 	
 	/**
 	 * 댓글 수정

@@ -21,16 +21,32 @@ public class ReplyServiceImpl implements IReplyService {
 	}
 
 	@Override
-	public List<ReplyVo> getReplyList(Map<String, Object> map) {
-		return dao.getReplyList(map);
+	public List<ReplyVo> getRootReplyList(Map<String, Object> map) {
+		return dao.getRootReplyList(map);
+	}
+	
+	@Override
+	public List<ReplyVo> getReReplyList(Map<String, Object> map) {
+		return dao.getReReplyList(map);
 	}
 
 	@Override
-	public int insertReply(ReplyVo vo) {
-		int n = dao.updateReplyStep(vo.getRootSeq());
-		n += dao.updateSakjeStep(vo.getRootSeq());
-		n += dao.insertReply(vo);
-		return (n>0)?1:0;
+	public int insertRootReply(ReplyVo vo, Map<String, Object> map) {
+		int count = dao.getRootReplyCount(map);
+		int n = dao.insertRootReply(vo);
+		map.put("count", count+n);
+		int m = dao.updateBoardReplyCount(map);
+		return (n+m>0)?1:0;
+	}
+	
+	@Override
+	public int insertReReply(ReplyVo vo) {
+		return dao.insertReReply(vo);
+	}
+	
+	@Override
+	public String getUpdateContent(String seq) {
+		return dao.getUpdateContent(seq);
 	}
 
 	@Override
@@ -39,10 +55,12 @@ public class ReplyServiceImpl implements IReplyService {
 	}
 
 	@Override
-	public int deleteReply(int seq) {
-		int n = dao.deleteReply(seq);
-		ReplyVo vo = dao.getReplyDetail(seq);
+	public int deleteReply(Map<String, Object> map) {
+		ReplyVo vo = dao.getReplyDetail((int)map.get("seq"));
+		map.put("count", dao.getRootReplyCount(map)-1);
+		int n = dao.deleteReply((int)map.get("seq"));
 		n += dao.insertSakje(vo);
+		n += dao.updateBoardReplyCount(map);
 		return (n>1)?1:0;
 	}
 

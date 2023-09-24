@@ -17,26 +17,53 @@ public interface IReplyService {
 	public int getReplyCount(String boardId);
 		
 	/**
-	 * 게시글의 댓글 목록 조회
+	 * 게시글의 ROOT 댓글 목록 조회
 	 * @param map boardId 게시글id<br>
 	 * 				start<br>
 	 * 				end
-	 * @return List seq, writerId, content, rootSeq, step, depth, chaetaek, regdate, update, state
+	 * @return List seq, writerId, content, rootSeq, step, chaetaek, regdate, update, state
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.23
 	 */
-	public List<ReplyVo> getReplyList(Map<String, Object> map);
+	public List<ReplyVo> getRootReplyList(Map<String, Object> map);
+	
+	/**
+	 * 게시글의 대댓글 목록 조회
+	 * @param map boardId 게시글id<br>
+	 * 				rootSeq String[] 조회할 root 댓글의 seq
+	 * @return List seq, writerId, content, rootSeq, step, chaetaek, regdate, update, state
+	 * @author SoHyeon
+	 * @since 2023.09.23
+	 */
+	public List<ReplyVo> getReReplyList(Map<String, Object> map);
 		
 	/**
-	 * 댓글 작성 : 댓글 STEP 업데이트<br>
-	 * 			삭제 댓글 STEP 업데이트<br>
-	 * 			댓글 insert
+	 * ROOT 댓글 작성
+	 * @param vo boardId, writerId, content
+	 * @param map board, boardId
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.23
+	 */
+	public int insertRootReply(ReplyVo vo, Map<String, Object> map);
+	
+	/**
+	 * 대댓글 작성
 	 * @param vo boardId, writerId, content, rootSeq
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
-	 * @since 2023.09.21
+	 * @since 2023.09.23
 	 */
-	public int insertReply(ReplyVo vo);
+	public int insertReReply(ReplyVo vo);
+	
+	/**
+	 * 수정 댓글 데이터 조회
+	 * @param seq 수정 댓글 seq
+	 * @return 수정 댓글 content
+	 * @author SoHyeon
+	 * @since 2023.09.24
+	 */
+	public String getUpdateContent(String seq);
 	
 	/**
 	 * 댓글 수정
@@ -51,12 +78,12 @@ public interface IReplyService {
 	 * 댓글 삭제 : reply tt 삭제<br>
 	 * 			삭제된 댓글 정보 조회<br>
 	 * 			sakge reply tt 입력
-	 * @param seq
+	 * @param map seq, board, boardId
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.21
 	 */
-	public int deleteReply(int seq);
+	public int deleteReply(Map<String, Object> map);
 					
 	/**
 	 * 댓글 채택 및 채택 보드 업데이트

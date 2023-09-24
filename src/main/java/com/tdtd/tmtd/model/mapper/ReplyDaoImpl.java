@@ -23,23 +23,38 @@ public class ReplyDaoImpl implements IReplyDao {
 	}
 
 	@Override
-	public List<ReplyVo> getReplyList(Map<String, Object> map) {
-		return session.selectList(NS+"getReplyList",map);
+	public List<ReplyVo> getRootReplyList(Map<String, Object> map) {
+		return session.selectList(NS+"getRootReplyList",map);
+	}
+	
+	@Override
+	public List<ReplyVo> getReReplyList(Map<String, Object> map) {
+		return session.selectList(NS+"getReReplyList",map);
 	}
 
 	@Override
-	public int updateReplyStep(int rootSeq) {
-		return session.update(NS+"updateReplyStep",rootSeq);
+	public int insertRootReply(ReplyVo vo) {
+		return session.insert(NS+"insertRootReply",vo);
 	}
-
+	
 	@Override
-	public int updateSakjeStep(int rootSeq) {
-		return session.update(NS+"updateSakjeStep",rootSeq);
+	public int insertReReply(ReplyVo vo) {
+		return session.insert(NS+"insertReReply",vo);
 	}
-
+	
 	@Override
-	public int insertReply(ReplyVo vo) {
-		return session.insert(NS+"insertReply",vo);
+	public int getRootReplyCount(Map<String, Object> map) {
+		return session.selectOne(NS+"getRootReplyCount",map);
+	}
+	
+	@Override
+	public int updateBoardReplyCount(Map<String, Object> map) {
+		return session.update(NS+"updateBoardReplyCount",map);
+	}
+	
+	@Override
+	public String getUpdateContent(String seq) {
+		return session.selectOne(NS+"getUpdateContent",seq);
 	}
 
 	@Override
