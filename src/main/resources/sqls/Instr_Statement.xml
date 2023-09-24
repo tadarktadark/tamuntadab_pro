@@ -65,6 +65,7 @@
 	<result column="REVI_SIGAN" property="reviSigan"/>
 	<result column="REVI_DETAIL" property="reviDetail"/>
 	<result column="REVI_REGDATE" property="reviRegdate"/>
+	<result column="REVI_SEQ" property="reviSeq"/>
 </resultMap>
 
 <select id="getMyInstrProfile" resultMap="instrMap">
@@ -195,14 +196,14 @@ SELECT COUNT(*)
 </select>
 
 <update id="updateInstrLike">
-	UPDATE INSTR_PROFILE SET INPR_LIKE = #{list}, INPR_LIKE_COUNT = #{count},
-	INPR_REGDATE = CURRENT_DATE
+	UPDATE INSTR_PROFILE SET INPR_LIKE = #{list}, INPR_LIKE_COUNT = #{count}
+	<!-- ,INPR_REGDATE = CURRENT_DATE -->
 	WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </update>
 
 <update id="updateInstrView">
-	UPDATE INSTR_PROFILE SET INPR_VIEW = #{list}, INPR_VIEW_COUNT = #{count},
-	INPR_REGDATE = CURRENT_DATE
+	UPDATE INSTR_PROFILE SET INPR_VIEW = #{list}, INPR_VIEW_COUNT = #{count}
+	<!-- ,INPR_REGDATE = CURRENT_DATE -->
 	WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </update>
 
@@ -273,11 +274,11 @@ WHERE RN BETWEEN #{start} AND #{end}
 </select>
 
 <select id="getOneIntrReview" resultMap="classMap">
-    SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
+    SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, REVI_SEQ,
            AVG_SCORE,
            REVI_ABIL, REVI_SIGAN, REVI_DETAIL, TO_CHAR(REVI_REGDATE, 'YYYY-MM-DD') AS REVI_REGDATE
     FROM (
-    	SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE,
+    	SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, REVI_SEQ,
            AVG_SCORE,
            REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE,
            ROW_NUMBER() OVER (
@@ -307,6 +308,17 @@ WHERE RN BETWEEN #{start} AND #{end}
 	    )
     )
     WHERE RN BETWEEN #{start} AND #{end}
+ 	<choose>
+ 		 <when test="order == 'desc'">
+              ORDER BY AVG_SCORE DESC, REVI_SEQ DESC
+         </when>
+         <when test="order == 'asc'">
+               ORDER BY AVG_SCORE ASC, REVI_SEQ DESC
+         </when>
+         <otherwise>
+                ORDER BY REVI_REGDATE DESC, REVI_SEQ DESC
+         </otherwise>
+ 	</choose>
 </select>
 
 <select id="classTotalCount" resultType="Integer">

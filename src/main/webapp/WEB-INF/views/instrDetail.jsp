@@ -23,6 +23,22 @@
 <script src="./assets/js/pages/rating.init.js"></script>
 <script type="text/javascript" src="./js/instrDetail.js"></script>
 <style type="text/css">
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
 a {
 	text-decoration: none;
 	color: inherit;
@@ -46,7 +62,7 @@ a {
 					id="userAccountId"> <input type="hidden"
 					value="${userInfo.userAccountId}" id="loginId">
 
-				<div style="width: 50%; margin: auto;">
+				<div style="width: 80%; margin: auto;">
 						<div class="row g-0 bg-body-secondary position-relative">
 							<div class="col-md-3 mb-md-0 p-md-4">
 								<img
@@ -80,23 +96,23 @@ a {
 							<p>${simpleVo.inprIntro}</p>
 							가능한 과목&nbsp;
 							<c:forEach var="subject" items="${simpleVo.subjectsTitle}">
-								<span class="badge bg-secondary-subtle text-secondary">
+								<span style="font-size: 13px;" class="badge bg-secondary-subtle text-secondary">
 									${subject}</span>
 							</c:forEach>
 							<p></p>
 							<c:if test="${not empty simpleVo.inprSiteYoutube}">
 								<span class="badge badge-label bg-danger"
-									style="font-size: 15px;"><i class="bx bxl-youtube"></i><a
+									style="font-size: 13px;"><i class="bx bxl-youtube"></i><a
 									href="${simpleVo.inprSiteYoutube}">&nbsp;YOUTUBE</a></span>
 							</c:if>
 							<c:if test="${not empty simpleVo.inprSiteWeb}">
 								<span class="badge badge-label bg-success"
-									style="font-size: 15px;"><i class="bx bx-world"></i><a
+									style="font-size: 13px;"><i class="bx bx-world"></i><a
 									href="${simpleVo.inprSiteWeb}">&nbsp;WEB SITE</a></span>
 							</c:if>
 							<c:if test="${not empty simpleVo.inprSiteMobile}">
 								<span class="badge badge-label bg-warning"
-									style="font-size: 15px;"><i class="bx bx-mobile"></i><a
+									style="font-size: 13px;"><i class="bx bx-mobile"></i><a
 									href="#" data-bs-toggle="modal" data-bs-target="#qrModal">&nbsp;MOBILE
 										SITE</a></span>
 								<input id="siteMobile" type="hidden"
@@ -126,7 +142,7 @@ a {
 					</ul>
 
 					<div id="content">
-						<div id="profile" style="display: none;" class="row mb-3 mt-4">
+						<div id="profile" style="display: none; height: 450px; overflow: auto;" class="row mb-3 mt-4 custom-scrollbar">
 							<div class="card">
 								<div class="card-body">
 									<div class="row mb-3 mt-4">
@@ -137,7 +153,7 @@ a {
 											<c:forEach var="subject"
 												items="${profileVo.subjectsMajorTitle}">
 												<span class="badge rounded-pill text-bg-danger"
-													style="margin-right: 5px;"> ${subject}</span>
+													style="margin-right: 5px; font-size: 13px;"> ${subject}</span>
 											</c:forEach>
 										</div>
 									</div>
@@ -213,11 +229,11 @@ a {
 								</div>
 							</div>
 						</div>
-						<div id="career" style="display: none;" class="mt-4"></div>
+						<div id="career" style="display: none; height: 450px; overflow: auto;" class="mt-4 custom-scrollbar"></div>
 						<div id="class-history" style="display: none;">
 							<div class="card">
-								<div class="card-body">
-									<div class="mt-4">
+								<div class="card-body" style="height: 100px;">
+									<div>
 										성사된 강의율 ${successRate}% <br>(총 ${allClass} 강의 중
 										${classVo.size()} 강의 완료)
 										<div class="progress mb-4 mt-2">
@@ -228,7 +244,7 @@ a {
 									</div>
 								</div>
 							</div>
-							<div id="classContent">
+							<div id="classContent" style="height: 350px; overflow: auto;" class="custom-scrollbar">
 							<c:forEach var="history" items="${classVo}">
 								<div class="card">
 									<div class="card-body">
@@ -260,7 +276,7 @@ a {
 											<div class="col-6">
 												<button type="button" class="btn btn-success w-sm"
 													disabled="disabled">수강료</button>
-												${history.classVo[0].clasSugangRyo} (만원)
+												${history.classVo[0].clasSugangRyo}
 											</div>
 										</div>
 									</div>
@@ -275,7 +291,7 @@ a {
 								<option value="desc">별점 높은순</option>
 								<option value="asc">별점 낮은순</option>
 							</select>
-							<div id="reviewContent">
+							<div id="reviewContent" style="height: 400px; overflow: auto;" class="custom-scrollbar">
 								<c:forEach var="classVo" items="${instrReviewVo}">
 									<c:forEach var="review" items="${classVo.reviewVo}">
 										<div class="card">
@@ -353,7 +369,9 @@ a {
 						</button>
 						<br> 문의하기
 					</div>
-
+					
+					<button id="scrollToTopButton" class="btn rounded-pill btn-secondary" style="position: fixed; display: none;">
+					<i class="mdi mdi-arrow-up-bold"></i></button>
 					<!-- Modal -->
 					<div class="modal fade flip" id="qrModal" tabindex="-1"
 						aria-labelledby="qrModalLabel" aria-hidden="true">
@@ -471,7 +489,7 @@ function handleChatClick() {
 								<div class="col-6">
 									<button type="button" class="btn btn-success w-sm"
 										disabled="disabled">수강료</button>
-											{{classVo.[0].clasSugangRyo}} (만원)
+											{{classVo.[0].clasSugangRyo}}
 								</div>
 						</div>
 				</div>
@@ -534,7 +552,7 @@ function handleChatClick() {
 											<div class="col-6">
 												<button type="button" class="btn btn-success w-sm"
 													disabled="disabled">작성일</button>
-												{{review.reviRegdate}}
+												{{reviRegdate}}
 											</div>
 										</div>
 										<div class="row mt-4"
