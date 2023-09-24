@@ -25,7 +25,7 @@
 				</div>
 				<div class="card">
 					<div class="card-body">
-						<form action="./insertInstrProfile.do" method="post">
+						<form action="./insertInstrProfile.do" method="post" style="width: 90%;">
 							<input type="hidden" value="${accountId}" name="inprAccountId">
 							<div class="row mb-3">
 								<div>
