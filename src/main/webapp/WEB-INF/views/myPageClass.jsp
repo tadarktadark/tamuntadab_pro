@@ -38,20 +38,14 @@
 	                                        <th scope="col" style="width: 50px;" class="bg-primary">
 	                                            상태
 	                                        </th>
-	                                        <th class="bg-primary">제목</th>
-			                                <th class="bg-primary">공개</th>
-			                                <th class="bg-primary">다운로드</th> 
-			                                <th class="bg-primary">조횟수</th>
-			                                <th class="bg-primary">좋아요</th>
-			                                <th class="bg-primary">댓글</th>
-	                                        <th class="bg-primary">작성일</th>
-	                                        <th class="bg-primary">상태</th>
-	                                        <c:if test="${board == 'pilgi'}">
-		                                        <th class="bg-primary"></th>
-	                                        </c:if>
+	                                        <th class="bg-primary">클래스명</th>
+			                                <th class="bg-primary">진행 지역</th>
+			                                <th class="bg-primary">상태</th> 
+			                                <th class="bg-primary">수업날짜</th>
+			                                <th class="bg-primary">강사</th>
 	                                    </tr>
 	                                </thead>
-	                                <tbody class="list form-check-all">
+	                                <tbody class="list form-check-all" id="pClassTbody">
 	                                    <tr>
 	                                        <th scope="row">
 	                                            <div class="form-check">
@@ -123,7 +117,7 @@
 	                                        </c:if>
 	                                    </tr>
 	                                </thead>
-	                                <tbody class="list form-check-all">
+	                                <tbody class="list form-check-all" id="eClassTbody">
 	                                    <tr>
 	                                        <th scope="row">
 	                                            <div class="form-check">

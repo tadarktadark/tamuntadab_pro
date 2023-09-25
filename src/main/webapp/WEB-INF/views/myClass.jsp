@@ -49,8 +49,6 @@
 			<div class="page-content">
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp"%>
-
-
 					<div class="row">
 						<div class="col-12">
 							<div class="row">
@@ -75,9 +73,14 @@
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
 											</button>
 											<button class="btn btn-soft-secondary w-100"
+												onclick="location.href='classChatRoom.do?clasId=${param.clasId}'">
+												<i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
+											</button>
+											<button class="btn btn-soft-secondary w-100"
 												onclick="">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
 											</button>
+											
 											<div id="external-events">
 												<br>
 												<p class="text-muted">라벨</p>
@@ -586,13 +589,17 @@
 			<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>
-	<%@ include file="./shared/_vender_scripts.jsp"%>
-	<input type="hidden" id="clasId" value="${param.clasId}" />
+	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+	<script src="./assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="./assets/libs/simplebar/simplebar.min.js"></script>
+	<script src="./assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+	<script src="./assets/js/plugins.js"></script>
+	<script type="text/javascript" src="./js/logout.js"></script>
 	<script src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 	<script src="./assets/libs/fullcalendar/main.min.js"></script>
 	<script src="./js/myClass.js"></script>
-	<script src="./assets/js/app.js"></script>
 	<script src="./assets/js/pages/modal.init.js"></script>
 	<script src="./assets/libs/flatpickr/flatpickr.min.js"></script>
+	<input type="hidden" id="clasId" value="${param.clasId}" />
 </body>
 </html>

@@ -4,6 +4,7 @@
 <html lang="en" data-layout="horizontal" data-layout-mode="light" data-topbar="light" data-sidebar="light" data-sidebar-size="sm" data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <title>${title} | 타문타답</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <%@ include file="./shared/_head_css.jsp" %>
@@ -157,7 +158,6 @@
 	</div>	
 	<%@ include file="./shared/_footer.jsp" %>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="./js/classWrite.js"></script>
 	<script type="text/javascript">

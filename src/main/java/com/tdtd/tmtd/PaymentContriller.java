@@ -81,30 +81,26 @@ public class PaymentContriller {
 	}
 	
 	@RequestMapping(value = "/cancelPay.do", method = RequestMethod.POST)
-	public String testCancelPaymentAlreadyCancelledImpUid() {
-        String test_already_cancelled_imp_uid = "imp_390490419583";
-        CancelData cancel_data = new CancelData(test_already_cancelled_imp_uid, true); //imp_uid를 통한 전액취소
-        System.out.println("환불 ok~");
+	public String CancelPayment() {
+        String cancelUid = "imp_390490419583"; //imp_uid
+        CancelData cancel_data = new CancelData(cancelUid, true); 
+        System.out.println("환불 완료");
         try {
             IamportResponse<Payment> payment_response = client.cancelPaymentByImpUid(cancel_data);
            
             if(payment_response.getResponse() == null) {
-            	System.out.println("이미 처리된 환불입니다.!!");
+            	System.out.println("이미 처리된 환불입니다");
             }
-//            assertNull(payment_response.getResponse()); // 이미 취소된 거래는 response가 null이다
         } catch (IamportResponseException e) {
             System.out.println(e.getMessage());
 
             switch (e.getHttpStatusCode()) {
                 case 401:
-                    //TODO
                     break;
                 case 500:
-                    //TODO
                     break;
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "beforePay";

@@ -6,6 +6,7 @@
 	data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <title>${title}|타문타답</title>
 <%@ include file="./shared/_head_css.jsp"%>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -18,7 +19,6 @@
 			<div class="page-content">
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
-					
 					
 					<div class="row pb-4 gy-3">
 						<div class="col-sm-4">
@@ -198,7 +198,6 @@
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp" %>
-			<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 			<script type="text/javascript" src="./js/classList.js"></script>
 		</div>
 	</div>

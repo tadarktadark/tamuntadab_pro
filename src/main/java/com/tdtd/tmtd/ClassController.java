@@ -441,26 +441,95 @@ public class ClassController {
 	}
 	
 	@PostMapping("/myPageClass.do")
-	public String myPageClass(Model model, HttpSession session, @RequestParam("page") String pageAttr) {
-	
+	public String myPageClass(Model model, HttpSession session, 
+							@RequestParam("ppage") String pageAttr,
+							@RequestParam("epage") String epageAttr) {
+
 		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
 		if (userInfo != null) {
-			log.info("ClassController classListLoad 세션의 유저 정보: {}", userInfo);
+			log.info("ClassController myPageClass 세션의 유저 정보: {}", userInfo);
 		} else {
-			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
+			log.info("ClassController myPageClass 세션의 유저 정보 : 정보없음");
 		}
+
+		int totalPClass = 0;
+
+		log.info("ClassController myPageClass 가져온 현재 페이지 = {}", pageAttr);
+		int thisPage = 0;
+		if (pageAttr == null) {
+			thisPage = 1;
+		} else {
+			thisPage = Integer.parseInt(pageAttr);
+		}
+
+		log.info("ClassController myPageClass 형변환 한 페이지 = {}", thisPage);
+		// 페이지에 사용될 정보 담기
+		PagingVo ppVo = new PagingVo();
+		ppVo.setTotalCount(totalPClass);
+		ppVo.setCountList(10);
+		ppVo.setCountPage(5);
+		ppVo.setTotalPage(ppVo.getTotalPage());
+		ppVo.setPage(thisPage);
+		ppVo.setStartPage(ppVo.getPage());
+		ppVo.setEndPage(ppVo.getPage());
+
+		log.info("ClassController 참여중 클래스 조회 페이징에 사용될 정보 pageVO : {}", ppVo);
+		Map<String, Object> pPagingMap = PagingUtils.paging(pageAttr, ppVo.getTotalCount(), ppVo.getCountList(),
+				ppVo.getCountPage());
+		// 페이징 처리해서 처리할 리스트를 상황별로 가져오기
+		
+		Map<String, Object> listMap = new HashMap<String, Object>();
+		listMap.put("first", pPagingMap.get("start"));
+		listMap.put("last", pPagingMap.get("end"));
 		
 		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
-		List<ClassVo> cVoListP = cService.getChamyeoClass(userAccountId);
-		log.info("ClassController 달력 로드에 쓰일 정보 pVo = {}", cVoListP);
-		List<ClassVo> cVoListE = cService.getClassListByStatus(userAccountId);
-		log.info("ClassController 달력 로드에 쓰일 정보 pVo = {}", cVoListE);
-		Map<String, Object> cVoMap = new HashMap<String, Object>();
-		cVoMap.put("cVoListP",cVoListP);
-		cVoMap.put("cVoListE",cVoListE);
+
+		List<ClassVo> pClassList = cService.myPageClassList(userAccountId);
+		//pClassList 가져오기 끝
 		
+		int totalEClass = 0;
+
+		log.info("ClassController myPageClass 가져온 현재 페이지 = {}", epageAttr);
+		int thisePage = 0;
+		if (epageAttr == null) {
+			thisePage = 1;
+		} else {
+			thisePage = Integer.parseInt(pageAttr);
+		}
+
+		log.info("ClassController classListLoad 형변환 한 페이지 = {}", thisePage);
+		// 페이지에 사용될 정보 담기
+		PagingVo epVo = new PagingVo();
+		epVo.setTotalCount(totalPClass);
+		epVo.setCountList(10);
+		epVo.setCountPage(5);
+		epVo.setTotalPage(epVo.getTotalPage());
+		epVo.setPage(thisePage);
+		epVo.setStartPage(epVo.getPage());
+		epVo.setEndPage(epVo.getPage());
+
+		log.info("ClassController 종료된 클래스 조회 페이징에 사용될 정보 pageVO : {}", epVo);
+		Map<String, Object> ePagingMap = PagingUtils.paging(epageAttr, epVo.getTotalCount(), epVo.getCountList(),
+				epVo.getCountPage());
+		// 페이징 처리해서 처리할 리스트를 상황별로 가져오기
+		
+		Map<String, Object> elistMap = new HashMap<String, Object>();
+		listMap.put("first", ePagingMap.get("start"));
+		listMap.put("last", ePagingMap.get("end"));
+		
+		List<ClassVo> eClassList = cService.myPageEndClassList(userAccountId);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("ppVo", ppVo);
+		result.put("pClassList", pClassList);
+		result.put("eClassList", eClassList);
+		
+		log.info("ClassController 페이징에 쓰일 정보 pVo = {}", ppVo);
+		log.info("ClassController 참여 중인 클래스 목록 pClassList = {}", pClassList);
+		log.info("ClassController 종료된 클래스 목록 eClassList = {}", eClassList);
+
 		Gson gson = new Gson();
 
-		return gson.toJson(cVoMap);
+		return gson.toJson(result);
 	}
 }

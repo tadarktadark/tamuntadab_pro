@@ -634,4 +634,4 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 	</div>
 	<!-- /.modal-dialog -->
 </div>
-<script src="./assets/js/app.js"></script>
+<script src="./assets/js/app.js" defer="defer"></script>
