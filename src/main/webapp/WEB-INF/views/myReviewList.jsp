@@ -42,8 +42,7 @@
 					value="${userInfo.userAccountId}">
 				<div id="review">
 					<div id="reviewContent">
-						<div id="moreList"
-							style="width: auto; height: 700px; overflow: auto;">
+						<div id="moreList" style="width: auto; height: 700px; overflow: auto;">
 							<c:forEach var="review" items="${lists}">
 								<div class="card">
 									<div class="card-body">
@@ -64,7 +63,7 @@
 											</div>
 										</div>
 										<div class="row mt-4">
-											<div class="col-6">
+											<div class="col-3">
 												<div>전문성 (${review.reviPro})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -74,7 +73,7 @@
 												</div>
 											</div>
 
-											<div class="col-6">
+											<div class="col-3">
 												<div>준비도 (${review.reviPrepare})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -83,9 +82,7 @@
 														style="background-size: 22px; width:${review.reviPrepare/5.0*100}%;"></div>
 												</div>
 											</div>
-										</div>
-										<div class="row mt-4">
-											<div class="col-6">
+											<div class="col-3">
 												<div>강의력 (${review.reviAbil})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -94,7 +91,7 @@
 														style="background-size: 22px; width: ${review.reviAbil/5.0*100}%;"></div>
 												</div>
 											</div>
-											<div class="col-6">
+											<div class="col-3">
 												<div>시간준수 (${review.reviSigan})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -104,9 +101,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="row mt-4"
-											style="background-color: #EAEAEA; padding: 20px; magin: auto 10px;">
-											<div class="col-12 table-info">${review.reviDetail}</div>
+										<div class="row mt-4 bg-warning-subtle"
+												style="padding: 20px; magin: auto 10px;">
+											<div class="col-12 table-info ">${review.reviDetail}</div>
 										</div>
 									</div>
 								</div>
@@ -136,7 +133,7 @@
 											</div>
 										</div>
 												<div class="row mt-4">
-													<div class="col-6">
+													<div class="col-3">
 														<div>전문성 ({{reviPro}})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
 															data-rating="3"
@@ -146,7 +143,7 @@
 												</div>
 											</div>
 
-											<div class="col-6">
+											<div class="col-3">
 												<div>준비도 ({{reviPrepare}})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -155,9 +152,7 @@
 														style="background-size: 22px; width:{{calculatePercentage reviPrepare}}%;"></div>
 												</div>
 											</div>
-										</div>
-										<div class="row mt-4">
-											<div class="col-6">
+											<div class="col-3">
 												<div>강의력 ({{reviAbil}})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -166,7 +161,7 @@
 														style="background-size: 22px; width: {{calculatePercentage reviAbil}}%;"></div>
 												</div>
 											</div>
-											<div class="col-6">
+											<div class="col-3">
 												<div>시간준수 ({{reviSigan}})</div>
 												<div id="basic-rater" dir="ltr" class="star-rating"
 													data-rating="3"
@@ -176,9 +171,9 @@
 												</div>
 											</div>
 										</div>
-										<div class="row mt-4"
-											style="background-color: #EAEAEA; padding: 20px; magin: auto 10px;">
-											<div class="col-12 table-info">{{reviDetail}}</div>
+									<div class="row mt-4 bg-warning-subtle"
+												style="padding: 20px; magin: auto 10px;">
+											<div class="col-12 table-info ">{{reviDetail}}</div>
 										</div>
 									</div>
 								</div>

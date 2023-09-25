@@ -10,6 +10,7 @@ import com.tdtd.tmtd.model.mapper.IInstrDao;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
+import com.tdtd.tmtd.vo.ReviewVo;
 
 @Service
 public class InstrServiceImpl implements IInstrService {
@@ -114,7 +115,7 @@ public class InstrServiceImpl implements IInstrService {
 	}
 
 	@Override
-	public List<ClassVo> getOneIntrReview(Map<String, Object> map) {
+	public List<ReviewVo> getOneIntrReview(Map<String, Object> map) {
 		return dao.getOneIntrReview(map);
 	}
 	

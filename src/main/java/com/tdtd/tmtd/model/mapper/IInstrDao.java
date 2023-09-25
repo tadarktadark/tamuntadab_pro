@@ -6,6 +6,7 @@ import java.util.Map;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
+import com.tdtd.tmtd.vo.ReviewVo;
 
 public interface IInstrDao {
 
@@ -51,7 +52,7 @@ public interface IInstrDao {
 	public int getCountClassCancel(String userAccountId);
 	
 	//TDT025 getOneIntrReview
-	public List<ClassVo> getOneIntrReview(Map<String, Object> map);
+	public List<ReviewVo> getOneIntrReview(Map<String, Object> map);
 	
 	public int classTotalCount(String userAccountId);
 	
