@@ -63,19 +63,19 @@
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 강사 투표하기
 											</button>
 											<button class="btn btn-soft-secondary w-100"
-												onclick="openTupyo()">
+												onclick="">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정 요청하기
 											</button>
 											<button class="btn btn-soft-secondary w-100"
-												onclick="openTupyo()">
+												onclick="location.href='./payment.do'">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 결제하기
 											</button>
 											<button class="btn btn-soft-secondary w-100"
-												onclick="openTupyo()">
+												onclick="">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
 											</button>
 											<button class="btn btn-soft-secondary w-100"
-												onclick="openTupyo()">
+												onclick="">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
 											</button>
 											<div id="external-events">

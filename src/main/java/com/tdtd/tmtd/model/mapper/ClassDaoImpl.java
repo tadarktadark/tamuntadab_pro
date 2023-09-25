@@ -244,4 +244,28 @@ public class ClassDaoImpl implements IClassDao {
 		log.info("ClassDaoImpl searchClassListCount 실행");
 		return sqlSession.selectOne(NS+"searchClassListCount",subject);
 	}
+
+	@Override
+	public List<ClassVo> myPageClassList(String clchAccountId) {
+		log.info("ClassDaoImpl myPageClassList 실행");
+		return sqlSession.selectOne(NS+"myPageClassList",clchAccountId);
+	}
+
+	@Override
+	public int myPageClassListCount(String clchAccountId) {
+		log.info("ClassDaoImpl myPageClassListCount 실행");
+		return sqlSession.selectOne(NS+"myPageClassListCount",clchAccountId);
+	}
+
+	@Override
+	public List<ClassVo> myPageEndClassList(String clchAccountId) {
+		log.info("ClassDaoImpl myPageEndClassList 실행");
+		return sqlSession.selectOne(NS+"myPageEndClassList",clchAccountId);
+	}
+
+	@Override
+	public int myPageEndClassListCount(String clchAccountId) {
+		log.info("ClassDaoImpl myPageEndClassListCount 실행");
+		return sqlSession.selectOne(NS+"myPageEndClassListCount",clchAccountId);
+	}
 }
