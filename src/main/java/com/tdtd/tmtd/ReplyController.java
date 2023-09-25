@@ -127,11 +127,11 @@ public class ReplyController {
 	
 	@RequestMapping(value="/replyChaetaek.do", method=RequestMethod.GET)
 	public String replyChaetaek(int seq, String boardId) {
-		log.info("@@@@@@@@@@@@@@@ 대댓글 채틱 : seq {}, boardId {}", seq, boardId);
+		log.info("@@@@@@@@@@@@@@@ 대댓글 채택 : seq {}, boardId {}", seq, boardId);
 		
 		service.updateChaetaek(seq, boardId);
 		
-		return "redirect:/communityDetails.do?id="+boardId;
+		return "redirect:/communityDetails.do?board=jilmun&id="+boardId;
 	}
 	
 	@RequestMapping(value="/myPilgi.do", method=RequestMethod.GET)
@@ -232,5 +232,43 @@ public class ReplyController {
 		result.put("bList", list);
 		result.put("pList", pMap.get("page"));
 		return result;
+	}
+	
+	@RequestMapping(value="/myLike.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myLike(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 내 좋아요 게시글 목록 조회");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int pageCount = service.getLikeCommCount(userInfo.getUserAccountId());
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		List<BoardVo> list = service.getLikeCommList(bMap);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", list);
+		result.put("pList", pMap.get("page"));
+		return result;
+	}
+	
+	@RequestMapping(value="/myReplyDelete.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int myReplyDelete(HttpSession session, int seq, String board, String boardId){
+		log.info("@@@@@@@@@@@@@@@ 마이페이지 댓글 삭제 : seq {}, board {}, boardId {}", seq, board, boardId);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("seq", seq);
+		map.put("board", board);
+		map.put("boardId", boardId);
+		
+		return service.deleteReply(map);
 	}
 }
