@@ -21,7 +21,7 @@
 			<div class="page-content">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-xxl-3">
+						<div class="col-xxl-12">
 							<div class="user-sidebar">
 								<div class="card">
 									<div class="card-body p-0">
@@ -96,7 +96,7 @@
 														}else{
 														%>
 														<div class="p-1">
-															<button class="btn rounded-pill btn-primary" onclick="location.href='./instrProfileForm.do'">강사 프로필 등록</button>
+															<button class="btn rounded-pill btn-primary" onclick="location.href='./instrProfileForm.do'">강사 프로필 등록 및 수정</button>
 														</div>	
 														<%
 														}
@@ -125,107 +125,10 @@
 									<!-- end card body -->
 								</div>
 								<!-- end card -->
-								<div class="card">
-									<div class="card-header">
-										<h5 class="card-title mb-0">여기는 뭐 넣을까여?</h5>
-									</div>
-
-									<div class="card-body pt-2">
-										<div class="table-responsive">
-											<table class="table align-middle table-nowrap mb-0">
-												<tbody class="asdf1234">
-													<tr>
-														<td style="width: 50px;"><img
-															src="~/assets/images/users/avatar-2.jpg"
-															class="rounded-circle avatar-xs" alt=""></td>
-														<td><h5 class="fs-15 m-0">
-																<a href="javascript: void(0);" class="text-body">Daniel
-																	Canales</a>
-															</h5></td>
-														<td>
-															<div>
-																<a href="javascript: void(0);"
-																	class="badge bg-primary-subtle  text-primary fs-11">Frontend</a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td><img src="~/assets/images/users/avatar-1.jpg"
-															class="rounded-circle avatar-xs" alt=""></td>
-														<td><h5 class="fs-15 m-0">
-																<a href="javascript: void(0);" class="text-body">Jennifer
-																	Walker</a>
-															</h5></td>
-														<td>
-															<div>
-																<a href="javascript: void(0);"
-																	class="badge bg-primary-subtle  text-primary fs-11">UI
-																	/ UX</a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<div class="avatar-xs">
-																<span
-																	class="avatar-title rounded-circle bg-primary text-white fs-14">
-																	C </span>
-															</div>
-														</td>
-														<td><h5 class="fs-15 m-0">
-																<a href="javascript: void(0);" class="text-body">Carl
-																	Mackay</a>
-															</h5></td>
-														<td>
-															<div>
-																<a href="javascript: void(0);"
-																	class="badge bg-primary-subtle  text-primary fs-11">Backend</a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td><img src="~/assets/images/users/avatar-4.jpg"
-															class="rounded-circle avatar-xs" alt=""></td>
-														<td><h5 class="fs-15 m-0">
-																<a href="javascript: void(0);" class="text-body">Janice
-																	Cole</a>
-															</h5></td>
-														<td>
-															<div>
-																<a href="javascript: void(0);"
-																	class="badge bg-primary-subtle  text-primary fs-11">Frontend</a>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td>
-															<div class="avatar-xs">
-																<span
-																	class="avatar-title rounded-circle bg-primary text-white fs-14">
-																	T </span>
-															</div>
-														</td>
-														<td><h5 class="fs-15 m-0">
-																<a href="javascript: void(0);" class="text-body">Tony
-																	Brafford</a>
-															</h5></td>
-														<td>
-															<div>
-																<a href="javascript: void(0);"
-																	class="badge bg-primary-subtle  text-primary fs-11">Backend</a>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-<!-- 								end card -->
 							</div>
 						</div>
 
-						<div class="col-xxl-9">
+						<div class="col-xxl-12">
 						<div class="card">
 								<ul class="nav nav-tabs-custom nav-justified" id="pills-tab"
 									role="tablist">

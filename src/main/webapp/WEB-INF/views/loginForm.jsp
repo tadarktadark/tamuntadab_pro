@@ -18,8 +18,8 @@
 		<%@ include file="./shared/_sidebar.jsp" %>
 		<div class="main-content">
 		<div class="page-content">
-			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100 bg-light">
-		        <div class="container w-25">
+			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center bg-light">
+		        <div class="container w-50">
 		            <div class="row rounded-pill ">
 		                <div class="col-lg-12">
 		                    <div class="card overflow-hidden">
