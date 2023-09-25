@@ -8,6 +8,7 @@
 SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_DATE 
         FROM CHAT_ROOM cr  JOIN CHAT_USER cu ON cr.CHRO_ID =cu.CHUS_CHRO_ID 
         WHERE CHUS_ACCOUNT_ID =#{chusAccountId}
+        ORDER BY CHRO_DATE DESC
 </select>
 <!-- 채팅방 조회 -->
 <select id="getChatDetail" parameterType="String" resultType="chatRoomVo">
@@ -86,4 +87,10 @@ SELECT COUNT(*)
 	WHERE cr.CHRO_CLAS_ID = #{chroClasId}
 	AND cu.CHUS_ACCOUNT_ID = #{chusAccountId}
 </select>
+<select id="countClassChatRoom" parameterType="Integer" resultType="Integer">
+SELECT COUNT(*)
+	FROM CHAT_USER cu
+	WHERE CHRO_CLAS_ID = #{chroClasId}
+</select>
+
 </mapper>

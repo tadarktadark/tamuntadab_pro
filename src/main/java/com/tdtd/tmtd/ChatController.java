@@ -60,8 +60,14 @@ public class ChatController implements ServletConfigAware{
 	
 	@PostMapping("/classChatRoom.do")
 	public String classChatRoom(int clasId) {
+		//클래스 정보 받아오고
 		ClassVo classVo = service.getClassInfo(clasId);
-		
+		//방 유무 검사
+		int n = service.countClassChatRoom(clasId);
+		if(n>0) {
+			return "redirect:/chatPage.do";
+		}
+		//클래스 이름으로 채팅방 만들고
 		Date now = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String dateString = formatter.format(now);
@@ -71,18 +77,25 @@ public class ChatController implements ServletConfigAware{
         map.put("chroTitle", classVo.getClasTitle());
         map.put("chroChatLog", "");
 		service.insertChatRoom(map);
-		String chroId = service.getChatDetailByClasId(clasId).getChroId();
-		//참가자 추가
+		
+		//클래스 인원들 받아와서
 		List<ChamyeoVo> classUserList = service.getClassUser(clasId);
+		
+		//참가자 추가
+		String chroId = service.getChatDetailByClasId(clasId).getChroId();
+		
 		for (ChamyeoVo chamyeoVo : classUserList) {
 			String clchAccountId = chamyeoVo.getClchAccountId();
 			String chusType = chamyeoVo.getClchYeokal();
 			ChatUserVo chatUser = new ChatUserVo();
 			chatUser.setChusAccountId(clchAccountId);
 			chatUser.setChusChroId(chroId);//채팅방ID
-			chatUser.setChusType(chusType);
-			service.insertChatUser(chatUser);//방장인지 아닌지 구분이라서 바꿔야함
-			//그리고 방장을 따로 추가하는 코드 추가해야함
+			if(chusType.equals("S")||chusType.equals("I")){
+				chatUser.setChusType("O");
+			}else {
+				chatUser.setChusType("M");
+			}
+			service.insertChatUser(chatUser);
 		}
 		return "redirect:/chatPage.do";
 	}
@@ -94,9 +107,11 @@ public class ChatController implements ServletConfigAware{
 	public String intsrChatRoom(String studAccountId,String instrAccountId) {
 		UserProfileVo instrVo = service.getInstrInfo(instrAccountId);
 		int instrClasId = Integer.parseInt(instrAccountId.substring(4));
-		
+		UserProfileVo studVo = service.getInstrInfo(studAccountId);
+		int studClasId = Integer.parseInt(studAccountId.substring(4));
 		Map<String, Object> checkMap = new HashMap<String, Object>();
-		checkMap.put("chroClasId", instrClasId);
+		int clasId = Integer.parseInt(instrClasId+""+studClasId) ;
+		checkMap.put("chroClasId", clasId);
 		checkMap.put("chusAccountId", studAccountId);
 		int n = service.countChatRoom(checkMap);
 		if(n>0) {
@@ -108,11 +123,11 @@ public class ChatController implements ServletConfigAware{
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("chroId", "CR"+dateString);
-		map.put("chroClasId", instrClasId);
-		map.put("chroTitle", instrVo.getUserNickname());
+		map.put("chroClasId", clasId);
+		map.put("chroTitle", instrVo.getUserNickname()+"/"+studVo.getUserNickname());
 		map.put("chroChatLog", "");
 		service.insertChatRoom(map);
-		String chroId = service.getChatDetailByClasId(instrClasId).getChroId();
+		String chroId = service.getChatDetailByClasId(clasId).getChroId();
 		
 		//학생 채팅 유저에 추가
 		ChatUserVo chatUser = new ChatUserVo();
@@ -165,6 +180,21 @@ public class ChatController implements ServletConfigAware{
 		}
 		return "chat";
 	}
+	
+	
+	@PostMapping("/updateChatLog.do")
+	@ResponseBody
+	public void updateChatLog(String chroId,String chroChatLog) {
+		ChatRoomVo chatRoomVo = new ChatRoomVo();
+		chatRoomVo.setChroId(chroId);
+		chatRoomVo.setChroChatLog(chroChatLog);
+		service.updateChatLog(chatRoomVo);
+	}
+	
+	
+	
+	
+	
 
 	@PostMapping(value = "/socketOut.do")
 	@ResponseBody

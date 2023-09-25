@@ -39,5 +39,6 @@ public interface IChatService {
 	public UserProfileVo getInstrInfo(String userAccountId);
 	//채팅방 세기
 	public int countChatRoom(Map<String,Object> map);
-
+	//클래스채팅방 세기
+	public int countClassChatRoom(int chroClasId);
 }

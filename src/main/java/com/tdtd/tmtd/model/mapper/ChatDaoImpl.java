@@ -93,6 +93,11 @@ public class ChatDaoImpl implements IChatDao {
 		return sqlSession.selectOne(NS+"countChatRoom",map);
 	}
 
+	@Override
+	public int countClassChatRoom(int chroClasId) {
+		return sqlSession.selectOne(NS+"countClassChatRoom",chroClasId);
+	}
+
 
 
 }
