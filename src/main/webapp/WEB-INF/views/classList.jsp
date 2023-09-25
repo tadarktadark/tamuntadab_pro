@@ -19,7 +19,6 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					
-					
 					<div class="row pb-4 gy-3">
 						<div class="col-sm-4">
 							<!-- 임시 화면 -->
