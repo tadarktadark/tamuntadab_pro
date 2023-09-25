@@ -35,6 +35,7 @@ import com.tdtd.tmtd.vo.CareerVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
+import com.tdtd.tmtd.vo.ReviewVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -224,7 +225,7 @@ public class InstrController {
 		reviewMap.put("start", 1);
 		reviewMap.put("end", 5);
 		
-		List<ClassVo> instrReviewVo = service.getOneIntrReview(reviewMap);
+		List<ReviewVo> instrReviewVo = service.getOneIntrReview(reviewMap);
 		
 		String nickname = simpleVo.getUserProfileVo().get(0).getUserNickname();
 		
@@ -273,7 +274,7 @@ public class InstrController {
 	public Map<String, Object> instrReview(@RequestParam Map<String, Object> map){
 		log.info("instrReviewDetail.do 받아온 map : {}",map);
 		
-		List<ClassVo> instrReviewVo = service.getOneIntrReview(map);
+		List<ReviewVo> instrReviewVo = service.getOneIntrReview(map);
 		
 		int end = Integer.parseInt(map.get("end").toString());
 		int totalCount = service.reviewTotalCount(map.get("userAccountId").toString());

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrEduVo;
 import com.tdtd.tmtd.vo.InstrVo;
+import com.tdtd.tmtd.vo.ReviewVo;
 
 @Repository
 public class InstrDaoImpl implements IInstrDao {
@@ -95,7 +96,7 @@ public class InstrDaoImpl implements IInstrDao {
 	}
 
 	@Override
-	public List<ClassVo> getOneIntrReview(Map<String, Object> map) {
+	public List<ReviewVo> getOneIntrReview(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getOneIntrReview", map);
 	}
 	

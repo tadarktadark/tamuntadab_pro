@@ -47,6 +47,11 @@ a {
 .modal-dialog {
 	max-width: 250px;
 }
+
+.img-responsive {
+   max-width: 200px; 
+   height: auto;
+}
 </style>
 </head>
 <body class="twocolumn-panel">
@@ -68,10 +73,11 @@ a {
 								<img
 									src="${not empty userInfo? simpleVo.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}"
 									alt="" data-bs-toggle="${empty userInfo? 'tooltip' : ''}"
-									title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}" class="w-100"
+									title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}" class="w-100 img-responsive"
 									alt="...">
 						</div>
-						<div class="col-md-6 p-4 ps-md-0">
+						<div class="col-md-9 p-4 ps-md-0">
+							<div class="d-flex align-items-center justify-content-between">
 							<div class="d-flex align-items-center">
 								<h5 class="mt-0">${simpleVo.userProfileVo[0].userNickname}</h5>
 								<div id="heartDiv" class="flex-shrink-0"
@@ -91,6 +97,14 @@ a {
 										</c:otherwise>
 									</c:choose>
 								</div>
+							</div>
+								<div>
+								<button type="button" onclick="handleChatClick()" class="btn btn-outline-success btn-icon"
+		 							style="font-size: 1.7em;">
+		 							<i class="ri-customer-service-2-line"></i> 
+								</button> 
+		 						<br> 문의하기
+		 						</div>
 							</div>
 							<p></p>
 							<p>${simpleVo.inprIntro}</p>
@@ -292,13 +306,17 @@ a {
 								<option value="asc">별점 낮은순</option>
 							</select>
 							<div id="reviewContent" style="height: 400px; overflow: auto;" class="custom-scrollbar">
-								<c:forEach var="classVo" items="${instrReviewVo}">
-									<c:forEach var="review" items="${classVo.reviewVo}">
+								<c:forEach var="review" items="${instrReviewVo}">
 										<div class="card">
 											<div class="card-body">
-												<div>총점 (${review.avgScore})</div>
+												<div class="row">
+													<div class="col-9">
+														<span class="badge badge-outline-info" style="font-size: 15px;">${review.clasTitle}</span>
+													</div>
+													<div class="col-3"><b>총점 (${review.avgScore})</b></div>
+												</div>
 												<div class="row mt-4">
-													<div class="col-6">
+													<div class="col-3">
 														<div>전문성 (${review.reviPro})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
 															data-rating="3"
@@ -308,7 +326,7 @@ a {
 														</div>
 													</div>
 
-													<div class="col-6">
+													<div class="col-3">
 														<div>준비도 (${review.reviPrepare})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
 															data-rating="3"
@@ -317,9 +335,7 @@ a {
 																style="background-size: 22px; width:${review.reviPrepare/5.0*100}%;"></div>
 														</div>
 													</div>
-												</div>
-												<div class="row mt-4">
-													<div class="col-6">
+													<div class="col-3">
 														<div>강의력 (${review.reviAbil})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
 															data-rating="3"
@@ -328,7 +344,7 @@ a {
 																style="background-size: 22px; width: ${review.reviAbil/5.0*100}%;"></div>
 														</div>
 													</div>
-													<div class="col-6">
+													<div class="col-3">
 														<div>시간준수 (${review.reviSigan})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
 															data-rating="3"
@@ -350,28 +366,20 @@ a {
 														${review.reviRegdate}
 													</div>
 												</div>
-												<div class="row mt-4"
-													style="background-color: #EAEAEA; padding: 20px; magin: auto 10px;">
-													<div class="col-12 table-info">${review.reviDetail}</div>
+												<div class="row mt-4 bg-warning-subtle"
+													style="padding: 20px; magin: auto 10px;">
+													<div class="col-12 table-info ">${review.reviDetail}</div>
 												</div>
 											</div>
 										</div>
 									</c:forEach>
-								</c:forEach>
 							</div>
 						</div>
 					</div>
-
-					<div id="chatting" style="position: fixed; color: #50AF49;">
-						<button type="button" onclick="handleChatClick()" class="btn btn-outline-success btn-icon"
-							style="font-size: 1.7em;">
-							<i class="ri-customer-service-2-line"></i>
-						</button>
-						<br> 문의하기
-					</div>
 					
-					<button id="scrollToTopButton" class="btn rounded-pill btn-secondary" style="position: fixed; display: none;">
-					<i class="mdi mdi-arrow-up-bold"></i></button>
+					<button id="scrollToTopButton" class="btn btn-soft-info" style="position: fixed; display: none;">
+						TOP
+					</button>
 					<!-- Modal -->
 					<div class="modal fade flip" id="qrModal" tabindex="-1"
 						aria-labelledby="qrModalLabel" aria-hidden="true">
@@ -498,70 +506,60 @@ function handleChatClick() {
 </script>
 <script id="review-template" type="text/x-handlebars-template">
 {{#each this}}
-	{{#each reviewVo}}
 											<div class="card">
 											<div class="card-body">
-												<div>총점 ({{avgScore}})</div>
-												<div class="row mt-4">
-													<div class="col-6">
+											<div class="row">
+												<div class="col-9">
+														<span class="badge badge-outline-info" style="font-size: 15px;">{{clasTitle}}</span>
+												</div>
+													<div class="col-3"><b>총점 ({{avgScore}})</b></div>
+											</div>
+
+											<div class="row mt-4">
+													<div class="col-3">
 														<div>전문성 ({{reviPro}})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
 															data-rating="3"
 															style="width: 110px; height: 22px; background-size: 22px;">
 															<div class="star-value"
-														style="background-size: 22px; width: {{calculatePercentage reviPro}}%;"></div>
-												</div>
-											</div>
+																style="background-size: 22px; width: {{calculatePercentage reviPro}}%;"></div>
+														</div>
+													</div>
 
-											<div class="col-6">
-												<div>준비도 ({{reviPrepare}})</div>
-												<div id="basic-rater" dir="ltr" class="star-rating"
-													data-rating="3"
-													style="width: 110px; height: 22px; background-size: 22px;">
-													<div class="star-value"
-														style="background-size: 22px; width:{{calculatePercentage reviPrepare}}%;"></div>
+													<div class="col-3">
+														<div>준비도 ({{reviPrepare}})</div>
+														<div id="basic-rater" dir="ltr" class="star-rating"
+															data-rating="3"
+															style="width: 110px; height: 22px; background-size: 22px;">
+															<div class="star-value"
+																style="background-size: 22px; width:{{calculatePercentage reviPrepare}}%;"></div>
+														</div>
+													</div>
+													<div class="col-3">
+														<div>강의력 ({{reviAbil}})</div>
+														<div id="basic-rater" dir="ltr" class="star-rating"
+															data-rating="3"
+															style="width: 110px; height: 22px; background-size: 22px;">
+															<div class="star-value"
+																style="background-size: 22px; width: {{calculatePercentage reviAbil}}%;"></div>
+														</div>
+													</div>
+													<div class="col-3">
+														<div>시간준수 ({{reviSigan}})</div>
+														<div id="basic-rater" dir="ltr" class="star-rating"
+															data-rating="3"
+															style="width: 110px; height: 22px; background-size: 22px;">
+															<div class="star-value"
+																style="background-size: 22px; width: {{calculatePercentage reviSigan}}%;"></div>
+														</div>
+													</div>
 												</div>
-											</div>
-										</div>
-										<div class="row mt-4">
-											<div class="col-6">
-												<div>강의력 ({{reviAbil}})</div>
-												<div id="basic-rater" dir="ltr" class="star-rating"
-													data-rating="3"
-													style="width: 110px; height: 22px; background-size: 22px;">
-													<div class="star-value"
-														style="background-size: 22px; width: {{calculatePercentage reviAbil}}%;"></div>
+									<div class="row mt-4 bg-warning-subtle"
+													style="padding: 20px; magin: auto 10px;">
+													<div class="col-12 table-info ">{{reviDetail}}</div>
 												</div>
-											</div>
-											<div class="col-6">
-												<div>시간준수 ({{reviSigan}})</div>
-												<div id="basic-rater" dir="ltr" class="star-rating"
-													data-rating="3"
-													style="width: 110px; height: 22px; background-size: 22px;">
-													<div class="star-value"
-														style="background-size: 22px; width: {{calculatePercentage reviSigan}}%;"></div>
-												</div>
-											</div>
-										</div>
-										<div class="row mt-4">
-											<div class="col-6">
-												<button type="button" class="btn btn-success w-sm"
-													disabled="disabled">작성자</button>
-												{{reviStudName}}
-											</div>
-											<div class="col-6">
-												<button type="button" class="btn btn-success w-sm"
-													disabled="disabled">작성일</button>
-												{{reviRegdate}}
-											</div>
-										</div>
-										<div class="row mt-4"
-											style="background-color: #EAEAEA; padding: 20px; magin: auto 10px;">
-											<div class="col-12 table-info">{{reviDetail}}</div>
-										</div>
 									</div>
 								</div>
-	{{/each}}
 {{/each}}
 </script>
 </html>

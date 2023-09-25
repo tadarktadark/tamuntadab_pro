@@ -284,7 +284,7 @@ WHERE RN BETWEEN #{start} AND #{end}
 	AND INPR_ACCOUNT_ID = #{userAccountId}
 </select>
 
-<select id="getOneIntrReview" resultMap="classMap">
+<select id="getOneIntrReview" resultType="reviewVo">
     SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, REVI_SEQ,
            AVG_SCORE,
            REVI_ABIL, REVI_SIGAN, REVI_DETAIL, TO_CHAR(REVI_REGDATE, 'YYYY-MM-DD') AS REVI_REGDATE
@@ -309,7 +309,7 @@ WHERE RN BETWEEN #{start} AND #{end}
 	               REVI_STUD_NAME,
 	               REVI_PRO, REVI_SEQ,
 	               REVI_PREPARE,
-	               ROUND(((REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0), 1) AS AVG_SCORE,
+	               TO_NUMBER(ROUND(((REVI_PRO + REVI_PREPARE + REVI_ABIL + REVI_SIGAN) / 4.0), 1)) AS AVG_SCORE,
 	               REVI_ABIL,
 	               REVI_SIGAN,
 	               REVI_DETAIL,
