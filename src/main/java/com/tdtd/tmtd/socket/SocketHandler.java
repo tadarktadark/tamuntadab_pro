@@ -47,41 +47,30 @@ public class SocketHandler extends TextWebSocketHandler {
 		String memSession = (String)mySession.get("mem_id");
 
 		
-		if(msg.indexOf("#&user_")!=-1) {
-			for(WebSocketSession s : list) {
-				Map<String, Object> sessionMap = s.getAttributes();
-				String otherCrSession = (String)sessionMap.get("cr_id");
-				
-				if(crSession.equals(otherCrSession)) {// 같은 그룹의 세션에게 메시지 전달
-					s.sendMessage(new TextMessage("<font color='pink' size='2px'>"+memSession+"님이 입장했습니다</font>"));
+		String sentUserId = msg.substring(0,msg.indexOf(":")).trim();
+		String sentNickName = msg.substring(msg.indexOf("#&nickName_")+11,msg.indexOf("#&profileImg_")).trim();
+		String sentImg = msg.substring(msg.indexOf("#&profileImg_")+13,msg.length()).trim();
+		System.out.println(sentUserId+sentNickName+sentImg);
+		for(WebSocketSession s : list) {
+			Map<String, Object> sessionMap = s.getAttributes();
+			String otherCrSession = (String)sessionMap.get("cr_id");
+			String otherMemSession = (String)sessionMap.get("mem_id");
+			
+			System.out.println("crSession : "+crSession);
+			System.out.println("otherCrSession : "+otherCrSession);
+			System.out.println("otherMemSession : "+otherMemSession);
+			System.out.println(sentUserId);
+			
+			if(crSession.equals(otherCrSession)) {//같은 그룹
+				if(sentUserId.equals(otherMemSession)) {
+					String newMsg = "[나]"+msg.replace(msg.substring(0,msg.trim().indexOf(":")+1), "");
+					txt=newMsg;
+				}else {
+					String part1 = msg.substring(0,msg.indexOf(":")).trim();
+					String part2 = "["+part1+"]\n"+msg.substring(msg.trim().indexOf(":")+1);
+					txt=part2;
 				}
-			}
-		}else {
-			String sentUserId = msg.substring(0,msg.indexOf(":")).trim();
-			String sentNickName = msg.substring(msg.indexOf("#&nickName_")+11,msg.indexOf("#&profileImg_")).trim();
-			String sentImg = msg.substring(msg.indexOf("#&profileImg_")+13,msg.length()).trim();
-			System.out.println(sentUserId+sentNickName+sentImg);
-			for(WebSocketSession s : list) {
-				Map<String, Object> sessionMap = s.getAttributes();
-				String otherCrSession = (String)sessionMap.get("cr_id");
-				String otherMemSession = (String)sessionMap.get("mem_id");
-				
-				System.out.println("crSession : "+crSession);
-				System.out.println("otherCrSession : "+otherCrSession);
-				System.out.println("otherMemSession : "+otherMemSession);
-				System.out.println(sentUserId);
-				
-				if(crSession.equals(otherCrSession)) {//같은 그룹
-					if(sentUserId.equals(otherMemSession)) {
-						String newMsg = "[나]"+msg.replace(msg.substring(0,msg.trim().indexOf(":")+1), "");
-						txt=newMsg;
-					}else {
-						String part1 = msg.substring(0,msg.indexOf(":")).trim();
-						String part2 = "["+part1+"]\n"+msg.substring(msg.trim().indexOf(":")+1);
-						txt=part2;
-					}
-					s.sendMessage(new TextMessage(txt));
-				}
+				s.sendMessage(new TextMessage(txt));
 			}
 		}
 		
@@ -101,16 +90,6 @@ public class SocketHandler extends TextWebSocketHandler {
 		
 		// 세션 정보를 삭제
 		list.remove(session);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년도 MM월 dd일 HH시 mm분");
-		String now = sdf.format(new Date());
-		// 같은 그룹에게 퇴장 메시지 전달
-		for (WebSocketSession s : list) {
-			Map<String, Object> sessionMap = s.getAttributes();
-			String otherCrSession = (String) sessionMap.get("cr_id");
-			if(myCrSession.equals(otherCrSession)) {
-				s.sendMessage(new TextMessage("<font color='blue' size='2px'>"+myMemSession+"님이 퇴장하였습니다("+now+")</font>"));
-			}
-		}
 		
 	}
 }
