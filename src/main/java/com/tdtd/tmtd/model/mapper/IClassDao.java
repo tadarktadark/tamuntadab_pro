@@ -217,6 +217,38 @@ public interface IClassDao {
 	 * @return
 	 */
 	public List<ClassVo> searchClassList(Map<String, Object> map);
-	
+	/**
+	 * 클래스 like문 검색 갯수
+	 * @param map
+	 * @return
+	 */
 	public int searchClassListCount (String subject);
+	
+	
+	/**
+	 * 참여 중인 클래스 조회 (마이페이지)
+	 * @param clchAccountId
+	 * @return
+	 */
+	public List<ClassVo> myPageClassList (String clchAccountId);
+	/**
+	 * 위 쿼리의  ROW 갯수 반환
+	 * @param clchAccountId
+	 * @return
+	 */
+	public int myPageClassListCount (String clchAccountId);
+	
+	
+	/**
+	 * 종료된 클래스 조회 (마이페이지)
+	 * @param clchAccountId
+	 * @return
+	 */
+	public List<ClassVo> myPageEndClassList (String clchAccountId);
+	/**
+	 * 위 쿼리의  ROW 갯수 반환
+	 * @param clchAccountId
+	 * @return
+	 */
+	public int myPageEndClassListCount (String clchAccountId);
 }

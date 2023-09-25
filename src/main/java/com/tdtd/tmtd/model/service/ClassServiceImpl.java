@@ -232,4 +232,28 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - searchClassListCount");
 		return dao.searchClassListCount(subject);
 	}
+
+	@Override
+	public List<ClassVo> myPageClassList(String clchAccountId) {
+		log.info("ClassServiceImpl 실행 - myPageClassList");
+		return dao.myPageClassList(clchAccountId);
+	}
+
+	@Override
+	public int myPageClassListCount(String clchAccountId) {
+		log.info("ClassServiceImpl 실행 - myPageClassListCount");
+		return dao.myPageClassListCount(clchAccountId);
+	}
+
+	@Override
+	public List<ClassVo> myPageEndClassList(String clchAccountId) {
+		log.info("ClassServiceImpl 실행 - myPageEndClassList");
+		return dao.myPageEndClassList(clchAccountId);
+	}
+
+	@Override
+	public int myPageEndClassListCount(String clchAccountId) {
+		log.info("ClassServiceImpl 실행 - myPageEndClassListCount");
+		return dao.myPageEndClassListCount(clchAccountId);
+	}
 }

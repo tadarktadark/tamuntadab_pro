@@ -449,4 +449,42 @@
 		    AND (c.CLAS_TITLE LIKE '%'||#{subject}||'%' OR jot.SUBJ_TITLE LIKE '%'||#{subject}||'%')
 		)
 	</select>
-</mapper>
+	
+	
+	<!-- 참여 중인 클래스 조회 (마이페이지) -->
+	<select id="myPageClassList" parameterType="java.lang.String" resultType="classVo">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_SUEOP_NALJJA, CLAS_ACCOUNT_ID 
+		FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
+		ON CLAS_ID = CLCH_CLAS_ID
+		WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
+		AND CLAS_STATUS = '종료'
+		ORDER BY CLAS_SUEOP_NALJJA DESC
+	</select>
+	<!-- 위 쿼리의  ROW 갯수 반환 -->
+	<select id="myPageClassListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM CLASS c 
+		JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
+		AND CLAS_STATUS = '종료'
+	</select>
+	
+	
+	<!-- 종료된 클래스 조회 (마이페이지) -->
+	<select id="myPageEndClassList" parameterType="java.lang.String" resultType="classVo">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS,CLAS_SUEOP_NALJJA, CLAS_ACCOUNT_ID 
+		FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
+		ON CLAS_ID = CLCH_CLAS_ID
+		WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
+		AND CLAS_STATUS != '종료'
+		ORDER BY CLAS_SUEOP_NALJJA DESC
+	</select>
+	<!-- 위 쿼리의  ROW 갯수 반환 -->
+	<select id="myPageEndClassListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM CLASS c 
+		JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = #{clchAccountId}
+		WHERE CLCH_ACCOUNT_ID='TMTD12'
+		AND CLAS_STATUS != '종료'
+	</select>
+	</mapper>

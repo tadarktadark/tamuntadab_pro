@@ -1,4 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.PaymentDaoImpl">
+
+	<resultMap type="geoljeVo" id="gyeoljeMap">
+		<result column="GYEO_ID" property="gyeoId"/>
+		<result column="GYEO_GEUMAEK" property="gyeoGeumaek"/>
+		<result column="GYEO_DAESANG_ID" property="gyeoDaesangId"/>
+		<result column="GYEO_ACCOUNT_ID" property="gyeoAccountId"/>
+		<result column="GYEO_REGDATE" property="gyeoRegdate"/>
+		<result column="GYEO_WANRYOIL" property="gyeoWanryoil"/>
+		<result column="GYEO_BANGBEOP" property="gyeoBangbeop"/>
+		<result column="GYEO_STATUS" property="gyeoStatus"/>
+		<collection property="clasVo" resultMap="classMap"/>
+		<collection property="gasiVo" resultMap="gangeuisilMap"/>
+	</resultMap>
+
+	<resultMap type="classVo" id="classMap">
+		<result column="CLAS_TITLE" property="clasTitle"/>
+	</resultMap>
+	
+	<resultMap type="gangeuisilVo" id="gangeuisilMap">
+		<result column="GAGA_NAME" property="gagaName"/>
+	</resultMap>
+
+	<!-- 수강료 결제 내역 조회 (마이페이지) -->
+	<select id="myPageClassPaymentList" parameterType="java.lang.String" resultMap="gyeoljeMap">
+		SELECT CLAS_TITLE, GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS
+		FROM GYEOLJE g JOIN CLASS c 
+		ON GYEO_DAESANG_ID = CLAS_ID
+		WHERE GYEO_ID LIKE 'CL________'
+		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
+		ORDER BY GYEO_REGDATE DESC
+	</select>
+	<!-- 위 쿼리의  ROW 갯수 반환 -->
+	<select id="myPageClassPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM GYEOLJE g 
+		JOIN CLASS c ON GYEO_DAESANG_ID = CLAS_ID
+		WHERE GYEO_ID LIKE 'CL________' 
+		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
+	</select>
+	
+	
+	<!-- 강의실 대여료 결제 내역 조회 (마이페이지) -->
+	<select id="myPageRoomPaymentList" parameterType="java.lang.String" resultMap="gyeoljeMap">
+		SELECT GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS
+		FROM GYEOLJE g JOIN GANGEUISIL_YEYAK gy
+		ON GYEO_DAESANG_ID = GAYE_ID
+		WHERE GYEO_ID LIKE 'RE________'
+		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
+		ORDER BY GYEO_REGDATE DESC
+	</select>
+	<select id="myPageRoomPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) 
+		FROM GYEOLJE g 
+		JOIN GANGEUISIL_YEYAK gy ON GYEO_DAESANG_ID = GAYE_ID
+		WHERE GYEO_ID LIKE 'RE________' 
+		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
+	</select>
 </mapper>
