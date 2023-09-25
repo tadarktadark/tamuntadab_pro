@@ -58,26 +58,6 @@ public class JilmunServiceImpl implements IJilmunService {
 	}
 
 	@Override
-	public int getMyJilmunCount(String accountId) {
-		return dao.getMyJilmunCount(accountId);
-	}
-
-	@Override
-	public List<BoardVo> getMyJilmunList(Map<String, Object> map) {
-		return dao.getMyJilmunList(map);
-	}
-
-	@Override
-	public int getLikeJilmunCount(String accountId) {
-		return dao.getLikeJilmunCount(accountId);
-	}
-
-	@Override
-	public List<BoardVo> getLikeJilmunList(Map<String, Object> map) {
-		return dao.getLikeJilmunList(map);
-	}
-
-	@Override
 	public List<ClassVo> getJilmunClassList(String accountId) {
 		return dao.getJilmunClassList(accountId);
 	}

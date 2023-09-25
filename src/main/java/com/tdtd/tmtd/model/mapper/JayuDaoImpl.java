@@ -53,26 +53,6 @@ public class JayuDaoImpl implements IJayuDao {
 	}
 
 	@Override
-	public int getMyJayuCount(String accountId) {
-		return session.selectOne(NS+"getMyJayuCount",accountId);
-	}
-
-	@Override
-	public List<BoardVo> getMyJayuList(Map<String, Object> map) {
-		return session.selectList(NS+"getMyJayuList",map);
-	}
-
-	@Override
-	public int getLikeJayuCount(String accountId) {
-		return session.selectOne(NS+"getLikeJayuCount",accountId);
-	}
-
-	@Override
-	public List<BoardVo> getLikeJayuList(Map<String, Object> map) {
-		return session.selectList(NS+"getLikeJayuList",map);
-	}
-
-	@Override
 	public int insertJayu(BoardVo vo) {
 		return session.insert(NS+"insertJayu",vo);
 	}

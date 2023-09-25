@@ -71,26 +71,6 @@ public class PilgiServiceImpl implements IPilgiService {
 	}
 
 	@Override
-	public int getMyPilgiCount(String accountId) {
-		return dao.getMyPilgiCount(accountId);
-	}
-
-	@Override
-	public List<BoardVo> getMyPilgiList(Map<String, Object> map) {
-		return dao.getMyPilgiList(map);
-	}
-
-	@Override
-	public int getLikePilgiCount(String accountId) {
-		return dao.getLikePilgiCount(accountId);
-	}
-
-	@Override
-	public List<BoardVo> getLikePilgiList(Map<String, Object> map) {
-		return dao.getLikePilgiList(map);
-	}
-
-	@Override
 	public ClassVo getPilgiClassDetail(String clasId) {
 		return dao.getPilgiClassDetail(clasId);
 	}

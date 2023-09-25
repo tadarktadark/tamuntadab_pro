@@ -57,26 +57,6 @@ public class JayuServiceImpl implements IJayuService {
 	}
 
 	@Override
-	public int getMyJayuCount(String accountId) {
-		return dao.getMyJayuCount(accountId);
-	}
-
-	@Override
-	public List<BoardVo> getMyJayuList(Map<String, Object> map) {
-		return dao.getMyJayuList(map);
-	}
-
-	@Override
-	public int getLikeJayuCount(String accountId) {
-		return dao.getLikeJayuCount(accountId);
-	}
-
-	@Override
-	public List<BoardVo> getLikeJayuList(Map<String, Object> map) {
-		return dao.getLikeJayuList(map);
-	}
-
-	@Override
 	public int insertJayu(BoardVo vo) {
 		return dao.insertJayu(vo);
 	}

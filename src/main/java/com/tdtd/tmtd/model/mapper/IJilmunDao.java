@@ -84,46 +84,6 @@ public interface IJilmunDao {
 	 */
 	public int updateJilmunViewUser(Map<String, Object> map);
 	
-	/**(마이페이지)내가 쓴 질문 개수           
-	 * 
-	 * @param accountId	현재 로그인한 계정
-	 * @return 내가 쓴 질문 개수
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public int getMyJilmunCount(String accountId);    
-	
-	/**
-	 * (마이페이지)내가 쓴 질문 목록 조회        
-	 * @param map accountId 현재 로그인한 계정, <br>
-	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
-	 * @return 내가 쓴 질문 목록(게시물ID, 제목, 클래스명, 과목, 댓글수, 채택여부, 좋아요여부, 좋아요수, 조회수, 등록일, 수정일, 상태)
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public List<BoardVo> getMyJilmunList(Map<String, Object> map);
-	
-	/**
-	 * (마이페이지)좋아요한 질문 개수           
-	 * @param accountId 현재 로그인한 계정
-	 * @return 좋아요한 질문 개수
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public int getLikeJilmunCount(String accountId);
-	
-	/**
-	 * (마이페이지)좋아요한 질문 목록 조회       
-	 * @param map accountId 현재 로그인한 계정, <br>
-	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
-	 * @return 좋아요한 목록(게시물ID, 제목, 작성자, 좋아요여부, 좋아요한 날짜, 등록일)
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public List<BoardVo> getLikeJilmunList(Map<String, Object> map);
-	
 	/**
 	 * 질문 작성 선택 가능한 클래스 목록     
 	 * @param accountId 현재 로그인한 계정
