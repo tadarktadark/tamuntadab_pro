@@ -48,10 +48,15 @@ public class SingoDaoImpl implements ISingoDao {
 	public int insertSingoSayu(SingoSayuVo vo) {
 		return session.insert(NS+"insertSingoSayu",vo);
 	}
+	
+	@Override
+	public int getMaxCount() {
+		return session.selectOne(NS+"getMaxCount");
+	}
 
 	@Override
-	public List<SingoDaesangVo> getMaxSingo() {
-		return session.selectList(NS+"getMaxSingo");
+	public List<SingoDaesangVo> getMaxSingo(Map<String, Object> map) {
+		return session.selectList(NS+"getMaxSingo", map);
 	}
 
 	@Override

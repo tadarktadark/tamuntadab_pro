@@ -44,10 +44,15 @@ public class SingoServiceImpl implements ISingoService {
 		int m = dao.insertSingoSayu(sVo);
 		return (n>0&&m>0)?1:0;
 	}
+	
+	@Override
+	public int getMaxCount() {
+		return dao.getMaxCount();
+	}
 
 	@Override
-	public List<SingoDaesangVo> getMaxSingo() {
-		return dao.getMaxSingo();
+	public List<SingoDaesangVo> getMaxSingo(Map<String, Object> map) {
+		return dao.getMaxSingo(map);
 	}
 	
 	@Override
