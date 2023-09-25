@@ -1,3 +1,4 @@
+<%@page import="com.tdtd.tmtd.vo.PagingVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -17,6 +18,7 @@
     <%@ include file="./shared/_head_css.jsp"%>
     <%@ include file="./shared/_vender_scripts.jsp"%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="../js/adminList.js"></script>
 </head>
 <body>
     <div id="layout-wrapper">
@@ -27,73 +29,50 @@
             <div class="page-content">
                 <%@ include file="./shared/_page_title.jsp"%>
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row px-5">
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="table-responsive table-card">
-<!--                                     <script id="entry-template" type="text/x-handlebars-template"> -->
-                                        <table class="table table-hover table-nowrap align-middle mb-0">
-                                            <thead>
-                                                <tr class="text-muted text-uppercase">
-                                                    <th style="width: 50px;">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option">
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">이름</th>
-                                                    <th scope="col">최근 접속일</th>
-                                                    <th scope="col">권한</th>
-                                                </tr>
-                                            </thead>
-<!--                                             <tbody> -->
-<!--                                                 {{#admin}} -->
-<!--                                                 <tr> -->
-<!--                                                     <td> -->
-<!--                                                         <div class="form-check"> -->
-<!--                                                             <input class="form-check-input" type="checkbox" id="check1" value="option"> -->
-<!--                                                         </div> -->
-<!--                                                     </td> -->
-<!--                                                     <td> -->
-<!--                                                         <a href="#javascript: void(0);" class="text-body align-middle fw-medium">{{adprId}}</a> -->
-<!--                                                     </td> -->
-<!--                                                     <td>{{adprName}}</td> -->
-<!--                                                     <td>{{adprLastAccess}}</td> -->
-<!--                                                     <td> -->
-<!--                                                         {{#if (eq adprAuth "T")}} -->
-<!--                                                         <span class="badge bg-success-subtle text-success p-2">총관리자</span> -->
-<!--                                                         {{else}} -->
-<!--                                                         <span class="badge bg-success-subtle text-success p-2">관리자</span> -->
-<!--                                                         {{/if}} -->
-<!--                                                     </td> -->
-<!--                                                     <td> -->
-<!--                                                         <div class="dropdown"> -->
-<!--                                                             <button class="btn btn-soft-primary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
-<!--                                                                 <i class="bx bx-dots-horizontal-rounded align-middle fs-18"></i> -->
-<!--                                                             </button> -->
-<!--                                                             <ul class="dropdown-menu dropdown-menu-end"> -->
-<!--                                                                 <li> -->
-<!--                                                                     <button class="dropdown-item" href="javascript:void(0);"> -->
-<!--                                                                         <i class="las la-pen fs-18 align-middle me-2 text-muted"></i> -->
-<!--                                                                         수정 -->
-<!--                                                                     </button> -->
-<!--                                                                 </li> -->
-<!--                                                                 <li class="dropdown-divider"></li> -->
-<!--                                                                 <li> -->
-<!--                                                                     <a class="dropdown-item remove-item-btn" href="#"> -->
-<!--                                                                         <i class="las la-trash-alt fs-18 align-middle me-2 text-muted"></i> -->
-<!--                                                                         삭제 -->
-<!--                                                                     </a> -->
-<!--                                                                 </li> -->
-<!--                                                             </ul> -->
-<!--                                                         </div> -->
-<!--                                                     </td> -->
-<!--                                                 </tr> -->
-<!--                                                 {{/admin}} -->
-<!--                                             </tbody>end tbody -->
+                                <div class="row g-4 mb-3">
+                                           <div class="col-sm-auto">
+                                                <div>
+                                                    <button class="btn btn-soft-danger" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <div class="d-flex justify-content-sm-end">
+                                                    <div class="search-box ms-2">
+                                                        <input type="text" class="form-control search" placeholder="Search...">
+                                                        <i class="ri-search-line search-icon"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="table-responsive table-card mt-3 mb-1">
+                                    <table class="table table-hover table-nowrap align-middle mb-0">
+                                           <thead class="table-light">
+                                                    <tr>
+                                                        <th scope="col" style="width: 50px;">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" id="checkAll" value="option">
+                                                            </div>
+                                                        </th>
+                                                        <th class="sort" data-sort="id">ID</th>
+                                                        <th class="sort" data-sort="name">이름</th>
+                                                        <th class="sort" data-sort="date">최근 접속일</th>
+                                                        <th class="sort" data-sort="auth">관리자 권한</th>
+                                                        <th data-sort="action">동작</th>
+                                                    </tr>
+                                                </thead>
+                                            <tbody class="adminList">
+                                            </tbody>
                                         </table><!-- end table -->
-<!--                                         </script> -->
+                                        <div class="d-flex justify-content-center mt-2">
+										<div class="pagination-wrap hstack gap-2">
+											<ul class="pagination listjs-pagination mb-0">
+											</ul>
+										</div>
+									</div>
                                     </div><!-- end table responsive -->
                                 </div>
                             </div>
@@ -104,31 +83,82 @@
         </div>
     </div>
 </body>
-<script type="text/javascript">
-
+<script id="adminList-template" type="text/x-handlebars-template">
+{{#admin}}
+<tr>
+    <td>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="check1" value="{{adprId}}">
+        </div>
+    </td>
+    <td><a href="#javascript: void(0);" class="text-body align-middle fw-medium">{{adprId}}</a></td>
+    <td>{{adprName}}</td>
+    <td>{{adprLastAccess}}</td>
+    <td>
+      {{#eq adprAuth "T"}}
+       	 <span class="badge badge-label bg-danger fs-15"><i class="mdi mdi-circle-medium"></i> 총관리자</span>
+        {{else eq adprAuth "P"}}
+			<span class="badge badge-label bg-info fs-15"><i class="mdi mdi-circle-medium"></i> 결제 관리자</span>
+        {{else eq adprAuth "M"}}
+			<span class="badge badge-label bg-secondary fs-15"><i class="mdi mdi-circle-medium"></i> 회원 관리자</span>
+        {{else eq adprAuth "B"}}
+			<span class="badge badge-label bg-success fs-15"><i class="mdi mdi-circle-medium"></i> 게시판 관리자</span>
+        {{/eq}}
+	</td>
+					    <td>
+					        <div class="dropdown">
+					            <button class="btn btn-soft-primary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+					                <i class="bx bx-dots-horizontal-rounded align-middle fs-18"></i>
+					            </button>
+					            <ul class="dropdown-menu dropdown-menu-end">
+					                <li>
+					                    <button class="dropdown-item" href="javascript:void(0);">
+					                        <i class="las la-pen fs-18 align-middle me-2 text-muted"></i>
+					                        수정
+					                    </button>
+					                </li>
+					                <li class="dropdown-divider"></li>
+					                <li>
+					                    <a class="dropdown-item remove-item-btn" href="#">
+					                        <i class="las la-trash-alt fs-18 align-middle me-2 text-muted"></i>
+					                        삭제
+					                    </a>
+					                </li>
+					            </ul>
+					        </div>
+					    </td>
+					</tr>
+			    {{/admin}}
 </script>
-<script>
-$(document).ready(function(){
-    // Ajax 요청을 보냅니다.
-    $.ajax({
-        url: './searchAdminList.do', // 데이터를 받아올 엔드포인트 URL을 여기에 입력합니다.
-        type: 'GET', // GET 요청을 보냅니다. 필요에 따라 변경할 수 있습니다.
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-            // Ajax 요청이 성공하면 data에 응답 데이터가 들어옵니다.
-            // 이제 Handlebars로 템플릿을 렌더링합니다.
-            var source = $("#entry-template").html(); 
-            var template = Handlebars.compile(source); 
-            var html = template(data);
-            $('.table-responsive').append(html);
-        },
-        error: function(error) {
-            console.error('Ajax 요청 실패:', error);
-        }
-    });
+<script id="page-List-template" type="text/x-handlebars-template">
+    {{#each page}}
+        <li class="page-item">
+            <span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
+        </li>
+    {{/each}}
+</script>
+
+<script type="text/javascript">
+Handlebars.registerHelper('eq', function(v1, v2, options) {
+  if (v1 === v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
 });
 </script>
+<script type="text/javascript">
+// Handlebars.js 템플릿 컴파일 시, htmlOrText 헬퍼 함수 등록
+Handlebars.registerHelper('htmlOrText', function(value) {
+    // value가 HTML 태그를 포함하는지 여부 확인
+    const containsHtmlTags = /<[a-z][\s\S]*>/i.test(value);
 
+    // value가 HTML 태그를 포함하면서 안전한 방법으로 출력하기 위해 {{{}}} 사용
+    if (containsHtmlTags) {
+        return new Handlebars.SafeString(value);
+    }
 
+    // value가 일반 문자열인 경우 {{}} 사용하여 출력
+    return value;
+});
+</script>
 </html>

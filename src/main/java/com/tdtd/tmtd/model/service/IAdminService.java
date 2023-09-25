@@ -16,5 +16,7 @@ public interface IAdminService {
 	public int updateAdminPw(AdminVo adminInfo, Map<String,Object> adminInput);
 	
 	public List<AdminVo> getAdminList(Map<String,Object> map);
+	
+	public int countAdmin();
 
 }
