@@ -50,13 +50,28 @@
 		                            <div class="px-3">
 		                                <h5 class="fs-15 mb-3">Recent</h5>
 		                            </div>
+		                            <input type="hidden" id="selectedChatRoom">
 		                            <ul class="list-unstyled chat-list p-3">
 		                            <c:forEach var="room" items="${roomList}">
 		                            	<li class="chatRoomList" value="${room.chroId}">
 		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
 		                                            <div class="flex-grow-1 overflow-hidden">
-		                                                <h5 class="text-truncate fs-15 mb-0">${room.chroTitle}</h5>
+		                                            <c:choose>
+		                                            <c:when test="${room.chroTitle.contains('/')}">
+		                                        	    <c:choose>
+			                                            	<c:when test="${userInfo.userAuth eq 'I' }">
+				                                                <h5 class="text-truncate fs-15 mb-0">${room.chroTitle.substring(room.chroTitle.indexOf('/')+1,room.chroTitle.length())}</h5>
+			                                            	</c:when>
+			                                            	<c:otherwise>
+			                                            		<h5 class="text-truncate fs-15 mb-0">${room.chroTitle.substring(0,room.chroTitle.indexOf('/'))}</h5>
+			                                            	</c:otherwise>
+			                                            </c:choose>
+		                                            </c:when>
+		                                            <c:otherwise>
+			                                            <h5 class="text-truncate fs-15 mb-0">${room.chroTitle}</h5>
+		                                            </c:otherwise>
+		                                            </c:choose>
 		                                            </div>
 		                                            <div class="flex-shrink-0">
 		                                            </div>
@@ -89,18 +104,6 @@
 		                    </div>
 		                    <div class="col-xl-8 col-5">
 		                        <ul class="list-inline user-chat-nav text-end mb-0">
-		                            <li class="list-inline-item">
-		                                <div class="dropdown">
-		                                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-md p-2">
-		                                        <form class="px-2">
-		                                            <div>
-		                                                <input type="text" class="form-control border bg-light-subtle " placeholder="Search...">
-		                                            </div>
-		                                        </form>
-		                                    </div>
-		                                </div>
-		                            </li>
-		
 		                            <li class="list-inline-item">
 		                                <div class="dropdown">
 		                                    <button class="btn nav-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
