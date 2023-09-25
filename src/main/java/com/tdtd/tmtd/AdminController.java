@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.service.IAdminService;
 import com.tdtd.tmtd.vo.AdminVo;
+import com.tdtd.tmtd.vo.PagingVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -100,9 +101,25 @@ public class AdminController {
 	}
 	@RequestMapping(value="/admin/searchAdminList.do",method = RequestMethod.GET)
 	@ResponseBody
-	public String searchAdminList(Map<String,Object> map) {
+	public String searchAdminList(@RequestParam Map<String,Object> map, 
+									@RequestParam(name= "page", defaultValue = "1",required = false)String page,
+									Model model){
+		log.info("page:{}",page);
+		PagingVo pageVo = new PagingVo();
+		pageVo.setTotalCount(adminService.countAdmin()); //총 게시물의 개수
+		pageVo.setCountList(10); //출력될 게시글의 개수
+		pageVo.setCountPage(5); // 화면에 몇 개의 페이지를 보여줄 건지 (페이지 그룹)
+		pageVo.setTotalPage(pageVo.getTotalCount()); // 총 페이지의 개수
+		pageVo.setPage(Integer.parseInt(page)); // 화면에서 선택된 페이지 번호
+		pageVo.setStartPage(Integer.parseInt(page)); // 페이지 그룹의 시작 번호
+		pageVo.setEndPage(pageVo.getCountPage()); // 끝 번호
+		map.put("start",pageVo.getPage()*pageVo.getCountList()-(pageVo.getCountList()-1));
+		map.put("end", pageVo.getPage()*pageVo.getCountList());
+		log.info("PageVo : {}",pageVo);
 		List<AdminVo> adminList = adminService.getAdminList(map);
 		map.put("admin", adminList);
+		map.put("page", pageVo);
 		return gson.toJson(map);
 	}
 }
+

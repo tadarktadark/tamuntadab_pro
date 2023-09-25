@@ -16,4 +16,6 @@ public interface IAdminDao {
 	public int updateAdminPw(Map<String,Object> setPassword);
 	
 	public List<AdminVo> getAdminList(Map<String,Object> map);
+	
+	public int countAdmin();
 }

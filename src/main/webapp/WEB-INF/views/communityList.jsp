@@ -132,7 +132,7 @@
 	</script>
 	<script id="page-list-template" type="text/x-handlebars-template">
 		{{#each page}}
-		<li class="page-item {{state}}">
+		<li class="page-item">
 			<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
 		</li>
 		{{/each}}

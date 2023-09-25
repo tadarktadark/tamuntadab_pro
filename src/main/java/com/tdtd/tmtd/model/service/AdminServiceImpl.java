@@ -12,7 +12,6 @@ import com.tdtd.tmtd.vo.AdminVo;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class AdminServiceImpl implements IAdminService {
 
 	@Autowired
@@ -42,5 +41,9 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public List<AdminVo> getAdminList(Map<String, Object> map) {
 		return adminDao.getAdminList(map);
+	}
+	@Override
+	public int countAdmin() {
+		return adminDao.countAdmin();
 	}
 }
