@@ -45,7 +45,7 @@
 		            </ul>
 		            <div class="tab-content">
 		                <div class="tab-pane show active" id="chat">
-		                    <div class="chat-message-list" data-simplebar>
+		                    <div id="chat-message-list" class="chat-message-list" data-simplebar>
 		                        <div class="pt-3">
 		                            <div class="px-3">
 		                                <h5 class="fs-15 mb-3">Recent</h5>
@@ -110,10 +110,7 @@
 		                                        <i class="bx bx-dots-horizontal-rounded"></i>
 		                                    </button>
 		                                    <div class="dropdown-menu dropdown-menu-end">
-		                                        <a class="dropdown-item" href="#">Profile</a>
-		                                        <a class="dropdown-item" href="#">Archive</a>
-		                                        <a class="dropdown-item" href="#">Muted</a>
-		                                        <a class="dropdown-item" href="#">Delete</a>
+		                                        <a class="dropdown-item" href="#">나가기</a>
 		                                    </div>
 		                                </div>
 		                            </li>

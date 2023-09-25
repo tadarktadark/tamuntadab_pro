@@ -58,7 +58,7 @@ public class ChatController implements ServletConfigAware{
 	}
 	
 	
-	@PostMapping("/classChatRoom.do")
+	@GetMapping("/classChatRoom.do")
 	public String classChatRoom(int clasId) {
 		//클래스 정보 받아오고
 		ClassVo classVo = service.getClassInfo(clasId);
