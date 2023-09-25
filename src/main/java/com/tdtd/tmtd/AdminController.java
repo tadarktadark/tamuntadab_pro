@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.tdtd.tmtd.model.service.IAdminService;
 import com.tdtd.tmtd.vo.AdminVo;
 import com.tdtd.tmtd.vo.PagingVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -120,6 +121,33 @@ public class AdminController {
 		map.put("admin", adminList);
 		map.put("page", pageVo);
 		return gson.toJson(map);
+	}
+	
+	@RequestMapping(value="/admin/userList.do",method = RequestMethod.GET)
+	public String getUserList(@RequestParam Map<String,Object> map, 
+//									@RequestParam(name= "page", defaultValue = "1",required = false)String page,
+									Model model){
+//		log.info("page:{}",page);
+//		PagingVo pageVo = new PagingVo();
+//		pageVo.setTotalCount(adminService.countAdmin()); //총 게시물의 개수
+//		pageVo.setCountList(10); //출력될 게시글의 개수
+//		pageVo.setCountPage(5); // 화면에 몇 개의 페이지를 보여줄 건지 (페이지 그룹)
+//		pageVo.setTotalPage(pageVo.getTotalCount()); // 총 페이지의 개수
+//		pageVo.setPage(Integer.parseInt(page)); // 화면에서 선택된 페이지 번호
+//		pageVo.setStartPage(Integer.parseInt(page)); // 페이지 그룹의 시작 번호
+//		pageVo.setEndPage(pageVo.getCountPage()); // 끝 번호
+//		map.put("start",pageVo.getPage()*pageVo.getCountList()-(pageVo.getCountList()-1));
+//		map.put("end", pageVo.getPage()*pageVo.getCountList());
+//		log.info("PageVo : {}",pageVo);
+		map.put("start", 1);
+		map.put("end", 10);
+		log.info(map.toString());
+		List<UserProfileVo> userList = adminService.getUserList(map);
+		log.info(userList.toString());
+//		map.put("admin", adminList);
+//		map.put("page", pageVo);
+		return "userList";
+//		return gson.toJson(map);
 	}
 }
 

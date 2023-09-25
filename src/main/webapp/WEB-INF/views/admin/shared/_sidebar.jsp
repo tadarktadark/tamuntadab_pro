@@ -27,7 +27,7 @@
                         <div class="collapse menu-dropdown" id="admin4User">
                             <ul class="nav nav-sm flex-column ">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5" onclick="check(event,'<%=adminInfo.getAdprAuth()%>','M')" >회원 목록</a>
+                                    <a href="./userList.do" class="nav-link fs-5" onclick="check(event,'<%=adminInfo.getAdprAuth()%>','M')" >회원 목록</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="./managerCareer.do" class="nav-link fs-5" onclick="check(event,'<%=adminInfo.getAdprAuth()%>','M')" >강사 관리</a>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tdtd.tmtd.vo.AdminVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 public interface IAdminService {
 	
@@ -18,5 +19,6 @@ public interface IAdminService {
 	public List<AdminVo> getAdminList(Map<String,Object> map);
 	
 	public int countAdmin();
-
+	
+	public List<UserProfileVo> getUserList(Map<String,Object> map);
 }

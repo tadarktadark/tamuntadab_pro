@@ -2,6 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.AdminDaoImpl">
 
+	<resultMap type="userProfileVo" id="userProfileMap">
+		<result column="USER_ACCOUNT_ID" property="userAccountId" />
+		<result column="USER_EMAIL" property="userEmail" />
+		<result column="USER_NAME" property="userName" />
+		<result column="USER_NICKNAME" property="userNickname" />
+		<result column="USER_AUTH" property="userAuth" />
+		<result column="USER_PHONE_NUMBER" property="userPhoneNumber" />
+		<result column="USER_REFRESH_TOKEN" property="userRefreshToken" />
+		<result column="USER_AUTO_LOGIN_TOKEN" property="userAutoLoginToken" />
+		<result column="USER_GENDER" property="userGender" />
+		<result column="USER_SITE" property="userSite" />
+		<result column="USER_BIRTH" property="userBirth" />
+		<result column="USER_PROFILE_FILE" property="userProfileFile" />
+		<result column="USER_DELFLAG" property="userDelflag" />
+		<result column="USER_CHADAN_REGIST_DATE" property="userChadanRegistDate" />
+		<result column="USER_CHADAN_COUNT" property="userChadanCount" />
+		<result column="USJE_JEONGJI_SANGTAE" property="userJeongJiSangTae" />
+	</resultMap>
+
 <resultMap type="adminVo" id="adminMap">
 	<result column="ADPR_ID" property="adprId" />
 	<result column="ADPR_NAME" property="adprName" />
@@ -44,6 +63,63 @@
 			SELECT ROW_NUMBER() OVER(ORDER BY ADPR_LAST_ACCESS DESC) AS RN, ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
 				FROM ADMIN_PROFILE)
 	WHERE RN BETWEEN #{start}AND#{end}
+</select>
+
+<select id="getUserList" resultMap="userProfileMap">
+	SELECT USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG,USJE_JEONGJI_SANGTAE
+	FROM(
+			SELECT ROW_NUMBER() OVER 
+				(ORDER BY USER_JOIN_DATE DESC)
+				 AS RN 
+				,USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG, a.USJE_JEONGJI_SANGTAE
+				FROM(
+					SELECT 	up.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, up.USER_EMAIL AS USER_EMAIL, up.USER_NAME AS USER_NAME,
+							up.USER_NICKNAME AS USER_NICKNAME, up.USER_AUTH AS USER_AUTH, up.USER_PHONE_NUMBER AS USER_PHONE_NUMBER, 
+							up.USER_JOIN_DATE AS USER_JOIN_DATE, up.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE, up.USER_GENDER AS USER_GENDER,
+							up.USER_SITE AS USER_SITE, up.USER_DELFLAG AS USER_DELFLAG ,uj.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE 
+						FROM USER_PROFILE up , USER_JEONGJI uj 
+						WHERE up.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID 
+					UNION
+					SELECT 	kup.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, kup.USER_EMAIL AS USER_EMAIL, kup.USER_NAME AS USER_NAME,
+							kup.USER_NICKNAME AS USER_NICKNAME, kup.USER_AUTH AS USER_AUTH, kup.USER_PHONE_NUMBER AS USER_PHONE_NUMBER, 
+							kup.USER_JOIN_DATE AS USER_JOIN_DATE, kup.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE, kup.USER_GENDER AS USER_GENDER,
+							kup.USER_SITE AS USER_SITE, kup.USER_DELFLAG AS USER_DELFLAG ,uj4.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE 
+						FROM  KAKAO_USER_PROFILE kup , USER_JEONGJI uj4 
+						WHERE kup.USER_ACCOUNT_ID = uj4.USJE_ACCOUNT_ID
+					UNION
+					SELECT 	nup.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, nup.USER_EMAIL AS USER_EMAIL, nup.USER_NAME AS USER_NAME,
+							nup.USER_NICKNAME AS USER_NICKNAME, nup.USER_AUTH AS USER_AUTH, nup.USER_PHONE_NUMBER AS USER_PHONE_NUMBER, 
+							nup.USER_JOIN_DATE AS USER_JOIN_DATE, nup.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE, nup.USER_GENDER AS USER_GENDER,
+							nup.USER_SITE AS USER_SITE, nup.USER_DELFLAG AS USER_DELFLAG ,uj2.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE 
+						FROM  NAVER_USER_PROFILE nup , USER_JEONGJI uj2
+						WHERE nup.USER_ACCOUNT_ID = uj2.USJE_ACCOUNT_ID
+					UNION
+					SELECT 	gup.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, gup.USER_EMAIL AS USER_EMAIL, gup.USER_NAME AS USER_NAME,
+							gup.USER_NICKNAME AS USER_NICKNAME, gup.USER_AUTH AS USER_AUTH, gup.USER_PHONE_NUMBER AS USER_PHONE_NUMBER, 
+							gup.USER_JOIN_DATE AS USER_JOIN_DATE, gup.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE, gup.USER_GENDER AS USER_GENDER,
+							gup.USER_SITE AS USER_SITE, gup.USER_DELFLAG AS USER_DELFLAG ,uj3.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE 
+						FROM  GOOGLE_USER_PROFILE gup, USER_JEONGJI uj3
+						WHERE gup.USER_ACCOUNT_ID = uj3.USJE_ACCOUNT_ID
+					) a
+				 <!-- 특정 조건의 학생만 검색 (다이나믹 쿼리) -->
+				WHERE USER_AUTH IN('S','I')
+				<if test="auth != null">
+					AND USER_AUTH = #{auth} <!-- 학생 유형에 대한 조건  -->
+				</if>
+				<if test="site != null">
+					AND USER_SITE = #{site} <!-- 가입 사이트에 대한 조건 -->
+				</if>
+				<if test="gender != null">
+					AND USER_GENDER = #{gender} <!-- 성별에 대한 조건 -->
+				</if>
+				<if test="delflag != null">
+				AND USER_DELFLAG = #{delflag} <!-- 삭제 여부에 대한 --> 
+				</if>
+ 				<!-- 특정 검색어 (다이나믹 쿼리) -->
+ 				<if test="keyword != null">
+				AND ${type}=#{keyword}
+				</if>
+	)WHERE RN BETWEEN #{start} AND #{end}
 </select>
 	
 </mapper>

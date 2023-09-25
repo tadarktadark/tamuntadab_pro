@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tdtd.tmtd.vo.AdminVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,5 +48,10 @@ public class AdminDaoImpl implements IAdminDao {
 	@Override
 	public int countAdmin() {
 		return sqlSession.selectOne(NS+"countAdmin");
+	}
+
+	@Override
+	public List<UserProfileVo> getUserList(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getUserList",map);
 	}
 }
