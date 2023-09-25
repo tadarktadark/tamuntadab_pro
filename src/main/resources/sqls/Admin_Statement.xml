@@ -33,9 +33,17 @@
  		WHERE ADPR_ID = #{adminId}
 </update>
 
+<select id="countAdmin" resultType="java.lang.Integer">
+	SELECT COUNT(*) 
+	FROM ADMIN_PROFILE ap	
+</select>
+
 <select id="getAdminList" resultMap="adminMap">
 	SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
-			FROM ADMIN_PROFILE
+	FROM(
+			SELECT ROW_NUMBER() OVER(ORDER BY ADPR_LAST_ACCESS DESC) AS RN, ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS 
+				FROM ADMIN_PROFILE)
+	WHERE RN BETWEEN #{start}AND#{end}
 </select>
 	
 </mapper>

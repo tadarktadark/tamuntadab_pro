@@ -315,7 +315,7 @@
 				{{else}}
 				<div class="hstack gap-3 mb-3">
 					<a class="link-danger contentShow" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
-						<i class="ri-arrow-down-circle-line fs-16"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
+						<i class="ri-arrow-down-circle-line fs-12"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
 					</a>
 				</div>
 				<div class="collapse" id="collapseWithicon">

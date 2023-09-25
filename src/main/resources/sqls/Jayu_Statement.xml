@@ -78,56 +78,6 @@
 			WHERE JABO_ID=#{id}
 	</update>
 	
-	<!-- (마이페이지)내가 쓴 자유 개수 -->
-	<select id="getMyJayuCount" resultType="java.lang.Integer">
-		SELECT COUNT(*)
-			FROM JAYU_BOARD
-			WHERE JABO_WRITER_ID =#{accountId};
-	</select>
-	
-	<!-- (마이페이지)내가 쓴 자유 목록 조회 -->
-	<select id="getMyJayuList" resultType="boardVo">
-		SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT, 
-			CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE, 
-			"UPDATE", STATE
-			FROM (SELECT ID, TITLE, REPLY_COUNT, LIKE_COUNT, LIKE_USER, VIEW_COUNT,JABO_REGDATE, "UPDATE", STATE,
-					ROW_NUMBER() OVER(ORDER BY JABO_REGDATE DESC, ID DESC) rn
-					FROM (SELECT JABO_ID AS ID, JABO_TITLE AS TITLE,
-								JABO_REPLY_COUNT AS REPLY_COUNT, JABO_LIKE_COUNT AS LIKE_COUNT, JABO_VIEW_COUNT AS VIEW_COUNT,JABO_STATE AS STATE,
-								CASE NVL(JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER,
-								JABO_REGDATE, 
-								CASE TO_CHAR(JABO_UPDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_UPDATE, 'HH24:MI')ELSE TO_CHAR(JABO_UPDATE, 'yyyy. mm. dd') END AS "UPDATE"
-							FROM JAYU_BOARD
-							WHERE JABO_WRITER_ID=#{accountId}))
-			WHERE rn BETWEEN #{start} AND #{end}
-			ORDER BY rn
-	</select>
-	
-	<!-- (마이페이지)좋아요한 자유 개수 -->
-	<select id="getLikeJayuCount" resultType="java.lang.Integer">
-		SELECT COUNT(*)
-			FROM JAYU_BOARD
-			WHERE JABO_STATE IN ('N', 'P')
-				AND NOT JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}') IS NULL
-	</select>
-	
-	<!-- (마이페이지)좋아요한 자유 목록 조회 -->
-	<select id="getLikeJayuList" resultType="boardVo">
-		SELECT ID, TITLE, ACCOUNT_ID,LIKE_USER, "UPDATE", 
-			CASE TO_CHAR(JABO_REGDATE, 'yyyymmdd') WHEN TO_CHAR(CURRENT_DATE, 'yyyymmdd') THEN TO_CHAR(JABO_REGDATE, 'HH24:MI')ELSE TO_CHAR(JABO_REGDATE, 'yyyy. mm. dd') END AS REGDATE
-			FROM (SELECT ID, TITLE, ACCOUNT_ID,LIKE_USER, JABO_REGDATE, "UPDATE",
-					ROW_NUMBER() OVER(ORDER BY JABO_REGDATE DESC, ID DESC) rn
-					FROM (SELECT JABO_ID AS ID, JABO_TITLE AS TITLE, JABO_WRITER_ID AS ACCOUNT_ID,
-								CASE NVL(JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}'), '0') WHEN '0' THEN '0' ELSE '1' END AS LIKE_USER,
-								JABO_REGDATE, 
-								JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}') AS "UPDATE"
-							FROM JAYU_BOARD
-							WHERE NOT JSON_VALUE(JAYU_BOARD.JABO_LIKE_USER,'$.${accountId}') IS NULL
-								AND JABO_STATE IN ('N', 'P')))
-			WHERE rn BETWEEN #{start} AND #{end}
-			ORDER BY rn
-	</select>
-	
 	<!-- 자유 작성 -->
 	<insert id="insertJayu">
 		INSERT INTO JAYU_BOARD(JABO_ID, JABO_WRITER_ID, JABO_TITLE, JABO_CONTENT)

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ReplyVo;
 
 @Repository
@@ -87,5 +88,53 @@ public class ReplyDaoImpl implements IReplyDao {
 		return session.update(NS+"updateChaetaekBoard",boardId);
 	}
 
-	
+	@Override
+	public int getWritePilgiCount(String accountId) {
+		return session.selectOne(NS+"getWritePilgiCount",accountId);
+	}
+
+	@Override
+	public int getWriteJilmunCount(String accountId) {
+		return session.selectOne(NS+"getWriteJilmunCount",accountId);
+	}
+
+	@Override
+	public int getWriteJayuCount(String accountId) {
+		return session.selectOne(NS+"getWriteJayuCount",accountId);
+	}
+
+	@Override
+	public int getWriteReplyCount(String accountId) {
+		return session.selectOne(NS+"getWriteReplyCount",accountId);
+	}
+
+	@Override
+	public int getLikeCommCount(String accountId) {
+		return session.selectOne(NS+"getLikeCommCount",accountId);
+	}
+
+	@Override
+	public List<BoardVo> getWritePilgiList(Map<String, Object> map) {
+		return session.selectList(NS+"getWritePilgiList",map);
+	}
+
+	@Override
+	public List<BoardVo> getWriteJilmunList(Map<String, Object> map) {
+		return session.selectList(NS+"getWriteJilmunList",map);
+	}
+
+	@Override
+	public List<BoardVo> getWriteJayuList(Map<String, Object> map) {
+		return session.selectList(NS+"getWriteJayuList",map);
+	}
+
+	@Override
+	public List<ReplyVo> getWriteReplyList(Map<String, Object> map) {
+		return session.selectList(NS+"getWriteReplyList",map);
+	}
+
+	@Override
+	public List<BoardVo> getLikeCommList(Map<String, Object> map) {
+		return session.selectList(NS+"getLikeCommList",map);
+	}
 }

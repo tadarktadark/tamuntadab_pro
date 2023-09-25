@@ -43,4 +43,9 @@ public class AdminDaoImpl implements IAdminDao {
 	public List<AdminVo> getAdminList(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getAdminList",map);
 	}
+
+	@Override
+	public int countAdmin() {
+		return sqlSession.selectOne(NS+"countAdmin");
+	}
 }

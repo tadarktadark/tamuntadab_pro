@@ -153,7 +153,7 @@
 										aria-selected="false"> <i class="ri ri-calendar-line fs-20"></i>
 											<span class="d-none d-sm-block">일정</span>
 									</a></li>
-										<li class="nav-item"><a class="nav-link px-3"
+										<li class="nav-item myPilgi"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#boardlist" role="tab"
 										aria-selected="false"> <i class="ri ri-file-list-line fs-20"></i>
 											<span class="d-none d-sm-block">내 커뮤니티</span>
