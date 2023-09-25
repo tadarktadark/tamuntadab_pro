@@ -89,7 +89,7 @@ SELECT COUNT(*)
 </select>
 <select id="countClassChatRoom" parameterType="Integer" resultType="Integer">
 SELECT COUNT(*)
-	FROM CHAT_USER cu
+	FROM CHAT_ROOM cu
 	WHERE CHRO_CLAS_ID = #{chroClasId}
 </select>
 

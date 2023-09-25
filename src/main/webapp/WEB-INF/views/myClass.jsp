@@ -73,7 +73,7 @@
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
 											</button>
 											<button class="btn btn-soft-secondary w-100"
-												onclick="location.href='classChatRoom.do?clasId=${param.clasId}'">
+												onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
 											</button>
 											<button class="btn btn-soft-secondary w-100"
