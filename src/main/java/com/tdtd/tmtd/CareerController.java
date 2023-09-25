@@ -223,7 +223,7 @@ public class CareerController {
 	}
 	
 	//관리자 경력 인증 페이지 이동
-	@GetMapping("/managerCareer.do")
+	@GetMapping("/admin/managerCareer.do")
 	public String managerCareer(Model model, String page) {
 		int totalCount = service.getCareerCount();
 		Map<String, Object> paging = PagingUtils.paging(page, totalCount, 5, 5);
@@ -235,7 +235,7 @@ public class CareerController {
 		model.addAttribute("lists", lists);
 		model.addAttribute("page", paging.get("page"));
 		
-		return "managerCareerCert";
+		return "/admin/adminCareeerCert";
 	}
 	
 	//승인 버튼 클릭시 ajax 실행
