@@ -234,9 +234,9 @@ public class ClassServiceImpl implements IClassService {
 	}
 
 	@Override
-	public List<ClassVo> myPageClassList(String clchAccountId) {
+	public List<ClassVo> myPageClassList(Map<String, Object> map) {
 		log.info("ClassServiceImpl 실행 - myPageClassList");
-		return dao.myPageClassList(clchAccountId);
+		return dao.myPageClassList(map);
 	}
 
 	@Override
@@ -246,9 +246,9 @@ public class ClassServiceImpl implements IClassService {
 	}
 
 	@Override
-	public List<ClassVo> myPageEndClassList(String clchAccountId) {
+	public List<ClassVo> myPageEndClassList(Map<String, Object> map) {
 		log.info("ClassServiceImpl 실행 - myPageEndClassList");
-		return dao.myPageEndClassList(clchAccountId);
+		return dao.myPageEndClassList(map);
 	}
 
 	@Override
