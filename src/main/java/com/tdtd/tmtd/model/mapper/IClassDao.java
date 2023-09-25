@@ -230,7 +230,7 @@ public interface IClassDao {
 	 * @param clchAccountId
 	 * @return
 	 */
-	public List<ClassVo> myPageClassList (String clchAccountId);
+	public List<ClassVo> myPageClassList (Map<String, Object> map);
 	/**
 	 * 위 쿼리의  ROW 갯수 반환
 	 * @param clchAccountId
@@ -244,7 +244,7 @@ public interface IClassDao {
 	 * @param clchAccountId
 	 * @return
 	 */
-	public List<ClassVo> myPageEndClassList (String clchAccountId);
+	public List<ClassVo> myPageEndClassList (Map<String, Object> map);
 	/**
 	 * 위 쿼리의  ROW 갯수 반환
 	 * @param clchAccountId

@@ -452,39 +452,45 @@
 	
 	
 	<!-- 참여 중인 클래스 조회 (마이페이지) -->
-	<select id="myPageClassList" parameterType="java.lang.String" resultType="classVo">
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_SUEOP_NALJJA, CLAS_ACCOUNT_ID 
-		FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
-		ON CLAS_ID = CLCH_CLAS_ID
-		WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
-		AND CLAS_STATUS = '종료'
-		ORDER BY CLAS_SUEOP_NALJJA DESC
+	<select id="myPageClassList" parameterType="java.util.Map" resultType="classVo">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_SUEOP_NALJJA, 
+		(SELECT USER_NICKNAME FROM USER_PROFILE up WHERE up.USER_ACCOUNT_ID =CLAS_ACCOUNT_ID) AS CLAS_ACCOUNT_ID
+		FROM (SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_SUEOP_NALJJA, CLAS_ACCOUNT_ID,
+				ROW_NUMBER() OVER (ORDER BY CLAS_SUEOP_NALJJA DESC) AS RN
+				FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
+				ON CLAS_ID = CLCH_CLAS_ID
+				WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
+				AND CLAS_STATUS != '종료')
+		 WHERE RN BETWEEN #{first} AND #{last}
 	</select>
 	<!-- 위 쿼리의  ROW 갯수 반환 -->
 	<select id="myPageClassListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
 		FROM CLASS c 
 		JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
-		WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
-		AND CLAS_STATUS = '종료'
+		WHERE CLCH_ACCOUNT_ID=#{clchAccountId} 
+		AND CLAS_STATUS != '종료'
 	</select>
 	
 	
 	<!-- 종료된 클래스 조회 (마이페이지) -->
-	<select id="myPageEndClassList" parameterType="java.lang.String" resultType="classVo">
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS,CLAS_SUEOP_NALJJA, CLAS_ACCOUNT_ID 
-		FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
-		ON CLAS_ID = CLCH_CLAS_ID
-		WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
-		AND CLAS_STATUS != '종료'
-		ORDER BY CLAS_SUEOP_NALJJA DESC
+	<select id="myPageEndClassList" parameterType="java.util.Map" resultType="classVo">
+		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_SUEOP_NALJJA, 
+		(SELECT USER_NICKNAME FROM USER_PROFILE up WHERE up.USER_ACCOUNT_ID =CLAS_ACCOUNT_ID) AS CLAS_ACCOUNT_ID
+		FROM (SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_SUEOP_NALJJA, CLAS_ACCOUNT_ID,
+				ROW_NUMBER() OVER (ORDER BY CLAS_SUEOP_NALJJA DESC) AS RN
+			FROM CLASS c JOIN CLASS_CHAMYEOJA cc 
+			ON CLAS_ID = CLCH_CLAS_ID
+			WHERE CLCH_ACCOUNT_ID=#{clchAccountId}
+			AND CLAS_STATUS = '종료')
+			WHERE RN BETWEEN #{first} AND #{last}
 	</select>
 	<!-- 위 쿼리의  ROW 갯수 반환 -->
 	<select id="myPageEndClassListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
 		FROM CLASS c 
-		JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = #{clchAccountId}
-		WHERE CLCH_ACCOUNT_ID='TMTD12'
-		AND CLAS_STATUS != '종료'
+		JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
+		WHERE CLCH_ACCOUNT_ID=#{clchAccountId} 
+		AND CLAS_STATUS = '종료'
 	</select>
 	</mapper>
