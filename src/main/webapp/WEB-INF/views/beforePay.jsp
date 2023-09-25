@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body class="twocolumn-panel">
