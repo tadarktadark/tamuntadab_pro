@@ -82,46 +82,6 @@ public interface IPilgiService {
 	 */
 	public int updatePilgiLikeUser(Map<String, Object> map);
 	
-	/**(마이페이지)내가 쓴 필기 개수           
-	 * 
-	 * @param accountId	현재 로그인한 계정
-	 * @return 내가 쓴 필기 개수
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public int getMyPilgiCount(String accountId);    
-	
-	/**
-	 * (마이페이지)내가 쓴 필기 목록 조회        
-	 * @param map accountId 현재 로그인한 계정, <br>
-	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
-	 * @return 내가 쓴 필기 목록(게시물ID, 제목(클래스명), 과목, 댓글수, 좋아요여부, 좋아요수, 조회수, 등록일, 수정일, 상태)
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public List<BoardVo> getMyPilgiList(Map<String, Object> map);
-	
-	/**
-	 * (마이페이지)좋아요한 필기 개수           
-	 * @param accountId 현재 로그인한 계정
-	 * @return 좋아요한 필기 개수
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public int getLikePilgiCount(String accountId);
-	
-	/**
-	 * (마이페이지)좋아요한 필기 목록 조회       
-	 * @param map accountId 현재 로그인한 계정, <br>
-	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
-	 * @return 좋아요한 목록(게시물ID, 제목(클래스명), 과목, 댓글수, 좋아요여부, 좋아요수, 조회수, 등록일, 수정일, 상태)
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public List<BoardVo> getLikePilgiList(Map<String, Object> map);
-	
 	/**
 	 * 필기 작성시 기본 정보 조회              
 	 * @param clasId 클래스ID
@@ -217,7 +177,7 @@ public interface IPilgiService {
 	 * 			state Y=임시삭제, N=복원
 	 * @param cMap state 필기 작성 여부 Y=작성, N=미작성<br>
 	 * 				accountId 작성자<br>
-	 * 				clasId 클래스ID
+	 * 				id 게시글ID
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.14

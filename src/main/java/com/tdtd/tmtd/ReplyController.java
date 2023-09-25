@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IReplyService;
+import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ReplyVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
@@ -131,5 +132,105 @@ public class ReplyController {
 		service.updateChaetaek(seq, boardId);
 		
 		return "redirect:/communityDetails.do?id="+boardId;
+	}
+	
+	@RequestMapping(value="/myPilgi.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myPilgi(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 내 작성 필기 목록 조회");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int pageCount = service.getWritePilgiCount(userInfo.getUserAccountId());
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		List<BoardVo> list = service.getWritePilgiList(bMap);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", list);
+		result.put("pList", pMap.get("page"));
+		return result;
+	}
+	
+	@RequestMapping(value="/myJilmun.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myJilmun(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 내 작성 질문 목록 조회");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int pageCount = service.getWriteJilmunCount(userInfo.getUserAccountId());
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		List<BoardVo> list = service.getWriteJilmunList(bMap);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", list);
+		result.put("pList", pMap.get("page"));
+		return result;
+	}
+	
+	@RequestMapping(value="/myJayu.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myJayu(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 내 작성 자유 목록 조회");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int pageCount = service.getWriteJayuCount(userInfo.getUserAccountId());
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		List<BoardVo> list = service.getWriteJayuList(bMap);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", list);
+		result.put("pList", pMap.get("page"));
+		return result;
+	}
+	
+	@RequestMapping(value="/myReply.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> myReply(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 내 작성 댓글 목록 조회");
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int pageCount = service.getWriteReplyCount(userInfo.getUserAccountId());
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		List<ReplyVo> list = service.getWriteReplyList(bMap);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", list);
+		result.put("pList", pMap.get("page"));
+		return result;
 	}
 }

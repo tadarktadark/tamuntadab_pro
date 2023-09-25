@@ -3,6 +3,7 @@ package com.tdtd.tmtd.model.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ReplyVo;
 
 public interface IReplyDao {
@@ -135,4 +136,95 @@ public interface IReplyDao {
 	 * @since 2023.09.21
 	 */
 	public int updateChaetaekBoard(String boardId);
+	
+	/**
+	 * 내가 작성한 필기 개수 조회
+	 * @param accountId 로그인 계정
+	 * @return 필기 개수
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public int getWritePilgiCount(String accountId);
+	
+	/**
+	 * 내가 작성한 질문 개수 조회
+	 * @param accountId 로그인 계정
+	 * @return 질문 개수
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public int getWriteJilmunCount(String accountId);
+		
+	/**
+	 * 내가 작성한 자유 개수 조회
+	 * @param accountId 로그인 계정
+	 * @return 자유 개수
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public int getWriteJayuCount(String accountId);
+	
+	/**
+	 * 내가 작성한 댓글 개수 조회
+	 * @param accountId 로그인 계정
+	 * @return 댓글 개수
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public int getWriteReplyCount(String accountId);
+	
+	/**
+	 * 좋아요한 글 개수 조회
+	 * @param accountId 로그인 계정
+	 * @return 좋아요한 글 개수
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public int getLikeCommCount(String accountId);
+	
+	/**
+	 * 내가 작성한 필기 목록 조회
+	 * @param map accountId 로그인 계정, start, end
+	 * @return 필기 목록
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public List<BoardVo> getWritePilgiList(Map<String, Object> map);
+	
+	/**
+	 * 내가 작성한 질문 목록 조회
+	 * @param map accountId 로그인 계정, start, end
+	 * @return 질문 목록
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public List<BoardVo> getWriteJilmunList(Map<String, Object> map);
+		
+	/**
+	 * 내가 작성한 자유 목록 조회
+	 * @param map accountId 로그인 계정, start, end
+	 * @return 자유 목록
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public List<BoardVo> getWriteJayuList(Map<String, Object> map);
+	
+	/**
+	 * 내가 작성한 댓글 목록 조회
+	 * @param map accountId 로그인 계정, start, end
+	 * @return 댓글 목록
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public List<ReplyVo> getWriteReplyList(Map<String, Object> map);
+	
+	/**
+	 * 좋아요한 글 목록 조회
+	 * @param map accountId 로그인 계정, start, end
+	 * @return 좋아요 목록
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
+	public List<BoardVo> getLikeCommList(Map<String, Object> map);
+
 }

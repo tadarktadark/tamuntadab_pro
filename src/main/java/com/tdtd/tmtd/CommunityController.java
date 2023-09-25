@@ -202,8 +202,10 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/communityDetails.do", method=RequestMethod.GET)
-	public String communityDetails(HttpSession session, Model model, String id){
-		String board = (String)session.getAttribute("community");
+	public String communityDetails(HttpSession session, Model model, String board, String id){
+		if(board == null) {
+			board = (String)session.getAttribute("community");
+		}
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 상세조회 : board {}, id {}", board, id);
 		model.addAttribute("title","커뮤니티");
 		
@@ -654,47 +656,30 @@ public class CommunityController {
 		
 		return "redirect:/community.do?board="+board;
 	}
-		
-	@RequestMapping(value="/getMyWriteList.do", method=RequestMethod.POST)
+	
+	@RequestMapping(value="/restorePilgi.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> getMyWriteList(HttpSession session, String board, String page){
-		log.info("@@@@@@@@@@@@@@@ 마이페이지 내 글 목록 조회 : board {}, page {}", board, page);
+	public int restorePilgi(HttpSession session, String id){
+		log.info("@@@@@@@@@@@@@@@ 필기 복원 : id {}", id);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		
-		int pageCount; // 전체 게시글 수
-		Map<String, Object> pMap = new HashMap<String, Object>(); // page 객체 및 start, end
-		Map<String, Object> bMap = new HashMap<String, Object>(); // board 관련 accountId, start, end
-		bMap.put("accountId", userInfo.getUserAccountId());
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("id", id);
+		bMap.put("state", "N");
+		Map<String, Object> cMap = new HashMap<String, Object>();
+		cMap.put("accountId", userInfo.getUserAccountId());
+		cMap.put("state", "Y");
+		cMap.put("id", id);
 		
-		if(board.equals("pilgi")) {
-			pageCount = pService.getMyPilgiCount(userInfo.getUserAccountId());
-			pMap = PagingUtils.paging(page, pageCount, 10, 5);
-		} else if(board.equals("jilmun")) {
-			pageCount = jmService.getMyJilmunCount(userInfo.getUserAccountId());
-			pMap = PagingUtils.paging(page, pageCount, 10, 5);
-		} else if(board.equals("jayu")) {
-			pageCount = jyService.getMyJayuCount(userInfo.getUserAccountId());
-			pMap = PagingUtils.paging(page, pageCount, 10, 5);
-		}
-		
-		bMap.put("start", pMap.get("start"));
-		bMap.put("end", pMap.get("end"));
-		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("pVo", pMap.get("page"));
-		
-		if(board.equals("pilgi")) {
-			result.put("board", "pilgi");
-			result.put("bVo", pService.getMyPilgiList(bMap));
-		} else if(board.equals("jilmun")) {
-			result.put("board", "jilmun");
-			result.put("bVo", jmService.getMyJilmunList(bMap));
-		} else if(board.equals("jayu")) {
-			result.put("board", "jayu");
-			result.put("bVo", jyService.getMyJayuList(bMap));
-		}
-		
-		return result;
+		return pService.updatePilgiState(bMap, cMap);
 	}
+	
+	@RequestMapping(value="/deletePilgi.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int deletePilgi(HttpSession session, String id){
+		log.info("@@@@@@@@@@@@@@@ 필기 완전 삭제 : id {} ", id);
+		return pService.deletePilgi(id);
+	}
+
 }

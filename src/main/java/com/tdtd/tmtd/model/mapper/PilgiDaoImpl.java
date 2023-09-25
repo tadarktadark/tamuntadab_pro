@@ -59,26 +59,6 @@ public class PilgiDaoImpl implements IPilgiDao {
 	}
 
 	@Override
-	public int getMyPilgiCount(String accountId) {
-		return session.selectOne(NS+"getMyPilgiCount",accountId);
-	}
-
-	@Override
-	public List<BoardVo> getMyPilgiList(Map<String, Object> map) {
-		return session.selectList(NS+"getMyPilgiList",map);
-	}
-
-	@Override
-	public int getLikePilgiCount(String accountId) {
-		return session.selectOne(NS+"getLikePilgiCount",accountId);
-	}
-
-	@Override
-	public List<BoardVo> getLikePilgiList(Map<String, Object> map) {
-		return session.selectList(NS+"getLikePilgiList",map);
-	}
-
-	@Override
 	public ClassVo getPilgiClassDetail(String clasId) {
 		return session.selectOne(NS+"getPilgiClassDetail",clasId);
 	}

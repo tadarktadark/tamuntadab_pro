@@ -9,11 +9,7 @@ tr, td{
 	text-align: center;
 }
 
-.title{
-	text-align: left;
-}
-
-.title a {
+.title a, .content{
 	width: 300px;
 	margin: 0px;
 	overflow: hidden;
@@ -35,4 +31,9 @@ tbody .form-check:hover, .title a{
 
 tr button{
 	border:none;
+}
+
+.d-flex{
+	flex-direction: row;
+    justify-content: space-around;
 }

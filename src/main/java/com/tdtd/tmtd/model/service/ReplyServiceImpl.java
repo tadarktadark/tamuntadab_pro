@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.IReplyDao;
+import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ReplyVo;
 
 @Service
@@ -69,6 +70,56 @@ public class ReplyServiceImpl implements IReplyService {
 		int n = dao.updateChaetaekY(seq);
 		n += dao.updateChaetaekBoard(boardId);
 		return (n>1)?1:0;
+	}
+
+	@Override
+	public int getWritePilgiCount(String accountId) {
+		return dao.getWritePilgiCount(accountId);
+	}
+
+	@Override
+	public int getWriteJilmunCount(String accountId) {
+		return dao.getWriteJilmunCount(accountId);
+	}
+
+	@Override
+	public int getWriteJayuCount(String accountId) {
+		return dao.getWriteJayuCount(accountId);
+	}
+
+	@Override
+	public int getWriteReplyCount(String accountId) {
+		return dao.getWriteReplyCount(accountId);
+	}
+
+	@Override
+	public int getLikeCommCount(String accountId) {
+		return dao.getLikeCommCount(accountId);
+	}
+
+	@Override
+	public List<BoardVo> getWritePilgiList(Map<String, Object> map) {
+		return dao.getWritePilgiList(map);
+	}
+
+	@Override
+	public List<BoardVo> getWriteJilmunList(Map<String, Object> map) {
+		return dao.getWriteJilmunList(map);
+	}
+
+	@Override
+	public List<BoardVo> getWriteJayuList(Map<String, Object> map) {
+		return dao.getWriteJayuList(map);
+	}
+
+	@Override
+	public List<ReplyVo> getWriteReplyList(Map<String, Object> map) {
+		return dao.getWriteReplyList(map);
+	}
+
+	@Override
+	public List<BoardVo> getLikeCommList(Map<String, Object> map) {
+		return dao.getLikeCommList(map);
 	}
 
 }

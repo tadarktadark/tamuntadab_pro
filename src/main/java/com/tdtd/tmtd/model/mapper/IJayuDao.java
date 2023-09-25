@@ -83,46 +83,6 @@ public interface IJayuDao {
 	 * @since 2023.09.16
 	 */
 	public int updateJayuViewUser(Map<String, Object> map);
-	
-	/**(마이페이지)내가 쓴 자유 개수           
-	 * 
-	 * @param accountId	현재 로그인한 계정
-	 * @return 내가 쓴 자유 개수
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public int getMyJayuCount(String accountId);    
-	
-	/**
-	 * (마이페이지)내가 쓴 자유 목록 조회        
-	 * @param map accountId 현재 로그인한 계정, <br>
-	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
-	 * @return 내가 쓴 자유 목록(게시물ID, 제목, 댓글수, 좋아요여부, 좋아요수, 조회수, 등록일, 수정일, 상태)
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public List<BoardVo> getMyJayuList(Map<String, Object> map);
-	
-	/**
-	 * (마이페이지)좋아요한 자유 개수           
-	 * @param accountId 현재 로그인한 계정
-	 * @return 좋아요한 자유 개수
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public int getLikeJayuCount(String accountId);
-	
-	/**
-	 * (마이페이지)좋아요한 자유 목록 조회       
-	 * @param map accountId 현재 로그인한 계정, <br>
-	 * 				start 시작 게시글, <br>
-	 * 				end 종료 게시글
-	 * @return 좋아요한 목록(게시물ID, 제목, 작성자, 좋아요여부, 좋아요한 날짜, 등록일)
-	 * @author SoHyeon
-	 * @since 2023.09.16
-	 */
-	public List<BoardVo> getLikeJayuList(Map<String, Object> map);
 		
 	/**
 	 * 자유 작성
