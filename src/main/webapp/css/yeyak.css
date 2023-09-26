@@ -34,3 +34,16 @@ input::placeholder{
 #sido-title, #sigungu-title{
 	width:115px;
 }
+
+.page-link{
+	width: 35px;
+	height: 35px;
+}
+
+.page-link:hover{
+	cursor: pointer;
+}
+
+.pagination{
+	justify-content: center;
+}

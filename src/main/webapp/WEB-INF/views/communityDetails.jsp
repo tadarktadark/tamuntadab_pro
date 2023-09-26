@@ -236,6 +236,8 @@
 	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
 	<script type="text/javascript" src="./js/ckeditor.js"></script>
 	<script src="./assets/js/app.js"></script>
+	<script src="./js/html2canvas.js" charset="UTF-8"></script>
+	<script src="./js/jspdf.min.js" charset="UTF-8"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>
 	<script src="./js/communityDetails.js"></script>
 	<script id="singo-category-template" type="text/x-handlebars-template">

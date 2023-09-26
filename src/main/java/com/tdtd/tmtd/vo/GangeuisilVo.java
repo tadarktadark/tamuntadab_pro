@@ -19,8 +19,8 @@ public class GangeuisilVo {
 	private String gacoSido;
 	private String gacoSigungu;
 	private String gacoJuso;
-	private long gacoLat;
-	private long gacoLon;
+	private double gacoLat;
+	private double gacoLon;
 	private String gacoOpen;
 	private String gacoClose;
 	private String gagaId;

@@ -538,3 +538,7 @@ h6, h5, h4{
 #re-write-btn, #re-cancel-btn, #re-update, #re-cancel{
 	border: 0px;
 }
+
+#ck-content{
+	padding: 5px;
+}
