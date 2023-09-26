@@ -22,9 +22,7 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					<div class="btn-group" id="btn-sido">
-					    <button id="sido-title" class="btn btn-primary dropdown-toggle sido-title" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					    	전체(<span></span>)
-					    </button>
+					    <button id="sido-title" class="btn btn-primary dropdown-toggle sido-title" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체(<span></span>)</button>
 					    <div class="dropdown-menu dropdownmenu-primary sido-group" data-simplebar data-simplebar-track="primary">
 					        <a class="dropdown-item sido-dropdown sido-title click-btn">전체(<span></span>)</a>
 						</div>
@@ -36,8 +34,8 @@
 	 						<div class="accordion custom-accordionwithicon-plus collapse multi-collapse show" id="gangeuisilList">'
 							</div>
 							<br>
-							<ul id="pagination" class="pagination pagination-rounded justify-content-center">
-							</ul>
+							<ul class="comm-page pagination mb-0">
+			            	</ul>
 					    </div>
 					    <div class="col">
 					        <div class="collapse multi-collapse" id="multiCollapseExample2">
@@ -61,8 +59,19 @@
 	<script type="text/javascript" src="./assets/js/pages/form-pickers.init.js" charset="UTF-8"></script>
 	<script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js" charset="UTF-8"></script>
 	<script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js" charset="UTF-8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="./assets/js/pages/form-wizard.init.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="./assets/js/app.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="./js/community.js"></script>
 	<script type="text/javascript" src="./js/yeyak.js" charset="UTF-8"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+	<script id="page-list-template" type="text/x-handlebars-template">
+		{{#each page}}
+		<li class="page-item {{state}}">
+			<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
+		</li>
+		{{/each}}
+	</script>
 </body>
 </html>
