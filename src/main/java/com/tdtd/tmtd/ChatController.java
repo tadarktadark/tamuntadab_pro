@@ -187,7 +187,7 @@ public class ChatController implements ServletConfigAware{
 	public void updateChatLog(String chroId,String chroChatLog) {
 		ChatRoomVo chatRoomVo = new ChatRoomVo();
 		chatRoomVo.setChroId(chroId);
-		chatRoomVo.setChroChatLog(chroChatLog);
+		chatRoomVo.setChroChatLog(chroChatLog.replace("class=\"right\"", ""));
 		service.updateChatLog(chatRoomVo);
 	}
 	

@@ -9,6 +9,12 @@
 <meta charset="UTF-8">
 <title> ${title} | 타문타답</title>
 <%@ include file="./shared/_head_css.jsp" %>
+<style type="text/css">
+	.right img{
+		display: none;
+	}
+	
+</style>
 </head>
 <body>
 <div id="layout-wrapper">
@@ -73,12 +79,22 @@
 		                                            </c:otherwise>
 		                                            </c:choose>
 		                                            </div>
-		                                            <div class="flex-shrink-0">
-		                                            </div>
+<!-- 		                                            <div class="flex-shrink-0"> -->
+<!-- 		                                                <span class="badge bg-danger rounded-pill">1</span> -->
+<!-- 		                                            </div> -->
 		                                        </div>
 		                                    </a>
 		                                </li>
 		                            </c:forEach>
+		                            <li>
+	                                    <a href="#">
+	                                        <div class="d-flex align-items-center">
+	                                            <div class="flex-grow-1 overflow-hidden">
+	                                            	<h5 class="text-truncate fs-15 mb-0"><i style="font-size: 20px;vertical-align: middle;position: relative;top: -1px;" class="ph-robot"></i> 챗봇</h5>
+	                                            </div>
+	                                        </div>
+	                                    </a>
+	                                </li>
 		                            </ul>
 		                        </div>
 		                    </div>
@@ -102,20 +118,20 @@
 		                            </div>
 		                        </div>
 		                    </div>
-		                    <div class="col-xl-8 col-5">
-		                        <ul class="list-inline user-chat-nav text-end mb-0">
-		                            <li class="list-inline-item">
-		                                <div class="dropdown">
-		                                    <button class="btn nav-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                        <i class="bx bx-dots-horizontal-rounded"></i>
-		                                    </button>
-		                                    <div class="dropdown-menu dropdown-menu-end">
-		                                        <a class="dropdown-item" href="#">나가기</a>
-		                                    </div>
-		                                </div>
-		                            </li>
-		                        </ul>
-		                    </div>
+<!-- 		                    <div class="col-xl-8 col-5"> -->
+<!-- 		                        <ul class="list-inline user-chat-nav text-end mb-0"> -->
+<!-- 		                            <li class="list-inline-item"> -->
+<!-- 		                                <div class="dropdown"> -->
+<!-- 		                                    <button class="btn nav-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+<!-- 		                                        <i class="bx bx-dots-horizontal-rounded"></i> -->
+<!-- 		                                    </button> -->
+<!-- 		                                    <div class="dropdown-menu dropdown-menu-end"> -->
+<!-- 		                                        <a class="dropdown-item" href="#">나가기</a> -->
+<!-- 		                                    </div> -->
+<!-- 		                                </div> -->
+<!-- 		                            </li> -->
+<!-- 		                        </ul> -->
+<!-- 		                    </div> -->
 		                </div>
 		            </div>
 		
