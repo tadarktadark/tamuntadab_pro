@@ -59,7 +59,7 @@
 		                            <input type="hidden" id="selectedChatRoom">
 		                            <ul class="list-unstyled chat-list p-3">
 		                            <c:forEach var="room" items="${roomList}">
-		                            	<li class="chatRoomList" value="${room.chroId}">
+		                            	<li class="chatRoomList" data-chroid="${room.chroId}" value="${room.chroId}">
 		                                    <a href="#">
 		                                        <div class="d-flex align-items-center">
 		                                            <div class="flex-grow-1 overflow-hidden">
@@ -79,9 +79,8 @@
 		                                            </c:otherwise>
 		                                            </c:choose>
 		                                            </div>
-<!-- 		                                            <div class="flex-shrink-0"> -->
-<!-- 		                                                <span class="badge bg-danger rounded-pill">1</span> -->
-<!-- 		                                            </div> -->
+		                                            <div class="countOfMessage flex-shrink-0">
+		                                            </div>
 		                                        </div>
 		                                    </a>
 		                                </li>

@@ -41,4 +41,11 @@ public interface IChatDao {
 	public int countChatRoom(Map<String,Object> map);
 	//클래스채팅방 세기
 	public int countClassChatRoom(int chroClasId);
+	//채팅방 총 채팅 수 증가
+	public int updateChatCount(String chroId);
+	//유저 읽은 채팅 수 저장
+	public int updateUserChatCount(Map<String,Object> map);
+	//채팅 유저 상세 조회
+	public ChatUserVo getChatUser(Map<String,Object> map);
+	
 }

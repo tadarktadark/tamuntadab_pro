@@ -189,11 +189,34 @@ public class ChatController implements ServletConfigAware{
 		chatRoomVo.setChroId(chroId);
 		chatRoomVo.setChroChatLog(chroChatLog.replace("class=\"right\"", ""));
 		service.updateChatLog(chatRoomVo);
+		service.updateChatCount(chroId);
 	}
 	
+	@GetMapping("/updateUserChatCount.do")
+	@ResponseBody
+	public void updateUserChatCount(String chroId, String chusAccountId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("chroId", chroId);
+		map.put("chusAccountId", chusAccountId);
+		service.updateUserChatCount(map);
+	}
 	
-	
-	
+	@PostMapping("/countChatAlarm.do")
+	@ResponseBody
+	public int countChatAlarm(String chroId,String chusAccountId) {
+		System.out.println(chroId);
+		ChatRoomVo vo = service.getChatDetail(chroId);
+		int totalCount = vo.getChroChatCount();
+		System.out.println("cnt : "+totalCount);
+		
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("chusChroId", chroId);
+		insertMap.put("chusAccountId", chusAccountId);
+		ChatUserVo chatUserVo = service.getChatUser(insertMap);
+		int readedChat = chatUserVo.getChusCount();
+		int result = totalCount - readedChat;
+		return result;
+	}
 	
 
 	@PostMapping(value = "/socketOut.do")
