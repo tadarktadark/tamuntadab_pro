@@ -9,13 +9,12 @@
 <body>
 <div>
 <input type="hidden" id="classId" value="${classId}">
-<button onclick="reivewForm()">후기 등록</button>
+<button onclick="reivewForm(clasId)">후기 등록</button>
 </div>
 </body>
 <script type="text/javascript">
-function reivewForm(){ 
-	var classId = document.getElementById("classId").value;
-	var url = "./reviewWriteForm.do?classId="+classId;
+function reivewForm(clasId){
+	var url = "./reviewWriteForm.do?classId="+clasId;
 	var title = "후기 등록";
 	var width = 800;
     var height = 800;
@@ -27,6 +26,5 @@ function reivewForm(){
     // window.open 함수에 위치와 크기를 지정
     window.open(url, title, 'width='+width+', height='+height+', top='+top+', left='+left);
 }
-
 </script>
 </html>
