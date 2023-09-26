@@ -57,7 +57,7 @@
 											            <div class="search-box">
 											            	<div class="input-group">
 											                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
-											                <i class="bx bx-search search-icon fs-16"></i>
+											               		<i class="bx bx-search search-icon fs-16"></i>
 											                <button type="button"class="btn btn-soft-primary btn-icon fs-16"><i class="bx bx-search-alt-2 fs-16"></i></button>
 											                </div>
 											            </div>

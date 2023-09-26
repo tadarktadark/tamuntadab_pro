@@ -52,4 +52,9 @@ public class AdminServiceImpl implements IAdminService {
 	public List<UserProfileVo> getUserList(Map<String, Object> map) {
 		return adminDao.getUserList(map);
 	}
+
+	@Override
+	public int countUser() {
+		return adminDao.countUser();
+	}
 }
