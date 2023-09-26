@@ -23,6 +23,45 @@
 		<result column="GAGA_NAME" property="gagaName"/>
 	</resultMap>
 
+	<!-- 결제 생성 -->
+	<insert id="newPayment" parameterType="geoljeVo">
+		INSERT INTO TMTD.GYEOLJE
+			(GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, GYEO_ACCOUNT_ID, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS, GYEO_UID, GYEO_MID)
+		VALUES(GYEO_ID_SEQ.NEXTVAL, #{gyeoGeumaek}, #{gyeoDaesangId}, #{gyeoAccountId}, CURRENT_DATE , '', '', 'W' , '', '')
+	</insert>
+	
+	<!-- 결제 상태 변경 (참여자 테이블) -->
+	<update id="updatePayStatusInChamyeo" parameterType="java.util.Map">
+		UPDATE CLASS_CHAMYEOJA
+			SET CLCH_GYEOLJE_STATUS = #{clchGyeoljeStatus}
+			WHERE CLCH_CLAS_ID = #{clchClasId}
+			AND CLCH_ACCOUNT_ID = #{clchAccountId}
+	</update>
+	
+	<!-- 결제 상태 변경 (결제 테이블) -->
+	<update id="updatePayStatusInPayment" parameterType="java.util.Map">
+		UPDATE GYEOLJE 
+		SET GYEO_STATUS =#{gyeoStatus},
+		    GYEO_UID = #{gyeoUid},
+		    GYEO_MID = #{gyeoMid}
+		WHERE GYEO_DAESANG_ID =#{gyeoDaesangId}
+		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
+	</update>
+	
+	<!-- 환불 테이블 insert -->
+	<insert id="insertHwanbul" parameterType="hwanbulVo">
+		INSERT INTO TMTD.HWANBUL
+			(HWAN_ID, HWAN_GYEOLJE_ID, HWAN_STATUS, HWAN_REGDATE, HWAN_GEUMAEK, HWAN_REASON)
+		VALUES(HWAN_ID_SEQ.NEXTVAL, #{hwanGyeoljeId}, #{hwanStatus}, CURRENT_DATE, #{hwanGeumaek}, #{hwanReason})
+	</insert>
+	<!-- 환불 내역 조회 -->
+	<select id="getUserHwanbul" parameterType="java.lang.String" resultType="hwanbulVo">
+		SELECT HWAN_ID, HWAN_GYEOLJE_ID, HWAN_STATUS, HWAN_REGDATE, HWAN_GEUMAEK, HWAN_REASON
+		FROM HWANBUL h 
+		JOIN GYEOLJE g ON HWAN_GYEOLJE_ID = GYEO_ID
+		WHERE g.GYEO_ACCOUNT_ID=#{gyeoAccountId}
+	</select>
+	
 	<!-- 수강료 결제 내역 조회 (마이페이지) -->
 	<select id="myPageClassPaymentList" parameterType="java.lang.String" resultMap="gyeoljeMap">
 		SELECT CLAS_TITLE, GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS
@@ -32,7 +71,7 @@
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
 		ORDER BY GYEO_REGDATE DESC
 	</select>
-	<!-- 위 쿼리의  ROW 갯수 반환 -->
+	<!-- 위 쿼리의 ROW 갯수 반환 -->
 	<select id="myPageClassPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
 		FROM GYEOLJE g 
@@ -40,7 +79,6 @@
 		WHERE GYEO_ID LIKE 'CL________' 
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
 	</select>
-	
 	
 	<!-- 강의실 대여료 결제 내역 조회 (마이페이지) -->
 	<select id="myPageRoomPaymentList" parameterType="java.lang.String" resultMap="gyeoljeMap">
@@ -51,6 +89,7 @@
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
 		ORDER BY GYEO_REGDATE DESC
 	</select>
+	<!-- 강의실 대여료 결제 내역 갯수 조회 (마이페이지) -->
 	<select id="myPageRoomPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
 		FROM GYEOLJE g 

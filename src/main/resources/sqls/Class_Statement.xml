@@ -77,11 +77,13 @@
 		)
 		WHERE RN BETWEEN #{first} AND #{last}
 		</select>
+		
 	<!-- 모든 클래스 갯수 조회 (관리자) -->
 	<select id="getAllClassListForACount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM CLASS
 	</select>
+	
 	<!-- 모집 중인 전체 클래스 조회 -->
 	<select id="getAllClassListForS" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, USER_PROFILE_FILE,
@@ -105,6 +107,7 @@
 		)
 		WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!--  모잡 중인 전체 클래스 갯수 조회 (학생) -->
 	<select id="getAllClassListForSCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
@@ -135,6 +138,7 @@
 		    WHERE CLCH_YEOKAL = 'M'
 		)WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!-- 카테고리별 모집 중인 클래스 갯수 조회 (학생) -->
 	<select id="getCategoryClassListForSCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		 SELECT COUNT(*)
@@ -146,6 +150,7 @@
 			    AND c.CLAS_STATUS='모집'
 			)
 	</select>
+	
 	<!-- 참여 가능한 모든 클래스 조회 (강사) -->
 	<select	id="getAllClassListForI" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, USER_PROFILE_FILE,
@@ -168,12 +173,14 @@
 		    WHERE CLCH_YEOKAL = 'M'
 		)WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!--  참여 가능한 모든 클래스 갯수 조회 (강사) -->
 	<select id="getAllClassListForICount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 			FROM CLASS c
 		WHERE CLAS_STATUS='모집' OR CLAS_STATUS='매칭'
 	</select>
+	
 	<!-- 참여 가능한 클래스 카테고리별 조회 (강사) -->
 	<select id="getCategoryClassListForI" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, USER_PROFILE_FILE,
@@ -197,6 +204,7 @@
 		    WHERE CLCH_YEOKAL = 'M'
 		)WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!-- 참여 가능한 클래스 카테고리별 조회 총 갯수 (강사) -->
 	<select id="getCategoryClassListForICount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		SELECT COUNT(*)
@@ -208,6 +216,7 @@
 			    AND (c.CLAS_STATUS='모집' OR c.CLAS_STATUS='매칭')
 			)
 	</select>
+	
 	<!-- 세션에 있는 회원의 모든 참여중 클래스 조회 -->
 	<select id="getChamyeoClass" parameterType="java.lang.String" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, 
@@ -235,6 +244,7 @@
 		    WHERE CLCH_ACCOUNT_ID = #{clchAccountId}
 		)
 	</select>
+	
 	<!-- 클래스 상세조회 -->
 	<select id="getClassDetail" parameterType="java.util.Map" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
@@ -314,6 +324,7 @@
 		JOIN USER_PROFILE up ON up.USER_ACCOUNT_ID = cc.CLCH_ACCOUNT_ID
 		WHERE cc.CLCH_ACCOUNT_ID = #{clchAccountId}
 	</select>
+	
 	<!-- 참여자 추가 (클래스 생성) -->
 	<insert id="addChamyeoja" parameterType="chamyeoVo">
 		INSERT INTO TMTD.CLASS_CHAMYEOJA 
@@ -325,6 +336,7 @@
 		(CLCH_ID, CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS, CLCH_YEOKAL) 
 		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, #{clchClasId} , #{clchStatus}, 'N', #{clchYeokal})
 	</insert>
+	
 	<!-- 해당 클래스의 모든 참여자 조회 -->
 	<select id="getChamyeojas" parameterType="java.lang.String" resultType="chamyeoVo">
 		SELECT c.CLAS_ID, 
@@ -336,18 +348,21 @@
 		JOIN USER_PROFILE up ON up.USER_ACCOUNT_ID = cc.CLCH_ACCOUNT_ID
 		WHERE c.CLAS_ID = #{clasId}
 	</select>
+	
 	<!-- 클래스 현재인원 조절 -->
 	<update id="updateClassPeople" parameterType="java.util.Map">
 		UPDATE CLASS
 			SET CLAS_HYEONJAE_INWON = CLAS_HYEONJAE_INWON + (#{nums})
 			WHERE CLAS_ID = #{clasId}
 	</update>
+	
 	<!-- 클래스 상태 변경 -->
 	<update id="updateClassStatus" parameterType="java.util.Map">
 		UPDATE CLASS
 			SET CLAS_STATUS  = #{clasStatus}
 			WHERE CLAS_ID = #{clasId}
 	</update>
+	
 	<!-- 참여테이블 수정 (위임) -->
 	<update id="updateChamyeoYeokal" parameterType="chamyeoVo">
 		UPDATE CLASS_CHAMYEOJA 
@@ -355,24 +370,36 @@
 			WHERE CLCH_CLAS_ID  = #{clchClasId}
 			AND CLCH_ACCOUNT_ID = #{clchAccountId}
 	</update>
+	
 	<!-- 참여자 삭제 -->
 	<delete id="delChamyeoja" parameterType="java.util.Map">
 		DELETE CLASS_CHAMYEOJA
 			WHERE CLCH_CLAS_ID  = #{clchClasId}
 			AND CLCH_ACCOUNT_ID = #{clchAccountId}
 	</delete>
+	
 	<!-- 수강료 확정 요청 생성 -->
 	<insert id="dealSugangryo" parameterType="sugangryoVo">
 		INSERT INTO SUGANGNRYO
 			(SUGA_ID, SUGA_CLAS_ID, SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS)
 			VALUES(SUGA_ID_SEQ.NEXTVAL, #{sugaClasId}, #{sugaAccountId}, #{sugaYocheongGeumaek}, #{sugaYocheongStatus} )
 	</insert>
-	<!-- 클래스의 수강료 요청 상태 조회 -->
-	<select id="getSugangryo" parameterType="java.lang.String" resultType="sugangryoVo">
-		SELECT SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS
-			FROM SUGANGNRYO
+	
+	<!-- 수강료 확정 상태 확인 -->
+	<select id="getRequestedSugangryo" parameterType="java.util.Map" resultType="sugangryoVo">
+		SELECT SUGA_ID, SUGA_CLAS_ID, SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS
+			FROM TMTD.SUGANGNRYO
 			WHERE SUGA_CLAS_ID = #{sugaClasId}
+			AND SUGA_YOCHEONG_STATUS != #{sugaYocheongStatus}
 	</select>
+	
+	<!-- 수강료 요청 상태 업데이트 (강사) -->
+	<update id="updateSugangryo" parameterType="java.util.Map">
+		UPDATE SUGANGNRYO
+		SET SUGA_YOCHEONG_STATUS = #{sugaYocheongStatus}
+		WHERE SUGA_ID = #{sugaId}
+	</update>
+	
 	<!-- 과목 이름으로 과목 ID 검색 -->
 	<select id="findSubjId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SUBJ_ID
@@ -407,6 +434,8 @@
 		    WHERE CLCH_ACCOUNT_ID = #{clchAccountId}
 		)
 	</select>
+	
+	<!-- 검색을 통해 조회한 목록-->
 	<select id="searchClassList" parameterType="java.util.Map" resultMap="classMap">
 			SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, USER_PROFILE_FILE,
 		CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE,CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN
@@ -430,6 +459,8 @@
 	)
 	WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
+	<!-- 검색을 통해 조회한 목록의 갯수 -->
 	<select id="searchClassListCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		SELECT COUNT(*) 
 		FROM (
@@ -485,6 +516,7 @@
 			AND CLAS_STATUS = '종료')
 			WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!-- 위 쿼리의  ROW 갯수 반환 -->
 	<select id="myPageEndClassListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
