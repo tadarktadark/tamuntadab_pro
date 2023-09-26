@@ -24,76 +24,102 @@
 			<div class="page-content">
 				<%@ include file="./shared/_page_title.jsp"%>
 				<div class="container-fluid">
-					<div id="singoList" class="card mt-3">
-						<div class="table-responsive table-card">
-						    <table class="table table-nowrap mb-0">
+					<div id="singo-wrapper" class="card mt-3">
+						<div id="singo-list" class="table-responsive table-card">
+						    <table class="table mb-0">
 						    	<col width="25%">
 						    	<col width="25%">
 						    	<col width="25%">
 						    	<col width="25%">
-						        <thead class="table-light">
-						            <tr class="table-light">
-						                <th scope="col">대상 게시글</th>
-						                <th scope="col">작성자</th>
-						                <th scope="col">상태</th>
-						                <th scope="col">상세 보기</th>
+						        <thead>
+						            <tr>
+						                <th scope="col" class="bg-primary text-light">대상 게시글</th>
+						                <th scope="col" class="bg-primary text-light">작성자</th>
+						                <th scope="col" class="bg-primary text-light">상태</th>
+						                <th scope="col" class="bg-primary text-light">상세 보기</th>
 						            </tr>
 						        </thead>
-						        <tbody>
-						        	<c:forEach items="${list}" var="d">
-							            <tr>
-							                <td>${d.daesangId}</td>
-							                <td>${d.accountId}</td>
-							                <td>
-								                <c:choose>
-								                	<c:when test="${d.state eq 'B'}">
-								                		<span class="badge bg-success-subtle text-success">반려(게시)</span>
-								                	</c:when>
-								                	<c:when test="${d.state eq 'D'}">
-								                		<span class="badge bg-danger-subtle text-danger">수리(삭제)</span>
-								                	</c:when>
-								                	<c:otherwise>
-								                		<span class="badge bg-warning-subtle text-warning">처리대기</span>
-								                	</c:otherwise>
-								                </c:choose>
-							                </td>
-							                <td data-bs-toggle="collapse" data-bs-target="#collapse${d.id}" aria-expanded="true" aria-controls="collapseOne"><span class="badge bg-success">Paid</span></td>
-							            </tr>
-							            <tr id="collapse${d.id}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#default-accordion-example">
-								            <td colspan="5">
-								                <table class="table table-nowrap mb-0">
-								                	<col width="20%">
-											    	<col width="20%">
-											    	<col width="55%">
-											    	<col width="5%">
-								                    <thead class="table-light">
-								                        <tr class="table-warning">
-								                            <th scope="col">#</th>
-								                            <th scope="col">Student</th>
-								                            <th scope="col">Course</th>
-								                            <th scope="col">Author</th>
-								                        </tr>
-								                    </thead>
-								                    <tbody>
-								                        <tr>
-								                            <th scope="row">1</th>
-								                            <td>Milana Scot</td>
-								                            <td>3d Animation</td>
-								                            <td>James Black</td>
-								                        </tr>
-								                    </tbody>
-								                </table>
-								            </td>
-								        </tr>
-						        	</c:forEach>
+						        <tbody id="singo-list-tbody">
 						        </tbody>
 						    </table>
 						</div>
 					</div>
+		            <ul class="comm-page pagination justify-content-center mt-3 pt-3 mb-0">
+		            </ul>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
 <%@ include file="./shared/_vender_scripts.jsp"%>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script type="text/javascript" src="../js/community.js"></script>
+<script type="text/javascript" src="../js/adminSingo.js"></script>
+<script id="page-list-template" type="text/x-handlebars-template">
+	{{#each page}}
+	<li class="page-item {{state}}">
+		<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
+	</li>
+	{{/each}}
+</script>
+<script id="singo-list-template" type="text/x-handlebars-template">
+	<tr id="{{id}}">
+	    <td>{{daesangId}}</td>
+	    <td>{{accountId}}</td>
+	    <td>
+	    	{{#stateB}}
+	   		<span class="badge bg-success-subtle text-success">반려(게시)</span>
+	   		{{/stateB}}
+	   		{{#stateD}}
+	   		<span class="badge bg-danger-subtle text-danger">수리(삭제)</span>
+	   		{{/stateD}}
+	   		{{#stateP}}
+	   		<span class="badge bg-warning-subtle text-warning">처리대기</span>
+	   		{{/stateP}}
+	    </td>
+	    <td id="flush-heading{{i}}" class="viewDetail collapsed" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{i}}" aria-expanded="false" aria-controls="flush-collapse{{i}}"><span class="badge bg-primary view-btn">열기</span></td>
+	</tr>
+	<tr id="flush-collapse{{i}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{i}}" data-bs-parent="#accordionFlushExample">
+		<td colspan="4">
+	    	<table class="table table-nowrap mb-0">
+	     		<col width="20%">
+				<col width="30%">
+				<col width="30%">
+				<col width="20%">
+	            <thead class="table-light">
+	                <tr class="table-warning">
+	                    <th colspan="4">{{{daesangContent}}}</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr class="table-primary">
+	                    <th>신고자</th>
+	                    <th>신고 카테고리</th>
+	                    <th>기타 내용</th>
+	                    <th>신고일</th>
+	                </tr>
+	                {{#each sayu}}
+	                <tr>
+	                	<td>{{sayuAccountId}}</td>
+	                	<td>{{category}}</td>
+	                	<td>{{content}}</td>
+	                	<td>{{regdate}}</td>
+	                </tr>
+	                {{/each}}
+					{{#stateP}}
+	   					<tr>
+	                		<td colspan="3"></td>
+	                		<td>
+								<span class="updateB badge text-bg-success">반려(게시)</span>
+								<span class="updateD badge text-bg-danger">수리(삭제)</span>
+							</td>
+	                	</tr>
+	   				{{/stateP}}
+	            </tbody>
+	        </table>
+	    </td>
+	</tr>
+</script>
 </html>

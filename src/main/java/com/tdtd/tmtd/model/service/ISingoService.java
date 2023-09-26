@@ -52,11 +52,12 @@ public interface ISingoService {
 	
 	/**
 	 * 관리자 처리 : 5회 신고된 게시글 처리<br>
+	 * 				처리된 게시글 작성자 조회<br>
 	 * 				신고된 게시글 처리 후 신고 유저 조회<br>
 	 * 				없으면 신고 유저 추가<br>
 	 * 				있으면 신고 유저 count 업데이트<br>
 	 * 				원래 count==4 이면 state='Y' 변경
-	 * @param vo(id, state, accountId)
+	 * @param vo(id, state)
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.21

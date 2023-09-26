@@ -1,5 +1,6 @@
 package com.tdtd.tmtd;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.ISingoService;
+import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.CareerVo;
 import com.tdtd.tmtd.vo.SingoDaesangVo;
 import com.tdtd.tmtd.vo.SingoSayuVo;
@@ -56,12 +59,39 @@ public class SingoController {
 	@RequestMapping(value="/admin/adminSingo.do", method=RequestMethod.GET)
 	public String adminSingo(Model model) {
 		log.info("@@@@@@@@@@@@@@@ 어드민 신고 페이지 이동");
-//		
-//		List<SingoDaesangVo> list = service.getMaxSingo();
-//		
-//		model.addAttribute("title","회원관리");
-//		model.addAttribute("pageTitle", "신고 관리");
-//		model.addAttribute("list",list);
+		
+		model.addAttribute("title", "회원관리");
+		model.addAttribute("pageTitle", "신고관리");
 		return "/admin/adminSingo";
+	}
+	
+	@RequestMapping(value="/admin/getMaxSingoList.do", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getMaxSingoList(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 5회 이상 신고 목록 조회");
+		
+		int pageCount = service.getMaxCount();
+		
+		Map<String, Object> pMap = new HashMap<String, Object>();
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		Map<String, Object> bMap = new HashMap<String, Object>();
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		
+		List<SingoDaesangVo> list = service.getMaxSingo(bMap);
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", list);
+		result.put("pList", pMap.get("page"));
+		return result;
+	}
+	
+	@RequestMapping(value="/admin/adminAction.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int adminAction(SingoDaesangVo vo) {
+		log.info("@@@@@@@@@@@@@@@ 관리자 신고 게시글 처리 : vo {}", vo);
+		
+		return service.adminAction(vo);
 	}
 }

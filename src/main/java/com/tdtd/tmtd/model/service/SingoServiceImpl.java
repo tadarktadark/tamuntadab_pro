@@ -58,12 +58,13 @@ public class SingoServiceImpl implements ISingoService {
 	@Override
 	public int adminAction(SingoDaesangVo vo) {
 		int n = dao.updateSingoDaesangState(vo);
-		SingoDaesangVo result = dao.getSingoUser(vo.getAccountId());
+		String accountId = dao.getSingoWriter(vo.getId());
+		SingoDaesangVo result = dao.getSingoUser(accountId);
 		int m = 0;
 		if(result != null) {
 			m += dao.updateSingoUserCount(result.getId());
 		} else {
-			m += dao.insertSingoUser(vo.getAccountId());
+			m += dao.insertSingoUser(accountId);
 		}
 		return (n>0&&m>0)?1:0;
 	}
