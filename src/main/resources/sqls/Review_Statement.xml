@@ -2,28 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.ReviewDaoImpl">
 
-<resultMap type="reviewVo" id="reviewMap">
-	<result column="REVI_SEQ" property="reviSeq"/>
-	<result column="REVI_STUD_NAME" property="reviStudName"/>
-	<result column="REVI_PRO" property="reviPro"/>
-	<result column="REVI_PREPARE" property="reviPrepare"/>
-	<result column="AVG_SCORE" property="avgScore"/>
-	<result column="REVI_ABIL" property="reviAbil"/>
-	<result column="REVI_SIGAN" property="reviSigan"/>
-	<result column="REVI_DETAIL" property="reviDetail"/>
-	<result column="REVI_REGDATE" property="reviRegdate"/>
-	
-	<collection property="classVo" resultMap="classMap"/>	
-	<collection property="chamyeoVo" resultMap="chamyeoMap"/>	
-</resultMap>
-<resultMap type="classVo" id="classMap">
-	<result column="CLAS_TITLE" property="clasTitle"/>
-</resultMap>
-<resultMap type="chamyeoVo" id="chamyeoMap">
-	<result column="CLCH_ID" property="clchId"/>
-</resultMap>
-
-<select id="getMyReview" resultMap="reviewMap">
+<select id="getMyReview" resultType="reviewVo">
 	SELECT REVI_SEQ, CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, AVG_SCORE,
            REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE, CLCH_ID
 	FROM (
@@ -62,17 +41,13 @@
 <delete id="deleteReview">
 	DELETE FROM REVIEW
 	WHERE REVI_SEQ =
-	<!-- <foreach collection="seqs" item="seq" open="(" separator="," close=")"> -->
 		#{seq}
-	<!-- </foreach> -->
 </delete>
 
 <update id="updateReviewStatusN">
 	UPDATE CLASS_CHAMYEOJA SET CLCH_REVIEW_STATUS = 'N'
 		WHERE CLCH_ID =
-		<!-- <foreach collection="clchIds" item="clchId" open="(" separator="," close=")"> -->
 			#{clchId}
-		<!-- </foreach> -->
 </update>
 
 </mapper>
