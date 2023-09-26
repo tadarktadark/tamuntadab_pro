@@ -146,6 +146,9 @@
 		                            <input id="chatInput" type="text" class="form-control border chat-input" autocomplete="off">
 		                        </div>
 		                    </div>
+							<div class="col-4">
+							    <input class="form-control border chat-input" type="file" id="formFile">
+							</div>
 		                    <div class="col-auto">
 		                        <button type="button" id="chatBtn" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">전송</span> <i class="mdi mdi-send float-end"></i></button>
 		                    </div>

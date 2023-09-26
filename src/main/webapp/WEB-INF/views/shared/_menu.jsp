@@ -309,8 +309,10 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 
 					<li class="nav-item">
                        	<a href="./instrList.do" class="nav-link menu-link"> <i class="ri-account-circle-line"></i> <span data-key="t-instr">강사</span> </a>
-                  	 	</li>
-
+               	 	</li>
+					<li class="nav-item">
+						<a href="./chatPage.do" class="nav-link menu-link"> <i class="  bx bx-chat"></i> <span data-key="t-chat">채팅</span> </a>
+					</li>
 					<li class="nav-item">
                        	<a href="./yeyak.do" class="nav-link menu-link"> <i class="ri-map-pin-line"></i> <span data-key="t-yeyak">예약</span> </a>
                    	</li>
@@ -344,16 +346,10 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                                     <a href="./gongjiList.do" class="nav-link" data-key="t-gongji">공지사항 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./geoneuiList.do" class="nav-link" data-key="t-geoneui">건의사항 </a>
+                                    <a href="./geonuiList.do" class="nav-link" data-key="t-geonui">건의사항 </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="./fagList.do" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./tupyoPage.do?accountId=TMTD19&clasId=1000000111" class="nav-link" data-key="t-tupyo">투표 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./chatPage.do" class="nav-link" data-key="t-chat">채팅 </a>
                                 </li>
                             </ul>
                         </div>

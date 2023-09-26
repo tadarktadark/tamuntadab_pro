@@ -76,13 +76,10 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                                     <a href="./gongjiList.do" class="nav-link" data-key="t-gongji">공지사항 </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="./geoneuiList.do" class="nav-link" data-key="t-geoneui">건의사항 </a>
+                                    <a href="./geonuiList.do" class="nav-link" data-key="t-geonui">건의사항 </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="./fagList.do" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./tupyoPage.do?accountId=TMTD19&clasId=1000000111" class="nav-link" data-key="t-tupyo">투표 </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="./chatPage.do" class="nav-link" data-key="t-chat">채팅 </a>
