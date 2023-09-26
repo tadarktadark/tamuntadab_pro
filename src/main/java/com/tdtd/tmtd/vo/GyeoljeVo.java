@@ -20,9 +20,9 @@ public class GyeoljeVo {
 	private String gyeoWanryoil;
 	private String gyeoBangbeop;
 	private String gyeoStatus;
+	private String gyeoUid;
+	private String gyeoMid;
 	public GyeoljeVo(int gyeoGeumaek) {
 		this.gyeoGeumaek = gyeoGeumaek;
 	}
-	
-	
 }

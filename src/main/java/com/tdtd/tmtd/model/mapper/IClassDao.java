@@ -251,4 +251,10 @@ public interface IClassDao {
 	 * @return
 	 */
 	public int myPageEndClassListCount (String clchAccountId);
+	
+	/**
+	 * 수강료 확정 상태 확인
+	 * @return 
+	 */
+	public SugangryoVo getRequestedSugangryo();
 }

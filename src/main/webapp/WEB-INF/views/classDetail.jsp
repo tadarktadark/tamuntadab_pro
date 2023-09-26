@@ -110,7 +110,7 @@ th, td {
 											</div>
 											<hr>
 											<div class="class-detail-content">
-												<h4 class="fs-20">예정 수업 일</h4>
+												<h4 class="fs-20">예정 수업일</h4>
 												<p>
 													<i class="bi bi-arrow-return-right"></i> ${cVo.clasSueopNaljja}
 												</p>
