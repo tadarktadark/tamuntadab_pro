@@ -268,4 +268,10 @@ public class ClassDaoImpl implements IClassDao {
 		log.info("ClassDaoImpl myPageEndClassListCount 실행");
 		return sqlSession.selectOne(NS+"myPageEndClassListCount",clchAccountId);
 	}
+
+	@Override
+	public SugangryoVo getRequestedSugangryo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

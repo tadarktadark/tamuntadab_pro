@@ -12,10 +12,10 @@
 <context:property-placeholder location="classpath:properties/oracle.properties"/>	
 
 <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-	<property name="driverClassName" value="${driver}"/>
-	<property name="jdbcUrl" value="${url}"/>
-	<property name="username" value="${user}"/>
-	<property name="password" value="${pw}"/>
+	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	<property name="jdbcUrl" value="jdbc:oracle:thin:@0.tcp.jp.ngrok.io:10433:xe"/>
+	<property name="username" value="TMTD"/>
+	<property name="password" value="tmtd"/>
 </bean>
 
 <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
