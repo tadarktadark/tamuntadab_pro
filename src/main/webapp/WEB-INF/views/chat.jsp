@@ -117,20 +117,6 @@
 		                            </div>
 		                        </div>
 		                    </div>
-<!-- 		                    <div class="col-xl-8 col-5"> -->
-<!-- 		                        <ul class="list-inline user-chat-nav text-end mb-0"> -->
-<!-- 		                            <li class="list-inline-item"> -->
-<!-- 		                                <div class="dropdown"> -->
-<!-- 		                                    <button class="btn nav-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-<!-- 		                                        <i class="bx bx-dots-horizontal-rounded"></i> -->
-<!-- 		                                    </button> -->
-<!-- 		                                    <div class="dropdown-menu dropdown-menu-end"> -->
-<!-- 		                                        <a class="dropdown-item" href="#">나가기</a> -->
-<!-- 		                                    </div> -->
-<!-- 		                                </div> -->
-<!-- 		                            </li> -->
-<!-- 		                        </ul> -->
-<!-- 		                    </div> -->
 		                </div>
 		            </div>
 		
@@ -146,9 +132,9 @@
 		                            <input id="chatInput" type="text" class="form-control border chat-input" autocomplete="off">
 		                        </div>
 		                    </div>
-							<div class="col-4">
-							    <input class="form-control border chat-input" type="file" id="formFile">
-							</div>
+<!-- 							<div class="col-4"> -->
+<!-- 							    <input class="form-control border chat-input" type="file" id="formFile"> -->
+<!-- 							</div> -->
 		                    <div class="col-auto">
 		                        <button type="button" id="chatBtn" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">전송</span> <i class="mdi mdi-send float-end"></i></button>
 		                    </div>
