@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.tdtd.tmtd.model.mapper.IAdminDao;
 import com.tdtd.tmtd.vo.AdminVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,5 +46,10 @@ public class AdminServiceImpl implements IAdminService {
 	@Override
 	public int countAdmin() {
 		return adminDao.countAdmin();
+	}
+
+	@Override
+	public List<UserProfileVo> getUserList(Map<String, Object> map) {
+		return adminDao.getUserList(map);
 	}
 }

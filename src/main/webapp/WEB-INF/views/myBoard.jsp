@@ -53,14 +53,16 @@
 	                    <div id="customerList">
 	                        <div class="table-responsive table-card">
 	                            <table class="table align-middle table-nowrap" id="customerTable">
-	                            	<col width="80%">
+	                            	<col width="70%">
 	                            	<col width="10%">
-	                            	<col width="10%">                          	
+	                            	<col width="10%">      
+	                            	<col width="10%">                    	
 	                                <thead class="table-primary">
 	                                    <tr>
 	                                        <th class="bg-primary">제목</th>
 	                                        <th class="bg-primary">채택</th>
 	                                        <th class="bg-primary">상태</th>
+	                                        <th class="bg-primary">관리</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody id="write-jilmun-tbody" class="list form-check-all">
@@ -75,12 +77,14 @@
 	                    <div id="customerList">
 	                        <div class="table-responsive table-card">
 	                            <table class="table align-middle table-nowrap" id="customerTable">
-	                            	<col width="90%">
+	                            	<col width="80%">
+	                            	<col width="10%">
 	                            	<col width="10%">
 	                                <thead class="table-primary">
 	                                    <tr>
 	                                        <th class="bg-primary">제목</th>
 	                                        <th class="bg-primary">상태</th>
+	                                        <th class="bg-primary">관리</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody id="write-jayu-tbody" class="list form-check-all">
@@ -95,14 +99,16 @@
 	                    <div id="customerList">
 	                        <div class="table-responsive table-card">
 	                            <table class="table align-middle table-nowrap" id="customerTable">
-	                            	<col width="45%">
-	                            	<col width="45%">
+	                            	<col width="40%">
+	                            	<col width="40%">
+	                            	<col width="10%">
 	                            	<col width="10%">
 	                                <thead class="table-primary">
 	                                    <tr>
 	                                        <th class="bg-primary">글제목</th>
 	                                        <th class="bg-primary">내 댓글</th>
 	                                        <th class="bg-primary">상태</th>
+	                                        <th class="bg-primary">관리</th>
 	                                    </tr>
 	                                </thead>
 	                                <tbody id="write-reply-tbody" class="list form-check-all">
@@ -117,13 +123,10 @@
 	                    <div id="customerList">
 	                        <div class="table-responsive table-card">
 	                            <table class="table align-middle table-nowrap" id="customerTable">
-	                            	<col width="50px">
-	                            	<col width="300px">
-	                            	<col width="100px">
-	                            	<col width="100px">
-	                            	<col width="100px">
-	                            	<col width="100px">
-	                            	<col width="100px">	                            	
+	                            	<col width="5%">
+	                            	<col width="75%">
+	                            	<col width="10%">                            	
+	                            	<col width="10%">                            	
 	                                <thead class="table-primary">
 	                                    <tr>
 	                                        <th scope="col" style="width: 50px;" class="bg-primary">
@@ -132,38 +135,11 @@
 	                                            </div>
 	                                        </th>
 	                                        <th class="bg-primary">제목</th>
-	                                        <th class="bg-primary">공개</th>
-	                                        <th class="bg-primary">다운로드</th>
-	                                        <th class="bg-primary">작성일</th>
-	                                        <th class="bg-primary">상태</th>
-	                                        <th class="bg-primary">관리</th>
+	                                        <th class="bg-primary">좋아요 등록일</th>
+	                                        <th class="bg-primary">글 최근 수정일</th>
 	                                    </tr>
 	                                </thead>
-	                                <tbody class="list form-check-all">
-	                                    <tr>
-	                                        <th scope="row">
-	                                            <div class="form-check">
-	                                                <img src="./image/heart_do.png" alt="" class="avatar-sm rounded-circle like-do" id=""/>
-	                                            </div>
-	                                        </th>
-	                                        <td class="title"><a>자바 스크립트 강의 자바 스크립트 강의 자바 스크립트 강의</a></td>
-	                                        <td class="view">전체</td>
-	                                        <td class="download">클래스</td>
-	                                        <td class="regdate">2023.09.01</td>
-	                                        <td class="state"><button class="badge bg-success-subtle text-success text-uppercase"
-	                                        					data-bs-toggle="modal" data-bs-target="#zoomInModal"
-															data-reason="신고사유">신고대기</button></td>
-	                                        <td>
-	                                            <div class="d-flex gap-2">
-	                                                <div class="edit">
-	                                                    <button class="btn btn-sm btn-success edit-item-btn">Edit</button>
-	                                                </div>
-	                                                <div class="remove">
-	                                                    <button class="btn btn-sm btn-danger remove-item-btn">Remove</button>
-	                                                </div>
-	                                            </div>
-	                                        </td>
-	                                    </tr>
+	                                <tbody id="like-comm-tbody" class="list form-check-all">
 	                                </tbody>
 	                            </table>
 	                        </div>
@@ -255,6 +231,15 @@
 		    	<span class="badge badge-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="신고 사유는 관리자에게 문의하세요.">신고 삭제</span>
 		    	{{/stateD}}
 		   	</td>
+			<td>
+		    	{{#stateD}}
+		        <div class="d-flex">
+		            <div>
+		                <button class="badge text-bg-danger comm-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+			    {{/stateD}}
+		    </td>
 		</tr>
 	</script>
 	<script id="jayu-list-template" type="text/x-handlebars-template">
@@ -274,12 +259,21 @@
 		    	<span class="badge badge-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="신고 사유는 관리자에게 문의하세요.">신고 삭제</span>
 		    	{{/stateD}}
 		   	</td>
+			<td>
+		    	{{#stateD}}
+		        <div class="d-flex">
+		            <div>
+		                <button class="badge text-bg-danger comm-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+			    {{/stateD}}
+		    </td>
 		</tr>
 	</script>
 	<script id="reply-list-template" type="text/x-handlebars-template">
 		<tr>
 		    <td class="title"><b><a id="{{id}}" class="view-reply">{{title}}</a></b></td>
-		    <td class="content">{{content}}</td>
+		    <td class="content">{{{content}}}</td>
 		    <td class="state">
 		    	{{#stateN}}
 		    	<span class="badge bg-success-subtle text-success">게시</span>
@@ -294,6 +288,27 @@
 		    	<span class="badge badge-outline-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="신고 사유는 관리자에게 문의하세요.">신고 삭제</span>
 		    	{{/stateD}}
 		   	</td>
+			<td>
+		    	{{#stateD}}
+		        <div class="d-flex">
+		            <div id="{{seq}}">
+		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+			    {{/stateD}}
+		    </td>
+		</tr>
+	</script>
+	<script id="like-list-template" type="text/x-handlebars-template">
+		<tr>
+			<th scope="row">
+	        	<div class="form-check">
+	            	<img src="./image/heart_cancel.png" alt="" class="avatar-sm rounded-circle myLike-do" id="{{id}}"/>
+	            </div>
+	        </th>
+		    <td class="title"><b><a id="{{id}}" class="view-like">{{title}}</a></b></td>
+		    <td class="regdate">{{regdate}}</td>
+		    <td class="update">{{update}}</td>
 		</tr>
 	</script>
 </body>

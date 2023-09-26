@@ -33,13 +33,22 @@ public interface ISingoService {
 	public int userSingo(String daesangId, String board, SingoSayuVo sVo);
 	
 	/**
-	 * 관리자 5회 신고된 게시글 조회
-	 * @return id(sidaId), daesangId, daesangContent, accountId<br>
-	 *			sayuList(sayuAccountId, category, content, regdate)
+	 * 5회 이상 신고된 게시글 개수 조회
+	 * @return 5회 이상 신고된 게시글 개수
+	 * @author SoHyeon
+	 * @since 2023.09.26
+	 */
+	public int getMaxCount();
+	
+	/**
+	 * 5회 신고된 게시글 조회
+	 * @return id(sidaId), daesangId, daesangContent, accountId,<br>
+	 * 			sayuList(sayuAccountId, category, content, regdate)
+	 * @param map start, end
 	 * @author SoHyeon
 	 * @since 2023.09.21
 	 */
-	public List<SingoDaesangVo> getMaxSingo();
+	public List<SingoDaesangVo> getMaxSingo(Map<String, Object> map);
 	
 	/**
 	 * 관리자 처리 : 5회 신고된 게시글 처리<br>

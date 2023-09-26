@@ -58,6 +58,7 @@ import com.tdtd.tmtd.model.service.IFileService;
 import com.tdtd.tmtd.model.service.IJayuService;
 import com.tdtd.tmtd.model.service.IJilmunService;
 import com.tdtd.tmtd.model.service.IPilgiService;
+import com.tdtd.tmtd.model.service.IReplyService;
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.PagingVo;
@@ -80,7 +81,7 @@ public class CommunityController {
 	
 	@Autowired
 	private IFileService fService;
-	
+		
 	@Autowired
 	private ElasticsearchService eService;
 		
@@ -158,8 +159,10 @@ public class CommunityController {
 	
 	@RequestMapping(value="/communityLike.do", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> communityLike(HttpSession session, String type, String id){
-		String board = (String)session.getAttribute("community");
+	public Map<String,Object> communityLike(HttpSession session, String type, String id, String board){
+		if(board==null) {			
+			board = (String)session.getAttribute("community");
+		}
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 좋아요 : board {}, type {}, id {}", board, type, id);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
@@ -633,8 +636,10 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/communityDelete.do", method=RequestMethod.GET)
-	public String communityDelete(Model model, HttpSession session, String id){
-		String board = (String)session.getAttribute("community");
+	public String communityDelete(Model model, HttpSession session, String id, String board){
+		if(board==null) {			
+			board = (String)session.getAttribute("community");
+		}
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 게시글 삭제 : board{} id {}", board, id);
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
@@ -680,6 +685,26 @@ public class CommunityController {
 	public int deletePilgi(HttpSession session, String id){
 		log.info("@@@@@@@@@@@@@@@ 필기 완전 삭제 : id {} ", id);
 		return pService.deletePilgi(id);
+	}
+	
+	@RequestMapping(value="/myCommDelete.do", method=RequestMethod.POST)
+	@ResponseBody
+	public int myCommDelete(HttpSession session, String id, String board){
+		if(board==null) {			
+			board = (String)session.getAttribute("community");
+		}
+		log.info("@@@@@@@@@@@@@@@ 마이페이지 게시글 삭제 : board{} id {}", board, id);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		
+		int n = 0;
+		if(board.equals("jilmun")) {
+			n = jmService.deleteJilmun(id);
+		} else if(board.equals("jayu")) {
+			n = jyService.deleteJayu(id);
+		}
+		
+		return n;
 	}
 
 }

@@ -246,9 +246,9 @@ public class ClassDaoImpl implements IClassDao {
 	}
 
 	@Override
-	public List<ClassVo> myPageClassList(String clchAccountId) {
+	public List<ClassVo> myPageClassList(Map<String, Object> map) {
 		log.info("ClassDaoImpl myPageClassList 실행");
-		return sqlSession.selectOne(NS+"myPageClassList",clchAccountId);
+		return sqlSession.selectList(NS+"myPageClassList",map);
 	}
 
 	@Override
@@ -258,9 +258,9 @@ public class ClassDaoImpl implements IClassDao {
 	}
 
 	@Override
-	public List<ClassVo> myPageEndClassList(String clchAccountId) {
+	public List<ClassVo> myPageEndClassList(Map<String, Object> map) {
 		log.info("ClassDaoImpl myPageEndClassList 실행");
-		return sqlSession.selectOne(NS+"myPageEndClassList",clchAccountId);
+		return sqlSession.selectList(NS+"myPageEndClassList",map);
 	}
 
 	@Override

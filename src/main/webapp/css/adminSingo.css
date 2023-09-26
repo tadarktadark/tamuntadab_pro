@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+tr, td{
+	text-align: center;
+}
+
+#singoList{
+	width: 800px;
+	margin: 0 auto;
+}

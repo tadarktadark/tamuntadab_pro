@@ -1,6 +1,5 @@
 package com.tdtd.tmtd.vo;
 
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,8 +27,6 @@ public class ReviewVo {
 	private String reviRegdate;
 	private double avgScore;
 	private String clasTitle;
+	private int clchId;
 	
-	private List<ClassVo> classVo;
-	private List<ChamyeoVo> chamyeoVo;
-
 }
