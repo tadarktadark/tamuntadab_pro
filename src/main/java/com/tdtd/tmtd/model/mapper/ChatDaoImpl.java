@@ -98,6 +98,21 @@ public class ChatDaoImpl implements IChatDao {
 		return sqlSession.selectOne(NS+"countClassChatRoom",chroClasId);
 	}
 
+	@Override
+	public int updateChatCount(String chroId) {
+		return sqlSession.update(NS+"updateChatCount",chroId);
+	}
+
+	@Override
+	public int updateUserChatCount(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateUserChatCount",map);
+	}
+
+	@Override
+	public ChatUserVo getChatUser(Map<String, Object> map) {
+		return sqlSession.selectOne(NS+"getChatUser",map);
+	}
+
 
 
 }

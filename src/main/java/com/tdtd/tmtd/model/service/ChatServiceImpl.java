@@ -95,4 +95,19 @@ public class ChatServiceImpl implements IChatService {
 		return dao.countClassChatRoom(chroClasId);
 	}
 
+	@Override
+	public int updateChatCount(String chroId) {
+		return dao.updateChatCount(chroId);
+	}
+
+	@Override
+	public int updateUserChatCount(Map<String, Object> map) {
+		return dao.updateUserChatCount(map);
+	}
+
+	@Override
+	public ChatUserVo getChatUser(Map<String, Object> map) {
+		return dao.getChatUser(map);
+	}
+
 }

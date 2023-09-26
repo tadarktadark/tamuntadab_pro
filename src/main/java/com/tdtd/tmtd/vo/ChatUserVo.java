@@ -19,5 +19,6 @@ public class ChatUserVo {
 	private String chusChroId   ;
 	private String chusAccountId;
 	private String chusType     ;
+	private int chusCount;
 
 }
