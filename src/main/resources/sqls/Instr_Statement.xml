@@ -53,19 +53,6 @@
 	<result column="CLAS_SUEOP_NALJJA" property="clasSueopNaljja"/>
 	<result column="CLAS_SUGANGRYO" property="clasSugangRyo"/>
 	<result column="CLAS_SUBJECT_JEONGBO" property="clasSubjectJeongbo"/>
-	
-	<collection property="reviewVo" resultMap="reviewMap"/>
-</resultMap>
-<resultMap type="reviewVo" id="reviewMap">
-	<result column="REVI_STUD_NAME" property="reviStudName"/>
-	<result column="REVI_PRO" property="reviPro"/>
-	<result column="REVI_PREPARE" property="reviPrepare"/>
-	<result column="AVG_SCORE" property="avgScore"/>
-	<result column="REVI_ABIL" property="reviAbil"/>
-	<result column="REVI_SIGAN" property="reviSigan"/>
-	<result column="REVI_DETAIL" property="reviDetail"/>
-	<result column="REVI_REGDATE" property="reviRegdate"/>
-	<result column="REVI_SEQ" property="reviSeq"/>
 </resultMap>
 
 <select id="getMyInstrProfile" resultMap="instrMap">
