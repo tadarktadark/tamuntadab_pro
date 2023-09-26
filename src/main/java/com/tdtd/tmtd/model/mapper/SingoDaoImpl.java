@@ -63,6 +63,11 @@ public class SingoDaoImpl implements ISingoDao {
 	public int updateSingoDaesangState(SingoDaesangVo vo) {
 		return session.update(NS+"updateSingoDaesangState",vo);
 	}
+	
+	@Override
+	public String getSingoWriter(String id) {
+		return session.selectOne(NS+"getSingoWriter",id);
+	}
 
 	@Override
 	public SingoDaesangVo getSingoUser(String accountId) {

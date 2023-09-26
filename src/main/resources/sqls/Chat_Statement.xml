@@ -12,7 +12,7 @@ SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_DATE
 </select>
 <!-- 채팅방 조회 -->
 <select id="getChatDetail" parameterType="String" resultType="chatRoomVo">
-SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_CHAT_LOG ,CHRO_DATE 
+SELECT CHRO_ID ,CHRO_CLAS_ID ,CHRO_TITLE ,CHRO_CHAT_LOG ,CHRO_DATE ,CHRO_CHAT_COUNT
         FROM CHAT_ROOM cr 
         WHERE CHRO_ID =#{chroId}
 </select>
@@ -91,6 +91,28 @@ SELECT COUNT(*)
 SELECT COUNT(*)
 	FROM CHAT_ROOM cu
 	WHERE CHRO_CLAS_ID = #{chroClasId}
+</select>
+
+<update id="updateChatCount" parameterType="String">
+	UPDATE CHAT_ROOM 
+		SET CHRO_CHAT_COUNT = CHRO_CHAT_COUNT +1
+		WHERE CHRO_ID = #{chroId}
+</update>
+
+<update id="updateUserChatCount" parameterType="Map">
+	UPDATE CHAT_USER 
+		SET CHUS_COUNT = (
+							SELECT CHRO_CHAT_COUNT 
+								FROM CHAT_ROOM cr
+								WHERE CHRO_ID = #{chroId}
+		)
+		WHERE CHUS_ACCOUNT_ID = #{chusAccountId} AND CHUS_CHRO_ID = #{chroId}
+</update>
+
+<select id="getChatUser" parameterType="Map" resultType="chatUserVo"> 
+	SELECT CHUS_SEQ, CHUS_CHRO_ID, CHUS_ACCOUNT_ID, CHUS_TYPE, CHUS_COUNT
+		FROM CHAT_USER
+		WHERE CHUS_CHRO_ID = #{chusChroId} AND CHUS_ACCOUNT_ID = #{chusAccountId} 
 </select>
 
 </mapper>

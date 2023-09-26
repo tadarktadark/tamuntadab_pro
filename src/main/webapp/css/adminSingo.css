@@ -4,7 +4,20 @@ tr, td{
 	text-align: center;
 }
 
-#singoList{
+#singo-wrapper{
 	width: 800px;
 	margin: 0 auto;
+}
+
+.d-flex{
+	flex-direction: row;
+    justify-content: center;
+}
+
+.page-link:hover, .viewDetail:hover{
+	cursor: pointer;
+}
+
+.updateD:hover, .updateB:hover{
+	cursor: pointer;
 }

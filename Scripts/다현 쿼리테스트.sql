@@ -352,6 +352,21 @@ WHERE cr.CHRO_CLAS_ID = '103'
 AND cu.CHUS_ACCOUNT_ID = 'TMTD16';
 
 
+--전체 채팅수 증가
+UPDATE CHAT_ROOM 
+	SET CHRO_CHAT_COUNT = CHRO_CHAT_COUNT +1
+	WHERE CHRO_ID = 'CR2309068';
+
+
+--읽은 채팅 수 저장
+UPDATE CHAT_USER 
+	SET CHUS_COUNT = (
+						SELECT CHRO_CHAT_COUNT 
+							FROM CHAT_ROOM cr
+							WHERE CHRO_ID = 'CR2309068'
+	)
+	WHERE CHUS_ACCOUNT_ID = 'TMTD01';
+
 ----------------------------채팅 끝---------------------------
 
 ----------------------------알림 시작---------------------------

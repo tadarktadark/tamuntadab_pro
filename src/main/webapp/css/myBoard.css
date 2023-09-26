@@ -32,8 +32,3 @@ tbody .form-check:hover, .title a{
 tr button{
 	border:none;
 }
-
-.d-flex{
-	flex-direction: row;
-    justify-content: space-around;
-}

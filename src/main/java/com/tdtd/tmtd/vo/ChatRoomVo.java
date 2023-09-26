@@ -20,4 +20,5 @@ public class ChatRoomVo {
 	private String chroTitle;
 	private String chroChatLog;
 	private String chroDate;
+	private int chroChatCount;
 }
