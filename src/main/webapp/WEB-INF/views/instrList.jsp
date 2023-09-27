@@ -196,7 +196,7 @@
 	//과목 태그 엘라스틱 서치에서 값 불러오기
 	function searchElastic(query, callback) {
 		$.ajax({
-			url : 'http://192.168.8.164:9200/subject_tag/_search',
+			url : 'http://158.180.71.118:9200/subject_tag/_search',
 			type : 'POST',
 			dataType : 'json',
 			headers : {
