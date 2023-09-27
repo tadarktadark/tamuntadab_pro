@@ -11,6 +11,7 @@
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <link href="./css/communityDetails.css" rel="stylesheet" type="text/css" />
+<%@ include file="./shared/_logout.jsp" %>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -229,7 +230,6 @@
 		<button type="button" class="btn btn-primary btn-sm" id="sa-reply-length"></button>
 		<button type="button" id="modal-btn" class="btn btn-primary waves-light waves-effect" data-bs-toggle="modal" data-bs-target="#varyingcontentModal" data-bs-whatever="@mdo"></button>
 	</div>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
