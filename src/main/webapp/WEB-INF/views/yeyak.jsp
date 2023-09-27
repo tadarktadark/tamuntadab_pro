@@ -40,7 +40,7 @@
 					    <div class="col">
 					        <div class="collapse multi-collapse" id="multiCollapseExample2">
 					            <div class="card card-body mb-0" id="multiCollapseExample2-content">
-					            <div>hi</div>
+					            	
 					            </div>
 					        </div>
 					    </div>
@@ -62,16 +62,20 @@
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="./assets/js/pages/form-wizard.init.js" charset="UTF-8"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=99gs7xiokw"></script>
 	<script type="text/javascript" src="./assets/js/app.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="./js/community.js"></script>
 	<script type="text/javascript" src="./js/yeyak.js" charset="UTF-8"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 	<script id="page-list-template" type="text/x-handlebars-template">
 		{{#each page}}
 		<li class="page-item {{state}}">
 			<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
 		</li>
 		{{/each}}
+	</script>
+	<script id="map-template" type="text/x-handlebars-template">
+			<div id="map" style="width:100%;height:400px;"></div>
 	</script>
 </body>
 </html>
