@@ -5,6 +5,7 @@
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
 	data-sidebar-image="none" data-preloader="disable">
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
