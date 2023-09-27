@@ -653,11 +653,8 @@ SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
 							RIGHT OUTER JOIN GOOGLE_USER_PROFILE gup 
 							ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)
 						WHERE USER_AUTH IN ('S','I')
-								AND USER_AUTH = 'S'							
-								AND USER_SITE = 'K'							
-								AND USER_DELFLAG = 'N'							
+								AND USER_AUTH = 'I'							
 								AND USER_GENDER = 'M'							
-								/*AND USJE_JEONGJI_SANGTAE = NULL*/ 						
 				))
 			WHERE RN BETWEEN 1 AND 10;
 						
