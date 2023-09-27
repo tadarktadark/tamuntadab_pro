@@ -8,8 +8,8 @@
 	data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
+<%@ include file="./shared/_logout.jsp"%>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css"
 	rel="stylesheet" type="text/css" />
 <%@ include file="./shared/_head_css.jsp"%>

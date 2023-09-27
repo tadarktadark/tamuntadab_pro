@@ -7,8 +7,8 @@
 	data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <title>${title}|타문타답</title>
+<%@ include file="./shared/_logout.jsp"%>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	charset="UTF-8"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
