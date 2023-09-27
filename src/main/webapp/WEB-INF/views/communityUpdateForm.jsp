@@ -159,7 +159,6 @@
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
-	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/js/app.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
@@ -196,5 +195,6 @@
 			</div>
 		</div>
 	</script>
+	<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 </html>

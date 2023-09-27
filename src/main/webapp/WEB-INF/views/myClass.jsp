@@ -53,7 +53,7 @@
 					<div class="row">
 						<div class="col-12">
 							<div class="row">
-								<div class="col-xl-3">
+								<div class="col-xl-4">
 									<div class="card card-h-100">
 										<div class="card-body">
 											
@@ -132,11 +132,8 @@
 												<div class="flex-grow-1 ms-3">
 													<h6 class="fs-15">클래스 상세 정보</h6>
 													<p class="text-muted mb-0 fs-12">
-														클래스명 : ${classVo.clasTitle} <br>
-														진행 상태 : ${classVo.clasStatus} <br>
 														진행 지역 : ${classVo.clasLocation} <br>
 														클래스 수업일 : ${classVo.clasSueopNaljja} <br>
-														과목 : ${classVo.subjVo[0].subjTitle} <br>
 														인원 : ${classVo.clasHyeonjaeInwon} / ${classVo.clasHuimangInwon} <br>
 														클래스 개설일 : ${classVo.clasRegdate} <br>
 														<c:choose>
@@ -150,7 +147,7 @@
 														        클래스 성별제한 : 남자만
 														    </c:when>
 														    <c:otherwise>
-														        클래스 성별제한 : 알 수 없음, 에러
+														        클래스 성별제한 : 알 수 없음
 														    </c:otherwise>
 														</c:choose> <br>
 														클래스 모집 마감일 : ${classVo.clasMagamGihan} <br>
@@ -242,8 +239,56 @@
 									</div><!-- simple bar의 끝 -->
 								</div><!-- 왼쪽 사이드바의 끝-->
 
-								<div class="col-xl-9">
-									<div class="card card-h-100">
+								<div class="col-xl-8"> <!-- 오른쪽 사이드바의 시작-->
+									<div class="card"> <!-- 달력 윗쪽 카드-->
+										
+										<div class="card-header">
+		                                    <h5 class="card-title mb-0">클래스 - 
+			                                    <span class="fs-15 m-0">${classVo.clasTitle} </span>
+			                                    <span class="badge bg-success-subtle text-success"> ${classVo.clasStatus}</span>
+		                                    </h5>
+		                                </div>
+		                                <div class="card-body">
+		                                	<h6 class="card-title">배정된 강사 : <span class="card-text text-muted mb-0">전민균</span></h6>
+                                            <h6 class="card-title">과목 : <span class="card-text text-muted mb-0">${classVo.subjVo[0].subjTitle}</span></h6>
+                                            <br>
+                                            <h6 class="card-title">클래스 내용 </h6>
+                                            <p class="card-text text-muted mb-0">
+                                            	이 강의는 비전공자로 개발에 들어선 초보 개발자 분들의 어려움을 해결하기 위해 만들어졌습니다.<br> 
+		                                		복잡하고 이해하기 힘든 이론들을 쉽고 단순하게 외우는 것만으로도  <br>
+		                                		일정 수준에 도달할 수 있도록 도와드립니다.<br>
+		                                		컴퓨터 공학 전공자들이 4년 동안 어떤 것들을 공부하는지 빠르게 익혀보실 수 있습니다.<br>
+												제목처럼 이해가 아닌 암기를 통해 전공자들조차 쉽게 이해하기 어려운 개념들을<br> 
+												명쾌한 비유로 이해하고, 비전공자 개발자로서 느끼는 격차를 줄이는 게 이번 강의의 목표입니다!
+                                            </p>
+                                        </div>
+		                                <div class="card p-0 overflow-hidden mt-3 mb-1 shadow-none" style="margin:16px;">
+			                                <div class="card-header">
+			                                    <h5 class="card-title mb-0">참여 중인 클래스원</h5>
+			                                </div>
+			                                <div class="card-body pt-2">
+			                                    <div class="table-responsive">
+			                                        <table class="table align-middle table-nowrap mb-1">
+			                                            <tbody>
+			                                                <tr>
+			                                                    <td style="width: 50px;"><img src="assets/images/users/avatar-2.jpg" class="rounded-circle avatar-xs" alt=""></td>
+			                                                    <td><h5 class="fs-15 m-0"><a href="javascript: void(0);" class="text-body">Daniel Canales</a></h5></td>
+			                                                    <td>
+			                                                        <div>
+			                                                            <a href="javascript: void(0);" class="badge bg-primary-subtle  text-primary fs-11">Frontend</a>
+			                                                        </div>
+			                                                    </td>
+			                                                    <td>
+			                                                        <i class="mdi mdi-circle-medium fs-18 text-success align-middle me-1"></i> Online
+			                                                    </td>
+			                                                </tr>
+			                                            </tbody>
+			                                        </table>
+			                                    </div>
+			                                </div>
+		                                </div>
+		                            </div>
+									<div class="card card-h-100"> <!-- 캘린더 카드 -->
 										<div class="card-body">
 											<div id="calendar"
 												class="fc fc-media-screen fc-direction-ltr fc-theme-bootstrap">
@@ -629,6 +674,7 @@
 			<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 	<script src="./assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="./assets/libs/simplebar/simplebar.min.js"></script>
@@ -642,4 +688,10 @@
 	<script src="./assets/libs/flatpickr/flatpickr.min.js"></script>
 	<input type="hidden" id="clasId" value="${param.clasId}" />
 </body>
+	<style>
+		.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number{
+			    background-color: var(--tb-secondary);
+    			color: #fff;
+		}
+	</style>
 </html>

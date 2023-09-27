@@ -229,7 +229,6 @@
 		<button type="button" class="btn btn-primary btn-sm" id="sa-reply-length"></button>
 		<button type="button" id="modal-btn" class="btn btn-primary waves-light waves-effect" data-bs-toggle="modal" data-bs-target="#varyingcontentModal" data-bs-whatever="@mdo"></button>
 	</div>
-	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -387,5 +386,6 @@
 	       	</div>
 		</form>
 	</script>
+	<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 </html>

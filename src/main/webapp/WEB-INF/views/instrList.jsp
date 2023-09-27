@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
-<%@ include file="./shared/_vender_scripts.jsp"%>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
 	charset="UTF-8"></script>
 <script
@@ -190,6 +190,7 @@
 			<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>
+	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript">
 	//과목 태그 엘라스틱 서치에서 값 불러오기
