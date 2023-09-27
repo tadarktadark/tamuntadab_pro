@@ -9,7 +9,7 @@
                 <constructor-arg>
                     <list>
                         <bean class="org.apache.http.HttpHost">
-                            <constructor-arg value="192.168.8.164"/>
+                            <constructor-arg value="158.180.71.118"/>
                             <constructor-arg value="9200"/>
                             <constructor-arg value="http"/>
                         </bean>

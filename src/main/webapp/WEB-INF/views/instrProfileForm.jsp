@@ -373,7 +373,7 @@ $('form').on('submit', function(e) {
 				window.history.back();
             });
 		}
-	});
+	}); 
 });
 </script>
 <style type="text/css">
