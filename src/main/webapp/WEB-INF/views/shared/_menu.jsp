@@ -332,6 +332,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 
 		<div class="sidebar-profile-menu text-center d-flex">
 			<div class="d-flex align-items-center">
+			<input id="userId" type="hidden" value="${userInfo.userAccountId}">
 				<!-- 알람!!!!!!!!!!! -->
 				<div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
 	                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown"  data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
@@ -361,87 +362,34 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 	                    </div>
 	
 	                    <div class="py-2 ps-2" id="notificationItemsTabContent">
-	                        <div data-simplebar style="max-height: 300px;" class="pe-2">
-	                            <h6 class="text-overflow text-muted fs-13 my-2 text-uppercase notification-title">New</h6>
-	                            <div class="text-reset notification-item d-block dropdown-item position-relative unread-message">
-	                                <div class="d-flex">
-	                                    <div class="avatar-xs me-3 flex-shrink-0">
-	                                        <span class="avatar-title bg-info-subtle  text-info rounded-circle fs-16">
-	                                            <i class="bx bx-badge-check"></i>
-	                                        </span>
-	                                    </div>
-	                                    <div class="flex-grow-1">
-	                                        <a href="#!" class="stretched-link">
-	                                            <h6 class="mt-0 fs-14 mb-2 lh-base">Your <b>Elite</b> author Graphic
-	                                                Optimization <span class="text-secondary">reward</span> is ready!
-	                                            </h6>
-	                                        </a>
-	                                        <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-	                                            <span><i class="mdi mdi-clock-outline"></i> Just 30 sec ago</span>
-	                                        </p>
-	                                    </div>
-	                                    <div class="px-2 fs-15">
-	                                        <div class="form-check notification-check">
-	                                            <input class="form-check-input" type="checkbox" value="" id="all-notification-check01">
-	                                            <label class="form-check-label" for="all-notification-check01"></label>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	
-	                            <div class="text-reset notification-item d-block dropdown-item position-relative unread-message">
-	                                <div class="d-flex">
-	                                    <div class="position-relative me-3 flex-shrink-0">
-	                                        <img src="assets/images/users/avatar-2.jpg" class="rounded-circle avatar-xs" alt="user-pic">
-	                                        <span class="active-badge position-absolute start-100 translate-middle p-1 bg-success rounded-circle">
-	                                            <span class="visually-hidden">New alerts</span>
-	                                        </span>
-	                                    </div>
-	                                    <div class="flex-grow-1">
-	                                        <a href="#!" class="stretched-link">
-	                                            <h6 class="mt-0 mb-1 fs-14 fw-semibold">Angela Bernier</h6>
-	                                        </a>
-	                                        <div class="fs-13 text-muted">
-	                                            <p class="mb-1">Answered to your comment on the cash flow forecast's graph 🔔.</p>
-	                                        </div>
-	                                        <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-	                                            <span><i class="mdi mdi-clock-outline"></i> 48 min ago</span>
-	                                        </p>
-	                                    </div>
-	                                    <div class="px-2 fs-15">
-	                                        <div class="form-check notification-check">
-	                                            <input class="form-check-input" type="checkbox" value="" id="all-notification-check02">
-	                                            <label class="form-check-label" for="all-notification-check02"></label>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	
-	                            <div class="text-reset notification-item d-block dropdown-item position-relative unread-message">
-	                                <div class="d-flex">
-	                                    <div class="avatar-xs me-3 flex-shrink-0">
-	                                        <span class="avatar-title bg-danger-subtle  text-danger rounded-circle fs-16">
-	                                            <i class='bx bx-message-square-dots'></i>
-	                                        </span>
-	                                    </div>
-	                                    <div class="flex-grow-1">
-	                                        <a href="#!" class="stretched-link">
-	                                            <h6 class="mt-0 mb-2 fs-14 lh-base">You have received <b class="text-success">20</b> new messages in the conversation
-	                                            </h6>
-	                                        </a>
-	                                        <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-	                                            <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span>
-	                                        </p>
-	                                    </div>
-	                                    <div class="px-2 fs-15">
-	                                        <div class="form-check notification-check">
-	                                            <input class="form-check-input" type="checkbox" value="" id="all-notification-check03">
-	                                            <label class="form-check-label" for="all-notification-check03"></label>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                            </div>
-	
+	                        <div data-simplebar id="notificationList" style="max-height: 300px;" class="pe-2">
+		                        <div class="text-reset notification-item d-block dropdown-item position-relative unread-message">
+				                    <div class="d-flex">
+				                    	<!-- 이미지 -->
+				                        <div class="avatar-xs me-3 flex-shrink-0">
+				                            <span class="avatar-title bg-danger-subtle  text-danger rounded-circle fs-16">
+				                                <i class='bx bx-message-square-dots'></i>
+				                            </span>
+				                        </div>
+				                        <!-- 내용 -->
+				                        <div class="flex-grow-1">
+				                            <a href="#!" class="stretched-link">
+				                                <h6 class="mt-0 mb-2 fs-14 lh-base">You have received <b class="text-success">20</b> new messages in the conversation
+				                                </h6>
+				                            </a>
+				                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+				                                <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span>
+				                            </p>
+				                        </div>
+				                        <!-- 체크박스 -->
+				                        <div class="px-2 fs-15">
+				                            <div class="form-check notification-check">
+				                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check03">
+				                                <label class="form-check-label" for="all-notification-check03"></label>
+				                            </div>
+				                        </div>
+				                    </div>
+				                </div>
 	                            <h6 class="text-overflow text-muted fs-13 my-2 text-uppercase notification-title">Read Before</h6>
 	
 	                            <div class="text-reset notification-item d-block dropdown-item position-relative">
@@ -559,3 +507,4 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 	<!-- /.modal-dialog -->
 </div>
 <script src="./assets/js/app.js" defer="defer"></script>
+<script type="text/javascript" src="./js/notification.js"></script>
