@@ -89,7 +89,7 @@
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-error">Click me</button>
 	</div>
-	<%@ include file="./shared/_vender_scripts.jsp" %>
+	
 	<script src="./assets/js/app.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
@@ -137,5 +137,6 @@
 		</li>
 		{{/each}}
 	</script>
+	<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 </html>
