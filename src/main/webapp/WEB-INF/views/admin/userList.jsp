@@ -47,7 +47,7 @@
                                                 <div class="d-flex justify-content-sm-end">
                                                    <div class="d-flex gap-3">
 											        <div>
-											        	 <select class="form-select mb-3 ">
+											        	 <select class="form-select mb-3 tag">
 														    <option selected value="USER_ACCOUNT_ID">아이디</option>
 														    <option value="USER_EMAIL">이메일</option>
 														    <option value="USER_NAME">이름</option>
@@ -56,9 +56,9 @@
 											        </div>
 											            <div class="search-box">
 											            	<div class="input-group">
-											                <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+											                <input type="text" class="form-control search-value" placeholder="검색어를 입력하세요">
 											               		<i class="bx bx-search search-icon fs-16"></i>
-											                <button type="button"class="btn btn-soft-primary btn-icon fs-16"><i class="bx bx-search-alt-2 fs-16"></i></button>
+											                <button type="button"class="btn btn-soft-primary btn-icon fs-16 search"><i class="bx bx-search-alt-2 fs-16"></i></button>
 											                </div>
 											            </div>
 											        </div>

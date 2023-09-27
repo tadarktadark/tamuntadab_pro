@@ -87,7 +87,7 @@
 	</select>
 	<select id="getUserList" parameterType="java.util.Map" resultMap="userProfileMap">
 		SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
-					USER_AUTH,USER_PHONE_NUMBER,USER_BIRTH,USER_JOIN_DATE,
+					USER_AUTH,USER_PHONE_NUMBER,TO_CHAR(USER_BIRTH,'YYYY-MM-DD') AS USER_BIRTH,USER_JOIN_DATE,
 					USER_LAST_ACCESS_DATE,USER_GENDER,USER_SITE,
 					USER_DELFLAG,USJE_JEONGJI_SANGTAE,RN
 			FROM(SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
@@ -167,23 +167,25 @@
 							RIGHT OUTER JOIN GOOGLE_USER_PROFILE gup 
 							ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)
 						WHERE USER_AUTH IN ('S','I')
-						<if test="filter.userAuth != null">
-							AND USER_AUTH = #{filter.userAuth}							
-						</if>
-						<if test="filter.userSite != null">
-							AND USER_SITE = #{filter.userSite}							
-						</if>
-						<if test="filter.userDelflag != null">
-							AND USER_DELFLAG = #{filter.userDelflag}							
-						</if>
-						<if test="filter.userGender != null">
-							AND USER_GENDER = #{filter.userGender}							
-						</if>
-						<if test="filter.userJeongJiSangTae != null">
-							AND USJE_JEONGJI_SANGTAE = #{filter.userJeongJiSangTae}							
-						</if>
+						    <if test="userAuth != null">
+						        AND USER_AUTH IN (#{userAuth})
+						    </if>
+						    <if test="userSite != null">
+						        AND USER_SITE IN (#{userSite})
+						    </if>
+						    <if test="userDelflag != null">
+						        AND USER_DELFLAG IN (#{userDelflag})
+						    </if>
+						    <if test="userGender != null">
+						        AND USER_GENDER IN(#{userGender})
+						    </if>
+						    <if test="userJeongJiSangTae != null">
+						        AND USJE_JEONGJI_SANGTAE IN (#{userJeongJiSangTae})
+						    </if>
+						    <if test="tag != null and value != null">
+						    	${tag} = #{value}
+						    </if>
 				))
 			WHERE RN BETWEEN #{start} AND #{end}
 	</select>
-
 </mapper>
