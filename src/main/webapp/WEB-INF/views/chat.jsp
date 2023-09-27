@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title> ${title} | 타문타답</title>
+<%@ include file="./shared/_logout.jsp" %>
 <%@ include file="./shared/_head_css.jsp" %>
 <style type="text/css">
 	.right img{
