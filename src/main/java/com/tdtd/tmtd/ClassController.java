@@ -45,7 +45,6 @@ public class ClassController {
 	public String classList(Model model) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 목록");
-		
 		return "classList";
 	}
 
@@ -606,5 +605,25 @@ public class ClassController {
 		Gson gson = new Gson();
 
 		return gson.toJson(result);
+	}
+	
+	@PostMapping("/dealSugangryo.do")
+	public String dealSugangryo(Model model, @RequestParam("clasId") String clasId) {
+		model.addAttribute("title", "클래스");
+		model.addAttribute("pageTitle", "참여 중인 클래스");
+		
+		
+		
+		return "redirect:/justGoMyClass.do?clasId=" + clasId+ "&dealSugangryo=true";
+	}
+	
+	@GetMapping("/cancelClass.do")
+	public String cancelClass(Model model, @RequestParam("clasId") String clasId) {
+		model.addAttribute("title", "클래스");
+		model.addAttribute("pageTitle", "참여 중인 클래스");
+		
+		
+		
+		return "redirect:/classList.do";
 	}
 }

@@ -45,6 +45,33 @@
 	<input name="clasId" type="hidden" value="${param.clasId}">
 	<!-- 지우지마 형 -->
 	<div id="layout-wrapper">
+	
+	<script>
+    var userInfo = "${userInfo}";
+    if (!userInfo || userInfo === null || userInfo === "") {
+        // 경고 메시지를 표시합니다.
+        alert("비정상적인 접근입니다. \n로그인 후 이용해주세요");
+        window.location.href = "./classList.do";
+    }
+	</script>
+	<c:if test="${param.dealSugangryo == 'true'}">
+	  <script>
+	    Swal.fire(
+	      '성공!',
+	      '수강료 요청이 전달 되었습니다.',
+	      'success'
+	    )
+	  </script>
+	</c:if>
+	<c:if test="${param.dealSugangryo == 'false'}">
+	  <script>
+	    Swal.fire(
+	      '오류!',
+	      '수강료 요청 작업 중 오류가 발생했습니다.',
+	      'error'
+	    )
+	  </script>
+	</c:if>
 		<%@ include file="./shared/_menu.jsp" %>
 		<div class="main-content">
 			<div class="page-content">
@@ -64,7 +91,7 @@
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '매칭완료'}">
-											    <button class="btn btn-soft-secondary w-100" onclick="">
+											    <button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#dealSugangryo">
 											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정 요청하기
 											    </button>
 											</c:if>
@@ -83,7 +110,7 @@
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and chamyeoList.size() >= 2}">
 											    <button class="btn btn-soft-secondary w-100" onclick="">
-											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임 (아직)
 											    </button>
 											</c:if>
 											
@@ -92,11 +119,67 @@
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
 											</button>
 											
-											<button class="btn btn-soft-secondary w-100"
-												onclick="">
+											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I'}">
+											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
 											</button>
+											</c:if>
 											
+											<!-- 수강료 확정 모달 -->
+											<!-- Varying modal content -->
+											<div class="modal fade" id="dealSugangryo" tabindex="-1" aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
+											    <div class="modal-dialog">
+											        <div class="modal-content">
+											            <div class="modal-header">
+											                <h5 class="modal-title" id="varyingcontentModalLabel">수강료 확정 요청하기</h5>
+											                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											            </div>
+											            <div class="modal-body">
+											                <!-- form 태그에 action과 method 속성을 추가합니다. -->
+											                <form action="./dealSugangryo.do" method="post">
+											                    <div class="mb-3">
+											                        <label for="recipient-name" class="col-form-label">기존 요청 금액</label>
+											                        <input type="text" class="form-control" id="recipient-name" readonly="readonly" value="${empty sugangryoVo || sugangryoVo.sugaYocheongStatus == '' ? '요청된 값 없음' : sugangryoVo.sugaYocheongGeumaek}">
+											                    </div>
+											                    <div class="mb-3">
+											                        <label for="message-text" class="col-form-label">요청할 금액</label>
+											                        <!-- 입력 필드에 name 속성을 추가하여 서버에서 값을 식별할 수 있도록 합니다. -->
+											                        <input type="number" class="form-control" id="sugangryo" name="sugangryo">
+											                    </div>
+													            <div class="modal-footer">
+													                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
+													                <button type="submit" class="btn btn-secondary">요청</button>
+													            </div>
+											            	</form>
+											            </div>
+											        </div>
+											    </div>
+											</div>
+											
+											<!-- 클래스 취소 확인 모달 -->
+											<div class="modal fade" id="cancel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+											    <div class="modal-dialog modal-dialog-centered" role="document">
+											        <div class="modal-content">
+											            <div class="modal-body text-center p-5">
+											                <lord-icon
+											                    src="https://cdn.lordicon.com/tdrtiskw.json"
+											                    trigger="loop"
+											                    colors="primary:#f7b84b,secondary:#405189"
+											                    style="width:130px;height:130px">
+											                </lord-icon>
+											                
+											                <div class="mt-4">
+											                    <h4 class="mb-3">해당 클래스 참여를 취소합니다</h4>
+											                    <p class="text-muted mb-4">클래스 취소시, 이미 결제된 수강료는 환불되지 않습니다. 취소하시겠습니까?</p>
+											                    <div class="hstack gap-2 justify-content-center">
+											                        <a href="javascript:void(0);" class="btn btn-link link-success fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> 아니오</a>
+											                        <a href="./cancelClass.do?clasId=${param.clasId}" class="btn btn-warning">네. 취소합니다</a>
+											                    </div>
+											                </div>
+											            </div>
+											        </div>
+											    </div>
+											</div>
 											<div id="external-events">
 												<br>
 												<p class="text-muted">달력 라벨</p>
@@ -243,7 +326,7 @@
 									<div class="card"> <!-- 달력 윗쪽 카드-->
 										
 										<div class="card-header">
-		                                    <h5 class="card-title mb-0">클래스 - 
+		                                    <h5 class="card-title mb-0">
 			                                    <span class="fs-15 m-0">${classVo.clasTitle} </span>
 			                                    <span class="badge bg-success-subtle text-success"> ${classVo.clasStatus}</span>
 		                                    </h5>
@@ -272,7 +355,7 @@
 			                                            <tbody>
 			                                                <tr>
 			                                                    <td style="width: 50px;"><img src="assets/images/users/avatar-2.jpg" class="rounded-circle avatar-xs" alt=""></td>
-			                                                    <td><h5 class="fs-15 m-0"><a href="javascript: void(0);" class="text-body">Daniel Canales</a></h5></td>
+			                                                    <td><h5 class="fs-15 m-0"><a href="javascript: void(0);" class="text-body">학생 테스트 닉네임 21</a></h5></td>
 			                                                    <td>
 			                                                        <div>
 			                                                            <a href="javascript: void(0);" class="badge bg-primary-subtle  text-primary fs-11">Frontend</a>
@@ -282,6 +365,7 @@
 			                                                        <i class="mdi mdi-circle-medium fs-18 text-success align-middle me-1"></i> Online
 			                                                    </td>
 			                                                </tr>
+			                                                
 			                                            </tbody>
 			                                        </table>
 			                                    </div>

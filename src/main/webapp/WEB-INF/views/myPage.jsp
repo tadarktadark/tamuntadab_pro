@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
 <%@ include file="./shared/_head_css.jsp"%>
+<%@ include file="./shared/_logout.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </head>
