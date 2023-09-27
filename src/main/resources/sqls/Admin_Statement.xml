@@ -167,20 +167,20 @@
 							RIGHT OUTER JOIN GOOGLE_USER_PROFILE gup 
 							ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)
 						WHERE USER_AUTH IN ('S','I')
-						<if test="filter != null and filter[userAuth] != null">
-							AND USER_AUTH = #{filter[userAuth]}							
+						<if test="filter.userAuth != null">
+							AND USER_AUTH = #{filter.userAuth}							
 						</if>
-						<if test="filter != null and filter[userSite] != null">
-							AND USER_SITE = #{filter[userSite]}							
+						<if test="filter.userSite != null">
+							AND USER_SITE = #{filter.userSite}							
 						</if>
-						<if test="filter != null and filter[userDelflag] != null">
-							AND USER_DELFLAG = #{filter[userDelflag]}							
+						<if test="filter.userDelflag != null">
+							AND USER_DELFLAG = #{filter.userDelflag}							
 						</if>
-						<if test="filter != null and filter[userGender] != null">
-							AND USER_GENDER = #{filter[userGender]}							
+						<if test="filter.userGender != null">
+							AND USER_GENDER = #{filter.userGender}							
 						</if>
-						<if test="filter != null and filter[userJeongJiSangTae] != null">
-							AND USJE_JEONGJI_SANGTAE = #{filter[userJeongJiSangTae]}							
+						<if test="filter.userJeongJiSangTae != null">
+							AND USJE_JEONGJI_SANGTAE = #{filter.userJeongJiSangTae}							
 						</if>
 				))
 			WHERE RN BETWEEN #{start} AND #{end}
