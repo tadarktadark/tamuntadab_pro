@@ -270,8 +270,14 @@ public class ClassDaoImpl implements IClassDao {
 	}
 
 	@Override
-	public SugangryoVo getRequestedSugangryo() {
-		// TODO Auto-generated method stub
-		return null;
+	public SugangryoVo getRequestedSugangryo(String sugaClasId) {
+		log.info("ClassDaoImpl getRequestedSugangryo 실행");
+		return sqlSession.selectOne(NS+"getRequestedSugangryo",sugaClasId);
+	}
+
+	@Override
+	public int updateInstr(Map<String, Object> map) {
+		log.info("ClassDaoImpl updateInstr 실행");
+		return sqlSession.selectOne(NS+"updateInstr",map);
 	}
 }

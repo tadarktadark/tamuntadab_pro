@@ -251,4 +251,18 @@ public interface IClassService {
 	 * @return
 	 */
 	public int myPageEndClassListCount (String clchAccountId);
+	
+	/**
+	 * 수강료 확정 상태 확인
+	 * @param map 클래스 ID, 요청상태
+	 * @return
+	 */
+	public SugangryoVo getRequestedSugangryo(String sugaClasId);
+	
+	/**
+	 * 수강료 요청시 강사의 참여자 테이블 결제상태 업데이트
+	 * @param map
+	 * @return
+	 */
+	public int updateInstr(Map<String, Object> map);
 }
