@@ -66,10 +66,10 @@
 
     .fc-daygrid-day {
         &.fc-day-today {
-            background-color: rgba(var(--#{$prefix}primary-rgb), 0.1);
+            background-color: rgba(var(--#{$prefix}secondary-rgb), 0.1);
     
             .fc-daygrid-day-number {
-                background-color: var(--#{$prefix}primary);
+                background-color: var(--#{$prefix}secondary);
                 color: $white;
             }
         }
@@ -77,13 +77,13 @@
 
     .fc-daygrid-day {
         &.fc-day-today {
-            background-color: rgba(var(--#{$prefix}primary-rgb), 0.1);
+            background-color: rgba(var(--#{$prefix}secondary-rgb), 0.1);
         }
     }
     
     .fc-timegrid-col {
         &.fc-day-today {
-            background-color: rgba(var(--#{$prefix}primary-rgb), 0.1);
+            background-color: rgba(var(--#{$prefix}secondary-rgb), 0.1);
         }
     }
 
