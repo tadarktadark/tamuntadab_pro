@@ -6,8 +6,8 @@
 	data-sidebar-image="none" data-preloader="disable">
 <head>
 <meta charset="UTF-8">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <title>${title}|타문타답</title>
+<%@ include file="./shared/_logout.jsp"%>
 <%@ include file="./shared/_head_css.jsp"%>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
