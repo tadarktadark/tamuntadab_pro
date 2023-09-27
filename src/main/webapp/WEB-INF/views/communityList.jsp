@@ -90,9 +90,8 @@
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-error">Click me</button>
 	</div>
-	
-	<script src="./assets/js/app.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+	<script src="./assets/js/app.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>
