@@ -132,18 +132,23 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/getUserList.do",method = RequestMethod.GET)
 	@ResponseBody
-	public String getUserList(@RequestParam Map<String, Object> map) {
-	    log.info("map: {}", map);
-	    map.put("start", 1);
-	    map.put("end", 10);
-	    map.put("userAuth", map.get("filter[userAuth]"));
-	    map.put("userSite", map.get("filter[userSite]"));
-	    map.put("userDelflag", map.get("filter[userDelflag]"));
-	    map.put("userJeongJiSangTae", map.get("filter[userJeongJiSangTae]"));
-	    map.put("userGender", map.get("filter[userGender]"));
-	    log.info("map: {}", map.toString());
+	public String getUserList(@RequestParam Map<String, Object> map,
+							@RequestParam(name= "page", defaultValue = "1",required = false)String page) {
+		log.info("{}",map);
+		PagingVo pageVo = new PagingVo();
+		pageVo.setTotalCount(adminService.countUser()); //총 게시물의 개수
+		pageVo.setCountList(10); //출력될 게시글의 개수
+		pageVo.setCountPage(5); // 화면에 몇 개의 페이지를 보여줄 건지 (페이지 그룹)
+		pageVo.setTotalPage(pageVo.getTotalCount()); // 총 페이지의 개수
+		pageVo.setPage(Integer.parseInt(page)); // 화면에서 선택된 페이지 번호
+		pageVo.setStartPage(Integer.parseInt(page)); // 페이지 그룹의 시작 번호
+		pageVo.setEndPage(pageVo.getCountPage()); // 끝 번호
+		map.put("start",pageVo.getPage()*pageVo.getCountList()-(pageVo.getCountList()-1));
+		map.put("end", pageVo.getPage()*pageVo.getCountList());
+	    log.info("map: {} / page : {}", map, pageVo);
 	    List<UserProfileVo> userLists = adminService.getUserList(map);
 	    map.put("user", userLists);
+	    map.put("page", pageVo);
 	    return gson.toJson(map);
 	}
 }

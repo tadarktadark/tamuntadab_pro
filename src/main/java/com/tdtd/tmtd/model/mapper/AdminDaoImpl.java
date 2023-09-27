@@ -54,4 +54,9 @@ public class AdminDaoImpl implements IAdminDao {
 	public List<UserProfileVo> getUserList(Map<String, Object> map) {
 		return sqlSession.selectList(NS+"getUserList",map);
 	}
+
+	@Override
+	public int countUser() {
+		return sqlSession.selectOne(NS+"countUser");
+	}
 }

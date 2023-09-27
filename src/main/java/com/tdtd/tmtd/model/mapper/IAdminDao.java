@@ -21,4 +21,6 @@ public interface IAdminDao {
 	public int countAdmin();
 	
 	public List<UserProfileVo> getUserList(Map<String,Object> map);
+
+	public int countUser();
 }

@@ -66,6 +66,25 @@
 		FROM ADMIN_PROFILE)
 		WHERE RN BETWEEN #{start}AND#{end}
 	</select>
+	<select id="countUser" resultType="java.lang.Integer">
+			SELECT
+			COUNT(*)
+			FROM(
+				SELECT up.USER_ACCOUNT_ID AS USER_NICKNAME
+				FROM
+				USER_PROFILE up
+				UNION
+				SELECT kup.USER_ACCOUNT_ID AS USER_NICKNAME
+				FROM
+				KAKAO_USER_PROFILE kup
+				UNION
+				SELECT nup.USER_ACCOUNT_ID AS USER_NICKNAME
+				FROM NAVER_USER_PROFILE nup
+				UNION
+				SELECT gup.USER_ACCOUNT_ID AS
+				USER_NICKNAME
+				FROM GOOGLE_USER_PROFILE gup)
+	</select>
 	<select id="getUserList" parameterType="java.util.Map" resultMap="userProfileMap">
 		SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
 					USER_AUTH,USER_PHONE_NUMBER,USER_BIRTH,USER_JOIN_DATE,
@@ -148,23 +167,21 @@
 							RIGHT OUTER JOIN GOOGLE_USER_PROFILE gup 
 							ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)
 						WHERE USER_AUTH IN ('S','I')
-						<choose>
-							<when test="userAuth != null">
-								AND USER_AUTH = #{userAuth}							
-							</when>
-							<when test="userSite != null">
-								AND USER_SITE = #{userSite}							
-							</when>
-							<when test="userDelflag != null">
-								AND USER_DELFLAG = #{userDelflag}							
-							</when>
-							<when test="userGender != null">
-								AND USER_GENDER = #{userGender}							
-							</when>
-							<when test="userJeongJiSangTae != null">
-								AND USJE_JEONGJI_SANGTAE = #{userJeongJiSangTae}							
-							</when>
-						</choose>
+						<if test="filter != null and filter[userAuth] != null">
+							AND USER_AUTH = #{filter[userAuth]}							
+						</if>
+						<if test="filter != null and filter[userSite] != null">
+							AND USER_SITE = #{filter[userSite]}							
+						</if>
+						<if test="filter != null and filter[userDelflag] != null">
+							AND USER_DELFLAG = #{filter[userDelflag]}							
+						</if>
+						<if test="filter != null and filter[userGender] != null">
+							AND USER_GENDER = #{filter[userGender]}							
+						</if>
+						<if test="filter != null and filter[userJeongJiSangTae] != null">
+							AND USJE_JEONGJI_SANGTAE = #{filter[userJeongJiSangTae]}							
+						</if>
 				))
 			WHERE RN BETWEEN #{start} AND #{end}
 	</select>
