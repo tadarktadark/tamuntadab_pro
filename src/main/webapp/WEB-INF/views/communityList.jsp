@@ -10,6 +10,7 @@
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <link href="./css/communityList.css" rel="stylesheet" type="text/css" />
+<%@ include file="./shared/_logout.jsp" %>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -89,10 +90,8 @@
 		<button type="button" class="btn btn-primary btn-sm" id="sa-warning"></button>
 		<button type="button" class="btn btn-primary btn-sm" id="sa-error">Click me</button>
 	</div>
-	
-	<script src="./assets/js/app.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
+	<script src="./assets/js/app.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>

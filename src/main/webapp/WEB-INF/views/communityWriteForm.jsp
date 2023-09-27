@@ -11,6 +11,7 @@
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 <link href="./css/communityWriteForm.css" rel="stylesheet" type="text/css" />
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
+<%@ include file="./shared/_logout.jsp" %>
 </head>
 <body class="twocolumn-panel" data-editor="ClassicEditor" data-collaboration="false" data-revision-history="false">
 	<div id="layout-wrapper">
@@ -114,7 +115,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
 	<script src="./assets/js/app.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script type="text/javascript" src="./js/ckeditor.js"></script>
