@@ -53,7 +53,6 @@
 	<div id="yeyak-form" style="display:none;">
 		<%@ include file="./yeyakForm.jsp" %>
 	</div>
-	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="./assets/libs/@simonwep/pickr/pickr.min.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="./assets/js/pages/form-pickers.init.js" charset="UTF-8"></script>
@@ -77,5 +76,6 @@
 	<script id="map-template" type="text/x-handlebars-template">
 			<div id="map" style="width:100%;height:400px;"></div>
 	</script>
+	<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 </html>
