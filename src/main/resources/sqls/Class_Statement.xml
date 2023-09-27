@@ -246,7 +246,7 @@
 	</select>
 	
 	<!-- 클래스 상세조회 -->
-	<select id="getClassDetail" parameterType="java.util.Map" resultMap="classMap">
+	<select id="getClassDetail" parameterType="java.lang.String" resultMap="classMap">
 		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, CLAS_HUIMANG_INWON, 
 		CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, CLAS_REGDATE, CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN,
 		CLAS_MAGAM_GIHAN, CLAS_SUEOP_NALJJA, CLAS_CHOISO_SUGANGNYO, CLAS_CHOIDAE_SUGANGNYO, 
@@ -340,7 +340,7 @@
 	<!-- 해당 클래스의 모든 참여자 조회 -->
 	<select id="getChamyeojas" parameterType="java.lang.String" resultType="chamyeoVo">
 		SELECT c.CLAS_ID, 
-		       cc.CLCH_ACCOUNT_ID, 
+		       cc.CLCH_ACCOUNT_ID, cc.CLCH_STATUS, cc.CLCH_GYEOLJE_STATUS, cc.CLCH_YEOKAL,
 		       up.USER_GENDER, up.USER_NICKNAME,
 		       FLOOR(MONTHS_BETWEEN(CURRENT_DATE, up.USER_BIRTH) / 12) AS AGE
 		FROM CLASS c 
@@ -386,18 +386,19 @@
 	</insert>
 	
 	<!-- 수강료 확정 상태 확인 -->
-	<select id="getRequestedSugangryo" parameterType="java.util.Map" resultType="sugangryoVo">
+	<select id="getRequestedSugangryo" parameterType="java.lang.String" resultType="sugangryoVo">
 		SELECT SUGA_ID, SUGA_CLAS_ID, SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS
 			FROM TMTD.SUGANGNRYO
 			WHERE SUGA_CLAS_ID = #{sugaClasId}
-			AND SUGA_YOCHEONG_STATUS != #{sugaYocheongStatus}
+			AND SUGA_YOCHEONG_STATUS != 'R'
 	</select>
 	
-	<!-- 수강료 요청 상태 업데이트 (강사) -->
-	<update id="updateSugangryo" parameterType="java.util.Map">
-		UPDATE SUGANGNRYO
-		SET SUGA_YOCHEONG_STATUS = #{sugaYocheongStatus}
-		WHERE SUGA_ID = #{sugaId}
+	<!-- 수강료 요청시 강사의 참여자 테이블 결제상태 업데이트 -->
+	<update id="updateInstr" parameterType="java.util.Map">
+		UPDATE CLASS_CHAMYEOJA 
+		SET CLCH_GYEOLJE_STATUS = 'Y'
+		WHERE CLCH_ACCOUNT_ID = #{clchAccountId}
+		AND CLCH_CLAS_ID = #{clchClasId}
 	</update>
 	
 	<!-- 과목 이름으로 과목 ID 검색 -->
@@ -525,4 +526,6 @@
 		WHERE CLCH_ACCOUNT_ID=#{clchAccountId} 
 		AND CLAS_STATUS = '종료'
 	</select>
+	
+	
 	</mapper>

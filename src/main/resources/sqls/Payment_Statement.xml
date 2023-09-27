@@ -39,7 +39,7 @@
 	</update>
 	
 	<!-- 결제 상태 변경 (결제 테이블) -->
-	<update id="updatePayStatusInPayment" parameterType="java.util.Map">
+	<update id="updatePayStatusInPayment" parameterType="geoljeVo">
 		UPDATE GYEOLJE 
 		SET GYEO_STATUS =#{gyeoStatus},
 		    GYEO_UID = #{gyeoUid},
@@ -54,7 +54,8 @@
 			(HWAN_ID, HWAN_GYEOLJE_ID, HWAN_STATUS, HWAN_REGDATE, HWAN_GEUMAEK, HWAN_REASON)
 		VALUES(HWAN_ID_SEQ.NEXTVAL, #{hwanGyeoljeId}, #{hwanStatus}, CURRENT_DATE, #{hwanGeumaek}, #{hwanReason})
 	</insert>
-	<!-- 환불 내역 조회 -->
+	
+	<!-- 단일 환불 내역 조회 -->
 	<select id="getUserHwanbul" parameterType="java.lang.String" resultType="hwanbulVo">
 		SELECT HWAN_ID, HWAN_GYEOLJE_ID, HWAN_STATUS, HWAN_REGDATE, HWAN_GEUMAEK, HWAN_REASON
 		FROM HWANBUL h 
@@ -63,7 +64,7 @@
 	</select>
 	
 	<!-- 수강료 결제 내역 조회 (마이페이지) -->
-	<select id="myPageClassPaymentList" parameterType="java.lang.String" resultMap="gyeoljeMap">
+	<select id="myPageClassPaymentList" parameterType="java.util.Map" resultMap="gyeoljeMap">
 		SELECT CLAS_TITLE, GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS
 		FROM GYEOLJE g JOIN CLASS c 
 		ON GYEO_DAESANG_ID = CLAS_ID

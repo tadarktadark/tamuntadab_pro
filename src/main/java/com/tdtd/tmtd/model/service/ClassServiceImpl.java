@@ -256,4 +256,16 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - myPageEndClassListCount");
 		return dao.myPageEndClassListCount(clchAccountId);
 	}
+
+	@Override
+	public SugangryoVo getRequestedSugangryo(String sugaClasId) {
+		log.info("ClassServiceImpl 실행 - getRequestedSugangryo");
+		return dao.getRequestedSugangryo(sugaClasId);
+	}
+
+	@Override
+	public int updateInstr(Map<String, Object> map) {
+		log.info("ClassServiceImpl 실행 - updateInstr");
+		return dao.updateInstr(map);
+	}
 }

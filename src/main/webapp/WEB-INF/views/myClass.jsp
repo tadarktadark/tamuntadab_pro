@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
@@ -56,26 +57,41 @@
 									<div class="card card-h-100">
 										<div class="card-body">
 											
-											<button class="btn btn-soft-secondary w-100"
-												onclick="openTupyo()">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 강사 투표하기
-											</button>
-											<button class="btn btn-soft-secondary w-100"
-												onclick="">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정 요청하기
-											</button>
-											<button class="btn btn-soft-secondary w-100"
-												onclick="location.href='./payment.do'">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 결제하기
-											</button>
-											<button class="btn btn-soft-secondary w-100"
-												onclick="">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
-											</button>
+											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I' and classVo.clasStatus eq '매칭'}">
+											    <button class="btn btn-soft-secondary w-100" onclick="openTupyo()">
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 강사 투표하기
+											    </button>
+											</c:if>
+											
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '매칭완료'}">
+											    <button class="btn btn-soft-secondary w-100" onclick="">
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정 요청하기
+											    </button>
+											</c:if>
+											
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'I' and sugangryoVo ne null and classVo.clasStatus eq '매칭완료'}">
+											    <button class="btn btn-soft-secondary w-100" onclick="">
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정하기
+											    </button>
+											</c:if>
+											
+											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I' and sugangryoVo.sugaYocheongStatus eq 'A' and classVo.clasStatus eq '매칭완료'}">
+											    <button class="btn btn-soft-secondary w-100" onclick="location.href='./payment.do'">
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 결제하기
+											    </button>
+											</c:if>
+											
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and chamyeoList.size() >= 2}">
+											    <button class="btn btn-soft-secondary w-100" onclick="">
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
+											    </button>
+											</c:if>
+											
 											<button class="btn btn-soft-secondary w-100"
 												onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
 											</button>
+											
 											<button class="btn btn-soft-secondary w-100"
 												onclick="">
 												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
@@ -83,7 +99,7 @@
 											
 											<div id="external-events">
 												<br>
-												<p class="text-muted">라벨</p>
+												<p class="text-muted">달력 라벨</p>
 												<div
 													class="external-event fc-event bg-danger-subtle  text-danger"
 													data-class="bg-success-subtle ">
@@ -115,7 +131,31 @@
 												</div>
 												<div class="flex-grow-1 ms-3">
 													<h6 class="fs-15">클래스 상세 정보</h6>
-													<p class="text-muted mb-0">해당 클래스의 모든 정보 표기</p>
+													<p class="text-muted mb-0 fs-12">
+														클래스명 : ${classVo.clasTitle} <br>
+														진행 상태 : ${classVo.clasStatus} <br>
+														진행 지역 : ${classVo.clasLocation} <br>
+														클래스 수업일 : ${classVo.clasSueopNaljja} <br>
+														과목 : ${classVo.subjVo[0].subjTitle} <br>
+														인원 : ${classVo.clasHyeonjaeInwon} / ${classVo.clasHuimangInwon} <br>
+														클래스 개설일 : ${classVo.clasRegdate} <br>
+														<c:choose>
+														    <c:when test="${classVo.clasSeongbyeolJehan eq 'GFREE'}">
+														        클래스 성별제한 : 제한 없음
+														    </c:when>
+														    <c:when test="${classVo.clasSeongbyeolJehan eq 'FONLY'}">
+														        클래스 성별제한 : 여자만
+														    </c:when>
+														    <c:when test="${classVo.clasSeongbyeolJehan eq 'MONLY'}">
+														        클래스 성별제한 : 남자만
+														    </c:when>
+														    <c:otherwise>
+														        클래스 성별제한 : 알 수 없음, 에러
+														    </c:otherwise>
+														</c:choose> <br>
+														클래스 모집 마감일 : ${classVo.clasMagamGihan} <br>
+														모집연장 가능횟수 : ${classVo.clasMojipYeonjangHoitsu}
+													</p>
 												</div>
 											</div>
 										</div>

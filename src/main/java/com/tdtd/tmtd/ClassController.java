@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.PagingVo;
 import com.tdtd.tmtd.vo.SubjectVo;
+import com.tdtd.tmtd.vo.SugangryoVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -406,17 +408,80 @@ public class ClassController {
 		return "classDetail";
 	}
 
-	@GetMapping("/myClass.do")
-	public String myClass(Model model) {
+	@GetMapping("/joinClass.do")
+	public String myClass(Model model, @RequestParam("clasId") String clasId, HttpSession session) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "참여 중인 클래스");
-		return "myClass";
+		
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("ClassController classListLoad 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
+		ChamyeoVo vo = new ChamyeoVo();
+		vo.setClchAccountId(userAccountId);
+		vo.setClchClasId(Integer.parseInt(clasId));
+		vo.setClchStatus("Y");
+		vo.setClchYeokal("S");
+		
+		int n = cService.addChamyeojaGeneral(vo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("clasId", clasId);
+		map.put("nums", 1);
+		
+		if (n==0) {
+			return "./error500.do";
+		}else
+		cService.updateClassPeople(map); // 인원 수 1 증가시키기
+		return "redirect:/justGoMyClass.do?clasId=" + clasId;
 	}
 	
 	@GetMapping("/justGoMyClass.do")
-	public String justGoMyClass(Model model) {
+	public String justGoMyClass(Model model, @RequestParam("clasId") String clasId, HttpSession session) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "참여 중인 클래스");
+		
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("ClassController classListLoad 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("clasId", clasId);
+		
+		//해당 클래스 정보
+		ClassVo classVo = cService.getClassDetail(clasId);
+		
+		//해당 클래스 모든 참여자 정보
+		List<ChamyeoVo> chamyeoList = cService.getChamyeojas(clasId);
+		
+		//해당 클래스의 해당참여자 정보
+		Optional<ChamyeoVo> matchingChamyeo = chamyeoList.stream()
+		        .filter(chamyeo -> chamyeo.getClchAccountId().equals(userAccountId))
+		        .findFirst();
+		ChamyeoVo matchedChamyeoVo = null; // 찾아낸 ChamyeoVo 객체를 변수로 담기
+		if (matchingChamyeo.isPresent()) {
+		    matchedChamyeoVo = matchingChamyeo.get();
+		    // matchedChamyeoVo를 모델에 추가
+		    model.addAttribute("matchedChamyeoVo", matchedChamyeoVo);
+		} else {
+		    // 일치하는 ChamyeoVo 객체가 없을 경우의 처리 로직 (예: 로그 출력, 예외 처리 등)
+		    log.info("일치하는 ChamyeoVo 객체가 없습니다.");
+		}
+		
+		//해당 클래스 거절되지 않은 수강료 정보
+		SugangryoVo sugangryoVo = cService.getRequestedSugangryo(clasId);
+		
+		model.addAttribute("classVo", classVo);
+		model.addAttribute("chamyeoList", chamyeoList);
+		model.addAttribute("sugangryoVo", sugangryoVo);
 		return "myClass";
 	}
 	

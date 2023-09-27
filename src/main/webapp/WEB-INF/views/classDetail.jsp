@@ -213,7 +213,7 @@ th, td {
 															</p>
 															<div class="hstack gap-2 justify-content-center">
 																<button type="button" class="btn btn-link link-secondary fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> 아니오</button>
-																<button type="button" class="btn btn-secondary waves-effect" onclick="location.href='justGoMyClass.do?clasId=1000000118.do?clasId=${cVo.clasId}'">네</button>
+																<button type="button" class="btn btn-secondary waves-effect" onclick="location.href='joinClass.do?clasId=${cVo.clasId}'">네</button>
 															</div>
 															</div>
 														</div>
@@ -262,10 +262,10 @@ th, td {
 														</c:otherwise>
 													</c:choose>
 												</a> 
-												<a class="border-bottom" style="display: none;">
-													<span class="mdi mdi-arrow-right-drop-circle text-black"></span> 
-													평균 연령 : 개발중...
-												</a>
+<!-- 												<a class="border-bottom" style="display: none;"> -->
+<!-- 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>  -->
+<!-- 													평균 연령 : 개발중... -->
+<!-- 												</a> -->
 												<a class="border-bottom">
 													<span class="mdi mdi-arrow-right-drop-circle text-black"></span>
 													수업 날짜 : ${cVo.clasSueopNaljja}
