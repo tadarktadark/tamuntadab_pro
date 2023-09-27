@@ -39,12 +39,10 @@ public class SocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 		String msg = message.getPayload();
-		System.out.println("msg : "+msg);
 		String txt = "";
 		
 		Map<String, Object> mySession = session.getAttributes();
 		String crSession = (String)mySession.get("cr_id");
-		String memSession = (String)mySession.get("mem_id");
 
 		
 		String sentUserId = msg.substring(0,msg.indexOf(":")).trim();

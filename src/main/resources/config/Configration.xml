@@ -7,6 +7,7 @@
 	
 	<typeAliases>
 		<typeAlias type="com.tdtd.tmtd.vo.AdminVo" alias="adminVo"/>
+		<typeAlias type="com.tdtd.tmtd.vo.AlarmVo" alias="alarmVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.BoardVo" alias="boardVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.CareerVo" alias="careerVo"/>
 		<typeAlias type="com.tdtd.tmtd.vo.ChamyeoVo" alias="chamyeoVo"/>
