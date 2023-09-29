@@ -78,7 +78,7 @@
 		<div id="map" style="width:100%;height:400px;"></div>
 	</script>
 	<script id="form-template" type="text/x-handlebars-template">
-		<form id="yeyakForm">
+		<form id="yeyakForm" action="./insertYeyakInfo.do" method="post">
 			<input style="display:none;" id="gayeAccountId" name="gayeAccountId" value="${userInfo.userAccountId}">
 			<input style="display:none;" id="gayeGagaId" name="gayeGagaId" value="{{gayeGagaId}}">
 			<div class="row mb-3">

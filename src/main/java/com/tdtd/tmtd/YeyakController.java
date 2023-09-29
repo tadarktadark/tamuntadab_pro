@@ -19,6 +19,8 @@ import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IYeyakService;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
+import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.YeyakVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -160,6 +162,13 @@ public class YeyakController {
 			}
 			return html;
 		}
+	}
+	
+	@RequestMapping(value="/insertYeyakInfo.do", method = RequestMethod.POST)
+	public String insertYeyakInfo(YeyakVo yVo, GyeoljeVo gVo) {
+		log.info("@@@@@@@@@@@@@@@ 예약 : yVo {}, gVo {}", yVo, gVo);
+		
+		return "redirect:/yeyak.do";
 	}
 	
 }
