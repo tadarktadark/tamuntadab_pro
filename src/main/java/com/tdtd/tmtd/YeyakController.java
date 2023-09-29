@@ -1,6 +1,8 @@
 package com.tdtd.tmtd;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,15 +135,24 @@ public class YeyakController {
 		    int close = Integer.parseInt(gVo.getGacoClose());
 		    List<String> times = new ArrayList<String>();
 		    String t = "";
+		    
 		    for(int i=open; i<close; i+=100) {
 	    		t = String.valueOf(i);
-		    	t = (t.length()==3)?"0"+t:t;
+		    	t = (t.length()==3)?"0"+t:t;	    		
 		    	times.add(t);
 		    }
 			date=date.replaceAll("-", "");
 			String html = "";
+			
+			Calendar c = Calendar.getInstance(); 
+			SimpleDateFormat hourFormat = new SimpleDateFormat("HH");
+			String currHour = hourFormat.format(c.getTime());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+			String currDate = dateFormat.format(c.getTime());
 			for (int i = 0; i < times.size(); i++) {
-				if(dMap.get(date).contains(times.get(i))) {
+				if(currDate.equals(date) && Integer.parseInt(times.get(i).substring(0,2)) <= Integer.parseInt(currHour)) {
+					html+="<button type='button' class='btn btn-light time-btn' disabled='disabled'>"+times.get(i).substring(0,2)+":"+times.get(i).substring(2)+"</button>";
+				} else if(dMap.get(date).contains(times.get(i))) {
 					html+="<button type='button' id='"+times.get(i)+"' class='btn btn-outline-primary time-btn'>"+times.get(i).substring(0,2)+":"+times.get(i).substring(2)+"</button>";										
 				} else {
 					html+="<button type='button' class='btn btn-light time-btn' disabled='disabled'>"+times.get(i).substring(0,2)+":"+times.get(i).substring(2)+"</button>";															

@@ -197,7 +197,7 @@
 		   	</td>
 		    <td>
 		    	{{#stateY}}
-		        <div class="d-flex">
+		        <div class="d-flex gap-2">
 		            <div>
 		                <button class="badge text-bg-success pilgi-restore" id="{{id}}">내용 복원</button>
 		            </div>

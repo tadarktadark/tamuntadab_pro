@@ -124,7 +124,6 @@ public interface IYeyakService {
 	 */
 	public int updateYeoyuTimeAdd(String gagaId);
 	
-	
 	/**
 	 * 예약한 날짜 및 시간을 강의실 예약 가능일에서 제거
 	 * @param gayaId 개별 강의실 id
