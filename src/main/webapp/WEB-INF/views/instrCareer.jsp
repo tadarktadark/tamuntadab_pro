@@ -95,6 +95,14 @@
 				data : formData,
 				processData : false, // 필수 옵션
 				contentType : false, // 필수 옵션
+				beforeSend: function() {
+				      $("#overlay").show();
+				      $("#loading").show();
+				   },
+				   complete: function() {
+				      $("#overlay").hide();
+				      $("#loading").hide();
+				   },
 				success : function(response) {
 					$("#loading").hide();
 					if (response.errorMessage) {
@@ -138,13 +146,6 @@
 		});
 	});
 
-	$(document).ajaxStart(function() {
-	     $("#overlay").show(); // Show the overlay
-	     $("#loading").show(); // Show the loading spinner
-	}).ajaxStop(function(){
-	     $("#overlay").hide(); // Hide the overlay
-	     $("#loading").hide(); // Hide the loading spinner
-	});
 </script>
 <style type="text/css">
 body {
@@ -169,17 +170,17 @@ body {
     right: 0;
     bottom: 0;
     background-color: rgba(255,255,255,0.8);
-    z-index: 2; /* Sit on top */
+    z-index: 3; /* Sit on top */
 }
 
 #loading {
-   display:none; 
+   display:none;
    position:absolute; 
    left :50%; 
    top :50%; 
    margin-left :-24px; 
    margin-top :-24px;
-   z-index :3; 
+   z-index :4; 
 }
 </style>
 </html>

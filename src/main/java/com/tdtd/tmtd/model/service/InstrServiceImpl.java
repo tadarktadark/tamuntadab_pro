@@ -39,7 +39,7 @@ public class InstrServiceImpl implements IInstrService {
 	            }
 	        }
 	        
-	        return 1;  // 성공적으로 저장되었을 경우 반환값 변경 가능
+	        return 1; 
 	    }
 		return m;
 	}
@@ -54,7 +54,7 @@ public class InstrServiceImpl implements IInstrService {
 	            
 	            int result = dao.updateInstrEdulevel(eduLevel);
 	            if (result == 0) {
-	                return 0; 
+	            	result = dao.insertInstrEdulevel(eduLevel);
 	            }
 	        }
 	        
