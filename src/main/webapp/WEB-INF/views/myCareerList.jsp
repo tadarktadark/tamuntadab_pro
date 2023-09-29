@@ -57,7 +57,7 @@
 												<c:when test="${career.careStatus eq 'N'}">
 													<td><span class="badge bg-warning">승인대기중</span></td>
 												</c:when>
-												<c:when test="${career.careStatus eq 'S'}">
+												<c:when test="${career.careStatus eq 'S' || career.careStatus eq 'D'}">
 													<td><span class="badge bg-success">승인</span></td>
 												</c:when>
 												<c:otherwise>
