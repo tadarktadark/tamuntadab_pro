@@ -21,8 +21,8 @@ public class AlarmController {
 	
 	@PostMapping("/notificationList.do")
 	@ResponseBody
-	public List<AlarmVo> notificationList(String userAccountId) {
-		List<AlarmVo> list = service.getAlarmList(userAccountId);
+	public List<AlarmVo> notificationList(String alarAccountId) {
+		List<AlarmVo> list = service.getAlarmList(alarAccountId);
 		return list;
 	}
 	
