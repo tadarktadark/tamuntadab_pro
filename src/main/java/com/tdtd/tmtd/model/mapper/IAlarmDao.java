@@ -13,7 +13,7 @@ public interface IAlarmDao {
 	
 	public int delAlarm(String alarId);
 	
-	
+	public int updateAlarm(String alarId);
 	
 
 }

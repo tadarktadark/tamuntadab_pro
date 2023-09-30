@@ -32,4 +32,9 @@ public class AlarmDaoImpl implements IAlarmDao {
 		return sqlSession.delete(NS+"delAlarm",alarId);
 	}
 
+	@Override
+	public int updateAlarm(String alarId) {
+		return sqlSession.update(NS+"updateAlarm",alarId);
+	}
+
 }
