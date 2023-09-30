@@ -102,7 +102,7 @@
 
 <update id="updateInstrEdulevel">
 	UPDATE INSTR_EDULEVEL SET INED_STAGE=#{inedStage}, INED_SCHOOL=#{inedSchool}, INED_MAJOR=#{inedMajor}, 
-							INED_MINOR=#{inedMinor}, INED_START=#{inedStart}, INED_END=#{inedEnd}, INED_REGDATE=CURRENT_DATE
+							INED_MINOR=#{inedMinor}, INED_START=TO_DATE(#{inedStart}, 'YYYY-MM-DD'), INED_END=TO_DATE(#{inedEnd}, 'YYYY-MM-DD'), INED_REGDATE=CURRENT_DATE
 	WHERE INED_SEQ=#{inedSeq}
 		AND INED_INPR_SEQ = #{inedInprSeq}
 </update>
