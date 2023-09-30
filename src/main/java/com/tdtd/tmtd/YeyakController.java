@@ -165,10 +165,10 @@ public class YeyakController {
 	}
 	
 	@RequestMapping(value="/insertYeyakInfo.do", method = RequestMethod.POST)
-	public String insertYeyakInfo(YeyakVo yVo, GyeoljeVo gVo) {
+	@ResponseBody
+	public int insertYeyakInfo(YeyakVo yVo, GyeoljeVo gVo) {
 		log.info("@@@@@@@@@@@@@@@ 예약 : yVo {}, gVo {}", yVo, gVo);
-		
-		return "redirect:/yeyak.do";
+		return service.insertYeakInfo(yVo, gVo);
 	}
 	
 }

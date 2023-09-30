@@ -84,18 +84,21 @@
 	                        (GAYE_ID, GAYE_GAGA_ID, GAYE_ACCOUNT_ID, 
 	                        GAYE_PHONE_NUMBER, GAYE_YEYAK_DATE, GAYE_START_TIME, 
 	                        GAYE_HOURS, GAYE_STATE, 
-                       	<if test="gayeClasId != null">                       	
+                       	<if test="gayeClasId != 0">                       	
 	                        GAYE_CLAS_ID, 
                        	</if>
 	                        GAYE_GYEOLJE_TYPE, GAYE_GYEOLJE_USER)
-	        VALUES((SELECT 'YY'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(MAX(TO_NUMBER(SUBSTR(GAYE_ID,11)))+1,4,'0')
+	        VALUES((SELECT 'YY'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||LPAD(NVL(MAX(TO_NUMBER(SUBSTR(GAYE_ID,11))),0)+1,4,'0')
 				        FROM GANGEUISIL_YEYAK
 				        WHERE SUBSTR(GAYE_ID,1,10)='YY'||TO_CHAR(CURRENT_DATE,'yyyymmdd')), #{gayeGagaId}, #{gayeAccountId}, 
 				        #{gayePhoneNumber}, #{gayeYeyakDate}, #{gayeStartTime}, 
 				        #{gayeHours}, 'D' , 
 				        <choose>
-				        	<when test="gayeClasId != null">
+				        	<when test="gayeClasId != 0 and gayeGyeoljeType != null">
 				        		#{gayeClasId}, #{gayeGyeoljeType}, 	
+				        	</when>
+				        	<when test="gayeClasId != 0 and gayeGyeoljeType == null">
+				        		#{gayeClasId}, 'O', 	
 				        	</when>
 				        	<otherwise>
 				        		'O',
@@ -151,5 +154,9 @@
 				AND CLCH_STATUS = 'Y'
 				AND CLAS_STATUS = '매칭완료'
 				AND GAYE_ID IS NULL
+	</select>
+	<select id="getAllGaebyeol" resultType="java.lang.String">
+		SELECT GAGA_ID
+			FROM GANGEUISIL_GAEBYEOL
 	</select>
 </mapper>

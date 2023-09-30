@@ -23,25 +23,22 @@
 			<div class="page-content">
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
-					<div class="btn-group" id="btn-sido">
+					<div class="btn-group mb-1" id="btn-sido">
 					    <button id="sido-title" class="btn btn-primary dropdown-toggle sido-title" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">전체(<span></span>)</button>
 					    <div class="dropdown-menu dropdownmenu-primary sido-group" data-simplebar data-simplebar-track="primary">
 					        <a class="dropdown-item sido-dropdown sido-title click-btn">전체(<span></span>)</a>
 						</div>
 					</div>
-					<br>
-					<br>
 					<div class="row">
 					    <div class="col">
-	 						<div class="accordion custom-accordionwithicon-plus collapse multi-collapse show" id="gangeuisilList">'
+	 						<div class="accordion custom-accordionwithicon-plus collapse multi-collapse show mb-1" id="gangeuisilList">'
 							</div>
-							<br>
-							<ul class="comm-page pagination mb-0">
+							<ul class="comm-page pagination mb-1">
 			            	</ul>
 					    </div>
-					    <div class="col">
+					    <div class="col ps-0">
 					        <div class="collapse multi-collapse" id="multiCollapseExample2">
-					            <div class="card card-body mb-0" id="multiCollapseExample2-content">
+					            <div class="card card-body mb-1" id="multiCollapseExample2-content">
 					            	
 					            </div>
 					        </div>
@@ -78,7 +75,7 @@
 		<div id="map" style="width:100%;height:400px;"></div>
 	</script>
 	<script id="form-template" type="text/x-handlebars-template">
-		<form id="yeyakForm" action="./insertYeyakInfo.do" method="post">
+		<form id="yeyakForm">
 			<input style="display:none;" id="gayeAccountId" name="gayeAccountId" value="${userInfo.userAccountId}">
 			<input style="display:none;" id="gayeGagaId" name="gayeGagaId" value="{{gayeGagaId}}">
 			<div class="row mb-3">
