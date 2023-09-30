@@ -97,6 +97,8 @@ public interface IYeyakService {
 	 */
 	public int insertYeakInfo(YeyakVo yVo, GyeoljeVo gVos);
 	
+	public int getMyYeyakCount(String gayeAccountId);
+	
 	/**
 	 * 특정 회원의 예약 정보 조회 
 	 * @param gayeAccountId 회원 아이디 
@@ -104,7 +106,7 @@ public interface IYeyakService {
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public List<YeyakVo> getMyYeyakList(String gayeAccountId);
+	public List<YeyakVo> getMyYeyakList(Map<String, Object> map);
 
 	/**
 	 * 예약 취소
@@ -113,7 +115,7 @@ public interface IYeyakService {
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public int updateYeyakDelflag(String gayeId);
+	public int yeyakCancel(YeyakVo vo);
 	
 	/**
 	 * 매일 자정 강의실 예약 가능일 추가

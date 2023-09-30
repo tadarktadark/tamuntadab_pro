@@ -121,22 +121,53 @@
 		INSERT INTO GYEOLJE
 	                (GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, 
 	                GYEO_ACCOUNT_ID, GYEO_REGDATE, GYEO_STATUS)
-	        VALUES((SELECT 'RE'||TO_CHAR(MAX(SUBSTR(GYEO_ID, 3))+1)
-	        FROM GYEOLJE), #{gyeoGeumaek}, #{gyeoDaesangId}, 
+	        VALUES((SELECT 'RE'||TO_CHAR(NVL(MAX(SUBSTR(GYEO_ID, 3)),0)+1)
+						FROM GYEOLJE
+						WHERE SUBSTR(GYEO_ID, 0, 2)='RE'), #{gyeoGeumaek}, #{gyeoDaesangId}, 
 	                #{gyeoAccountId}, CURRENT_DATE , 'W' )
+		<selectKey keyProperty="gyeoId" resultType="java.lang.String" order="AFTER">
+			SELECT 'RE'||TO_CHAR(NVL(MAX(SUBSTR(GYEO_ID, 3)),0)) AS GYEO_ID
+				FROM GYEOLJE
+				WHERE SUBSTR(GYEO_ID, 0, 2)='RE'
+		</selectKey>
 	</insert>
+	<update id="updateGyeoId">
+		UPDATE GANGEUISIL_YEYAK SET GAYE_GYEO_ID = #{gayeGyeoId}
+			WHERE GAYE_ID = #{gayeId}
+	</update>
+	<select id="getMyYeyakCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM GANGEUISIL_YEYAK
+			WHERE GAYE_ACCOUNT_ID = #{accountId}
+				AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE, 'yyyymmdd')
+	</select>
 	<select id="getMyYeyakList" resultType="yeyakVo">
-		SELECT GAYE_ID, GAYE_GAGA_ID, GAYE_ACCOUNT_ID , GAYE_PHONE_NUMBER , GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS , GAYE_STATE , GAYE_CLAS_ID , GAYE_GYEOLJE_TYPE , GAYE_GYEOLJE_USER  
-	        FROM GANGEUISIL_YEYAK
-	        WHERE GAYE_GYEOLJE_USER LIKE '%'||#{accountId}||'%'
+		SELECT GAYE_ID, GAYE_GAGA_ID, GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS , GAYE_STATE , GAYE_CLAS_ID , GAYE_GYEOLJE_TYPE, GAYE_GYEOLJE_USER
+			FROM (SELECT GAYE_ID, GAYE_GAGA_ID, GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS , GAYE_STATE , 
+						CLAS_TITLE AS GAYE_CLAS_ID , GAYE_GYEOLJE_TYPE, GAYE_GYEOLJE_USER,
+						ROW_NUMBER() OVER(ORDER BY GAYE_YEYAK_DATE, GAYE_ID) AS rn
+					FROM GANGEUISIL_YEYAK LEFT JOIN CLASS
+					ON GAYE_CLAS_ID = CLAS_ID
+					WHERE GAYE_ACCOUNT_ID = #{accountId}
+						AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE, 'yyyymmdd'))
+			WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 	<update id="updateYeyakDelflag">
 		UPDATE GANGEUISIL_YEYAK SET GAYE_STATE='N'
 	        WHERE GAYE_ID=#{gayeId}
 	</update>
+	<select id="getGyeoId" resultType="java.lang.String">
+		SELECT GAYE_GYEO_ID 
+			FROM GANGEUISIL_YEYAK
+			WHERE GAYE_ID=#{gayeId}
+	</select>
 	<update id="updateYeoyuTime">
 		UPDATE GANGEUISIL_GAEBYEOL SET GAGA_YEOYU_TIME = #{gagaYeoyuTime}
         	WHERE GAGA_ID = #{gagaId}
+	</update>
+	<update id="updateYeakGyeoljeStatus">
+		UPDATE GYEOLJE SET GYEO_STATUS = 'C'
+			WHERE GYEO_ID = #{gyeoId}
 	</update>
 	<select id="getYeoyuTime" resultType="gangeuisilVo">
 		SELECT GAGA_ID , GACO_OPEN, GACO_CLOSE, GAGA_YEOYU_TIME

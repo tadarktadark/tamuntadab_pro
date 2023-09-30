@@ -84,15 +84,35 @@ public class YeyakDaoImpl implements IYeyakDao {
 	public int insertYeakGyeoljeInfo(GyeoljeVo vo) {
 		return session.insert(NS+"insertYeakGyeoljeInfo",vo);
 	}
+	
+	@Override
+	public int updateGyeoId(YeyakVo vo) {
+		return session.update(NS+"updateGyeoId",vo);
+	}
+	
+	@Override
+	public int getMyYeyakCount(String gayeAccountId) {
+		return session.selectOne(NS+"getMyYeyakCount",gayeAccountId);
+	}
 
 	@Override
-	public List<YeyakVo> getMyYeyakList(String gayeAccountId) {
-		return session.selectList(NS+"getMyYeyakList",gayeAccountId);
+	public List<YeyakVo> getMyYeyakList(Map<String, Object> map) {
+		return session.selectList(NS+"getMyYeyakList",map);
 	}
 
 	@Override
 	public int updateYeyakDelflag(String gayeId) {
 		return session.update(NS+"updateYeyakDelflag",gayeId);
+	}
+	
+	@Override
+	public String getGyeoId(String gayeId) {
+		return session.selectOne(NS+"getGyeoId",gayeId);
+	}
+	
+	@Override
+	public int updateYeakGyeoljeStatus(String gyeoId) {
+		return session.update(NS+"updateYeakGyeoljeStatus",gyeoId);
 	}
 	
 	@Override

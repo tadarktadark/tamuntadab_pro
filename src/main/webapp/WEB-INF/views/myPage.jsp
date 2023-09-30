@@ -240,7 +240,7 @@
 									<!-- 일정 -->
 									<div class="tab-pane" id="scheduel" role="tabpanel">
 										<div class="p-4">
-											일정 구간 입니다.
+											<%@ include file="./scheduel.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>

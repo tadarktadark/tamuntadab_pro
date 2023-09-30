@@ -26,6 +26,7 @@ public class YeyakVo {
 	private int gayeClasId;
 	private String gayeGyeoljeType;
 	private String gayeGyeoljeUser;
+	private String gayeGyeoId;
 	
 	public YeyakVo(String gayeGagaId, String gayeAccountId, String gayePhoneNumber, String gayeYeyakDate,
 			String gayeStartTime, int gayeHours, int gayeClasId, String gayeGyeoljeType) {
