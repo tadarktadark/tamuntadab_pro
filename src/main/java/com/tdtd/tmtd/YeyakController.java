@@ -2,10 +2,13 @@ package com.tdtd.tmtd;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import com.tdtd.tmtd.model.service.IYeyakService;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
 import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -171,4 +175,28 @@ public class YeyakController {
 		return service.insertYeakInfo(yVo, gVo);
 	}
 	
+	@RequestMapping(value="/getMyYeyakList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> getMyYeyakList(HttpSession session, String page) {
+		log.info("@@@@@@@@@@@@@@@ 내 강의실 예약 조회 : page {}", page);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+				
+		int pageCount; // 전체 게시글 수
+		Map<String, Object> pMap = new HashMap<String, Object>(); // page 객체 및 start, end
+		Map<String, Object> bMap = new HashMap<String, Object>(); // board 관련 accountId, orderBy, start, end
+		bMap.put("accountId", userInfo.getUserAccountId());
+		
+		pageCount = service.getMyYeyakCount(userInfo.getUserAccountId());
+		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		
+		bMap.put("start", pMap.get("start"));
+		bMap.put("end", pMap.get("end"));
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("page", pMap.get("page"));
+		result.put("board", service.getMyYeyakList(bMap));
+		
+		return result;
+	}
 }

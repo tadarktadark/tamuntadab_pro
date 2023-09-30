@@ -108,21 +108,60 @@ public class YeyakServiceImpl implements IYeyakService {
 		int total = gVo.getGyeoGeumaek();
 		gVo.setGyeoGeumaek(gVo.getGyeoGeumaek()/list.size());
 		gVo.setGyeoDaesangId(yVo.getGayeId());
+		List<String> gyeoList = new ArrayList<String>();
 		for (String id : list) {
 			gVo.setGyeoAccountId(id);
 			m += dao.insertYeakGyeoljeInfo(gVo);
+			gyeoList.add(gVo.getGyeoId());
 		}
+		yVo.setGayeGyeoId(gson.toJson(gyeoList, List.class));
+		n += dao.updateGyeoId(yVo);
 		return (n>0||m>list.size()-1)?total-(gVo.getGyeoGeumaek()*list.size()):-1;
 	}
-
+	
 	@Override
-	public List<YeyakVo> getMyYeyakList(String gayeAccountId) {
-		return dao.getMyYeyakList(gayeAccountId);
+	public int getMyYeyakCount(String gayeAccountId) {
+		return dao.getMyYeyakCount(gayeAccountId);
 	}
 
 	@Override
-	public int updateYeyakDelflag(String gayeId) {
-		return dao.updateYeyakDelflag(gayeId);
+	public List<YeyakVo> getMyYeyakList(Map<String, Object> map) {
+		return dao.getMyYeyakList(map);
+	}
+
+	@Override
+	public int yeyakCancel(YeyakVo vo) {
+		int n = 0;
+		n += dao.updateYeyakDelflag(vo.getGayeId());
+		
+		GangeuisilVo gaVo = dao.getYeoyuTime(vo.getGayeGagaId());
+		   
+	    Gson gson = new Gson();
+	    Map<String, Object> yeoyuTime = gson.fromJson(gaVo.getGagaYeoyuTime(),Map.class);
+	    List<String> list = (List<String>)yeoyuTime.get(vo.getGayeYeyakDate());
+	    
+	    for (int i = 0; i < vo.getGayeHours(); i++) {
+			list.add(vo.getGayeStartTime());
+			vo.setGayeStartTime(vo.getGayeStartTime()+100);
+		}
+	    
+	    yeoyuTime.put(vo.getGayeYeyakDate(), list);
+	    
+	    Map<String, Object> update = new HashMap<String, Object>();
+	    update.put("gagaId", vo.getGayeGagaId());
+	    update.put("gagaYeoyuTime", gson.toJson(yeoyuTime));
+	    
+	    n += dao.updateYeoyuTime(update);
+	    
+	    String gyeoId = dao.getGyeoId(vo.getGayeId());
+	    List<String> gyeoList = gson.fromJson(gyeoId, List.class);
+	    
+	    int m = 0;
+	    for (String g : gyeoList) {
+			m += dao.updateYeakGyeoljeStatus(g);
+		}
+	    
+		return (n>0&&m>gyeoList.size())?1:0;
 	}
 	
 	@Override

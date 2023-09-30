@@ -31,10 +31,18 @@ public interface IYeyakDao {
 	public List<String> getYeyakGyeoljeAcountIdList(int gayeClasId);
 
 	public int insertYeakGyeoljeInfo(GyeoljeVo vo);
+	
+	public int updateGyeoId(YeyakVo vo);
 
-	public List<YeyakVo> getMyYeyakList(String gayeAccountId);
+	public int getMyYeyakCount(String gayeAccountId);
+	
+	public List<YeyakVo> getMyYeyakList(Map<String, Object> map);
 
 	public int updateYeyakDelflag(String gayeId);
+	
+	public String getGyeoId(String gayeId);
+	
+	public int updateYeakGyeoljeStatus(String gyeoId);
 	
 	public List<String> getAllGaebyeol();
 	
