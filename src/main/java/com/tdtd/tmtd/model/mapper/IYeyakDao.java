@@ -36,6 +36,8 @@ public interface IYeyakDao {
 
 	public int updateYeyakDelflag(String gayeId);
 	
+	public List<String> getAllGaebyeol();
+	
 	public int updateYeoyuTime(Map<String, Object> map);
 	
 	public List<ClassVo> getchamyeoClassList(String accountId);

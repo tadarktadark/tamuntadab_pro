@@ -88,7 +88,7 @@ public interface IYeyakService {
 	public GangeuisilVo getYeoyuTime(String gagaId);
 
 	/**
-	 * 예약 정보 입력 및 결제 정보 입력
+	 * 예약 정보 입력, 개별 강의실 정보 수정 및 결제 정보 입력
 	 * @param yVo 예약 정보
 	 * @param gVos 결제 정보(전체 금액)
 	 * @return 성공시 전체금액에서 모자란 금액(카카오 정산하기), 실패시 -1
@@ -118,21 +118,11 @@ public interface IYeyakService {
 	/**
 	 * 매일 자정 강의실 예약 가능일 추가
 	 * @param gayaId 개별 강의실 id
-	 * @return 성공시 1, 실패시 0
 	 * @author SoHyeon
 	 * @since 2023.09.10
 	 */
-	public int updateYeoyuTimeAdd(String gagaId);
-	
-	/**
-	 * 예약한 날짜 및 시간을 강의실 예약 가능일에서 제거
-	 * @param gayaId 개별 강의실 id
-	 * @return 성공시 1, 실패시 0
-	 * @author SoHyeon
-	 * @since 2023.09.10
-	 */
-	public int updateYeoyuTimeRm(String gagaId);
-	
+	public void updateYeoyuTimeDaily();
+		
 	/**
 	 * 사용자가 참여한 클래스 조회
 	 * @param accountId 사용자 id
@@ -142,6 +132,4 @@ public interface IYeyakService {
 	 */
 	public List<ClassVo> getchamyeoClassList(String accountId);
 	
-	public int dummy(String gagaId);
-	public int dummy2();
 }

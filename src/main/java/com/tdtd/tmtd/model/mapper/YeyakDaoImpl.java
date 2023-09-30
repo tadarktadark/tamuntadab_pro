@@ -95,5 +95,8 @@ public class YeyakDaoImpl implements IYeyakDao {
 		return session.update(NS+"updateYeyakDelflag",gayeId);
 	}
 	
-	
+	@Override
+	public List<String> getAllGaebyeol() {
+		return session.selectList(NS+"getAllGaebyeol");
+	}
 }
