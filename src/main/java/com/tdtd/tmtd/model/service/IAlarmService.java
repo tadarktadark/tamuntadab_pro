@@ -12,5 +12,7 @@ public interface IAlarmService {
 	public int insertAlarm(Map<String, Object> map);
 	
 	public int delAlarm(String alarId);
+	
+	public int updateAlarm(String alarId);
 
 }

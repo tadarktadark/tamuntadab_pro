@@ -30,4 +30,9 @@ public class AlarmServiceImpl implements IAlarmService {
 		return dao.delAlarm(alarId);
 	}
 
+	@Override
+	public int updateAlarm(String alarId) {
+		return dao.updateAlarm(alarId);
+	}
+
 }
