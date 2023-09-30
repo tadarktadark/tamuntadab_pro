@@ -186,7 +186,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			<div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
 			    <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown"  data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
 			        <i class='bx bx-bell fs-20'></i>
-			        <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><span class="notification-badge">3</span><span class="visually-hidden">unread messages</span></span>
+			        <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><span class="notification-unread">3</span><span class="visually-hidden">unread messages</span></span>
 			    </button>
 			    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
 			
@@ -194,15 +194,15 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			            <div class="p-3 border-bottom border-bottom-dashed">
 			                <div class="row align-items-center">
 			                    <div class="col">
-			                        <h6 class="mb-0 fs-16 fw-semibold"> Notifications <span class="badge bg-danger-subtle text-danger   fs-13 notification-badge"> 4</span></h6>
-			                        <p class="fs-14 text-muted mt-1 mb-0">You have <span class="fw-semibold notification-unread">3</span> unread messages</p>
+			                        <h6 class="mb-0 fs-16 fw-semibold"> 전체 알림 <span class="badge bg-danger-subtle text-danger   fs-13 notification-badge"> 4</span></h6>
+			                        <p class="fs-14 text-muted mt-1 mb-0"><span class="fw-semibold notification-unread"></span>개의 안 읽은 알림이 있습니다</p>
 			                    </div>
 			                    <div class="col-auto dropdown">
 			                        <a href="javascript:void(0);" data-bs-toggle="dropdown" class="link-secondary fs-14"><i class="bi bi-three-dots-vertical"></i></a>
 			                        <ul class="dropdown-menu">
-			                            <li><a class="dropdown-item" href="#">All Clear</a></li>
-			                            <li><a class="dropdown-item" href="#">Mark all as read</a></li>
-			                            <li><a class="dropdown-item" href="#">Archive All</a></li>
+			                            <li><a class="dropdown-item" href="#">전체 삭제</a></li>
+			                            <li><a class="dropdown-item" href="#">전체 확인</a></li>
+			                            <li><a class="dropdown-item" href="#">선택 삭제</a></li>
 			                        </ul>
 			                    </div>
 			                </div>
@@ -274,7 +274,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			            </div>
 			            <div class="notification-actions" id="notification-actions">
 			                <div class="d-flex text-muted justify-content-center align-items-center">
-			                    Select <div id="select-content" class="text-body fw-semibold px-1">0</div> Result <button type="button" class="btn btn-link link-danger p-0 ms-2" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">Remove</button>
+			                    <div id="select-content" class="text-body fw-semibold px-1">0</div>개 선택됨 <button type="button" class="btn btn-link link-danger p-0 ms-2" data-bs-toggle="modal" data-bs-target="#removeNotificationModal">삭제</button>
 			                </div>
 			            </div>
 			        </div>
@@ -338,16 +338,15 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 						<i class="bi bi-trash display-4"></i>
 					</div>
 					<div class="mt-4 fs-15">
-						<h4 class="mb-1">Are you sure ?</h4>
-						<p class="text-muted mx-4 mb-0">Are you sure you want to
-							remove this Notification ?</p>
+						<h4 class="mb-1">정말로 삭제하시겠습니까 ?</h4>
+						<p class="text-muted mx-4 mb-0">삭제된 알림은 복구할 수 없습니다</p>
 					</div>
 				</div>
 				<div class="d-flex gap-2 justify-content-center mt-4 mb-2">
 					<button type="button" class="btn w-sm btn-light"
-						data-bs-dismiss="modal">Close</button>
+						data-bs-dismiss="modal">닫기</button>
 					<button type="button" class="btn w-sm btn-danger"
-						id="delete-notification">Yes, Delete It!</button>
+						id="delete-notification">삭제</button>
 				</div>
 			</div>
 
