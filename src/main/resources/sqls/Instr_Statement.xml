@@ -90,7 +90,7 @@
 							INED_START, INED_END, INED_REGDATE)
 	VALUES (INED_SEQ.NEXTVAL, #{inedInprSeq}, #{inedStage}, 
 			#{inedSchool}, #{inedMajor}, #{inedMinor}, 
-			#{inedStart}, #{inedEnd}, CURRENT_DATE)
+			TO_DATE(#{inedStart}, 'YYYY-MM-DD'), TO_DATE(#{inedEnd}, 'YYYY-MM-DD'), CURRENT_DATE)
 </insert>
 
 <update id="updateInstrProfile">
