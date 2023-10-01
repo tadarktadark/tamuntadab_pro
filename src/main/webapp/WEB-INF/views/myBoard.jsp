@@ -168,7 +168,7 @@
 	<script id="page-list-template" type="text/x-handlebars-template">
 		{{#each page}}
 		<li class="page-item {{state}}">
-			<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
+			<span class="comm-link page-link" id="{{id}}">{{{htmlOrText value}}}</span>
 		</li>
 		{{/each}}
 	</script>

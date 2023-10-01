@@ -59,3 +59,7 @@ footer{
     font-size: var(--tb-body-font-size);
     text-align: var(--tb-body-text-align);
 }
+
+.cancel-btn:hover, .pay-btn:hover{
+	cursor: pointer;
+}
