@@ -28,12 +28,17 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Elasticsearch 검색 관련 Service
+ * @author 문희애
+ */
 @Service
 @Slf4j
 public class ElasticsearchService {
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@SuppressWarnings("deprecation")
 	@Autowired
 	private RestHighLevelClient restHighLevelClient;
 	
@@ -41,7 +46,7 @@ public class ElasticsearchService {
 	 * Elasticsearch를 통한 검색 결과 반환 service<br>
 	 * Map formData: 과목 subject(List String) / 이름 nickname(String)/ 제목 title(String)/ 나이 age(Map String, Integer 최소 ageGt, 최대 ageLt)/<br>
 	 * 				수업료 fee(Map String, Integer 최소 feeGt, 최대 feeLt)/ 성별 gender(String)/ 지역 location(List String)<br>
-	 * 				정렬기준(String "인기순","최신순","정확도순")<br>
+	 * 				클래스명 classname(List Integer)<br>
 	 * String index : 검색 데이터가 들어있는 인덱스(table)<br>
 	 * String pageSize : 한번에 출력되는 데이터 개수
 	 */
@@ -82,9 +87,6 @@ public class ElasticsearchService {
 		        searchSourceBuilder.from(pageNumber * pageSize);
 		    	searchSourceBuilder.size(pageSize);
 		        
-//		        String sortType = (String) formData.get("sort");
-//				applySortCondition(searchSourceBuilder, sortType);
-				
 		        SearchRequest searchRequest = new SearchRequest(index);
 		        searchRequest.source(searchSourceBuilder);
 
@@ -100,8 +102,7 @@ public class ElasticsearchService {
 				return getSearchResult(searchResponse);
 	    }
 	 
-	 
-	 
+	 	//검색 결과 반환 메소드
 		 private List<Map<String, Object>> getSearchResult(SearchResponse response){
 			    SearchHits hits=response.getHits();
 			    List<Map<String,Object>> resultList=new ArrayList<>();
@@ -115,29 +116,6 @@ public class ElasticsearchService {
 			
 			}
 		 
-		 // 검색 결과 출력 순서 설정 좋아요순/등록일순/기본(정확도순) -> 그밖에 원하는 order by 필드에 이름 설정해주면 됨
-//		 private void applySortCondition(SearchSourceBuilder builder,
-//                 String sort){
-//					if(sort!=null && !sort.equals("")){
-//					switch(sort){
-//					case "like":
-//					 builder.sort("like_count", SortOrder.DESC);
-//					 break;
-//					case "reg":
-//					 builder.sort("regdate", SortOrder.DESC);
-//					 break;
-//					case "basic":
-//					 // Elasticsearch 기본 정확도 점수(_score)로 정렬
-//					 builder.sort("_score", SortOrder.DESC);
-//					 break;
-//					default:
-//						logger.warn("Unknown sort type: {}", sort);
-//						break;
-//					}
-//				}
-//
-//		 	}
-		
 		// subjects 일치 단어 검색
 	    private void applySubjectCondition(BoolQueryBuilder boolQueryBuilder,
 	                                       List<String> subjects) {
@@ -145,7 +123,6 @@ public class ElasticsearchService {
 	            BoolQueryBuilder boolSubjectQueryBulider = QueryBuilders.boolQuery();
 	            for(String subject : subjects){
 	                MultiMatchQueryBuilder multiMatchQueryStringBuilder =
-//	                        QueryBuilders.multiMatchQuery(subject).field("subjects").field("inpr_subjects_major");
 	                		QueryBuilders.multiMatchQuery(subject, "subjects", "inpr_subjects_major");
 	                boolSubjectQueryBulider.should(multiMatchQueryStringBuilder);
 	            }
@@ -157,9 +134,6 @@ public class ElasticsearchService {
 		private void applyNicknameCondition(BoolQueryBuilder boolQueryBuilder,
 	                                        String nickname) {
 	    	if(nickname != null && !nickname.equals("")) {
-//	    		MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
-//	    	               QueryBuilders.matchPhrasePrefixQuery("nickname", nickname).maxExpansions(5);
-//	            boolQueryBuilder.filter(matchQB);
 	    		 QueryBuilder qb = QueryBuilders.wildcardQuery("nickname", "*" + nickname + "*");
 	    	     boolQueryBuilder.must(qb);
 	       }
@@ -175,6 +149,7 @@ public class ElasticsearchService {
 		    }
 		}
 		
+		//클래스명 일치 검색
 		private void applyClassNameCondition(BoolQueryBuilder boolQueryBuilder,
 					List<Integer> classname) {
 			if(classname != null && !classname.isEmpty()) {
@@ -186,14 +161,6 @@ public class ElasticsearchService {
 	            }
 	            boolQueryBuilder.filter(boolSubjectQueryBulider);
 	    	}
-//			if(classname != null && !classname.equals("")) {
-//			MatchPhrasePrefixQueryBuilder matchPhrasePrefixQB =
-//			QueryBuilders.matchPhrasePrefixQuery("classname", classname).maxExpansions(10);
-//			boolQueryBuilder.filter(matchPhrasePrefixQB);
-				
-//				QueryBuilder qb = QueryBuilders.wildcardQuery("classname", "*" + classname + "*");
-//	    	     boolQueryBuilder.must(qb);
-//			}
 		}
 
 		// 나이 최소 최대 범위 검색 ageGt : 최소 나이값 / ageLt : 최대 나이값

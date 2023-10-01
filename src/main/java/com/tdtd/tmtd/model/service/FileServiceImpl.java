@@ -37,13 +37,19 @@ import com.google.protobuf.ByteString;
 import com.tdtd.tmtd.model.mapper.IFileDao;
 import com.tdtd.tmtd.vo.FileVo;
 
+/**
+ * 파일 관련 Service
+ * @author 문희애
+ *
+ */
 @Service
 public class FileServiceImpl implements IFileService {
 	
 	@Autowired
 	private IFileDao dao;
 
-private static final Map<String, Rectangle> areas = new HashMap<>();
+	//Google OCR 실행시 추출 범위 지정
+	private static final Map<String, Rectangle> areas = new HashMap<>();
     
     static {
         areas.put("careName", new Rectangle(714, 534, 466, 104));
@@ -58,16 +64,26 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
         areas.put("careCompany", new Rectangle(576,2830,624,70));   
     }
 	
+    /**
+	 * 파일 업로드시 DB 저장
+	 */
     @Override
     public int insertFile(Map<String, Object> map) {
     	return dao.insertFile(map);
     }
     
+    /**
+	 * 파일 정보 조회
+	 */
     @Override
     public FileVo getFile(String fileRekPk) {
     	return dao.getFile(fileRekPk);
     }
     
+    /**
+     * 파일을 서버에 업로드
+     * @return uploadInfo - originalName 원본파일명 / saveName 저장파일명 / path 저장경로 / uploadDate 저장일
+     */
 	@SuppressWarnings("resource")
 	public Map<String, Object> fileSave(MultipartFile file, HttpServletRequest request) throws IOException {
 	        String originalFileName = file.getOriginalFilename();
@@ -113,21 +129,29 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
 	     return uploadInfo;  
 	    }
 	
+		/**
+		 * 서버에 있는 파일 다운로드
+		 * @return File
+		 */
 		public File fileDownload(HttpServletRequest request, String saveFileName) throws IOException {
 			// 파일 다운로드를 위한 물리적인 주소(가상으로 배포된 물리적인 주소)
 			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
-			
-			// 물리적인 주소에서 선택한 파일을 File객체로 만듦
-			File file = new File(path+"/"+saveFileName);
-			System.out.println("file 경로 :"+ file.toString());
-			
-	        if (!file.exists()) {
-	            throw new IOException("File not found: " + saveFileName);
-	        }
-	
-	        return file;
-	    }
 
+			// 물리적인 주소에서 선택한 파일을 File객체로 만듦
+			File file = new File(path + "/" + saveFileName);
+			System.out.println("file 경로 :" + file.toString());
+
+			if (!file.exists()) {
+				throw new IOException("File not found: " + saveFileName);
+			}
+
+			return file;
+		}
+
+		/**
+		 * Google OCR 실행 전 PDF를 PNG로 변환
+		 * @return convertedFileNames 변환된 PNG 파일 이름 리스트
+		 */
 	    public List<String> convertPdfToPng(String pdfFilePath, String outputDir) throws Exception{
 	    	File pdfFile = new File(pdfFilePath);
 		    PDDocument document = PDDocument.load(pdfFile);
@@ -152,15 +176,11 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
 		    return convertedFileNames;
 	    }
 
-
+	    /**
+	     * Google OCR 실행 메소드
+	     * @return extractedTextMap 추출된 문자열 (key: careerVo 필드명)
+	     */
 	    public Map<String,Object> extractTextFromAreas(String fileName){
-	    	File file = new File("/home/ubuntu/google_ocr/ocr-test-project-396103-c5a979257a7e.json");
-	    	if (!file.exists()) {
-	    	    throw new RuntimeException("키 파일이 존재하지 않음");
-	    	} else if (!file.canRead()) {
-	    	    throw new RuntimeException("파일을 읽을 수 없음");
-	    	}
-	    	
 	    	Map<String,Object> extractedTextMap = new HashMap<>();
 	    	
 	    	try (ImageAnnotatorClient client= ImageAnnotatorClient.create()) {
@@ -220,12 +240,20 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
 	    	return extractedTextMap;
 	     }
 	    
+	    /**
+	     * Google OCR 실행시 PNG파일의 내용을 byte로 변환하는 메소드
+	     * @param img PNG 파일
+	     * @return 변환된 byteArray
+	     */
 	    private static byte[] toByteArray(BufferedImage img) throws IOException {
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        ImageIO.write(img, "png", baos);
 	        return baos.toByteArray();
 	    }
 	    
+	    /**
+	     * Google OCR 실행 후 PNG 파일 삭제 메소드
+	     */
 	    public void deletePngFiles(List<String> pngFileNames, String directory) {
 	        for (String pngFileName : pngFileNames) {
 	            File pngFileToDelete = new File(directory + "/" + pngFileName);

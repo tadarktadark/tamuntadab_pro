@@ -10,6 +10,11 @@ import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.InstrVo;
 import com.tdtd.tmtd.vo.SubjectTagVo;
 
+/**
+ * 메인 페이지 관련 DAO
+ * @author 문희애
+ *
+ */
 @Repository
 public class MainDaoImpl implements IMainDao {
 	
@@ -18,16 +23,25 @@ public class MainDaoImpl implements IMainDao {
 	
 	private final String NS = "com.tdtd.tmtd.model.mapper.MainDaoImpl.";
 
+	/**
+	 * 과목 전체 리스트 조회
+	 */
 	@Override
 	public List<SubjectTagVo> getAllSubjectTag() {
 		return sqlSession.selectList(NS+"getAllSubjectTag");
 	}
 
+	/**
+	 * 모집중인 클래스 전체 조회
+	 */
 	@Override
 	public List<ClassVo> getAllClass() {
 		return sqlSession.selectList(NS+"getAllClass");
 	}
 
+	/**
+	 * 인기강사 전체 조회
+	 */
 	@Override
 	public List<InstrVo> getIngiInstr() {
 		return sqlSession.selectList(NS+"getIngiInstr");

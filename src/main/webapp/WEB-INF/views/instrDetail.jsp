@@ -203,10 +203,10 @@ a {
 														varStatus="vs">
 														<tr style="text-align: center;" class="isDb">
 															<td><c:choose>
-																	<c:when test="${edu.inedStage == 1}">대학원(박사)</c:when>
-																	<c:when test="${edu.inedStage == 2}">대학원(석사)</c:when>
-																	<c:when test="${edu.inedStage == 3}">대학교(4년)</c:when>
-																	<c:when test="${edu.inedStage == 4}">대학(2,3년)</c:when>
+																	<c:when test="${edu.inedStage == '1'}">대학원(박사)</c:when>
+																	<c:when test="${edu.inedStage == '2'}">대학원(석사)</c:when>
+																	<c:when test="${edu.inedStage == '3'}">대학교(4년)</c:when>
+																	<c:when test="${edu.inedStage == '4'}">대학(2,3년)</c:when>
 																	<c:otherwise>고등학교</c:otherwise>
 																</c:choose> <input type="hidden"
 																name="instrEduVo[${vs.index}].inedSeq"
