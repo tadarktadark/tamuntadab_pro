@@ -8,7 +8,7 @@ import com.tdtd.tmtd.vo.PagingVo;
 
 /**
  * 게시물을 출력시 페이징 처리를 위한 PagingUtils
- * @author H.A Moon
+ * @author 문희애
  * @since 2023-08-25
  *
  */
