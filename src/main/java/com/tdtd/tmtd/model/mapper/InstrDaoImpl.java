@@ -20,6 +20,22 @@ public class InstrDaoImpl implements IInstrDao {
 	
 	private final String NS = "com.tdtd.tmtd.model.mapper.InstrDaoImpl.";
 
+	/**
+	 * 강사 닉네임 업데이트시 프로필 regdate 업데이트를 위한 profile 존재 여부 select문
+	 */
+	@Override
+	public boolean hasInprProfile(Map<String, Object> userAccountId) {
+		return sqlSession.selectOne(NS+"hasInprProfile", userAccountId) != null;
+	}
+	
+	/**
+	 * 강사 닉네임 업데이트시 프로필 regdate 업데이트
+	 */
+	@Override
+	public int updateInprRegdate(Map<String, Object> userAccountId) {
+		return sqlSession.update(NS+"updateInprRegdate",userAccountId);
+	}
+	
 	@Override
 	public InstrVo getMyInstrProfile(String userAccountId) {
 		return sqlSession.selectOne(NS+"getMyInstrProfile", userAccountId);
