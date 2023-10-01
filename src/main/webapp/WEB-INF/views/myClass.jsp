@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title}|타문타답</title>
+<%@ include file="./shared/_logout.jsp" %>
 <%@ include file="./shared/_head_css.jsp"%>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="./assets/libs/fullcalendar/main.min.css" rel="stylesheet"
@@ -764,13 +765,13 @@
 	<script src="./assets/libs/simplebar/simplebar.min.js"></script>
 	<script src="./assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
 	<script src="./assets/js/plugins.js"></script>
-	<script type="text/javascript" src="./js/logout.js"></script>
 	<script src="./assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 	<script src="./assets/libs/fullcalendar/main.min.js"></script>
 	<script src="./js/myClass.js"></script>
 	<script src="./assets/js/pages/modal.init.js"></script>
 	<script src="./assets/libs/flatpickr/flatpickr.min.js"></script>
 	<input type="hidden" id="clasId" value="${param.clasId}" />
+	<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 	<style>
 		.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number{
