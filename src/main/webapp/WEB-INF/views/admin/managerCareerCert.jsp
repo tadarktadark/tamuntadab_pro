@@ -93,7 +93,7 @@
 																onclick="updateS('${career.careId}', '${career.careAccountId}')">승인</button></td>
 														<td><button type="button"
 																class="btn btn-warning w-xs"
-																onclick="modalOpen('${career.careId}')">반려</button></td>
+																onclick="modalOpen('${career.careId}', '${career.careAccountId}')">반려</button></td>
 														<td>&nbsp;</td>
 														<td>
 															<button type="button" class="btn btn-info w-xs"
@@ -231,6 +231,7 @@
 						<span class="reasonSpan">0</span>/100
 					</div>
 					<input type="hidden" name="careId" id="modal-careId">
+					<input type="hidden" name="careAccountId" id="modal-AccountId">
 
 				</div>
 				<div class="modal-footer">
