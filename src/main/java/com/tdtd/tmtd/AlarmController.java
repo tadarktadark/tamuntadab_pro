@@ -34,13 +34,12 @@ public class AlarmController {
 	@PostMapping("/insertAlarm.do")
 	@ResponseBody
 	public void insertAlarm(String gubun, String content, String accountId,String url) {
+		
 		LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
         String formattedDate = currentDate.format(formatter);
-		
 		String alarId = gubun+formattedDate;
 		Map<String, Object> insertMap = new HashMap<String, Object>();
-		
 		insertMap.put("alarId", alarId);
 		insertMap.put("alarContent", content);
 		insertMap.put("alarAccountId", accountId);

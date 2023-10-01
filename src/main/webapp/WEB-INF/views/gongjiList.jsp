@@ -9,10 +9,10 @@
 <%@ include file="./shared/_head_css.jsp"%>
 <script type="text/javascript">
 	function sendAlarm(){
-		var gubun = 'AT_C';
-		var content = '내용 테스트';
-		var accountId = 'TMTD16';
-		var url = 'main.do';
+		var gubun = 'AT_C';//구분은 slack 참고
+		var content = '내용 테스트';//보낼 내용
+		var accountId = 'TMTD16';//받는 사용자 ID
+		var url = 'main.do';//알림을 누르면 이동할 주소, ?로 값전달해서 보내도됨
 		$.ajax({
 			url:'./insertAlarm.do',
 			type:'POST',
