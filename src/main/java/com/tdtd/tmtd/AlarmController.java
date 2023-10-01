@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.model.service.IAlarmService;
@@ -46,6 +47,16 @@ public class AlarmController {
 		service.updateAlarm(alarId);
 		String result = "redirect:/"+link;
 		return result;
+	}
+	
+	@PostMapping("/delAlarm.do")
+	@ResponseBody
+	public void delAlarm(@RequestParam("checkedValues") List<String> checkedValues) {
+		System.out.println(checkedValues);
+		for(int i=0;i<checkedValues.size();i++) {
+			service.delAlarm(checkedValues.get(i));
+		}
+		
 	}
 	
 }
