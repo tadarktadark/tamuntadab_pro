@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
-import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
 public interface IYeyakDao {
@@ -30,13 +30,15 @@ public interface IYeyakDao {
 	
 	public List<String> getYeyakGyeoljeAcountIdList(int gayeClasId);
 
-	public int insertYeakGyeoljeInfo(GyeoljeVo vo);
+	public int insertYeakGyeoljeInfo(GeoljeVo vo);
 	
 	public int updateGyeoId(YeyakVo vo);
 
 	public int getMyYeyakCount(String gayeAccountId);
 	
 	public List<YeyakVo> getMyYeyakList(Map<String, Object> map);
+	
+	public List<GeoljeVo> getGyeojeStatus(String gayeId);
 
 	public int updateYeyakDelflag(String gayeId);
 	

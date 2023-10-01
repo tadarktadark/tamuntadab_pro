@@ -2,7 +2,6 @@ package com.tdtd.tmtd;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -23,7 +21,7 @@ import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IYeyakService;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
-import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
@@ -171,7 +169,7 @@ public class YeyakController {
 	
 	@RequestMapping(value="/insertYeyakInfo.do", method = RequestMethod.POST)
 	@ResponseBody
-	public int insertYeyakInfo(YeyakVo yVo, GyeoljeVo gVo) {
+	public int insertYeyakInfo(YeyakVo yVo, GeoljeVo gVo) {
 		log.info("@@@@@@@@@@@@@@@ 예약 : yVo {}, gVo {}", yVo, gVo);
 		return service.insertYeakInfo(yVo, gVo);
 	}
@@ -207,5 +205,23 @@ public class YeyakController {
 		log.info("@@@@@@@@@@@@@@@ 강의실 예약 취소 : vo {}", vo);
 		
 		return service.yeyakCancel(vo);
+	}
+	
+	@RequestMapping(value="/getGyeojeStatus.do", method = RequestMethod.POST)
+	@ResponseBody
+	public List<GeoljeVo> getGyeojeStatus(HttpSession session, String gayeId) {
+		log.info("@@@@@@@@@@@@@@@ 예약 결제 상태 조회 : gayeId {}", gayeId);
+		
+		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
+		List<GeoljeVo> list = service.getGyeojeStatus(gayeId);
+		
+		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getGyeoAccountId().equals(userInfo.getUserAccountId())) {
+				list.get(i).setGyeoId("나");
+				break;
+			}
+		}
+		
+		return list;
 	}
 }

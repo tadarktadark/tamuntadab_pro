@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
-import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
 @Repository
@@ -81,7 +81,7 @@ public class YeyakDaoImpl implements IYeyakDao {
 	}
 	
 	@Override
-	public int insertYeakGyeoljeInfo(GyeoljeVo vo) {
+	public int insertYeakGyeoljeInfo(GeoljeVo vo) {
 		return session.insert(NS+"insertYeakGyeoljeInfo",vo);
 	}
 	
@@ -98,6 +98,11 @@ public class YeyakDaoImpl implements IYeyakDao {
 	@Override
 	public List<YeyakVo> getMyYeyakList(Map<String, Object> map) {
 		return session.selectList(NS+"getMyYeyakList",map);
+	}
+	
+	@Override
+	public List<GeoljeVo> getGyeojeStatus(String gayeId) {
+		return session.selectList(NS+"getGyeojeStatus",gayeId);
 	}
 
 	@Override
