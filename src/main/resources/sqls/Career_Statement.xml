@@ -37,7 +37,6 @@
 	<if test="start != null">
 		WHERE RN BETWEEN #{start} AND #{end}
 	</if>
-	
 </select>
 
 <select id="getCareerCount" resultType="Integer">
@@ -72,7 +71,7 @@
 	WHERE CARE_ID=#{careId}
 </update>
 <update id="updateCareerCert">
-	UPDATE INSTR_PROFILE SET INPR_CERT = 'S', INPR_REGDATE = CURRENT_DATE
+	UPDATE INSTR_PROFILE SET INPR_CERT = 'S'
 	WHERE INPR_ACCOUNT_ID = #{userAccountId}
 </update>
 

@@ -37,17 +37,14 @@
 		WHERE CLCH_ACCOUNT_ID = #{userAccountId} AND CLCH_CLAS_ID = #{reviClasId}
 </update>
 
-
 <delete id="deleteReview">
 	DELETE FROM REVIEW
-	WHERE REVI_SEQ =
-		#{seq}
+	WHERE REVI_SEQ = #{seq}
 </delete>
 
 <update id="updateReviewStatusN">
 	UPDATE CLASS_CHAMYEOJA SET CLCH_REVIEW_STATUS = 'N'
-		WHERE CLCH_ID =
-			#{clchId}
+		WHERE CLCH_ID =	#{clchId}
 </update>
 
 </mapper>
