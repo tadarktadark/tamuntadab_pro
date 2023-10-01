@@ -197,14 +197,6 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			                        <h6 class="mb-0 fs-16 fw-semibold"> 전체 알림 <span class="badge bg-danger-subtle text-danger   fs-13 notification-badge"> 4</span></h6>
 			                        <p class="fs-14 text-muted mt-1 mb-0"><span class="fw-semibold notification-unread"></span>개의 안 읽은 알림이 있습니다</p>
 			                    </div>
-			                    <div class="col-auto dropdown">
-			                        <a href="javascript:void(0);" data-bs-toggle="dropdown" class="link-secondary fs-14"><i class="bi bi-three-dots-vertical"></i></a>
-			                        <ul class="dropdown-menu">
-			                            <li><a class="dropdown-item" href="#">전체 삭제</a></li>
-			                            <li><a class="dropdown-item" href="#">전체 확인</a></li>
-			                            <li><a class="dropdown-item" href="#">선택 삭제</a></li>
-			                        </ul>
-			                    </div>
 			                </div>
 			            </div>
 			
@@ -212,65 +204,6 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 			
 			        <div class="py-2 ps-2" id="notificationItemsTabContent">
 			            <div data-simplebar id="notificationList" style="max-height: 300px;" class="pe-2">
-			            	<!-- 안 읽은 알림 -->
-<!-- 			                <div class="text-reset notification-item d-block dropdown-item position-relative unread-message"> -->
-<!-- 			                    <div class="d-flex"> -->
-<!-- 			                        이미지 -->
-<!-- 			                        <div class="avatar-xs me-3 flex-shrink-0"> -->
-<!-- 			                            <span class="active-badge position-absolute start-20 translate-middle p-1 bg-danger rounded-circle"> -->
-<!-- 			                                <span class="visually-hidden">New alerts</span> -->
-<!-- 			                            </span> -->
-<!-- 			                            <span class="avatar-title bg-secondary-subtle  text-primary rounded-circle fs-16"> -->
-<!-- 			                                <i class='bx bx-message-square-dots'></i> -->
-<!-- 			                            </span> -->
-<!-- 			                        </div> -->
-<!-- 			                        내용 -->
-<!-- 			                        <div class="flex-grow-1"> -->
-<!-- 			                            <a href="#!" class="stretched-link"> -->
-<!-- 			                                <h6 class="mt-0 mb-2 fs-14 lh-base">You have received <b class="text-success">20</b> new messages in the conversation -->
-<!-- 			                                </h6> -->
-<!-- 			                            </a> -->
-<!-- 			                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted"> -->
-<!-- 			                                <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span> -->
-<!-- 			                            </p> -->
-<!-- 			                        </div> -->
-<!-- 			                        체크박스 -->
-<!-- 			                        <div class="px-2 fs-15"> -->
-<!-- 			                            <div class="form-check notification-check"> -->
-<!-- 			                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check03"> -->
-<!-- 			                                <label class="form-check-label" for="all-notification-check03"></label> -->
-<!-- 			                            </div> -->
-<!-- 			                        </div> -->
-<!-- 			                    </div> -->
-<!-- 			                </div> -->
-			                <!-- 읽은 알림 -->
-<!-- 			                <div class="text-reset notification-item d-block dropdown-item position-relative unread-message"> -->
-<!-- 			                    <div class="d-flex"> -->
-<!-- 			                        이미지 -->
-<!-- 			                        <div class="avatar-xs me-3 flex-shrink-0"> -->
-<!-- 			                            <span class="avatar-title bg-secondary-subtle  text-primary rounded-circle fs-16"> -->
-<!-- 			                                <i class='bx bx-message-square-dots'></i> -->
-<!-- 			                            </span> -->
-<!-- 			                        </div> -->
-<!-- 			                        내용 -->
-<!-- 			                        <div class="flex-grow-1"> -->
-<!-- 			                            <a href="#!" class="stretched-link"> -->
-<!-- 			                                <h6 class="mt-0 mb-2 fs-14 lh-base">You have received <b class="text-success">20</b> new messages in the conversation -->
-<!-- 			                                </h6> -->
-<!-- 			                            </a> -->
-<!-- 			                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted"> -->
-<!-- 			                                <span><i class="mdi mdi-clock-outline"></i> 2 hrs ago</span> -->
-<!-- 			                            </p> -->
-<!-- 			                        </div> -->
-<!-- 			                        체크박스 -->
-<!-- 			                        <div class="px-2 fs-15"> -->
-<!-- 			                            <div class="form-check notification-check"> -->
-<!-- 			                                <input class="form-check-input" type="checkbox" value="" id="all-notification-check03"> -->
-<!-- 			                                <label class="form-check-label" for="all-notification-check03"></label> -->
-<!-- 			                            </div> -->
-<!-- 			                        </div> -->
-<!-- 			                    </div> -->
-<!-- 			                </div> -->
 			            </div>
 			            <div class="notification-actions" id="notification-actions">
 			                <div class="d-flex text-muted justify-content-center align-items-center">

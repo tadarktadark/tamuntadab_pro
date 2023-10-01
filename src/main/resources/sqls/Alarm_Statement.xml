@@ -11,7 +11,7 @@
 
 <insert id="insertAlarm" parameterType="Map">
 	INSERT INTO ALARM (ALAR_ID,ALAR_ACCOUNT_ID ,ALAR_CONTENT ,ALAR_EVENTDATE ,ALAR_REPLY_SEQ ,ALAR_CHECKED )
-        VALUES(#{alarId},#{alarAccountId},#{alarContent},CURRENT_DATE,#{alarReplySeq},'N')
+        VALUES(#{alarId}|| TO_CHAR(ALARM_SEQ.NEXTVAL),#{alarAccountId},#{alarContent},CURRENT_DATE,#{alarReplySeq},'N')
 </insert>
 
 <delete id="delAlarm" parameterType="String">
