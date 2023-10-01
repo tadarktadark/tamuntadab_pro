@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,7 @@ import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.IYeyakDao;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
-import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
 @Service
@@ -65,7 +64,7 @@ public class YeyakServiceImpl implements IYeyakService {
 	}
 
 	@Override
-	public int insertYeakInfo(YeyakVo yVo, GyeoljeVo gVo) {
+	public int insertYeakInfo(YeyakVo yVo, GeoljeVo gVo) {
 		StringBuffer user = new StringBuffer();
 		List<String> list = new ArrayList<String>();
 		if(yVo.getGayeClasId()>0 && yVo.getGayeGyeoljeType()!=null) {
@@ -127,6 +126,11 @@ public class YeyakServiceImpl implements IYeyakService {
 	@Override
 	public List<YeyakVo> getMyYeyakList(Map<String, Object> map) {
 		return dao.getMyYeyakList(map);
+	}
+	
+	@Override
+	public List<GeoljeVo> getGyeojeStatus(String gayeId) {
+		return dao.getGyeojeStatus(gayeId);
 	}
 
 	@Override

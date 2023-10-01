@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GangeuisilVo;
-import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
 /**
@@ -95,7 +95,7 @@ public interface IYeyakService {
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
-	public int insertYeakInfo(YeyakVo yVo, GyeoljeVo gVos);
+	public int insertYeakInfo(YeyakVo yVo, GeoljeVo gVos);
 	
 	public int getMyYeyakCount(String gayeAccountId);
 	
@@ -107,6 +107,8 @@ public interface IYeyakService {
 	 * @since 2023.09.09
 	 */
 	public List<YeyakVo> getMyYeyakList(Map<String, Object> map);
+	
+	public List<GeoljeVo> getGyeojeStatus(String gayeId);
 
 	/**
 	 * 예약 취소

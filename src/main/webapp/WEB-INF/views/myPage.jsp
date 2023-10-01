@@ -134,17 +134,17 @@
 									role="tablist">
 									<li class="nav-item"><a class="nav-link px-3 active"
 										data-bs-toggle="tab" href="#class" role="tab"
-										aria-selected="true"> <i class="bi bi-book fs-20"></i>
+										aria-selected="true"> <i class="ri ri-apps-2-line fs-20"></i>
 											<span class="d-none d-sm-block">클래스</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#info" role="tab"
-										aria-selected="false"> <i class="bx bx-user-circle fs-20"></i>
+										aria-selected="false"> <i class="ri ri-account-circle-line fs-20"></i>
 											<span class="d-none d-sm-block">내 정보</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#payment" role="tab"
-										aria-selected="false"> <i class="bx bx-clipboard fs-20"></i>
+										aria-selected="false"> <i class="ri ri-bank-card-2-line fs-20"></i>
 											<span class="d-none d-sm-block">결제 내역</span>
 									</a></li>
 									
@@ -155,12 +155,12 @@
 									</a></li>
 										<li class="nav-item myPilgi"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#boardlist" role="tab"
-										aria-selected="false"> <i class="ri ri-file-list-line fs-20"></i>
+										aria-selected="false"> <i class="ri ri-pages-line fs-20"></i>
 											<span class="d-none d-sm-block">내 커뮤니티</span>
 									</a></li>
 									<li class="nav-item"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#reviewlist" role="tab"
-										aria-selected="false"> <i class="ri ri-heart-add-line fs-20"></i>
+										aria-selected="false"> <i class="ri ri-star-line fs-20"></i>
 											<span class="d-none d-sm-block">내 후기</span>
 									</a></li>
 								</ul>
