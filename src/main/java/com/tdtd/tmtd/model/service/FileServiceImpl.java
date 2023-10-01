@@ -154,6 +154,13 @@ private static final Map<String, Rectangle> areas = new HashMap<>();
 
 
 	    public Map<String,Object> extractTextFromAreas(String fileName){
+	    	File file = new File("/home/ubuntu/google_ocr/ocr-test-project-396103-c5a979257a7e.json");
+	    	if (!file.exists()) {
+	    	    throw new RuntimeException("키 파일이 존재하지 않음");
+	    	} else if (!file.canRead()) {
+	    	    throw new RuntimeException("파일을 읽을 수 없음");
+	    	}
+	    	
 	    	Map<String,Object> extractedTextMap = new HashMap<>();
 	    	
 	    	try (ImageAnnotatorClient client= ImageAnnotatorClient.create()) {
