@@ -10,6 +10,10 @@ import com.tdtd.tmtd.vo.ReviewVo;
 
 public interface IInstrDao {
 
+	public boolean hasInprProfile(Map<String, Object> userAccountId);
+	
+	public int updateInprRegdate(Map<String, Object> userAccountId);
+	
 	//TDT003 getMyInstrProfile
 	public InstrVo getMyInstrProfile(String userAccountId);
 	

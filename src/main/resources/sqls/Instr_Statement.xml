@@ -55,6 +55,17 @@
 	<result column="CLAS_SUBJECT_JEONGBO" property="clasSubjectJeongbo"/>
 </resultMap>
 
+<select id="hasInprProfile" resultType="Integer">
+	SELECT INPR_SEQ
+	FROM INSTR_PROFILE
+	WHERE INPR_ACCOUNT_ID = #{userAccountId}
+</select>
+
+<update id="updateInprRegdate">
+	UPDATE INSTR_PROFILE SET INPR_REGDATE = CURRENT_DATE
+	WHERE INPR_ACCOUNT_ID = #{userAccountId}
+</update>
+
 <select id="getMyInstrProfile" resultMap="instrMap">
 	SELECT INPR_SEQ, INED_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, INPR_FEE,
 		INPR_SITE_YOUTUBE, INPR_SITE_WEB, INPR_SITE_MOBILE,

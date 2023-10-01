@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
+import com.tdtd.tmtd.model.mapper.IInstrDao;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,9 @@ public class CommUserServiceImpl implements ICommUserService {
 	
 	@Autowired
 	private ICommUserDao cdao;
+	
+	@Autowired
+	private IInstrDao idao;
 	
 	public Boolean searchEmailService(Map<String, String> map) {
 		return cdao.emailCheck(map);
@@ -136,12 +140,22 @@ public class CommUserServiceImpl implements ICommUserService {
 	public String searchNickName(Map<String,Object> map) {
 		boolean isc = cdao.searchNickName(map);
 		if (isc==false) {
+			boolean hasProfile = idao.hasInprProfile(map);
+			if(hasProfile) {
+				int m = idao.updateInprRegdate(map);
+				if(m == 0) {
+					return "false";
+				}
+			}
+			
 			int n = cdao.updateUserInfo(map);
+			
 			if(n>0) {
 				return "true";
 			}else {
 				return "false";
 			}
+			
 		}
 		return "false";
 	}
