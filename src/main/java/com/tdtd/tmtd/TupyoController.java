@@ -2,6 +2,8 @@ package com.tdtd.tmtd;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.tdtd.tmtd.model.service.IAlarmService;
 import com.tdtd.tmtd.model.service.ITupyoService;
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.TupyoOptionVo;
@@ -33,6 +36,9 @@ public class TupyoController {
 	
 	@Autowired
 	private ITupyoService service;
+	@Autowired
+	private IAlarmService alarmService;
+	
 	
 	//투표 페이지로 이동
 	@RequestMapping(value = "/tupyoPage.do")
@@ -295,6 +301,22 @@ public class TupyoController {
 				classStatusMap.put("clasId", clasId);
 				classStatusMap.put("clasStatus", "모집완료");
 				service.updateClassStatus(classStatusMap);
+				
+				LocalDate currentDate = LocalDate.now();
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		        String formattedDate = currentDate.format(formatter);
+				String alarId = "AT_C"+formattedDate;
+				List<ChamyeoVo> classMemberAlarmVo = service.getAllClassMember(clasId);
+				for(int i=0;i<classMemberAlarmVo.size();i++) {
+					String aId = classMemberAlarmVo.get(i).getClchAccountId();
+					Map<String, Object> alarmMap = new HashMap<String, Object>();
+					alarmMap.put("alarId", alarId);
+					alarmMap.put("alarContent", "강사가 확정되었습니다. 내 클래스에서 확인해보세요!");
+					alarmMap.put("alarAccountId", aId);
+					alarmMap.put("alarReplySeq", "justGoMyClass.do?clasId="+clasId);
+					alarmService.insertAlarm(alarmMap);
+				}
+				
 				return "confirm";
 			}else {//반대가 더 많거나 같은 경우
 				System.out.println("강사 신청이 거부되었습니다");

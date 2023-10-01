@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title> 자주 묻는 질문 | 타문타답</title>
+<%@ include file="./shared/_logout.jsp"%>
 <%@ include file="./shared/_head_css.jsp"%>
 </head>
 <body class="twocolumn-panel">

@@ -1006,7 +1006,7 @@ File: Main Js File
 							</div>\
 						</div>\
 						<div class="pb-3 mt-2">\
-							<h6 class="fs-16 fw-semibold lh-base">Hey! You have no any notifications </h6>\
+							<h6 class="fs-16 fw-semibold lh-base">알림이 없습니다 </h6>\
 						</div>\
 					</div>'
                     }
