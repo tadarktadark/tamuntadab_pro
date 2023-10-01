@@ -148,7 +148,7 @@
 											<span class="d-none d-sm-block">결제 내역</span>
 									</a></li>
 									
-									<li class="nav-item"><a class="nav-link px-3"
+									<li class="nav-item scheduel"><a class="nav-link px-3"
 										data-bs-toggle="tab" href="#scheduel" role="tab"
 										aria-selected="false"> <i class="ri ri-calendar-line fs-20"></i>
 											<span class="d-none d-sm-block">일정</span>

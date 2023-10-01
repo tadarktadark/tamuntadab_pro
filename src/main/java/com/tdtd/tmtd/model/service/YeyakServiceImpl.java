@@ -142,7 +142,9 @@ public class YeyakServiceImpl implements IYeyakService {
 	    
 	    for (int i = 0; i < vo.getGayeHours(); i++) {
 			list.add(vo.getGayeStartTime());
-			vo.setGayeStartTime(vo.getGayeStartTime()+100);
+			String startTime = (Integer.parseInt(vo.getGayeStartTime())+100)<1000?"0"+(Integer.parseInt(vo.getGayeStartTime())+100):""+(Integer.parseInt(vo.getGayeStartTime())+100);
+			System.out.println(startTime);
+			vo.setGayeStartTime(startTime);
 		}
 	    
 	    yeoyuTime.put(vo.getGayeYeyakDate(), list);
@@ -161,7 +163,7 @@ public class YeyakServiceImpl implements IYeyakService {
 			m += dao.updateYeakGyeoljeStatus(g);
 		}
 	    
-		return (n>0&&m>gyeoList.size())?1:0;
+		return (n>0&&m>=gyeoList.size())?1:0;
 	}
 	
 	@Override

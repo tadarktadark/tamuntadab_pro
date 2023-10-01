@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -175,7 +176,7 @@ public class YeyakController {
 		return service.insertYeakInfo(yVo, gVo);
 	}
 	
-	@RequestMapping(value="/getMyYeyakList.do", method = RequestMethod.POST)
+	@RequestMapping(value="/getMyYeyakList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object> getMyYeyakList(HttpSession session, String page) {
 		log.info("@@@@@@@@@@@@@@@ 내 강의실 예약 조회 : page {}", page);
@@ -188,7 +189,7 @@ public class YeyakController {
 		bMap.put("accountId", userInfo.getUserAccountId());
 		
 		pageCount = service.getMyYeyakCount(userInfo.getUserAccountId());
-		pMap = PagingUtils.paging(page, pageCount, 10, 5);
+		pMap = PagingUtils.paging(page, pageCount, 5, 5);
 		
 		bMap.put("start", pMap.get("start"));
 		bMap.put("end", pMap.get("end"));
@@ -198,5 +199,13 @@ public class YeyakController {
 		result.put("board", service.getMyYeyakList(bMap));
 		
 		return result;
+	}
+	
+	@RequestMapping(value="/yeyakCancel.do", method = RequestMethod.POST)
+	@ResponseBody
+	public int yeyakCancel(HttpSession session, YeyakVo vo) {
+		log.info("@@@@@@@@@@@@@@@ 강의실 예약 취소 : vo {}", vo);
+		
+		return service.yeyakCancel(vo);
 	}
 }
