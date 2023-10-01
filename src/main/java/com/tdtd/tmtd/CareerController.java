@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tdtd.tmtd.comm.PagingUtils;
+import com.tdtd.tmtd.model.service.IAlarmService;
 import com.tdtd.tmtd.model.service.ICareerService;
 import com.tdtd.tmtd.model.service.IFileService;
 import com.tdtd.tmtd.vo.CareerVo;
@@ -54,7 +57,10 @@ public class CareerController {
 
 	@Autowired
 	private ICareerService service;
-
+	
+	@Autowired
+	private IAlarmService alarmService;
+	
 	/**
 	 * 경력 인증 요청 페이지 이동
 	 */
@@ -269,7 +275,7 @@ public class CareerController {
 	}
 
 	/**
-	 * 관리자 - 승인 버튼 클릭시 ajax (요청 승인 업데이트 및 경력 인증된 강사로 업데이트)
+	 * 관리자 - 승인 버튼 클릭시 (요청 승인 업데이트 및 경력 인증된 강사로 업데이트), 알람
 	 * 
 	 * @param map careId 경력요청 id / userAccountId 요청강사 id
 	 * @return successMessage 성공시 반환 메세지 / errorMessage 에러시 반환 메세지
@@ -283,7 +289,15 @@ public class CareerController {
 
 		int n = service.updateCareerS(map);
 		if (n > 0) {
-			response.put("successMessage", "승인 처리가 완료되었습니다");
+			String content = "경력 인증 요청이 승인되었습니다";
+			String accountId = (String)map.get("userAccountId");
+			String url = "myCareerList.do";
+			int m = alarmService.insertAlarm(alarmMap(content, accountId, url));
+			if(m > 0) {
+				response.put("successMessage", "승인 처리가 완료되었습니다");
+			} else {
+				response.put("errorMessage", "알람이 정상적으로 가지 않음");
+			}
 		} else {
 			response.put("errorMessage", "승인이 정상 처리가 되지 않았습니다");
 		}
@@ -420,9 +434,9 @@ public class CareerController {
 	}
 
 	/**
-	 * 관리자 - 반려시 업데이트 실행
+	 * 관리자 - 반려시 업데이트 실행 및 알람
 	 * 
-	 * @param data careId 경력 요청 아이디 / careReason 반려 사유
+	 * @param data careId 경력 요청 아이디 / careAccountId 경력 요청자 아이디 / careReason 반려 사유
 	 * @return successMessage 성공시 반환 메세지 / errorMessage 에러시 반환 메세지
 	 */
 	@PostMapping("/admin/updateB.do")
@@ -435,11 +449,43 @@ public class CareerController {
 		int n = service.updateCareerB(data);
 
 		if (n > 0) {
-			response.put("successMessage", "정상 처리 되었습니다");
+			String content = "경력 인증이 반려되었습니다";
+			String accountId = data.get("careAccountId").toString();
+			String url = "myCareerList.do";
+			
+			int m = alarmService.insertAlarm(alarmMap(content, accountId, url));
+			if(m > 0) {
+				response.put("successMessage", "정상 처리 되었습니다");
+			} else {
+				response.put("errorMessage", "알람이 정상적으로 가지 않음");
+			}
+			
 		} else {
 			response.put("errorMessage", "정상 처리가 되지 않았습니다");
 		}
 		return response;
+	}
+	
+	/**
+	 * 관리자 경력 인증 / 반려시 알람 보내기 위한 map 반환 메소드
+	 * @param content 내용
+	 * @param accountId 알람 받는 사용자 ID
+	 * @param url 알람을 누르면 이동할 주소
+	 * @return
+	 */
+	private Map<String, Object> alarmMap(String content, String accountId, String url) {
+		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String formattedDate = currentDate.format(formatter);
+		String alarId = "AT_I"+formattedDate;
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("alarId", alarId);
+		insertMap.put("alarContent", content);
+		insertMap.put("alarAccountId", accountId);
+		insertMap.put("alarReplySeq", url);
+		
+		return insertMap;
 	}
 
 }
