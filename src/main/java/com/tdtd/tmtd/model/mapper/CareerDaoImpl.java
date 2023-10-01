@@ -30,7 +30,7 @@ public class CareerDaoImpl implements ICareerDao {
 	}
 	
 	/**
-	 * (개인)경력 인증 내용 등록
+	 * (개인)경력 인증 내용 등록 (OCR 저장)
 	 */
 	@Override
 	public int insertCareer(Map<String, Object> map) {

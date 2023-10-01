@@ -181,9 +181,6 @@ SELECT INPR_SEQ, INPR_ACCOUNT_ID,USER_PROFILE_FILE, USER_NICKNAME, INPR_CERT, US
  WHERE RN BETWEEN #{start} AND #{end}
 </select>
 
-
-
-
 <select id="getAllInstrCount" resultType="Integer">
 SELECT COUNT(*)
 	FROM (
@@ -206,13 +203,11 @@ SELECT COUNT(*)
 
 <update id="updateInstrLike">
 	UPDATE INSTR_PROFILE SET INPR_LIKE = #{list}, INPR_LIKE_COUNT = #{count}
-	<!-- ,INPR_REGDATE = CURRENT_DATE -->
 	WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </update>
 
 <update id="updateInstrView">
 	UPDATE INSTR_PROFILE SET INPR_VIEW = #{list}, INPR_VIEW_COUNT = #{count}
-	<!-- ,INPR_REGDATE = CURRENT_DATE -->
 	WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </update>
 
@@ -221,7 +216,6 @@ SELECT COUNT(*)
 		FROM INSTR_PROFILE
 		WHERE INPR_ACCOUNT_ID = #{inprAccountId}
 </select>
-
 
 <select id="getOneInstrSimple" resultMap="instrMap">
 	SELECT INPR_SEQ, INPR_ACCOUNT_ID, INPR_INTRO, USER_NICKNAME, USER_PROFILE_FILE, INPR_CERT, 

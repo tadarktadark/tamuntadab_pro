@@ -449,7 +449,7 @@ public class CareerController {
 		int n = service.updateCareerB(data);
 
 		if (n > 0) {
-			String content = "경력 인증이 반려되었습니다";
+			String content = "경력 인증 요청이 반려되었습니다";
 			String accountId = data.get("careAccountId").toString();
 			String url = "myCareerList.do";
 			
