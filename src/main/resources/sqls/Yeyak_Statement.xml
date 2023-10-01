@@ -214,4 +214,11 @@
 		SELECT GAGA_ID
 			FROM GANGEUISIL_GAEBYEOL
 	</select>
+	<select id="getAllChamyeoja" resultType="java.lang.String">
+		SELECT CLCH_ACCOUNT_ID
+			FROM GANGEUISIL_YEYAK JOIN CLASS_CHAMYEOJA
+			ON GAYE_CLAS_ID = CLCH_CLAS_ID
+			WHERE GAYE_ID=#{gayeId}
+				AND CLCH_STATUS='Y'
+	</select>
 </mapper>

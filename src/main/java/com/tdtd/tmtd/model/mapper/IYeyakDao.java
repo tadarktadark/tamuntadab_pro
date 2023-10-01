@@ -52,4 +52,5 @@ public interface IYeyakDao {
 	
 	public List<ClassVo> getchamyeoClassList(String accountId);
 	
+	public List<String> getAllChamyeoja(String gayeId);
 }

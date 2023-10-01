@@ -240,7 +240,7 @@
 									<!-- 일정 -->
 									<div class="tab-pane" id="scheduel" role="tabpanel">
 										<div class="p-4">
-											<%@ include file="./scheduel.jsp"%>
+											<%@ include file="./myYeyak.jsp"%>
 										</div>
 										<!-- end card -->
 									</div>

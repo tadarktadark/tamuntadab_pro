@@ -129,7 +129,7 @@ public class YeyakController {
 			String html = "";
 			html += "<option selected>선택 안함</option>";
 			for (ClassVo cVo : clist) {
-				html += "<option value='"+cVo.getClasId()+"'>"+cVo.getClasTitle()+" ("+cVo.getClasHyeonjaeInwon()+")</option>";
+				html += "<option id="+cVo.getClasId()+" value='"+cVo.getClasId()+"'>"+cVo.getClasTitle()+" ("+cVo.getClasHyeonjaeInwon()+")</option>";
 			}
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("date", dJson.substring(1,dJson.length()-1));
