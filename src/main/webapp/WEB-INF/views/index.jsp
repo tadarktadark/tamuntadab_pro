@@ -112,8 +112,7 @@ a {
 					<div>
 						<span style="font-size: 1.4em;">타문타답에서 연봉을 올리세요!</span>
 					</div>
-					<form action="./classList.do" method="get"
-						style="margin-top: 10px;" id="indexForm">
+					<form style="margin-top: 10px;" id="indexForm">
 						<div class="position-relative w-100">
 							<input type="text" class="form-control form-control-lg border-2"
 								name="searchQuery" placeholder="모집중인 클래스 검색" autocomplete="off"
@@ -310,7 +309,7 @@ $('#indexForm').on('submit', function(e) {
     var searchQuery = $('#search-options').val(); // 검색어 값 가져오기
 
     // 현재 페이지를 classList.do로 변경하고 검색어 값을 쿼리 파라미터로 전달
-    window.location.href = './classList.do?subjects=' + encodeURIComponent(searchQuery);
+    window.location.href = './classList.do?subjects=' + searchQuery;
 });
 
 

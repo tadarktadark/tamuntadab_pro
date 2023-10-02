@@ -210,14 +210,12 @@
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function() {
-		    var subjects = $('#indexSub').val(); 
+			var subjects = $('#indexSub').val();
 	
-		    if (subjects) {
-		        $('#classSearchForm #subjects').val(subjects);
-		        console.log("searchPaging 실행전");
-		        searchPaging(1, subjects);
-		        console.log("searchPaging 실행후");
-		    }
-		});
+				    if (subjects) {
+				        $('#classSearchForm #subjects').val(subjects);
+				        searchPaging(1, subjects);
+				    }
+			});
 	</script>
 </html>
