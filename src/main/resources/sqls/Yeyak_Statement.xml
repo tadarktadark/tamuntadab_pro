@@ -207,7 +207,7 @@
 			ON CLAS_ID = GAYE_CLAS_ID
 			WHERE CLCH_ACCOUNT_ID = #{accountId}
 				AND CLCH_STATUS = 'Y'
-				AND CLAS_STATUS = '매칭완료'
+				AND CLAS_STATUS IN ('매칭완료', '매칭')
 				AND GAYE_ID IS NULL
 	</select>
 	<select id="getAllGaebyeol" resultType="java.lang.String">
