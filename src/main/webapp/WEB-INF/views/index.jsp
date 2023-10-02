@@ -65,12 +65,6 @@ a {
 	margin: 15px;
 }
 
-#subjectDiv>span {
-	font-size: 1.2em;
-	display: block;
-	margin-bottom: 10px;
-}
-
 #subjectTagSlider {
 	width: 100%;
 	align-self: center;
@@ -110,7 +104,7 @@ a {
 			<div class="page-content">
 				<div class="container-fluid" style="text-align: center;">
 					<div>
-						<span style="font-size: 1.4em;">타문타답에서 연봉을 올리세요!</span>
+						<span style="font-size: 1.4em;">타문타답에서 우리만의 커리큘럼을 만드세요!</span>
 					</div>
 					<form style="margin-top: 10px;" id="indexForm">
 						<div class="position-relative w-100">
@@ -123,12 +117,12 @@ a {
 							</button>
 						</div>
 					</form>
-					<div id="subjectDiv">
 						<span
 							class="badge bg-secondary-subtle text-secondary  badge-border"
-							style="width: 300px; text-align: left;"><i
+							style="width: 300px; text-align: left; display: block; margin-top: 2%; margin-bottom: 10px; font-size: 1.2em;""><i
 							class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런
 							과목들을 배울 수 있어요 </span>
+					<div id="subjectDiv">
 						<div id="subjectTagSlider"></div>
 					</div>
 					<span class="badge bg-success-subtle text-success  badge-border"
@@ -195,7 +189,7 @@ a {
 										<div class="swiper-slide">
 											<div class="card team-box"
 												onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
-												<div class="card-body p-4">
+												<div class="card-body p-2">
 													<div class="row output-area mb-3">
 														<div class="col-auto text-end dropdown">
 															<span>&nbsp;</span> <span
@@ -206,7 +200,7 @@ a {
 													<div class="text-center mb-3">
 														<div class="avatar-lg mx-auto">
 															<img
-																src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}"
+																src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './image/profile.png'}"
 																alt=""
 																data-bs-toggle="${empty userInfo? 'tooltip' : ''}"
 																title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}"
@@ -248,7 +242,7 @@ a {
 										<div class="swiper-slide">
 											<div class="card team-box"
 												onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
-												<div class="card-body p-4">
+												<div class="card-body p-2">
 													<div class="row output-area mb-3">
 														<div class="col-auto text-end dropdown">
 															<span>&nbsp;</span> <span
@@ -259,7 +253,7 @@ a {
 													<div class="text-center mb-3">
 														<div class="avatar-lg mx-auto">
 															<img
-																src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}"
+																src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './image/profile.png'}"
 																alt=""
 																data-bs-toggle="${empty userInfo? 'tooltip' : ''}"
 																title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}"
