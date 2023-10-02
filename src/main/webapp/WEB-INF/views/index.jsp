@@ -100,7 +100,7 @@ a {
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_menu.jsp"%>
 
-		<div class="main-content" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+		<div class="main-content">
 			<div class="page-content">
 				<div class="container-fluid" >
 					<div>
