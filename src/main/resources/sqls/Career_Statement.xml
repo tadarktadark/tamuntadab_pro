@@ -118,8 +118,8 @@
 <select id="getOneInstrCareer" resultType="careerVo">
 	SELECT CARE_ACCOUNT_ID, CARE_SOSOK,CARE_COMPANY, CARE_JOB, CARE_PERIOD
 	FROM CAREER c 
-	WHERE CARE_STATUS = 'S' OR CARE_STATUS = 'D'
-		AND CARE_ACCOUNT_ID = #{userAccountId}
+	WHERE CARE_ACCOUNT_ID = #{userAccountId}
+		AND (CARE_STATUS = 'S' OR CARE_STATUS = 'D')
 </select>
 
 </mapper>
