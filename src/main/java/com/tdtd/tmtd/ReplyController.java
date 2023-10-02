@@ -1,5 +1,7 @@
 package com.tdtd.tmtd;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.comm.PagingUtils;
+import com.tdtd.tmtd.model.service.IAlarmService;
+import com.tdtd.tmtd.model.service.IJayuService;
+import com.tdtd.tmtd.model.service.IJilmunService;
+import com.tdtd.tmtd.model.service.IPilgiService;
 import com.tdtd.tmtd.model.service.IReplyService;
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ReplyVo;
@@ -28,6 +34,18 @@ public class ReplyController {
 
 	@Autowired
 	private IReplyService service;
+	
+	@Autowired
+	private IAlarmService alarm;
+	
+	@Autowired
+	private IPilgiService pilgi;
+	
+	@Autowired
+	private IJilmunService jilmun;
+	
+	@Autowired
+	private IJayuService jayu;
 	
 	@RequestMapping(value="/getReplyList.do", method=RequestMethod.GET)
 	@ResponseBody
@@ -62,13 +80,29 @@ public class ReplyController {
 	public String replyWrite(HttpSession session, ReplyVo vo) {
 		String board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ ROOT 댓글 작성 : board {}, ReplyVo {}", board, vo);
-				
+		
+		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		vo.setWriterId(userInfo.getUserAccountId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("board", board);
 		map.put("boardId", vo.getBoardId());
 		service.insertRootReply(vo, map);
+		
+		BoardVo bVo = service.getBoardAlramInfo(vo.getBoardId());
+		
+		String url = "communityDetails.do?board="+board+"&id="+bVo.getId();
+		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String formattedDate = currentDate.format(formatter);
+		String alarId = "AT_R"+formattedDate;
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("alarId", alarId);
+		insertMap.put("alarContent", "[댓글 등록] "+bVo.getTitle()+" 게시글에 댓글이 달렸습니다.");
+		insertMap.put("alarAccountId", bVo.getAccountId());
+		insertMap.put("alarReplySeq", url);
+		alarm.insertAlarm(insertMap);
 		
 		return "redirect:/communityDetails.do?id="+vo.getBoardId();
 	}
@@ -113,6 +147,30 @@ public class ReplyController {
 		vo.setWriterId(userInfo.getUserAccountId());
 		service.insertReReply(vo);
 		
+		ReplyVo alram = service.getReplyAlramInfo(""+vo.getRootSeq());
+		String board = "";
+		if(alram.getBoardId().substring(0,2).equals("PI")) {
+			board = "pilgi";
+		} else if(alram.getBoardId().substring(0,2).equals("JI")) {
+			board = "jilmun";
+		} else if(alram.getBoardId().substring(0,2).equals("JA")) {
+			board = "jayu";
+		}
+		String url = "communityDetails.do?board="+board+"&id="+alram.getBoardId();
+		String regex = "<[^>]+>";
+		String content = alram.getContent().replaceAll(regex, "").length()>20?alram.getContent().replaceAll(regex, "").substring(0,20)+"...":alram.getContent().replaceAll(regex, "");
+		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String formattedDate = currentDate.format(formatter);
+		String alarId = "AT_R"+formattedDate;
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("alarId", alarId);
+		insertMap.put("alarContent", "[대댓글 등록] "+content+" 댓글에 대댓글이 달렸습니다.");
+		insertMap.put("alarAccountId", alram.getWriterId());
+		insertMap.put("alarReplySeq", url);
+		alarm.insertAlarm(insertMap);
+		
 		return "redirect:/communityDetails.do?id="+vo.getBoardId();
 	}
 	
@@ -127,9 +185,34 @@ public class ReplyController {
 	
 	@RequestMapping(value="/replyChaetaek.do", method=RequestMethod.GET)
 	public String replyChaetaek(int seq, String boardId) {
-		log.info("@@@@@@@@@@@@@@@ 대댓글 채택 : seq {}, boardId {}", seq, boardId);
+		log.info("@@@@@@@@@@@@@@@ 댓글 채택 : seq {}, boardId {}", seq, boardId);
 		
 		service.updateChaetaek(seq, boardId);
+		
+		ReplyVo alram = service.getReplyAlramInfo(""+seq);
+		String board = "";
+		if(alram.getBoardId().substring(0,2).equals("PI")) {
+			board = "pilgi";
+		} else if(alram.getBoardId().substring(0,2).equals("JI")) {
+			board = "jilmun";
+		} else if(alram.getBoardId().substring(0,2).equals("JA")) {
+			board = "jayu";
+		}
+		
+		String url = "communityDetails.do?board="+board+"&id="+alram.getBoardId();
+		String regex = "<[^>]+>";
+		String content = alram.getContent().replaceAll(regex, "").length()>20?alram.getContent().replaceAll(regex, "").substring(0,20)+"...":alram.getContent().replaceAll(regex, "");
+		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String formattedDate = currentDate.format(formatter);
+		String alarId = "AT_R"+formattedDate;
+		Map<String, Object> insertMap = new HashMap<String, Object>();
+		insertMap.put("alarId", alarId);
+		insertMap.put("alarContent", "[댓글 채택] "+content+" 댓글이 채택되었습니다. 채택된 댓글은 삭제 및 수정이 불가합니다.");
+		insertMap.put("alarAccountId", alram.getWriterId());
+		insertMap.put("alarReplySeq", url);
+		alarm.insertAlarm(insertMap);
 		
 		return "redirect:/communityDetails.do?board=jilmun&id="+boardId;
 	}

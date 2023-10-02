@@ -137,4 +137,14 @@ public class ReplyDaoImpl implements IReplyDao {
 	public List<BoardVo> getLikeCommList(Map<String, Object> map) {
 		return session.selectList(NS+"getLikeCommList",map);
 	}
+	
+	@Override
+	public BoardVo getBoardAlramInfo(String id) {
+		return session.selectOne(NS+"getBoardAlramInfo",id);
+	}
+	
+	@Override
+	public ReplyVo getReplyAlramInfo(String seq) {
+		return session.selectOne(NS+"getReplyAlramInfo",seq);
+	}
 }

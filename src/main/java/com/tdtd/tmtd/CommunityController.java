@@ -236,8 +236,11 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value="/communityWriteForm.do", method=RequestMethod.GET)
-	public String communityWriteForm(Model model, HttpSession session, String id) {
-		String board = (String)session.getAttribute("community");
+	public String communityWriteForm(Model model, HttpSession session, String id, String board) {
+		if(board != null) {
+			session.setAttribute("community",board);
+		}
+		board = (String)session.getAttribute("community");
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 새 글 작성 Form 이동 : board {}, clasId {}", board, id);
 		model.addAttribute("title","커뮤니티");
 		

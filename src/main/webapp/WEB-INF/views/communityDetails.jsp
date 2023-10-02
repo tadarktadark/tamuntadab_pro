@@ -26,15 +26,6 @@
 					    	<c:if test="${sessionScope.community eq 'pilgi'}">
 								<!-- Left sidebar -->
 						        <div class="email-leftbar col-1">
-						        	<h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 목차</span></h5>
-							        <div class="card p-0 overflow-hidden shadow-none">
-			                            <div id="list-example" class="list-group">
-			                                <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-			                                <a class="list-group-item list-group-item-action active" href="#list-item-2">Item 2</a>
-			                                <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-			                                <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
-			                            </div>
-			                        </div>
 			                        <c:if test="${yList.size() > 0}">
 			                        	<h5><span class="badge badge-label bg-primary"><i class="mdi mdi-circle-medium"></i> 연관 필기</span></h5>
 					                    <div class="card p-0 overflow-hidden shadow-none">

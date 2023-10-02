@@ -99,10 +99,10 @@
 	                    <div id="customerList">
 	                        <div class="table-responsive table-card">
 	                            <table class="table align-middle table-nowrap" id="customerTable">
-	                            	<col width="40%">
+	                            	<col width="35%">
 	                            	<col width="40%">
 	                            	<col width="10%">
-	                            	<col width="10%">
+	                            	<col width="15%">
 	                                <thead class="table-primary">
 	                                    <tr>
 	                                        <th class="bg-primary">글제목</th>
@@ -272,8 +272,14 @@
 	</script>
 	<script id="reply-list-template" type="text/x-handlebars-template">
 		<tr>
-		    <td class="title"><b><a id="{{id}}" class="view-reply">{{title}}</a></b></td>
-		    <td class="content">{{{content}}}</td>
+		    <td class="title"><b>
+				{{#boardG}}
+				<a id="{{id}}" class="view-reply">{{title}}</a>
+				{{else}}
+				{{title}}
+				{{/boardG}}
+			</b></td>
+		    <td class="content reply-content">{{{content}}}</td>
 		    <td class="state">
 		    	{{#stateN}}
 		    	<span class="badge bg-success-subtle text-success">게시</span>
@@ -295,6 +301,54 @@
 		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
 		            </div>
 		        </div>
+				{{else}}
+				{{#boardI}}
+				<div class="d-flex">
+					<div>
+		                <span class="badge badge-outline-info">나만 보기</span>
+		            </div>
+		            <div id="{{seq}}" class="ms-1">
+		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+				{{/boardI}}
+				{{#boardD}}
+				<div class="d-flex">
+					<div>
+		                <span class="badge badge-outline-primary">신고 삭제</span>
+		            </div>
+		            <div id="{{seq}}" class="ms-1">
+		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+				{{/boardD}}
+				{{#boardY}}
+				<div class="d-flex">
+					<div>
+		                <span class="badge badge-outline-warning">삭제</span>
+		            </div>
+		            <div id="{{seq}}" class="ms-1">
+		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+				{{/boardY}}
+				{{#boardN}}
+				<div class="d-flex">
+					<div>
+		                <span class="badge badge-outline-danger">완전 삭제</span>
+		            </div>
+		            <div id="{{seq}}" class="ms-1">
+		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
+		            </div>
+		        </div>
+				{{/boardN}}
+				{{#boardC}}
+				<div class="d-flex">
+					<div>
+		                <i class="ri-check-double-fill text-success"></i>
+		            </div>
+		        </div>
+				{{/boardC}}
 			    {{/stateD}}
 		    </td>
 		</tr>

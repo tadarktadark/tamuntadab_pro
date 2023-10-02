@@ -1668,138 +1668,126 @@ INSERT ALL
 SELECT * FROM DUAL;
 
 -- 필기 게시판 더미 데이터
-INSERT ALL
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0001','TMTD1','1000000071','필기 테스트 데이터 입니다 1 스프링','I','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0002','TMTD1','1000000072','필기 테스트 데이터 입니다 2','A','A','N',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0003','TMTD1','1000000073','필기 테스트 데이터 입니다 3','A','C','N',2,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0004','TMTD1','1000000074','필기 테스트 데이터 입니다 4 자바 스프링','C','I','N',2,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0005','TMTD1','1000000075','필기 테스트 데이터 입니다 5','C','C','N',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0006','TMTD1','1000000076','필기 테스트 데이터 입니다 6','A','A','Y')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0007','TMTD1','1000000077','필기 테스트 데이터 입니다 7','I','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0008','TMTD1','1000000078','필기 테스트 데이터 입니다 8','C','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0009','TMTD1','1000000079','필기 테스트 데이터 입니다 9','C','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0010','TMTD1','1000000080','필기 테스트 데이터 입니다 10','A','I','Y')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0011','TMTD1','1000000081','필기 테스트 데이터 입니다 11','A','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_LIKE_USER, PIBO_LIKE_COUNT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0001','TMTD1','1000000082','필기 테스트 데이터 입니다 12 자바 자바스크립트','{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}',1,'I','I','N',CURRENT_DATE-1)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0012','TMTD1','1000000083','필기 테스트 데이터 입니다 13','I','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0013','TMTD1','1000000084','필기 테스트 데이터 입니다 14','C','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0014','TMTD1','1000000085','필기 테스트 데이터 입니다 15','A','A','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0015','TMTD1','1000000086','필기 테스트 데이터 입니다 16','A','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0016','TMTD1','1000000087','필기 테스트 데이터 입니다 17','A','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT,PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0017','TMTD1','1000000088','필기 테스트 데이터 입니다 18','A','A','Y')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0018','TMTD1','1000000089','필기 테스트 데이터 입니다 19','I','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0019','TMTD1','1000000090','필기 테스트 데이터 입니다 20','C','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0020','TMTD1','1000000091','필기 테스트 데이터 입니다 21','C','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0021','TMTD1','1000000092','필기 테스트 데이터 입니다 22','A','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0022','TMTD1','1000000093','필기 테스트 데이터 입니다 23','A','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0023','TMTD1','1000000094','필기 테스트 데이터 입니다 24','A','A','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0024','TMTD1','1000000095','필기 테스트 데이터 입니다 25','I','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0025','TMTD1','1000000096','필기 테스트 데이터 입니다 26','C','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0026','TMTD1','1000000097','필기 테스트 데이터 입니다 27','C','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0027','TMTD1','1000000098','필기 테스트 데이터 입니다 28','A','I','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0028','TMTD1','1000000099','필기 테스트 데이터 입니다 29','A','C','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0029','TMTD1','1000000100','필기 테스트 데이터 입니다 30','A','A','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0002','TMTD37','1000000082','필기 테스트 데이터 입니다 31','C','C','Y',CURRENT_DATE-1)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0003','TMTD2','1000000082','필기 테스트 데이터 입니다 32','C','C','N',CURRENT_DATE-1)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0001','TMTD83','1000000082','필기 테스트 데이터 입니다 33','A','A','N',CURRENT_DATE-2)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0002','TMTD92','1000000082','필기 테스트 데이터 입니다 34','A','A','N',CURRENT_DATE-2)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0030','TMTD1','1000000333','필기 테스트 데이터 입니다 35','A','I','N',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031','TMTD29','1000000085','필기 테스트 데이터 입니다 36','A','A','N')
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0003','TMTD66','1000000085','필기 테스트 데이터 입니다 37','A','A','N',CURRENT_DATE-2)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0004','TMTD65','1000000085','필기 테스트 데이터 입니다 38','A','A','N',CURRENT_DATE-2)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0005','TMTD23','1000000085','필기 테스트 데이터 입니다 39','A','A','N',CURRENT_DATE-2)
-	INTO PILGI_BOARD
-	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE)
-	VALUES('PI'||TO_CHAR(CURRENT_DATE-8,'yyyymmdd')||'0001','TMTD16','1000000085','필기 테스트 데이터 입니다 40','A','A','N',CURRENT_DATE-8)
-SELECT * FROM DUAL;
-
--- 필기 임시저장 더미 데이터
-INSERT ALL
-	INTO PILGI_IMSIJEOJANG
-	(PIIM_SEQ, PIIM_WRITER_ID, PIIM_CLAS_ID, PIIM_CONTENT, PIIM_VIEW_GROUP, PIIM_DOWNLOAD_GROUP)
-	VALUES(1,'TMTD1','1000000313','필기 임시저장 테스트 데이터 입니다 1','A','C')
-	INTO PILGI_IMSIJEOJANG
-	(PIIM_SEQ, PIIM_WRITER_ID, PIIM_CLAS_ID, PIIM_CONTENT, PIIM_VIEW_GROUP, PIIM_DOWNLOAD_GROUP)
-	VALUES(PILGI_IMSIJEOJANG_SEQ.NEXTVAL,'TMTD1','1000000330','필기 임시저장 테스트 데이터 입니다 1','A','I')
-SELECT * FROM DUAL;
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP,PIBO_VIEW_COUNT,PIBO_VIEW_USER, PIBO_STATE)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0001','TMTD1','1000000071','필기 테스트 데이터 입니다 1 스프링','I','I',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}','N');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0002','TMTD1','1000000072','필기 테스트 데이터 입니다 2','A','A','N',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0003','TMTD1','1000000073','필기 테스트 데이터 입니다 3','A','C','N',2,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0004','TMTD1','1000000074','필기 테스트 데이터 입니다 4 자바 스프링','C','I','N',2,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0005','TMTD1','1000000075','필기 테스트 데이터 입니다 5','C','C','N',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP,PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0006','TMTD1','1000000076','필기 테스트 데이터 입니다 6','A','A','Y',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP,PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0007','TMTD1','1000000077','필기 테스트 데이터 입니다 7','I','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0008','TMTD1','1000000078','필기 테스트 데이터 입니다 8','C','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0009','TMTD1','1000000079','필기 테스트 데이터 입니다 9','C','C','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0010','TMTD1','1000000080','필기 테스트 데이터 입니다 10','A','I','Y',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP,PIBO_VIEW_COUNT,PIBO_VIEW_USER, PIBO_STATE)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0011','TMTD1','1000000081','필기 테스트 데이터 입니다 11','A','C',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}','N');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_LIKE_USER, PIBO_LIKE_COUNT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0001','TMTD1','1000000082','필기 테스트 데이터 입니다 12 자바 자바스크립트','{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}',1,'I','I','N',CURRENT_DATE-1,1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0012','TMTD1','1000000083','필기 테스트 데이터 입니다 13','I','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0013','TMTD1','1000000084','필기 테스트 데이터 입니다 14','C','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_VIEW_COUNT,PIBO_VIEW_USER, PIBO_STATE)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0014','TMTD1','1000000085','<h2><span style="background-color:hsl(150, 75%, 60%);"><strong>블록체인의 의미</strong></span></h2><ol><li>블록체인이란?<ol><li>&nbsp;P2P(Peer to Peer) 네트워크를 통해서 관리되는 <span style="color:hsl(0, 75%, 60%);"><u>분산 데이터베이스</u></span>의 한 형태</li><li>거래 정보를 담은 장부를 중앙 서버 한 곳에 저장하는 것이 아니라 블록체인 네트워크에 연결된 여러 컴퓨터에 저장 및 보관하는 기술</li><li>다양한 분야에 활용이 가능</li></ol></li><li>분산원장 기술(DLT: Distributed Ledger Technology)<ol><li>거래 정보를 기록한 원장 데이터를 중앙 서버가 아닌 참가자들이 공동으로 기록 및 관리하는 것을 의미</li><li>분산처리와 암호화 기술을 동시에 적용하여 높은 <span style="color:hsl(0, 75%, 60%);"><u>보안성</u></span>을 확보</li><li>거래과정의 <span style="color:hsl(0, 75%, 60%);"><u>신속성과 투명성</u></span>을 특징</li></ol></li></ol><h2><span style="background-color:hsl(150, 75%, 60%);"><strong>장점</strong></span></h2><ol><li><p><strong>보안성의 강화</strong> : 해커의 공격과 데이터의 왜곡, 디도스 공격을 원천적으로 방어</p><p>*** 디도스 공격 : 기존 중앙 집중 서버 방식(Central Server)의 가장 큰 문제점</p></li><li><strong>비용 절약</strong> : 제3자의 거래에 의존하던 여러 과정들을 생략</li></ol><h2><span style="background-color:hsl(150, 75%, 60%);"><strong>적용 분야</strong></span></h2><ol><li>데이터 원본의 무결성 증명이 요구 되는 다양한 공공·민간 영역에 적용</li><li>새로운 신뢰사회 구현의 기반 기술로 주목</li><li>거래 장부인 데이터 뿐 아니라 거래 계약도 중간 신뢰 담당자(Trusted Third Party) 없이 거래 → <span style="background-color:hsl(0, 75%, 60%);"><strong><u>스마트계약(Smart Contract)</u></strong></span></li><li>해외 송금서비스, 장외주식, 채권, 마일리지 등 거래, 디지털 통화 및 이체서비스</li><li>금융 분야 뿐만 아니라 지역화폐(Local Currency) 및 물류·유통, 에너지산업 등 다양한 분야에 서 활용될 것</li></ol><h2><span style="background-color:hsl(150, 75%, 60%);"><strong>금융업의 블록체인 적용 분야</strong></span></h2><figure class="table"><table><thead><tr><th><p style="text-align:center;">분야</p></th><th><p style="text-align:center;">&nbsp;기능 및 효과</p></th></tr></thead><tbody><tr><td><p style="text-align:center;">인증</p></td><td><p style="text-align:center;">별도의 공인인증기관 없이 간편하고 안전한 대체 인증수단 제공</p></td></tr><tr><td><p style="text-align:center;">결제 및 송금</p></td><td><p style="text-align:center;">소액 결제 및 해외 송금서비스의 보안성 제고 및 수수료 비용절감</p></td></tr><tr><td><p style="text-align:center;">증권거래</p></td><td><p style="text-align:center;">통화, 장외주식, 파생상품 등의 거래에 소요되는 거래시간의 획기적 단축</p></td></tr><tr><td><p style="text-align:center;">스마트계약</p></td><td><p style="text-align:center;">조건에 의해 거래가 자동적으로 성립됨에 따라 중간관리자에 의한 사기, 위조 방지</p></td></tr><tr><td><p style="text-align:center;">대출·투자·무역거래</p></td><td><p style="text-align:center;">중개자를 배제한 비대면 P2P 대출서비스<br>크라우드 펀딩을 통해 소액자금 조달 및 투자<br>송장 정보 공유를 통한 송장 사기방지</p></td></tr></tbody></table></figure>','A','A',6,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD29":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD23":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD65":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD66":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD16":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}','N');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0015','TMTD1','1000000086','필기 테스트 데이터 입니다 16','A','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0016','TMTD1','1000000087','필기 테스트 데이터 입니다 17','A','C','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT,PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0017','TMTD1','1000000088','필기 테스트 데이터 입니다 18','A','A','Y',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0018','TMTD1','1000000089','필기 테스트 데이터 입니다 19','I','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0019','TMTD1','1000000090','필기 테스트 데이터 입니다 20','C','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0020','TMTD1','1000000091','필기 테스트 데이터 입니다 21','C','C','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0021','TMTD1','1000000092','필기 테스트 데이터 입니다 22','A','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0022','TMTD1','1000000093','필기 테스트 데이터 입니다 23','A','C','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0023','TMTD1','1000000094','필기 테스트 데이터 입니다 24','A','A','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0024','TMTD1','1000000095','필기 테스트 데이터 입니다 25','I','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0025','TMTD1','1000000096','필기 테스트 데이터 입니다 26','C','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0026','TMTD1','1000000097','필기 테스트 데이터 입니다 27','C','C','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0027','TMTD1','1000000098','필기 테스트 데이터 입니다 28','A','I','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0028','TMTD1','1000000099','필기 테스트 데이터 입니다 29','A','C','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0029','TMTD1','1000000100','필기 테스트 데이터 입니다 30','A','A','N',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0002','TMTD37','1000000082','필기 테스트 데이터 입니다 31','C','C','Y',CURRENT_DATE-1,1,'{"TMTD37":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-1,'yyyymmdd')||'0003','TMTD2','1000000082','필기 테스트 데이터 입니다 32','C','C','N',CURRENT_DATE-1,1,'{"TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0001','TMTD83','1000000082','필기 테스트 데이터 입니다 33','A','A','N',CURRENT_DATE-2,1,'{"TMTD83":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0002','TMTD92','1000000082','필기 테스트 데이터 입니다 34','A','A','N',CURRENT_DATE-2,1,'{"TMTD92":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_LIKE_COUNT ,PIBO_LIKE_USER,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0030','TMTD1','1000000333','필기 테스트 데이터 입니다 35','A','I','N',3,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD2":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD3":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}',1,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_REPLY_COUNT,PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031','TMTD29','1000000085',2,'<h2><span style="background-color:hsl(120, 75%, 60%);"><strong>블록체인의 원리&nbsp;</strong></span></h2><ol><li>네트워크에 참가하는 모든 공동체가 거래를 기록하고 관리하는 P2P거래를 지향</li><li>탈중앙화</li><li>거래 정보를 블록에 담아 차례대로 연결</li><li>모든 참여자가 공유한다.&nbsp;</li></ol><h2><span style="background-color:hsl(120, 75%, 60%);"><strong>거래 과정</strong></span></h2><ol><li>&nbsp;A가 B에게 송금 희망 등의 거래 요청</li><li>해당 거래 정보가 담긴 블록이 생성</li><li>블록이 네트워크상의 모든 참여자 에게 전송</li><li>참여자들은 거래 정보의 유효성을 상호 검증</li><li>참여자 과반수 의 데이터와 일치하는 거래내역은 정상 장부로 확인<ol><li>검증이 완료된 블록 은 이전 블록에 연결</li><li>사본이 만들어져 각 사용자의 컴퓨터에 분산 저장</li></ol></li><li>A가 B에게 송금하여 거래가 완료<ol><li>거래할 때마다 거래 정보가 담긴 블록이 생성되어 계속 연결 → 모든 참여자의 컴퓨터에 분산 저장</li><li>임의로 수정하거나 위조 또는 변조 하려면 전체 참여자의 과반수 이상의 거래 정보를 동시에 수정하여야 하기 때문에 사실상 불가능</li></ol></li></ol><h2><span style="background-color:hsl(120, 75%, 60%);"><strong>기존 금융 시스템과의 차이점</strong></span></h2><ol><li>기존 금융 시스템 : 접근을 차단함으로써 거래 정보를 보호·관리</li><li>블록체인 : &nbsp;모든 거래 정보를 누구나 열람할 수 있도록 공개한 상태에서 은행 같은 공신력 있는 제3자의 보증 없이 당사자 간에 안전하게 거래</li></ol>','A','A','N',6,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD29":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD23":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD65":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD66":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD16":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0003','TMTD66','1000000085','<h2><span style="background-color:hsl(0, 0%, 60%);"><strong>해시함수</strong></span></h2><ol><li>해시(Hash)는 ‘어떤 데이터를 고정된 길이의 데이터 로 변환’하는 것을 의미</li><li>해시함수를 거치면 원본 데이터를 알아볼 수 없도록 특수한 문자열로 변환</li><li>해시함수는 압축이 아니라 단방향 변환이기 때문에 해시값을 이용해서 원본 데이터를 복원할 수 없음</li></ol><p>&nbsp;</p><h2><span style="background-color:hsl(0, 0%, 60%);"><strong>해시함수의 유용성</strong></span></h2><ol><li>원본 데이터에 아주 작은 변화만 있어도 완전히 다른 해시 값이 생성</li><li>눈사태 효과&nbsp;<ol><li>전자 서명, 증명서 등에서 해시값을 많이 활용</li><li>단방향 변환, 복원이 불가능 → 블록체인 기술 및 전자 서명 등 암호화에 사용</li><li>각종 서버에서 사용자 정보들을 해시값으로 변환해서 저장</li></ol></li><li>해당 블록에 서명하고 이전 블록의 해시값을 다음 블록에 기록 → 체인 형태의 연결 리스트(Linked List)를 형성</li><li>특정 블록을 해킹하려면 그 블록에 연결된 다른 블록들도 수정 → 데이터의 위·변조가 어려움</li></ol><p>&nbsp;</p><h2><span style="background-color:hsl(0, 0%, 60%);"><strong>해시함수의 특성</strong></span></h2><ol><li>어떤 길이의 데이터도 입력으로 사용</li><li>결과는 정해진 길이</li><li>계산 시간이 합리적으로 추정 가능</li><li>결과 값이 중복될 가능성이 거의 없음</li><li>입력 값을 알 수 없음</li><li>결과 값을 알려주고 입력 값을 찾을 수 있는 특별한 공식이 없음</li></ol>','A','A','N',CURRENT_DATE-2,6,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD29":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD23":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD65":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD66":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD16":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0004','TMTD65','1000000085','<h2><span style="background-color:hsl(270, 75%, 60%);"><strong>블록체인의 유형</strong></span></h2><ol><li><span style="color:hsl(270, 75%, 60%);"><strong>퍼블릭 블록체인(Public Blockchain)</strong></span><ol><li>개방형 블록체인</li><li>누구나 트랜잭션을 생성 → 공공거래장부에 해당</li><li>통상 블록체인</li><li>누구나 참여할 수 있고 모든 참여자의 상 호 검증을 거쳐 신뢰도가 높음</li><li>트랜잭션 내역이 모두에게 공개되어 네트워크에 참여 한 모든 노드(Node)가 이를 검증하고 거래를 승인</li><li>모든 참여자 의 거래 기록을 남기고 이를 공유하느라 처리 속도가 느림</li></ol></li><li><span style="color:hsl(270, 75%, 60%);"><strong>프라이빗 블록체인(Private Blockchain)</strong></span><ol><li>폐쇄형 블록체인으로 퍼블릭 블록체인의 상대적 개념</li><li>서비스 제공자(기업 또는 기관)의 승인을 받아야만 참여할 수 있음</li><li>주로 기업에서 활용 → 엔터프라이즈 블록체인(Enterprise Blockchain)</li><li>여러 기업(또는 기관)이 공동으로 참여하는 컨소시엄 블록 체인(Consortium Blockchain)도 넓은 의미에서 프라이빗 블록체인의 범주</li><li>법적 책임을 지는 기관만 트랜잭션을 생성</li><li>&nbsp;승인된 기관만 트랜잭션을 검증하고 거래를 승인</li><li>처리 속도가 빠름</li><li>서비스 제공자에 게 전적으로 의존해야 하기 때문에 퍼블릭 블록체인에 비하여 신뢰성에 한계<ol><li>프라이빗 블록체인에서 발생하는 시간상의 트랜잭션을 해쉬 함수를 만들어 퍼블릭 블록체인에 저장하는 방식 → 앵커링(Anchoring) → &nbsp;신뢰성을 극복</li></ol></li></ol></li><li><span style="color:hsl(270, 75%, 60%);"><strong>컨소시엄 불록체인(Consortium Blockchain)</strong></span><ol><li>프라이빗 블록체인의 확장</li><li>서로 다른 프라이빗 블록체 인의 결합</li><li>각기 다른 블록체인에서 생성한 이질적인 블록을 오더링이라는 프로세스로 연결 → 신뢰성의 확보 및 확장성</li></ol></li></ol>','A','A','N',CURRENT_DATE-2,6,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD29":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD23":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD65":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD66":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD16":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-2,'yyyymmdd')||'0005','TMTD23','1000000085','<h2><span style="background-color:hsl(60, 75%, 60%);"><strong>블록체인 적용 시 기대효과</strong></span></h2><ol><li>보안성의 강화</li><li>처리과정의 신뢰성 증진과 감시 가능성의 확대</li><li>제3자의 중개에 의존하지 않는 비즈니스 모델 → 비용절감 효과<ol><li>IT시스템 측면 : 응용기술 개발 비용, 인프라 장비 조달비용, 중간구조 개발비용 등의 절감</li><li>기업경영 측면 : 회계감사 비용, 종이서류 관리비용, 노동비용 등의 절감</li></ol></li></ol><p>&nbsp;</p><h2><span style="background-color:hsl(60, 75%, 60%);"><strong>블록체인 기술의 잠재적 편익과 장애요인</strong></span></h2><figure class="table"><table><thead><tr><th><p style="text-align:center;">잠재적 편익</p></th><th><p style="text-align:center;">&nbsp;장애요인</p></th></tr></thead><tbody><tr><td>거래 속도의 증가</td><td>분산원장 기술별로 환경이 달라 공개와 비공개, 가장 적절한 합의 방법과 그에 따른 에너지 소모 등의 차이 존재</td></tr><tr><td>정확성의 증가와 인적오류 감소</td><td>분산원장의 규모성과 현존 솔루션 간의 경합 능력이 불확실함<br>특히 대규모의 빠른 응용에서는 아직까지 분산원장의 승인 과정이 느림</td></tr><tr><td>사기의 기회 감소</td><td>분산원장 기술별이나 현존 비분산원장 기술과의 호환성이 검 증되지 않아 현존 시스템의 혁신위험과 내부부서 간 승인 및 책임 문제 존재</td></tr><tr><td>효율성 증진과 인프라비용 감소</td><td>기업 비밀정보의 공유는 원치 않기에 산업 표준의 제정에 아직 회의적임</td></tr><tr><td>거래의 투명성과 감시 가능성 증가</td><td>기술개발 이전에 규제기관의 지원이 필요한 산업이 있으나 규 제기관 간의 부조화로 개혁을 제한할 수 있음<br>분산원장에 탑재되는 자산의 다양성은 다수의 규제기관의 개 입 개연성을 높이며, 분산원장 기술의 실패를 대비한 응급 대 책을 요구</td></tr><tr><td>악성공격에 대한 회복력 증가</td><td>디지털화된 자산에 대해 데이터의 소유자, 보유자, 보유처, 국 가 간 규제, 스마트계약의 코팅에러 등 대비 필요</td></tr><tr><td>보안성 강화</td><td>해커의 공격 가능성과 프라이버시의 인정 범위</td></tr><tr><td>응용가능성 확대</td><td>분산원장 기술의 비용 효율성은 요구되는 투자와 실행 위험에 대비되어야 함</td></tr></tbody></table></figure>','A','A','N',CURRENT_DATE-2,6,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD29":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD23":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD65":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD66":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD16":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
+	INSERT INTO PILGI_BOARD
+	(PIBO_ID, PIBO_WRITER_ID, PIBO_CLAS_ID, PIBO_CONTENT, PIBO_VIEW_GROUP, PIBO_DOWNLOAD_GROUP, PIBO_STATE,PIBO_REGDATE,PIBO_VIEW_COUNT,PIBO_VIEW_USER)
+	VALUES('PI'||TO_CHAR(CURRENT_DATE-8,'yyyymmdd')||'0001','TMTD16','1000000085','<h2><span style="background-color:hsl(210, 75%, 60%);"><strong>블록체인 컨소시엄</strong></span></h2><ol><li><span style="background-color:hsl(180, 75%, 60%);"><strong>R3CEV 컨소시엄</strong></span><ol><li>블록체인 기술기업인 R3가 중심이 되어 은행 등 금융기관이 활용할 수 있는 블록체인 표준 플랫폼(Corda)을 개발</li><li>“코다(Corda)”는 국가 간 대형 은행 또는 중앙은행 간의 송금 및 대 금액 이체를 목적으로 블록에 이체 정보를 저장하는 형태</li><li>가능한 사용처 : 중앙은행이나 수출입은행</li></ol></li><li><span style="background-color:hsl(180, 75%, 60%);"><strong>Hyperledger 컨소시엄</strong></span><ol><li>리눅스 재단이 주도하는 오픈소스 블록체인 컨소시엄</li><li>IT기업, 블록체인 기술기업, 금융기업, 제조사, 컨설팅기업 등 다양한 기업들이 협업 및 개발을 통해 다양한 블록체인 활용방안 및 여러 프로젝트를 진행</li><li>IBM의 Fabric이 두각</li><li>가장 많이 응용되고 있는 블록체인 레져(Ledger)</li><li>여러 이타적인 또는 동종 업종의 프라이빗 블록체인을 오더링(Ordering) 이라는 재배열을 함으로써 진본성을 확인하는 대표적 컨소시엄 Ledger의 한 형태</li><li>가능한 사용처 : 여러 기관을 포함한 국세청, 관세청</li></ol></li><li><span style="background-color:hsl(180, 75%, 60%);"><strong>일본의 SBI 핀테크 컨소 시엄&nbsp;</strong></span></li><li><span style="background-color:hsl(180, 75%, 60%);"><strong>중국의 Chinaledger</strong></span></li><li><span style="background-color:hsl(180, 75%, 60%);"><strong>(주)코인플러그의 파이도 레져는(Fido Ledger)&nbsp;</strong></span><ol><li>스마트 컨트랙트와 코인플러그가 가지고 있는 세계 특허인 블록체인 인증 특허를 이용한 블록체인의 형태</li><li>가능한 사용처 :인증이 필요한 금융, 보험 및 자산 분야</li></ol></li></ol>','A','A','N',CURRENT_DATE-8,6,'{"TMTD1":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD29":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD23":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD65":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD66":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'","TMTD16":"'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'"}');
 
 -- 질문게시판 더미 데이터
 INSERT ALL
@@ -2319,7 +2307,13 @@ INSERT ALL
 	VALUES(19, 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0056', 'TMTD111','댓글 테스트 내용 입니다 19',3,8)
 	INTO COMMUNITY_REPLY
 	(CORE_SEQ, CORE_BOARD_ID, CORE_WRITER_ID, CORE_CONTENT, CORE_ROOT_SEQ, CORE_STEP)
-	VALUES(COMMUNITY_REPLY_SEQ.NEXTVAL, 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0056', 'TMTD72','댓글 테스트 내용 입니다 20',3,9)
+	VALUES(20, 'PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031', 'TMTD1','블록체인 거래과정이 흥미롭네요~!',20,0)
+	INTO COMMUNITY_REPLY
+	(CORE_SEQ, CORE_BOARD_ID, CORE_WRITER_ID, CORE_CONTENT, CORE_ROOT_SEQ, CORE_STEP)
+	VALUES(21, 'PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031', 'TMTD23','적용 분야에 대해 알 수 있을까요?',21,0)
+	INTO COMMUNITY_REPLY
+	(CORE_SEQ, CORE_BOARD_ID, CORE_WRITER_ID, CORE_CONTENT, CORE_ROOT_SEQ, CORE_STEP)
+	VALUES(COMMUNITY_REPLY_SEQ.NEXTVAL, 'PI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0031', 'TMTD1','그 부분은 제 필기에 나와있어요!',21,1)
 SELECT * FROM DUAL;
 
 -- 삭제 댓글 더미 데이터
