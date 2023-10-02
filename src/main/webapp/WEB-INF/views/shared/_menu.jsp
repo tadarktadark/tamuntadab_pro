@@ -145,26 +145,6 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                             </ul>
                         </div>
                     </li>
-
-					<li class="nav-item">
-                        <a class="nav-link menu-link" href="#sidebarCenter" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarCenter">
-                            <i class="ri-pencil-ruler-2-line"></i> <span data-key="t-center">고객센터</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="sidebarCenter">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="./gongjiList.do" class="nav-link" data-key="t-gongji">공지사항 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./geonuiList.do" class="nav-link" data-key="t-geonui">건의사항 </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./fagList.do" class="nav-link" data-key="t-faq">자주 묻는 질문 </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    
 				</ul>
 
 				<div class="help-box text-center">
