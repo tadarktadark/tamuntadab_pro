@@ -185,4 +185,8 @@ public interface IReplyService {
 	 * @since 2023.09.25
 	 */
 	public List<BoardVo> getLikeCommList(Map<String, Object> map);
+	
+	public BoardVo getBoardAlramInfo(String id);
+	
+	public ReplyVo getReplyAlramInfo(String seq);
 }

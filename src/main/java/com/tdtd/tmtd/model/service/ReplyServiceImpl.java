@@ -122,4 +122,13 @@ public class ReplyServiceImpl implements IReplyService {
 		return dao.getLikeCommList(map);
 	}
 
+	@Override
+	public BoardVo getBoardAlramInfo(String id) {
+		return dao.getBoardAlramInfo(id);
+	}
+	
+	@Override
+	public ReplyVo getReplyAlramInfo(String seq) {
+		return dao.getReplyAlramInfo(seq);
+	}
 }

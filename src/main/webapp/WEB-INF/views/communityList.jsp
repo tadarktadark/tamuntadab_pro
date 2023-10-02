@@ -56,19 +56,11 @@
 							<div class="col-sm-auto" ><p id="like" class="mt-3 order-by"><i class="mdi mdi-circle-medium fs-18 text-muted align-middle me-1"></i> 좋아요순</p></div>
 							<div class="col-sm-auto" ><p id="reply" class="mt-3 order-by"><i class="mdi mdi-circle-medium fs-18 text-muted align-middle me-1"></i> 댓글많은순</p></div>
 						</div>
-						<c:choose>
-							<c:when test="${sessionScope.community eq 'pilgi'}">
-								<div class="col-sm-auto ms-auto">
-							        <a href="./communityWriteForm.do?id=1000000313" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>작성</a>
-							        <a href="./community.do?board=pilgi&id=1000000082" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>보기</a>
-							    </div>	
-							</c:when>
-							<c:otherwise>
-								<div class="col-sm-auto ms-auto">
-							        <a id="write-btn" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>글쓰기</a>
-							    </div>	
-							</c:otherwise>
-						</c:choose>
+						<c:if test="${sessionScope.community ne 'pilgi'}">
+							<div class="col-sm-auto ms-auto">
+						        <a id="write-btn" class="btn btn-primary rigth-btn"><i class="bx bx-plus me-1 fs-16 align-middle"></i>글쓰기</a>
+						    </div>
+						</c:if>
 					</div>							
 					<div class="mb-3 list-group">
 					</div>
@@ -131,7 +123,7 @@
 	</script>
 	<script id="page-list-template" type="text/x-handlebars-template">
 		{{#each page}}
-		<li class="page-item">
+		<li class="page-item {{state}}">
 			<span class="page-link" id="{{id}}">{{{htmlOrText value}}}</span>
 		</li>
 		{{/each}}

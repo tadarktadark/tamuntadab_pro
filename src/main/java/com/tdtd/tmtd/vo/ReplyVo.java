@@ -18,7 +18,6 @@ public class ReplyVo {
 	private String content;
 	private int rootSeq;
 	private int step;
-	private int depth;
 	private String chaetaek;
 	private String regdate;
 	private String update;
@@ -45,12 +44,11 @@ public class ReplyVo {
 		this.content = content;
 	}
 
-	public ReplyVo(int seq, String boardId, int rootSeq, int step, int depth) {
+	public ReplyVo(int seq, String boardId, int rootSeq, int step) {
 		super();
 		this.seq = seq;
 		this.boardId = boardId;
 		this.rootSeq = rootSeq;
 		this.step = step;
-		this.depth = depth;
 	}
 }
