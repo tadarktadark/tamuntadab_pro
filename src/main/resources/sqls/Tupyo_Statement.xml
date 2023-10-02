@@ -88,7 +88,7 @@ SELECT CLCH_ACCOUNT_ID ,CLCH_YEOKAL
 </select>
 
 <select id="getMember" parameterType="String" resultType="userProfileVo">
-SELECT USER_ACCOUNT_ID ,USER_EMAIL ,USER_NAME
+SELECT USER_ACCOUNT_ID ,USER_EMAIL ,USER_NAME,USER_NICKNAME
 	FROM USER_PROFILE up 
 	WHERE USER_ACCOUNT_ID =#{accountId}
 </select>

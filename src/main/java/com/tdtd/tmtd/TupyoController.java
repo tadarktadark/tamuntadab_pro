@@ -94,7 +94,7 @@ public class TupyoController {
 		for(int i =0;i<lists.size();i++) {
 			String instrId = lists.get(i).getTuopInstr();
 			UserProfileVo instrVo = service.getMember(instrId);
-			String instrNickname = instrVo.getUserName();
+			String instrNickname = instrVo.getUserNickname();
 			instrNicknameList.add(instrNickname);
 		}
 		model.addAttribute("instrNicknameList", instrNicknameList);
@@ -226,7 +226,7 @@ public class TupyoController {
 		for(int i =0;i<lists.size();i++) {
 			String instrId = lists.get(i).getTuopInstr();
 			UserProfileVo instrVo = service.getMember(instrId);
-			String instrNickname = instrVo.getUserName();
+			String instrNickname = instrVo.getUserNickname();
 			instrNicknameList.add(instrNickname);
 		}
 		model.addAttribute("instrNicknameList", instrNicknameList);
