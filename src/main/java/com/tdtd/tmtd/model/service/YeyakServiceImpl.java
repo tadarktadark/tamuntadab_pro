@@ -1,9 +1,12 @@
 package com.tdtd.tmtd.model.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +25,9 @@ public class YeyakServiceImpl implements IYeyakService {
 
 	@Autowired
 	private IYeyakDao dao;
+	
+	@Autowired
+	private IAlarmService service;
 	
 	@Override
 	public int getGangeuisilCount(Map<String, Object> map) {
@@ -65,8 +71,11 @@ public class YeyakServiceImpl implements IYeyakService {
 
 	@Override
 	public int insertYeakInfo(YeyakVo yVo, GeoljeVo gVo) {
+		String className = yVo.getGayeGyeoljeUser();
+		
 		StringBuffer user = new StringBuffer();
 		List<String> list = new ArrayList<String>();
+		
 		if(yVo.getGayeClasId()>0 && yVo.getGayeGyeoljeType()!=null) {
 			list = dao.getYeyakGyeoljeAcountIdList(yVo.getGayeClasId());
 			user.append("{");
@@ -115,6 +124,24 @@ public class YeyakServiceImpl implements IYeyakService {
 		}
 		yVo.setGayeGyeoId(gson.toJson(gyeoList, List.class));
 		n += dao.updateGyeoId(yVo);
+		
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+		String formattedDate = currentDate.format(formatter);
+		String alarId = "AT_C"+formattedDate;
+		
+		List<String> cList = dao.getAllChamyeoja(yVo.getGayeId());
+		if(yVo.getGayeClasId()>0) {
+			for (String id : cList) {			
+				Map<String, Object> insertMap = new HashMap<String, Object>();
+				insertMap.put("alarId", alarId);
+				insertMap.put("alarContent", "[강의실 예약] "+className+" 클래스의 강의실이 예약되었습니다.");
+				insertMap.put("alarAccountId", id);
+				insertMap.put("alarReplySeq", "mypage.do");
+				service.insertAlarm(insertMap);
+			}
+		}
+		
 		return (n>0||m>list.size()-1)?total-(gVo.getGyeoGeumaek()*list.size()):-1;
 	}
 	
@@ -135,6 +162,7 @@ public class YeyakServiceImpl implements IYeyakService {
 
 	@Override
 	public int yeyakCancel(YeyakVo vo) {
+		String className = vo.getGayeGyeoljeUser();
 		int n = 0;
 		n += dao.updateYeyakDelflag(vo.getGayeId());
 		
@@ -161,11 +189,28 @@ public class YeyakServiceImpl implements IYeyakService {
 	    
 	    String gyeoId = dao.getGyeoId(vo.getGayeId());
 	    List<String> gyeoList = gson.fromJson(gyeoId, List.class);
-	    
 	    int m = 0;
 	    for (String g : gyeoList) {
 			m += dao.updateYeakGyeoljeStatus(g);
 		}
+	    
+	    List<String> cList = dao.getAllChamyeoja(vo.getGayeId());
+	    
+	    if(cList.size()>0) {	    	
+	    	LocalDate currentDate = LocalDate.now();
+	    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+	    	String formattedDate = currentDate.format(formatter);
+	    	String alarId = "AT_C"+formattedDate;
+	    	
+	    	for (String id : cList) {
+	    		Map<String, Object> insertMap = new HashMap<String, Object>();
+	    		insertMap.put("alarId", alarId);
+	    		insertMap.put("alarContent", "[강의실 예약 취소] "+className+" 클래스의 강의실 예약이 취소되었습니다.");
+	    		insertMap.put("alarAccountId", id);
+	    		insertMap.put("alarReplySeq", "mypage.do");
+	    		service.insertAlarm(insertMap);
+	    	}
+	    }
 	    
 		return (n>0&&m>=gyeoList.size())?1:0;
 	}

@@ -124,4 +124,9 @@ public class YeyakDaoImpl implements IYeyakDao {
 	public List<String> getAllGaebyeol() {
 		return session.selectList(NS+"getAllGaebyeol");
 	}
+	
+	@Override
+	public List<String> getAllChamyeoja(String gayeId) {
+		return session.selectList(NS+"getAllChamyeoja",gayeId);
+	}
 }

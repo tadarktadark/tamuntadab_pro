@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
+	#initial{
+		width: 84.2px;
+	}
 	#initial:hover {
 	   /* 원래의 스타일로 복원 */
 	   background-color: initial;
@@ -91,9 +94,6 @@
 		    	{{#stateN}}
 		    	<span class="badge bg-danger-subtle text-danger pay-btn">취소</span>
 		    	{{/stateN}}
-		    	{{#stateA}}
-		    	<span class="badge bg-warning-subtle text-warning pay-btn">자동 취소</span>
-		    	{{/stateA}}
 		    	{{#stateD}}
 		    	<span class="badge bg-info-subtle text-info pay-btn">대기</span>
 		    	{{/stateD}}
