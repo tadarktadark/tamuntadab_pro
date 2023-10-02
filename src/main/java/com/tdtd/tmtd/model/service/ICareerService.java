@@ -29,7 +29,7 @@ public interface ICareerService {
 		//TDT013 updateCareerCert
 		public int updateCareerS(Map<String, Object> map);
 		
-		public int updateCareerR(String careId);
+		public int updateCareerR(Map<String, Object> map);
 		
 		//TDT014 updateCareerB
 		public int updateCareerB(Map<String, Object> map);

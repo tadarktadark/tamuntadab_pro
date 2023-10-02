@@ -76,7 +76,10 @@
 </update>
 
 <update id="updateCareerR">
-	UPDATE CAREER SET CARE_STATUS = 'R', CARE_STATUS_DATE = CURRENT_DATE, CARE_REASON='동일 회사 서류 제출' 
+	UPDATE CAREER SET CARE_STATUS = 'R'
+	<if test="careReason == null">
+	 , CARE_STATUS_DATE = CURRENT_DATE, CARE_REASON='동일 회사 서류 제출' 
+	</if>
 	WHERE CARE_ID=#{careId}
 </update>
 

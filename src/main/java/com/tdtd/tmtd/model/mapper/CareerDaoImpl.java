@@ -97,8 +97,8 @@ public class CareerDaoImpl implements ICareerDao {
 	 * (개인)기존 동일 회사명의 경력증명서 등록시 status 업데이트 
 	 */
 	@Override
-	public int updateCareerR(String careId) {
-		return sqlSession.update(NS+"updateCareerR", careId);
+	public int updateCareerR(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateCareerR", map);
 	}
 
 	/**

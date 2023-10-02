@@ -125,7 +125,7 @@
 						        }
 						    }).then((result) => {
 						      if (result.isConfirmed) {
-						          window.history.back();
+						          location.href="./mypage.do"
 						      }
 						});
 					}

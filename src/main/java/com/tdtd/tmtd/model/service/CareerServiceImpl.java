@@ -90,8 +90,8 @@ public class CareerServiceImpl implements ICareerService {
 	 * (개인)기존 동일 회사명의 경력증명서 등록시 status 업데이트 
 	 */
 	@Override
-	public int updateCareerR(String careId) {
-		return dao.updateCareerR(careId);
+	public int updateCareerR(Map<String, Object> map) {
+		return dao.updateCareerR(map);
 	}
 	
 	/**
