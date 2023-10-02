@@ -183,7 +183,7 @@
 				</div>
 				</c:forEach>
 			</div>
-			<button id="scrollToTopButton" class="btn rounded-pill btn-secondary" style="position: fixed; right: 10px; bottom: 70px;">
+			<button id="scrollToTopButton" class="btn rounded-pill btn-secondary" style="position: fixed;">
 			<i class="mdi mdi-arrow-up-bold"></i></button>
 			</div>
 			</div>

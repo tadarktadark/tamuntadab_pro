@@ -60,7 +60,7 @@ public class InstrController {
 	 * 강사 게시판 페이지 이동
 	 * 
 	 * @param start 페이징 시작 행 번호 (default 1)
-	 * @param end   페이징 끝 행 번호 (default 12)
+	 * @param end   페이징 끝 행 번호 (default 9)
 	 * @return - title, pageTitle 페이지 제목 / lists 전체 강사 리스트
 	 */
 	@GetMapping("/instrList.do")
