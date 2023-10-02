@@ -86,7 +86,7 @@ a {
 }
 
 .card-fixed-height {
-	height: 230px;
+	height: 270px;
 	overflow-y: auto;
 	cursor: pointer;
 }
@@ -100,9 +100,9 @@ a {
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_menu.jsp"%>
 
-		<div class="main-content">
+		<div class="main-content" style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
 			<div class="page-content">
-				<div class="container-fluid" style="text-align: center;">
+				<div class="container-fluid" >
 					<div>
 						<span style="font-size: 1.4em;">타문타답에서 우리만의 커리큘럼을 만드세요!</span>
 					</div>
@@ -119,30 +119,30 @@ a {
 					</form>
 						<span
 							class="badge bg-secondary-subtle text-secondary  badge-border"
-							style="width: 300px; text-align: left; display: block; margin-top: 2%; margin-bottom: 10px; font-size: 1.2em;""><i
+							style="width: 300px; text-align: left; display: block; margin-top: 5%; margin-bottom: 3%; font-size: 1.2em;""><i
 							class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런
 							과목들을 배울 수 있어요 </span>
 					<div id="subjectDiv">
 						<div id="subjectTagSlider"></div>
 					</div>
 					<span class="badge bg-success-subtle text-success  badge-border"
-						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; font-size: 1.2em;">
+						style="width: 300px; text-align: left; display: block; margin-top: 5%; margin-bottom: 3%; font-size: 1.2em;">
 						<i class="bx bxs-book-reader" style="vertical-align: middle;"></i>&nbsp;모집
 						중인 클래스
 					</span>
 					<div id="classDiv">
 						<div id="classSlider" class="swiper effect-coverflow-swiper"
 							style="width: 100%;">
-							<div class="swiper-wrapper" style="height: 230px;">
+							<div class="swiper-wrapper" style="height: 270px;">
 								<c:forEach var="regClass" items="${classes}">
 									<div class="swiper-slide">
-										<div class="card card-fixed-height"
+										<div class="card card-fixed-height" style="height: 270px;"
 											onclick="location.href='./classDetail.do?clasId=${regClass.clasId}'">
 											<div class="card-body">
 												<div class="col-12">
 													<b>예정 수업일 : ${regClass.clasSueopNaljja}</b>
 												</div>
-												<div style="text-align: left;">
+												<div style="text-align: left; vertical-align: middle;">
 													<div class="row mt-4">
 														<div class="col-12">
 															<span class="badge rounded-pill text-bg-success">강의명</span>
@@ -178,7 +178,7 @@ a {
 					</div>
 
 					<span class="badge bg-danger-subtle text-danger badge-border"
-						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; font-size: 1.2em;">
+						style="width: 300px; text-align: left; display: block; margin-top: 5%; margin-bottom: 3%; font-size: 1.2em;">
 						<i class="bx bxs-hot" style="vertical-align: middle;"></i>&nbsp;인기강사
 					</span>
 					<div class="flex-container">
@@ -189,7 +189,7 @@ a {
 										<div class="swiper-slide">
 											<div class="card team-box"
 												onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
-												<div class="card-body p-2">
+												<div class="card-body p-3">
 													<div class="row output-area mb-3">
 														<div class="col-auto text-end dropdown">
 															<span>&nbsp;</span> <span
@@ -242,7 +242,7 @@ a {
 										<div class="swiper-slide">
 											<div class="card team-box"
 												onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
-												<div class="card-body p-2">
+												<div class="card-body p-3">
 													<div class="row output-area mb-3">
 														<div class="col-auto text-end dropdown">
 															<span>&nbsp;</span> <span
@@ -289,8 +289,8 @@ a {
 						</div>
 					</div>
 				</div>
-			</div>
 			<%@ include file="./shared/_footer.jsp"%>
+			</div>
 		</div>
 	</div>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>

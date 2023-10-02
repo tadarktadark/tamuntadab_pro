@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<footer class="footer" style="position: fixed;">
+<footer class="footer" style="position: fixed; z-index: 1002;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
