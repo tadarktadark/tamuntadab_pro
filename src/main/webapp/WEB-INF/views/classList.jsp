@@ -144,7 +144,7 @@
                                             <div class="row mb-4">
 											    <div class="col-xl-3 col-md-12">
 											        <div class="pb-3 pb-xl-0">
-											            <form class="email-search">
+											            <form class="email-search" id="classSearchForm">
 											                <div class="position-relative">
 											                    <div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
 											                        <div class="choices__inner" style="width:400px;">
@@ -193,7 +193,7 @@
                     </div>
 		        	
 		        	
-		        	
+		        	<input type="hidden" id="indexSub" value="${subjects}">
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp" %>
@@ -208,4 +208,16 @@
 			  top: 100px;
 			}
 	</style>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    var subjects = $('#indexSub').val(); 
+	
+		    if (subjects) {
+		        $('#classSearchForm #subjects').val(subjects);
+		        console.log("searchPaging 실행전");
+		        searchPaging(1, subjects);
+		        console.log("searchPaging 실행후");
+		    }
+		});
+	</script>
 </html>

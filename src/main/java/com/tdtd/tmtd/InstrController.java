@@ -65,13 +65,13 @@ public class InstrController {
 	 */
 	@GetMapping("/instrList.do")
 	public String instrList(Model model, @RequestParam(value = "start", defaultValue = "1") int start,
-			@RequestParam(value = "end", defaultValue = "12") int end) {
+			@RequestParam(value = "end", defaultValue = "9") int end) {
 		log.info("InstrController instrList 이동");
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("order", "like");
-		map.put("start", 1);
-		map.put("end", 8);
+		map.put("start", start);
+		map.put("end", end);
 
 		List<InstrVo> lists = service.getAllInstr(map);
 

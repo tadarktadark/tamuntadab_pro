@@ -42,9 +42,12 @@ public class ClassController {
 	private ISubjectService sService;
 
 	@GetMapping("/classList.do")
-	public String classList(Model model) {
+	public String classList(Model model, @RequestParam(required = false) String subjects) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "클래스 목록");
+		if(subjects != null && !subjects.isEmpty()) {
+			model.addAttribute("subjects", subjects);
+		}
 		return "classList";
 	}
 
