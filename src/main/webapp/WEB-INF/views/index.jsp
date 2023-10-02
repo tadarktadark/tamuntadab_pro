@@ -13,43 +13,47 @@
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css"
 	rel="stylesheet" type="text/css" />
 <%@ include file="./shared/_head_css.jsp"%>
-<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script src="./js/index.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
-<link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css" rel="stylesheet">
-<link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css"
+	rel="stylesheet">
+<link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet"
+	type="text/css" />
 <!--Swiper slider js-->
 <script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
 <!-- swiper.init js -->
 <script src="./assets/js/pages/swiper.init.js"></script>
 <style type="text/css">
 .card-fixed-height::-webkit-scrollbar {
-    width: 10px;
+	width: 10px;
 }
 
 .card-fixed-height::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+	background: #f1f1f1;
 }
- 
+
 .card-fixed-height::-webkit-scrollbar-thumb {
-    background: #888; 
+	background: #888;
 }
 
 .card-fixed-height::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+	background: #555;
 }
 
 .flex-container {
 	margin-bottom: 10px;
-	display : flex;
- 	justify-content: space-between; 
+	display: flex;
+	justify-content: space-between;
 	display: flex;
 }
 
 .team-box {
-    width: 90%;
+	width: 90%;
 }
-
 
 a {
 	text-decoration: none;
@@ -106,16 +110,15 @@ a {
 			<div class="page-content">
 				<div class="container-fluid" style="text-align: center;">
 					<div>
-					<span style="font-size: 1.4em;">타문타답에서 연봉을 올리세요!</span>
+						<span style="font-size: 1.4em;">타문타답에서 연봉을 올리세요!</span>
 					</div>
 					<form action="./classList.do" method="get"
-						style="margin-top: 10px;">
+						style="margin-top: 10px;" id="indexForm">
 						<div class="position-relative w-100">
 							<input type="text" class="form-control form-control-lg border-2"
 								name="searchQuery" placeholder="모집중인 클래스 검색" autocomplete="off"
-								id="search-options" value=""> <input type="hidden"
-								name="page" value="1">
-							<button type="submit"
+								id="search-options" value="">
+								<button type="submit"
 								style="border: none; background: none; position: absolute; top: 50%; right: 10px; transform: translateY(-50%);">
 								<span class="bx bx-search search-widget-icon fs-19"></span>
 							</button>
@@ -124,13 +127,15 @@ a {
 					<div id="subjectDiv">
 						<span
 							class="badge bg-secondary-subtle text-secondary  badge-border"
-							style="width: 300px; text-align: left;"><i class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런 과목들을 배울 수 있어요
-							</span>
+							style="width: 300px; text-align: left;"><i
+							class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런
+							과목들을 배울 수 있어요 </span>
 						<div id="subjectTagSlider"></div>
 					</div>
 					<span class="badge bg-success-subtle text-success  badge-border"
 						style="width: 300px; text-align: left; display: block; margin-top: 3%; margin-bottom: 10px; font-size: 1.2em;">
-						<i class="bx bxs-book-reader" style="vertical-align: middle;"></i>&nbsp;모집 중인 클래스
+						<i class="bx bxs-book-reader" style="vertical-align: middle;"></i>&nbsp;모집
+						중인 클래스
 					</span>
 					<div id="classDiv">
 						<div id="classSlider" class="swiper effect-coverflow-swiper"
@@ -299,7 +304,19 @@ a {
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript">
+$('#indexForm').on('submit', function(e) {
+    e.preventDefault(); // 기본 동작 중단
+
+    var searchQuery = $('#search-options').val(); // 검색어 값 가져오기
+
+    // 현재 페이지를 classList.do로 변경하고 검색어 값을 쿼리 파라미터로 전달
+    window.location.href = './classList.do?subjects=' + encodeURIComponent(searchQuery);
+});
+
+
+
 	$(document).ready(function() {
+		
 		var swiper1 = new Swiper("#classSlider", {
 			loop : true,
 			effect : "coverflow",

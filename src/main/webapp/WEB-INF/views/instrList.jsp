@@ -106,7 +106,7 @@
 
 			<div id="moreList" class="row output-area" style="width: auto; height: 450px; overflow: auto;">
 			<c:forEach var="instr" items="${lists}" varStatus="vs">
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="card team-box" onclick="location.href='./instrDetail.do?seq=${instr.inprSeq}&loginId=${userInfo.userAccountId}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
@@ -338,7 +338,7 @@
 </script>
 <script id="instrList-template" type="text/x-handlebars-template">
 {{#each lists}}
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="card team-box" onclick="location.href='./instrDetail.do?seq={{inprSeq}}&loginId={{../userInfo.userAccountId}}'">
 						<div class="card-body p-4">
 							<div class="row output-area mb-3">
