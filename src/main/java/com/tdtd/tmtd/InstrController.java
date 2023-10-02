@@ -224,7 +224,7 @@ public class InstrController {
 	 * @param map - seq 강사 프로필 seq / loginId 로그인 아이디
 	 * @return - title, pageTitle 페이지 제목 / simpleVo 강사 간략프로필 / profileVo 강사 상세 프로필
 	 *         classVo 강사 클래스이력 / instrReviewVo 강사 후기 / allClass 강사 매칭된 클래스 전체수
-	 *         successRate 강사 클래스 성사율
+	 *         successRate 강사 클래스 성사율 / careerVo 강사 경력 사항
 	 */
 	@GetMapping("/instrDetail.do")
 	public String instrDetail(Model model, @RequestParam(required = false) Map<String, Object> map) {
@@ -269,7 +269,7 @@ public class InstrController {
 		reviewMap.put("end", 5);
 
 		List<ReviewVo> instrReviewVo = service.getOneIntrReview(reviewMap);
-
+		List<CareerVo> careerVo = careerService.getOneInstrCareer(userAccountId);
 		String nickname = simpleVo.getUserProfileVo().get(0).getUserNickname();
 
 		model.addAttribute("title", "강사 조회");
@@ -278,24 +278,11 @@ public class InstrController {
 		model.addAttribute("profileVo", profileVo);
 		model.addAttribute("classVo", classVo);
 		model.addAttribute("instrReviewVo", instrReviewVo);
+		model.addAttribute("careerVo", careerVo);
 		model.addAttribute("allClass", allClass);
 		model.addAttribute("successRate", formattedSuccessRate);
 
 		return "instrDetail";
-	}
-
-	/**
-	 * 강사 상세 - 경력사항 탭 클릭시 ajax
-	 * 
-	 * @param userAccountId 강사 아이디
-	 * @return careerVo 강사 경력 사항
-	 */
-	@GetMapping("/instrCareerDetail.do")
-	@ResponseBody
-	public List<CareerVo> instrCareer(@RequestParam String userAccountId) {
-		log.info("instrCareer.do 실행 받아온 강사 아이디: {}", userAccountId);
-		List<CareerVo> careerVo = careerService.getOneInstrCareer(userAccountId);
-		return careerVo;
 	}
 
 	/**

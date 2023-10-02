@@ -145,8 +145,8 @@ a {
 							class="nav-link ${empty profileVo ? 'disabled':'active'}"
 							aria-current="page" href="#profile">프로필</a></li>
 						<li class="nav-item"><a
-							class="nav-link ${simpleVo.inprCert eq 'N'? 'disabled':''}"
-							id="careerTab">경력사항</a></li>
+							class="nav-link ${empty careerVo? 'disabled':''}"
+							id="careerTab" href="#career">경력사항</a></li>
 						<li class="nav-item"><a
 							class="nav-link ${empty classVo? 'disabled':''}" id="classTab"
 							href="#class-history">클래스이력</a></li>
@@ -243,7 +243,35 @@ a {
 								</div>
 							</div>
 						</div>
-						<div id="career" style="display: none; height: 450px; overflow: auto;" class="mt-4 custom-scrollbar"></div>
+						<div id="career" style="display: none; height: 450px; overflow: auto;" class="mt-4 custom-scrollbar">
+							<c:forEach var="career" items="${careerVo}">
+								<div class="card">
+							        <div class="card-body">
+							            <div class="row">
+							                <div class="col-6">
+							                    <button type="button" class="btn btn-primary w-sm" disabled>회사명</button>
+							                    ${career.careCompany}
+							                </div>
+							                <div class="col-6">
+							                    <button type="button" class="btn btn-success w-sm" disabled>소속</button>
+							                    ${career.careSosok}
+							                </div>
+							            </div>
+							            <div class="row mt-4">
+							                <div class="col-6">
+							                    <button type="button" class="btn btn-success w-sm" disabled>직무</button>
+							                    ${career.careJob}
+							                </div>
+							
+							                <div class="col-6">
+							                    <button type="button" class="btn btn-primary w-sm" disabled>기간</button>
+							                    ${career.carePeriod}
+							                 </div>
+							             </div>
+							         </div>
+							     </div>
+							</c:forEach>
+						</div>
 						<div id="class-history" style="display: none;">
 							<div class="card">
 								<div class="card-body" style="height: 100px;">
@@ -438,35 +466,6 @@ function handleChatClick() {
 		<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
 		<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
 	</p>
-</script>
-<script id="career-template" type="text/x-handlebars-template">
-    {{#each this}}
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6">
-                    <button type="button" class="btn btn-primary w-sm" disabled>회사명</button>
-                    {{careCompany}}
-                </div>
-                <div class="col-6">
-                    <button type="button" class="btn btn-success w-sm" disabled>소속</button>
-                    {{careSosok}}
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-6">
-                    <button type="button" class="btn btn-success w-sm" disabled>직무</button>
-                    {{careJob}}
-                </div>
-
-                <div class="col-6">
-                    <button type="button" class="btn btn-primary w-sm" disabled>기간</button>
-                    {{carePeriod}}
-                 </div>
-             </div>
-         </div>
-     </div>
-{{/each}}
 </script>
 <script id="class-history-template" type="text/x-handlebars-template">
 {{#each this}}
