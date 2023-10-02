@@ -72,8 +72,7 @@
 				<div class="col-md-3">
 					<label for="gender" class="form-label">성별</label>
 					<div>
-					<input class="form-check-input" type="radio" name="gender"
-									id="gender" value="All" checked> 
+					<input class="form-check-input" type="radio" name="gender" id="gender" value="All" checked> 
 					<label class="form-check-label"	for="gender"> 전체 </label> 
 					<input class="form-check-input"	type="radio" name="gender" id="gender" value="M"> 
 					<label class="form-check-label" for="gender"> 남 </label>

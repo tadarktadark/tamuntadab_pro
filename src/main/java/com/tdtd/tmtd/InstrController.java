@@ -42,6 +42,7 @@ import lombok.extern.slf4j.Slf4j;
  * 강사 게시판(전체 조회, 상세조회) 관련 컨트롤러
  * 
  * @author 문희애
+ * 
  */
 @Controller
 @Slf4j
