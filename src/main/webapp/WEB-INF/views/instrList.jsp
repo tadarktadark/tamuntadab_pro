@@ -54,8 +54,8 @@
 				<div class="choices" data-type="select-multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false">
 					<div class="choices__inner">
 						<div id="selectedSubjects" class="choices__list choices__list--multiple">
-					</div>
-					<input type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목명을 입력하세요" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
+						</div>
+						<input style="width: 250px;" type="search" id="subjects" name="subjects" class="choices__input choices__input--cloned" placeholder="과목명을 입력하세요" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null">
 					</div>
 				</div>
 			 </div>
