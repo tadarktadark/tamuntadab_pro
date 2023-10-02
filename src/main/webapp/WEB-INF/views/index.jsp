@@ -102,7 +102,7 @@ a {
 
 		<div class="main-content">
 			<div class="page-content">
-				<div class="container-fluid" >
+				<div class="container-fluid" style="text-align: center;">
 					<div>
 						<span style="font-size: 1.4em;">타문타답에서 우리만의 커리큘럼을 만드세요!</span>
 					</div>
