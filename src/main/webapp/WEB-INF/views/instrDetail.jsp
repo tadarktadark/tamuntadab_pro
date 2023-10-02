@@ -316,6 +316,18 @@ a {
 													<div class="col-3"><b>총점 (${review.avgScore})</b></div>
 												</div>
 												<div class="row mt-4">
+													<div class="col-6">
+														<button type="button" class="btn btn-success w-sm"
+															disabled="disabled">작성자</button>
+														&nbsp;&nbsp;${review.reviStudName}
+													</div>
+													<div class="col-6">
+														<button type="button" class="btn btn-success w-sm"
+															disabled="disabled">작성일</button>
+														&nbsp;&nbsp;${review.reviRegdate}
+													</div>
+												</div>
+												<div class="row mt-4">
 													<div class="col-3">
 														<div>전문성 (${review.reviPro})</div>
 														<div id="basic-rater" dir="ltr" class="star-rating"
@@ -354,18 +366,7 @@ a {
 														</div>
 													</div>
 												</div>
-												<div class="row mt-4">
-													<div class="col-6">
-														<button type="button" class="btn btn-success w-sm"
-															disabled="disabled">작성자</button>
-														${review.reviStudName}
-													</div>
-													<div class="col-6">
-														<button type="button" class="btn btn-success w-sm"
-															disabled="disabled">작성일</button>
-														${review.reviRegdate}
-													</div>
-												</div>
+												
 												<div class="row mt-4 bg-warning-subtle"
 													style="padding: 20px; magin: auto 10px;">
 													<div class="col-12 table-info ">${review.reviDetail}</div>
@@ -515,7 +516,18 @@ function handleChatClick() {
 												</div>
 													<div class="col-3"><b>총점 ({{avgScore}})</b></div>
 											</div>
-
+											<div class="row mt-4">
+													<div class="col-6">
+														<button type="button" class="btn btn-success w-sm"
+															disabled="disabled">작성자</button>
+														&nbsp;&nbsp;{{reviStudName}}
+													</div>
+													<div class="col-6">
+														<button type="button" class="btn btn-success w-sm"
+															disabled="disabled">작성일</button>
+														&nbsp;&nbsp;{{reviRegdate}}
+													</div>
+												</div>
 											<div class="row mt-4">
 													<div class="col-3">
 														<div>전문성 ({{reviPro}})</div>
@@ -555,6 +567,7 @@ function handleChatClick() {
 														</div>
 													</div>
 												</div>
+												
 									<div class="row mt-4 bg-warning-subtle"
 													style="padding: 20px; magin: auto 10px;">
 													<div class="col-12 table-info ">{{reviDetail}}</div>

@@ -424,6 +424,13 @@ public class InstrController {
 
 			if (n > 0) {
 				log.info("view 업데이트 성공");
+				Map<String, Object> result = new HashMap<String, Object>() {
+					{
+						put("viewCount", view.get("count"));
+						put("likeCount", likeCount);
+					}
+				};
+				return result;
 			}
 
 		} else {
