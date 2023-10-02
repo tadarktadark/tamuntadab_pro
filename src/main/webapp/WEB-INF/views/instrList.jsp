@@ -73,19 +73,19 @@
 					<label for="gender" class="form-label">성별</label>
 					<div>
 					<input class="form-check-input" type="radio" name="gender" id="gender" value="All" checked> 
-					<label class="form-check-label"	for="gender"> 전체 </label> 
+					<label class="form-check-label"	for="gender"> 전체&nbsp; </label> 
 					<input class="form-check-input"	type="radio" name="gender" id="gender" value="M"> 
-					<label class="form-check-label" for="gender"> 남 </label>
+					<label class="form-check-label" for="gender"> 남&nbsp; </label>
 					<input class="form-check-input" type="radio" name="gender" id="gender" value="F"> 
-					<label class="form-check-label" for="gender"> 여 </label>
+					<label class="form-check-label" for="gender"> 여&nbsp; </label>
 					</div><br>
 					<div>
 					<input class="form-check-input" type="radio" name="order" id="order" value="like" checked> 
-					<label class="form-check-label"	for="order"> 인기순 </label> 
+					<label class="form-check-label"	for="order"> 인기순&nbsp; </label> 
 					<input class="form-check-input"	type="radio" name="order" id="order" value="view"> 
-					<label class="form-check-label" for="order"> 조회순 </label>
+					<label class="form-check-label" for="order"> 조회순&nbsp; </label>
 					<input class="form-check-input" type="radio" name="order" id="order" value="reg"> 
-					<label class="form-check-label" for="order"> 등록일순 </label>
+					<label class="form-check-label" for="order"> 등록일순&nbsp; </label>
 					</div>
 				</div>
 				<div class="col-3" style="margin-top: 80px;">
@@ -312,6 +312,7 @@
 	$('button.btn.btn-warning').click(function(e) {
 	    e.preventDefault(); 
 	    $('#searchForm')[0].reset();
+	    $('#selectedSubjects').empty();
 	});
 	
 	$('.fee').on('input', function () {

@@ -60,15 +60,15 @@
 											onclick="deleteReview(${review.reviSeq}, ${review.clchId})">삭제</button>
 									</div>
 									<div class="row mt-4">
-										<div class="col-7">
+										<div class="col-6">
 											<button type="button" class="btn btn-success w-sm"
 												disabled="disabled">클래스</button>
-											${review.clasTitle}
+											&nbsp;&nbsp;${review.clasTitle}
 										</div>
-										<div class="col-5">
+										<div class="col-6">
 											<button type="button" class="btn btn-success w-sm"
 												disabled="disabled">작성일</button>
-											${review.reviRegdate}
+											&nbsp;&nbsp;${review.reviRegdate}
 										</div>
 									</div>
 									<div class="row mt-4">
