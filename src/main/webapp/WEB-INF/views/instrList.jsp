@@ -134,7 +134,7 @@
 							</div>
 							<div class="text-center mb-3">
 								<div class="avatar-lg mx-auto">
-									<img src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}" alt=""
+									<img src="${not empty userInfo? instr.userProfileVo[0].userProfileFile : './image/profile.png'}" alt=""
 									data-bs-toggle="${empty userInfo? 'tooltip' : ''}" title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}"
 										class="member-img img-fluid d-block rounded-circle">
 								</div>
@@ -366,7 +366,7 @@
 							</div>
 							<div class="text-center mb-3">
 								<div class="avatar-lg mx-auto">
-								<img src="{{#if ../userInfo}} {{userProfileVo.[0].userProfileFile}} {{else}} ./assets/images/users/user-dummy-img.jpg {{/if}}" alt="" 
+								<img src="{{#if ../userInfo}} {{userProfileVo.[0].userProfileFile}} {{else}} ./image/profile.png {{/if}}" alt="" 
 								data-bs-toggle="{{#if ../userInfo}}{{else}}tooltip{{/if}}" 
 								title="{{#if ../userInfo}}{{else}}로그인 후 볼 수 있습니다.{{/if}}"
 								class="member-img img-fluid d-block rounded-circle">

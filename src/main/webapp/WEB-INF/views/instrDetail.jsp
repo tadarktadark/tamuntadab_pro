@@ -71,7 +71,7 @@ a {
 						<div class="row g-0 bg-body-secondary position-relative">
 							<div class="col-md-3 mb-md-0 p-md-4">
 								<img
-									src="${not empty userInfo? simpleVo.userProfileVo[0].userProfileFile : './assets/images/users/user-dummy-img.jpg'}"
+									src="${not empty userInfo? simpleVo.userProfileVo[0].userProfileFile : './image/profile.png'}"
 									alt="" data-bs-toggle="${empty userInfo? 'tooltip' : ''}"
 									title="${empty userInfo? '로그인 후 볼 수 있습니다.' : ''}" class="w-100 img-responsive"
 									alt="...">
