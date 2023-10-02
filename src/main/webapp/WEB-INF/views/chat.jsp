@@ -152,9 +152,9 @@
 </div>
 
 <!-- End d-lg-flex  -->
-<%@ include file="./shared/_vender_scripts.jsp" %>
 <script type="text/javascript" src="~/assets/js/app.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script type='text/javascript' src="./js/chat.js"></script>
+<%@ include file="./shared/_vender_scripts.jsp" %>
 </body>
 </html>
