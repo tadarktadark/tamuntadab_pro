@@ -150,7 +150,7 @@
 									    	</script>
 									   </c:if>
 									</div>
-										<input type="search" id="inprSubjects"
+										<input style="width: 250px;" type="search" id="inprSubjects"
 											class="choices__input choices__input--cloned">
 									</div>
 								</div>
@@ -166,7 +166,7 @@
 									<div id="selectedSubjectsMajor"
 										class="col-lg-9 choices__list choices__list--multiple">
 									</div>
-										<input type="search" id="inprSubjectsMajor"
+										<input style="width: 250px;" type="search" id="inprSubjectsMajor"
 											class="choices__input choices__input--cloned">
 									</div>
 									<c:if test="${not empty profile.subjectsMajorTitle}">
