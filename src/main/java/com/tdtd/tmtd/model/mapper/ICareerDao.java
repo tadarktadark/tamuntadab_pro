@@ -28,7 +28,7 @@ public interface ICareerDao {
 	//TDT012 updateCareerS
 	public int updateCareerS(Map<String, Object> map);
 	
-	public int updateCareerR(String careId);
+	public int updateCareerR(Map<String, Object> map);
 	
 	//TDT013 updateCareerCert
 	public int updateCareerCert(Map<String, Object> map);

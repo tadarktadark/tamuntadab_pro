@@ -25,7 +25,6 @@
 				</div>
 				<div class="card">
 					<div class="card-body">
-				<!-- <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px;"> -->
 				<div style="margin: 10%;">
 					<c:choose>
 						<c:when test="${empty lists}">
@@ -36,7 +35,7 @@
 						</c:when>
 						<c:otherwise>
 							<table class="table table-bordered table-striped"
-								style="height: 300px; overflow-y: auto;">
+								style="height: auto; overflow-y: auto;">
 								<thead>
 									<tr style="text-align: center;">
 										<th scope="col">회사명</th>

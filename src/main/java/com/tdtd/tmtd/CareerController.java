@@ -201,7 +201,10 @@ public class CareerController {
 							log.info("기존 companyName : {}", sameCareer.getCareCompany().trim());
 							log.info("비교 companyName : {}", companyName.trim());
 							if (sameCareer.getCareCompany().trim().equals(companyName.trim())) {
-								int s = service.updateCareerR(sameCareer.getCareId());
+								Map<String, Object> map = new HashMap<String, Object>();
+								map.put("careId", sameCareer.getCareId());
+								map.put("careReason", sameCareer.getCareReason());
+								int s = service.updateCareerR(map);
 								log.info("R 업데이트 성공 여부 : {}", (s > 0) ? "true" : "false");
 							}
 						}
