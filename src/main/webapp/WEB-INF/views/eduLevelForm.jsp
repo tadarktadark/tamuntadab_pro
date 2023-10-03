@@ -133,6 +133,7 @@ $(function() {
 
         $('#highSchool').autocomplete({
             source: function(request, response) {
+            	var term = $.trim(request.term);
                 var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
                 var results = $.grep(schoolNames, function(item){
                     return matcher.test(item);
@@ -166,6 +167,7 @@ $(function() {
 
 		$('#univSchool').autocomplete({
 			 source: function(request, response) {
+				 	var term = $.trim(request.term);
 	                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
 	                var results = $.grep(univNames, function(item){
 	                    return matcher.test(item);
