@@ -57,15 +57,32 @@ public class SingoServiceImpl implements ISingoService {
 	
 	@Override
 	public int adminAction(SingoDaesangVo vo) {
+		SingoDaesangVo dVo = dao.getSingoDaesang(vo.getId());
 		int n = dao.updateSingoDaesangState(vo);
-		String accountId = dao.getSingoWriter(vo.getId());
-		SingoDaesangVo result = dao.getSingoUser(accountId);
-		int m = 0;
-		if(result != null) {
-			m += dao.updateSingoUserCount(result.getId());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("daesangId", dVo.getDaesangId());
+		if(dVo.getDaesangId().substring(0,2).equals("PI")) {
+			map.put("board", "pilgi");
+		} else if(dVo.getDaesangId().substring(0,2).equals("JI")) {
+			map.put("board", "jilmun");
+		} else if(dVo.getDaesangId().substring(0,2).equals("JA")) {
+			map.put("board", "jayu");
 		} else {
-			m += dao.insertSingoUser(accountId);
+			map.put("board", "reply");
 		}
-		return (n>0&&m>0)?1:0;
+		if (vo.getState().equals("D")) {			
+			SingoDaesangVo result = dao.getSingoUser(dVo.getAccountId());
+			int m = 0;
+			if(result != null) {
+				m += dao.updateSingoUserCount(result.getId());
+			} else {
+				m += dao.insertSingoUser(dVo.getAccountId());
+			}
+			map.put("state", "D");
+		} else {			
+			map.put("state", "N");
+		}
+		dao.updateBoardState(map);
+		return (n>0)?1:0;
 	}
 }

@@ -94,11 +94,11 @@ public interface ISingoDao {
 	public int updateSingoDaesangState(SingoDaesangVo vo);
 	
 	/**
-	 * 처리된 게시글 작성자 조회
-	 * @param id sidaId
-	 * @return accountId
+	 * 처리된 게시글 작성자, 대상id 조회
+	 * @param accountId sidaId
+	 * @return singoDaesangVo(id, daesanId)
 	 */
-	public String getSingoWriter(String id);
+	public SingoDaesangVo getSingoDaesang(String id);
 	
 	/** 
 	 * 신고된 게시글 처리 후 신고 유저 조회
