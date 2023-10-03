@@ -9,7 +9,7 @@ import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.YeyakVo;
 
 /**
- * 예약 관련 기능
+ * 예약 관련 서비스
  * @author SoHyeon
  * @since 2023.09.09
  * @version 1.0
@@ -27,7 +27,7 @@ public interface IYeyakService {
 	
 	/**
 	 * 강의실이 있는 시도 조회
-	 * @return 시/도(갯수) List<String>
+	 * @return 시/도(갯수)
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
@@ -36,7 +36,7 @@ public interface IYeyakService {
 	/**
 	 * 선택한 시도에서 강의실이 있는 시군구 조회
 	 * @param gacoSido 시도
-	 * @return 시/군/구(갯수) List<String>
+	 * @return 시/군/구(갯수)
 	 * @author SoHyeon 
 	 * @since 2023.09.09
 	 */
@@ -45,7 +45,7 @@ public interface IYeyakService {
 	/**
 	 * 전체/시도/시군구에 있는 강의실 목록 조회
 	 * @param map key = ["gacoSido", "gacoSigungu"] value=["시도","시군구"]
-	 * @return 강의실 목록 List<GangeuisilVo>
+	 * @return 강의실 목록
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
@@ -54,34 +54,25 @@ public interface IYeyakService {
 	/**
 	 * 선택한 강의실의 상세 조회
 	 * @param gagaGacoId 강의실 공통 id
-	 * @return 강의실 상세 조회 리스트 List<GangeuisilVo>
+	 * @return 강의실 상세 조회 리스트
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
 	public List<GangeuisilVo> getGangeuisilDetailList(String gagaGacoId);
-
+	
 	/**
-	 * 개별 강의실의 예약 가능한 날짜 조회
-	 * @param gagaId 강의실 개별 id
-	 * @return 강의실의 예약 리스트 List<GangeuisilVo>
+	 * 사용자가 참여한 클래스 조회
+	 * @param accountId 사용자 id
+	 * @return 클래스 목록
 	 * @author SoHyeon
-	 * @since 2023.09.09
+	 * @since 2023.09.11
 	 */
-//	public List<GangeuisilVo> getYeyakDateList(String gagaId);
-
-	/**
-	 * 개별 강의실 특정 날짜의 예약 가능한 시간 조회
-	 * @param gagaId 강의실 개별 id
-	 * @return 강의실 으픈, 마감 시간<GangeuisilVo>
-	 * @author SoHyeon
-	 * @since 2023.09.09
-	 */
-//	public List<GangeuisilVo> getYeyakTimeList(String gagaId);
+	public List<ClassVo> getchamyeoClassList(String accountId);
 	
 	/**
 	 * 개별 강의실의 예약 가능한 날짜 및 시간 조회
 	 * @param gagaId 강의실 개별 id
-	 * @return 강의실 으픈, 마감 시간, 여유 시간<GangeuisilVo>
+	 * @return 강의실 오픈, 마감 시간, 여유 시간
 	 * @author SoHyeon
 	 * @since 2023.09.10
 	 */
@@ -100,7 +91,7 @@ public interface IYeyakService {
 	public int getMyYeyakCount(String gayeAccountId);
 	
 	/**
-	 * 특정 회원의 예약 정보 조회 
+	 * 마이페이지 예약 정보 조회 
 	 * @param gayeAccountId 회원 아이디 
 	 * @return 예약 정보 리스트 List<YeyakVo>
 	 * @author SoHyeon
@@ -127,13 +118,4 @@ public interface IYeyakService {
 	 */
 	public void updateYeoyuTimeDaily();
 		
-	/**
-	 * 사용자가 참여한 클래스 조회
-	 * @param accountId 사용자 id
-	 * @return 클래스 목록 List<ClassVo>
-	 * @author SoHyeon
-	 * @since 2023.09.11
-	 */
-	public List<ClassVo> getchamyeoClassList(String accountId);
-	
 }

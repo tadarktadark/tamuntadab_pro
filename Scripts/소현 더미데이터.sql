@@ -2467,7 +2467,7 @@ Handlebars.registerHelper(''htmlOrText'', function(value) {
 	VALUES(31, 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0078', 'TMTD2', '광고로 삭제된 댓글입니다.', 31, 0, 'N', 'D')
 	INTO COMMUNITY_REPLY
 	(CORE_SEQ, CORE_BOARD_ID, CORE_WRITER_ID, CORE_CONTENT, CORE_ROOT_SEQ, CORE_STEP, CORE_CHAETAEK, CORE_STATE)
-	VALUES(COMMUNITY_REPLY_SEQ.NEXTVAL, 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0078', 'TMTD2', '불법 영상 게시로 신고 처리중인 댓글입니다.', 31, 1, 'N', 'P')
+	VALUES(COMMUNITY_REPLY_SEQ.NEXTVAL, 'JI'||TO_CHAR(CURRENT_DATE,'yyyymmdd')||'0078', 'TMTD2', '광고/홍보글 신고합니다!', 31, 1, 'N', 'P')
 SELECT * FROM DUAL;
 
 -- 삭제 댓글 더미 데이터

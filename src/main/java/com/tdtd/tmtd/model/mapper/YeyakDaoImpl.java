@@ -44,16 +44,6 @@ public class YeyakDaoImpl implements IYeyakDao {
 	public List<GangeuisilVo> getGangeuisilDetailList(String gagaGacoId) {
 		return session.selectList(NS+"getGangeuisilDetailList",gagaGacoId);
 	}
-
-//	@Override
-//	public List<GangeuisilVo> getYeyakDateList(String gagaId) {
-//		return session.selectList(NS+"getYeyakDateList",gagaId);
-//	}
-//
-//	@Override
-//	public List<GangeuisilVo> getYeyakTimeList(String gagaId) {
-//		return session.selectList(NS+"getYeyakTimeList",gagaId);
-//	}
 	
 	@Override
 	public int updateYeoyuTime(Map<String, Object> map) {
