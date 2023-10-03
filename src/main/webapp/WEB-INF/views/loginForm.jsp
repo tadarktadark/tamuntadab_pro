@@ -9,17 +9,18 @@
 <head>
 <meta charset="UTF-8">
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
+<%@ include file="./shared/_head_css.jsp"%>
+<%@ include file="./shared/_logout.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-<%@ include file="./shared/_head_css.jsp" %>
+<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp" %>
-		<%@ include file="./shared/_sidebar.jsp" %>
 		<div class="main-content">
+		<%@ include file="./shared/_menu.jsp"%>
 		<div class="page-content">
-			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100 bg-light">
-		        <div class="container w-25">
+			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center bg-light">
+		        <div class="container w-50">
 		            <div class="row rounded-pill ">
 		                <div class="col-lg-12">
 		                    <div class="card overflow-hidden">
@@ -112,10 +113,9 @@
 		    </div>
 		<%@ include file="./shared/_footer.jsp"%>
 		</div>
-	</div>	
+	</div>
 	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 	<script src="./js/loginForm.js"></script>
 	</body>
 </html>

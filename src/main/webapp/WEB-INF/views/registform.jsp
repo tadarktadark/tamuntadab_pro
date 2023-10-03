@@ -5,13 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
+<%@ include file="./shared/_head_css.jsp"%>
+<%@ include file="./shared/_logout.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-<%@ include file="./shared/_head_css.jsp" %>
+<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_topbar.jsp" %>
-		<%@ include file="./shared/_sidebar.jsp" %>
+		<%@ include file="./shared/_menu.jsp"%>
 		<div class="main-content">
 			<div class="page-content">
 				<div class="container  bg-white">
