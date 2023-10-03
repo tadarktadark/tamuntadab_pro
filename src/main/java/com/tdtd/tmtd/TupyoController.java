@@ -31,6 +31,12 @@ import com.tdtd.tmtd.vo.TupyoUserVo;
 import com.tdtd.tmtd.vo.TupyoVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
+/**
+ * 투표 관련 컨트롤러
+ * 
+ * @author 김다현
+ *
+ */
 @Controller
 public class TupyoController {
 	
@@ -40,11 +46,18 @@ public class TupyoController {
 	private IAlarmService alarmService;
 	
 	
-	//투표 페이지로 이동
+	/**
+	 * 투표 페이지로 이동
+	 * 
+	 * @param clasId 클래스 아이디
+	 * @param accountId 사용자 아이디
+	 * @param model 값 전달
+	 * @param session 세션
+	 * @return 투표 페이지 이동
+	 */
 	@RequestMapping(value = "/tupyoPage.do")
 	public String tupyoPage(int clasId,String accountId,Model model, HttpSession session) {
 		TupyoVo vo = service.getTupyo(clasId);
-		System.out.println("vo 체크 : "+vo);
 		if(vo==null) {
 			model.addAttribute("hasTupyo", "false");
 			model.addAttribute("accountId",accountId);
@@ -59,13 +72,9 @@ public class TupyoController {
 			return "tupyo";
 		}else {
 			//투표가 있는데 F이면 usercount체크하고 비어 있으면 삭제하고 새로고침
-			
-			System.out.println(vo.getTupyStatus());
 			if(vo.getTupyStatus().equals("F")) {
 				int tupySeq = vo.getTupySeq();
-				System.out.println(tupySeq);
 				int countVotedUser = service.countVotedUser(tupySeq);
-				System.out.println(countVotedUser);
 				if(countVotedUser == 0) {
 					service.delTupyo(tupySeq);
 					model.addAttribute("hasTupyo", "false");
@@ -98,7 +107,6 @@ public class TupyoController {
 			instrNicknameList.add(instrNickname);
 		}
 		model.addAttribute("instrNicknameList", instrNicknameList);
-		
 		model.addAttribute("title","투표");
 		String isMaster ="false";
 		ChamyeoVo masterVo = service.getClassMaster(clasId);
@@ -113,7 +121,13 @@ public class TupyoController {
 		}
 	}
 	
-	
+	/**
+	 * 투표 선택지 생성
+	 * 
+	 * @param clasId 클래스 아이디
+	 * @param tuopInstr 강사닉네임
+	 * @param tuopFee 강의료
+	 */
 	@PostMapping("/insertTupyoOption.do")
 	public void insertTupyoOption(int clasId, String tuopInstr, int tuopFee) {
 		TupyoVo vo = service.getTupyo(clasId);
@@ -126,7 +140,12 @@ public class TupyoController {
 	}
 	
 	
-	
+	/**
+	 * 투표 생성 ajax
+	 * 
+	 * @param vo 투표 사용자 VO
+	 * @return 투표 결과 반환
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/insertTupyoUser.do", method = RequestMethod.POST)
 	public String insertTupyo(@RequestBody TupyoUserVo vo) {
@@ -139,8 +158,6 @@ public class TupyoController {
 		if(tupyStatus.equals("F")) {
 			return "finishedTupyo";
 		}
-		System.out.println("웨엥웨웨웨웽엥"+tuusOptionSeq);
-		System.out.println(""+tuusAccountId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusOptionSeq", tuusOptionSeq);
 		map.put("tuusAccountId", tuusAccountId);
@@ -148,19 +165,30 @@ public class TupyoController {
 		return "success";
 	}
 	
+	/**
+	 * 투표 결과 ajax
+	 * 
+	 * @param tupySeq 투표 아이디
+	 * @param tuopSeq 투표 옵션 아이디
+	 * @return 옵션 Map
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/tupyoResult.do",method = RequestMethod.GET)
 	public Map<String, Object> tupyoResult(@RequestParam int tupySeq,@RequestParam int tuopSeq){
 		List<TupyoOptionVo> tupyoOptionList = service.getAllTupyoOption(tupySeq);
 		
 		List<TupyoUserVo> resultList = service.getTupyoResult(tuopSeq);
-		System.out.println("리절트리스트"+resultList);
 		Map<String, Object> optionMap = new HashMap<String, Object>();
 		optionMap.put("tupyoOptionList",tupyoOptionList);
 		optionMap.put("resultList",resultList);
 		return optionMap;
 	}
 	
+	/**
+	 * 찬반 투표 ajax
+	 * 
+	 * @param userVo 사용자 VO
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/agreeTupyo.do",method = RequestMethod.POST)
 	public void agreeTupyo( @RequestBody TupyoUserVo userVo) {
@@ -183,6 +211,13 @@ public class TupyoController {
 		service.updateAgreeTupyo(dataMap);
 	}
 	
+	/**
+	 * 찬반 투표 결과 ajax
+	 * 
+	 * @param tupySeq 투표 아이디
+	 * @param tuusOptionSeq 투표옵션 아이디
+	 * @return 옵션 Map
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/agreeTupyoResult.do",method = RequestMethod.GET)
 	public Map<String, Object> agreeUserResult(@RequestParam int tupySeq, @RequestParam int tuusOptionSeq){
@@ -191,16 +226,13 @@ public class TupyoController {
 		agreeMap.put("tuusOptionSeq", tuusOptionSeq);
 		agreeMap.put("tuusAgree", "A");
 		List<TupyoUserVo> agreeList = service.getAgreeUser(agreeMap);
-		System.out.println(agreeList);
 		Map<String, Object> disagreeMap = new HashMap<String, Object>();
 		disagreeMap.put("tuusOptionSeq", tuusOptionSeq);
 		disagreeMap.put("tuusAgree", "D");
 		List<TupyoUserVo> disagreeList = service.getAgreeUser(disagreeMap);
-		System.out.println(disagreeList);
 		Map<String, Object> optionMap = new HashMap<String, Object>();
 		optionMap.put("agreeCount", agreeList.size());
 		optionMap.put("disagreeCount", disagreeList.size());
-		System.out.println(optionMap);
 		return optionMap;
 	}
 	
@@ -208,14 +240,21 @@ public class TupyoController {
 	
 	
 	
-	
+	/**
+	 * 재투표
+	 * 
+	 * @param tupyClasId 클래스 아이디
+	 * @param tuusAccountId 사용자 아이디
+	 * @param tupySeq 투표 아이디
+	 * @param model 값 전달
+	 * @return 투표 페이지 이동
+	 */
 	@RequestMapping(value = "/reTupyo.do", method = RequestMethod.GET)
 	public String reTupyo(int tupyClasId,String tuusAccountId,int tupySeq,Model model) {
 		Map<String, Object> userMap = new HashMap<String, Object>();
 		userMap.put("tuusAccountId", tuusAccountId);
 		userMap.put("tuopTupySeq", tupySeq);
 		List<TupyoUserVo> userList = service.tupyoUserChk(userMap);
-		System.out.println(userList);
 		TupyoVo vo = service.getTupyo(tupyClasId);
 		TupyoUserVo tupyoUserVo = new TupyoUserVo();
 		tupyoUserVo.setTuusAccountId(tuusAccountId);
@@ -236,6 +275,13 @@ public class TupyoController {
 		return "tupyo";
 	}
 	
+	/**
+	 * 투표 여부 판단 ajax
+	 * 
+	 * @param tuusAccountId 사용자 아이디
+	 * @param tuopTupySeq 투표 아이디
+	 * @return 투표 여부
+	 */
 	@ResponseBody
 	@GetMapping("/checkVoted.do")
 	public String checkVoted(String tuusAccountId, int tuopTupySeq) {
@@ -243,14 +289,17 @@ public class TupyoController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("tuusAccountId", tuusAccountId);
 		map.put("tuopTupySeq", tuopTupySeq);
-		System.out.println("투표 여부 체크"+service.tupyoUserChk(map));
 		if(!service.tupyoUserChk(map).isEmpty()) {
 			result = "voted";
-			System.out.println("result 값 : "+result);
 		}
 		return result;
 	}
 	
+	/**
+	 * 투표 종료 여부 판단 ajax
+	 * 
+	 * @param tuopTupySeq 투표 아이디
+	 */
 	@ResponseBody
 	@GetMapping("/finishedTupyo.do")
 	public void finishedTupyo(int tuopTupySeq) {
@@ -262,17 +311,22 @@ public class TupyoController {
 	}
 	
 	
-	
+	/**
+	 * 투표 종료 ajax
+	 * 
+	 * @param tupyClasId 클래스 아이디
+	 * @param tupySeq 투표 아이디
+	 * @param tuopSeq 투표옵션 아이디
+	 * @return 종료 결과
+	 */
 	@ResponseBody
 	@GetMapping("/finishTupyo.do")
 	public String finishTupyo(int tupyClasId,int tupySeq,int tuopSeq) {
 		TupyoVo vo = service.getTupyo(tupyClasId);
 		List<TupyoUserVo> resultList = service.getTupyoResult(tuopSeq);
-		System.out.println("finish의 리절트리스트"+resultList);
 		if(resultList.size()==1) {//찬반 투표일 때
 			
 			List<TupyoUserVo> agreeList = service.getAgreeResult(tupySeq);
-			System.out.println(agreeList);
 			int agree = 0;
 			int disagree = 0;
 			for (int i = 0; i < agreeList.size(); i++) {
@@ -286,7 +340,6 @@ public class TupyoController {
 			}
 
 			if(agree > disagree) {
-				System.out.println("강사 투표 결과 : 찬성");
 				int optionSeq = agreeList.get(0).getTuusOptionSeq();
 				TupyoOptionVo maxOptionVo = service.getTupyoOption(optionSeq);
 				String clasAccountId = maxOptionVo.getTuopInstr();
@@ -319,7 +372,6 @@ public class TupyoController {
 				
 				return "confirm";
 			}else {//반대가 더 많거나 같은 경우
-				System.out.println("강사 신청이 거부되었습니다");
 				service.endTupyo(tupySeq);
 				service.delTupyo(tupySeq);
 				return "disagree";
@@ -327,9 +379,7 @@ public class TupyoController {
 		}else {//여러명의 강사 선택지 투표일 때 
 			
 			int maxCount = 0;
-			System.out.println(resultList);
 			
-			System.out.println(resultList.get(0).getTuusOptionSeq());
 			for (int i = 0; i < resultList.size(); i++) {
 			    TupyoUserVo result = resultList.get(i);
 			    int count = result.getCount();
@@ -338,7 +388,6 @@ public class TupyoController {
 			    }
 			}
 
-			System.out.println(maxCount);
 			List<Integer> maxOptionList = new ArrayList<>();
 			for (int i = 0; i < resultList.size(); i++) {
 			    TupyoUserVo result = resultList.get(i);
@@ -348,9 +397,7 @@ public class TupyoController {
 			        maxOptionList.add(tuusOptionSeq);
 			    }
 			}
-			System.out.println(maxOptionList);
 			if(maxOptionList.size() > 1) {
-				System.out.println("동률 발생, 투표를 다시 생성해주세요");
 				
 				//투표를 다시 생성하게 만들
 				service.endTupyo(tupySeq);
@@ -377,6 +424,14 @@ public class TupyoController {
 		
 	}
 	
+	/**
+	 * 투표 생성 ajax
+	 * 
+	 * @param tupyClasId 클래스 아이디
+	 * @param tupyEnddate 투표 종료일
+	 * @return 
+	 * @throws ParseException
+	 */
 	@ResponseBody
 	@PostMapping("/makeTupyo.do")
 	public String makeTupyo(int tupyClasId,String tupyEnddate) throws ParseException {
@@ -393,14 +448,10 @@ public class TupyoController {
 		map.put("tupyEnddate", date);
 		service.insertTupyo(map);
 		
-		System.out.println(tupyClasId);
 		TupyoVo vo = service.getTupyo(tupyClasId);
-		System.out.println(vo);
 		int tuopTupySeq = vo.getTupySeq();
-		System.out.println(tuopTupySeq);
 		
 		List<ChamyeoVo> instrList = service.getAllInstr(tupyClasId);
-		System.out.println(instrList);
 		for (ChamyeoVo chamyeoVo : instrList) {
 			String tuopInstr = chamyeoVo.getClchAccountId();
 			int tuopFee = chamyeoVo.getClchInstrSugangryo();
