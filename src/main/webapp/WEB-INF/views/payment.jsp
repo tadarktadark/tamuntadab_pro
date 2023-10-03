@@ -10,6 +10,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src=></script>
 <%@ include file="./shared/_head_css.jsp"%>
+<%@ include file="./shared/_logout.jsp" %>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">

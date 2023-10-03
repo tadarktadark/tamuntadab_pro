@@ -338,11 +338,12 @@
 	</insert>
 	
 	<!-- 해당 클래스의 모든 참여자 조회 -->
-	<select id="getChamyeojas" parameterType="java.lang.String" resultType="chamyeoVo">
-		SELECT c.CLAS_ID, 
-		       cc.CLCH_ACCOUNT_ID, cc.CLCH_STATUS, cc.CLCH_GYEOLJE_STATUS, cc.CLCH_YEOKAL,
+	<select id="getChamyeojas" parameterType="java.lang.String" resultMap="chamyeoMap">
+		SELECT cc.CLCH_ACCOUNT_ID,
 		       up.USER_GENDER, up.USER_NICKNAME,
-		       FLOOR(MONTHS_BETWEEN(CURRENT_DATE, up.USER_BIRTH) / 12) AS AGE
+		       up.USER_PROFILE_FILE,
+		       FLOOR(MONTHS_BETWEEN(CURRENT_DATE, up.USER_BIRTH) / 12) AS USER_BIRTH,
+		       cc.CLCH_GYEOLJE_STATUS
 		FROM CLASS c 
 		JOIN CLASS_CHAMYEOJA cc ON c.CLAS_ID = cc.CLCH_CLAS_ID
 		JOIN USER_PROFILE up ON up.USER_ACCOUNT_ID = cc.CLCH_ACCOUNT_ID
