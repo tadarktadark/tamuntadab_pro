@@ -11,18 +11,19 @@
 <script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </head>
 <body class="twocolumn-panel">
+<div class="twocolumn-panel">
 	<div id="layout-wrapper">
 		<%@ include file="./shared/_menu.jsp"%>
 		<div class="main-content">
-			<div class="page-content">
-				<div class="container  bg-white">
-				   <section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center">
-				        <div class="container">
-				        	<div class="row">
-				        		<div class="text-center badge rounded-pill text-bg-light">
-					   				<h1>회원가입</h1>
-					   			</div>
+			<div class="page-content" style="margin-top: 0px;">
+			<section class="auth-page-wrapper py-2 position-relative d-flex align-items-center justify-content-center">
+				        <div class="container w-75">
+				        	<div class="row rounded-pill">
 				        		<div class="col-lg-12">
+				        		<div class="card overflow-hidden p-5">
+			        				<div class="text-center mt-2">
+                                           <h5 class="text-primary fs-20 fw-bolder">회원가입</h5>
+                                       </div>
 				        			<form action="./registration.do" method="post" class="row g-3 mt-1">
 									    <div class="col-md-12 ">
 									   		<label for="email" class="form-label"><b>이메일</b></label>
@@ -105,6 +106,7 @@
 					           				 <button type="submit" class="btn btn-primary col-lg-12">회원가입</button>
 					     			   </div>
 									</form>
+				        		</div>
 				        		</div><!-- end col-7 -->
 				        	</div>
 				        </div><!--end container-->

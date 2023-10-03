@@ -27,8 +27,8 @@
 		                        <div class="row g-0 px-5">
 		                        <div class="mt-4">
 		                        	<div class="text-center mt-2">
-	                            		<h3 class="text-primary fs-20">로그인</h3>
-	                        		</div>
+                                       <h5 class="text-primary fs-20 fw-bolder">로그인</h5>
+                                    </div>
 		                        </div>
                                 <div class="row-2 px-2">
 	                                <div class="mb-0 border-0 shadow-none mt-3">

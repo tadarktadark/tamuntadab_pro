@@ -338,9 +338,9 @@
 					<td>{{userJoinDate}}</td>
 					<td>{{userLastAccessDate}}</td>
 					{{#eq userAuth "S"}}
-						<td class="text-center"><span class="badge bg-primary-subtle text-primary  p-2">강사</span></td>
-        			{{else eq userAuth "I"}}
 						<td class="text-center"><span class="badge bg-info-subtle text-info  p-2">학생</span></td>
+        			{{else eq userAuth "I"}}
+						<td class="text-center"><span class="badge bg-primary-subtle text-primary  p-2">강사</span></td>
        				 {{/eq}}
 						<td class="text-center"><span class="badge bg-success-subtle text-success  p-2">{{userSite}}</span></td>
 					{{#eq userDelflag "Y"}}

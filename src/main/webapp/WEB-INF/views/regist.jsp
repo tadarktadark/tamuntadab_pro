@@ -16,11 +16,12 @@
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
-		<%@ include file="./shared/_menu.jsp"%>
 		<div class="main-content">
-			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center min-vh-100 bg-light">
-		        <div class="container">
-		            <div class="row">
+		<%@ include file="./shared/_menu.jsp"%>
+		<div class="page-content">
+			<section class="auth-page-wrapper py-5 position-relative d-flex align-items-center justify-content-center bg-light">
+		        <div class="container w-50">
+		            <div class="row rounded-pill">
 		                <div class="col-lg-12">
 		                    <div class="card overflow-hidden">
 		                        <div class="row g-0">
@@ -111,6 +112,7 @@
 		        </div><!--end container-->
 		    </section>
 		<%@ include file="./shared/_footer.jsp"%>
+		</div>
 		</div>
 	</div>	
 	<%@ include file="./shared/_vender_scripts.jsp" %>
