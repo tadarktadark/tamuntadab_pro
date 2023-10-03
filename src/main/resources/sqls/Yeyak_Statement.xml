@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tdtd.tmtd.model.mapper.YeyakDaoImpl">
-	<resultMap type="gangeuisilVo" id="gangeuisilMap">
-		<result property="gagaId" column="GAGA_ID"/>
-		<result property="gacoName" column="GACO_NAME"/>
-		<result property="gagaName" column="GAGA_NAME"/>
-		<result property="gacoOpen" column="GACO_OPEN"/>
-		<result property="gacoClose" column="GACO_CLOSE"/>
-		<result property="gagaMax" column="GAGA_MAX"/>
-		<result property="gagaHourPrice" column="GAGA_HOUR_PRICE"/>
-		<collection property="yeyakList" resultMap="reyakMap"></collection>
-	</resultMap>
-	<resultMap type="yeyakVo" id="reyakMap">
-		<result property="gayeYeyakDate" column="GAYE_YEYAK_DATE"/>
-		<result property="gayeStartTime" column="GAYE_START_TIME"/>
-		<result property="gayeHours" column="GAYE_HOURS"/>
-	</resultMap>
+	
+	<!-- 강의실 개수 조회, 전체/시도/시군구에 따라 다이나믹 쿼리 -->
 	<select id="getGangeuisilCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 			FROM GANGEUISIL_COMM
@@ -28,18 +15,24 @@
 	        	</when>
 	        </choose>
 	</select>
+	
+	<!-- 강의실이 있는 시도 목록 조회 -->
 	<select id="getGangeuisilSidoList" resultType="java.lang.String">
 		SELECT GACO_SIDO || '(' || COUNT(GACO_SIDO) || ')'
 	        FROM GANGEUISIL_COMM
 	        GROUP BY GACO_SIDO
 	        ORDER BY GACO_SIDO
 	</select>
+	
+	<!-- 선택한 시도에서 강의실이 있는 시군구 조회 -->
 	<select id="getGangeuisilSigunguList" resultType="java.lang.String">
 		SELECT GACO_SIGUNGU || '(' || COUNT(GACO_SIGUNGU) || ')'
 	        FROM GANGEUISIL_COMM
 	        WHERE GACO_SIDO=#{gacoSido}
 	        GROUP BY GACO_SIGUNGU
 	</select>
+	
+	<!-- 강의실 목록 조회, 전체/시도/시군구에 따라 다이나믹 쿼리 -->
 	<select id="getGangeuisilList" resultType="gangeuisilVo">
 		SELECT GACO_ID , GACO_NAME , GACO_JUSO , GACO_LAT , GACO_LON , GACO_OPEN , GACO_CLOSE
 			FROM (SELECT GACO_ID , GACO_NAME , GACO_JUSO , GACO_LAT , GACO_LON , GACO_OPEN , GACO_CLOSE,
@@ -56,29 +49,50 @@
 					)
 	        WHERE rn BETWEEN #{start} AND #{end}
 	</select>
+	
+	<!-- 선택한 강의실 상세 조회 -->
 	<select id="getGangeuisilDetailList" resultType="gangeuisilVo">
 		SELECT GAGA_ID, GAGA_GACO_ID AS GACO_ID, GAGA_NAME, GAGA_MAX, GAGA_HOUR_PRICE 
 	        FROM GANGEUISIL_GAEBYEOL
 	        WHERE GAGA_GACO_ID = #{gagaGacoId}
 	        ORDER BY GAGA_ID
 	</select>
-	<select id="getYeyakDateList" resultMap="gangeuisilMap">
-		SELECT GAGA_ID, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS, GACO_NAME, GAGA_NAME, GAGA_MAX, GAGA_HOUR_PRICE , GACO_OPEN, GACO_CLOSE
-			FROM GANGEUISIL_YEYAK JOIN GANGEUISIL_GAEBYEOL
-			ON GAYE_GAGA_ID = GAGA_ID
-			JOIN GANGEUISIL_COMM
-			ON GAGA_GACO_ID = GACO_ID
-			WHERE NOT GAYE_STATE = 'N'
-				AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE ,'yyyymmdd')
-				<![CDATA[AND GAYE_YEYAK_DATE < TO_CHAR(CURRENT_DATE+28 ,'yyyymmdd')]]>
-				AND GAGA_ID=#{gagaId}
+	
+	<!-- 사용자가 참여한 클래스 조회 -->
+	<select id="getchamyeoClassList" resultType="classVo">
+		SELECT CLAS_ID , CLAS_TITLE , CLAS_HYEONJAE_INWON
+			FROM CLASS_CHAMYEOJA JOIN CLASS
+			ON CLCH_CLAS_ID = CLAS_ID
+			LEFT JOIN (SELECT *
+						FROM GANGEUISIL_YEYAK
+						WHERE GAYE_ACCOUNT_ID='TMTD1'
+							AND GAYE_CLAS_ID IS NOT NULL
+							AND GAYE_STATE IN ('Y', 'D'))
+			ON CLAS_ID = GAYE_CLAS_ID
+			WHERE CLCH_ACCOUNT_ID = #{accountId}
+				AND CLCH_STATUS = 'Y'
+				AND CLAS_STATUS IN ('매칭완료', '매칭')
+				AND GAYE_ID IS NULL
 	</select>
-	<select id="getYeyakTimeList" resultType="gangeuisilVo">
-		SELECT GACO_OPEN , GACO_CLOSE
-		        FROM GANGEUISIL_GAEBYEOL JOIN GANGEUISIL_COMM
-		        ON GAGA_GACO_ID = GACO_ID
-		        WHERE GAGA_ID=#{gagaId}
+	
+	<!-- 개별 강의실의 예약 가능한 날짜 및 시간 조회 -->
+	<select id="getYeoyuTime" resultType="gangeuisilVo">
+		SELECT GAGA_ID , GACO_OPEN, GACO_CLOSE, GAGA_YEOYU_TIME
+	        FROM GANGEUISIL_COMM JOIN GANGEUISIL_GAEBYEOL
+	        ON GACO_ID = GAGA_GACO_ID 
+	        WHERE GAGA_ID = #{gagaId}
 	</select>
+	
+	<!-- 예약된 클래스 참여 유저 id 조회 -->
+	<select id="getYeyakGyeoljeAcountIdList" resultType="java.lang.String">
+		SELECT CLCH_ACCOUNT_ID 
+	        FROM CLASS_CHAMYEOJA
+	        WHERE CLCH_CLAS_ID =#{gayeClasId}
+	                AND CLCH_STATUS = 'Y'
+	                AND NOT CLCH_YEOKAL = 'I'
+	</select>
+	
+	<!-- 예약 정보 입력, 클래스id 존재 여부에 따라 다르게 처리 -->
 	<insert id="insertYeakInfo">
 		INSERT INTO GANGEUISIL_YEYAK
 	                        (GAYE_ID, GAYE_GAGA_ID, GAYE_ACCOUNT_ID, 
@@ -110,13 +124,14 @@
 	        	FROM GANGEUISIL_YEYAK
 		</selectKey>
 	</insert>
-	<select id="getYeyakGyeoljeAcountIdList" resultType="java.lang.String">
-		SELECT CLCH_ACCOUNT_ID 
-	        FROM CLASS_CHAMYEOJA
-	        WHERE CLCH_CLAS_ID =#{gayeClasId}
-	                AND CLCH_STATUS = 'Y'
-	                AND NOT CLCH_YEOKAL = 'I'
-	</select>
+	
+	<!-- 개별 강의실 여유 시간 업데이트 -->
+	<update id="updateYeoyuTime">
+		UPDATE GANGEUISIL_GAEBYEOL SET GAGA_YEOYU_TIME = #{gagaYeoyuTime}
+        	WHERE GAGA_ID = #{gagaId}
+	</update>
+	
+	<!-- 예약시 결제 테이블에 추가 -->
 	<insert id="insertYeakGyeoljeInfo">
 		INSERT INTO GYEOLJE
 	                (GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, 
@@ -131,16 +146,31 @@
 				WHERE SUBSTR(GYEO_ID, 0, 2)='RE'
 		</selectKey>
 	</insert>
+	
+	<!-- 결제 테이블에 추가된 ID 예약 테이블에 추가 -->
 	<update id="updateGyeoId">
 		UPDATE GANGEUISIL_YEYAK SET GAYE_GYEO_ID = #{gayeGyeoId}
 			WHERE GAYE_ID = #{gayeId}
 	</update>
+	
+	<!-- 알림 전송을 위한 클래스 참여자 조회 -->
+	<select id="getAllChamyeoja" resultType="java.lang.String">
+		SELECT CLCH_ACCOUNT_ID
+			FROM GANGEUISIL_YEYAK JOIN CLASS_CHAMYEOJA
+			ON GAYE_CLAS_ID = CLCH_CLAS_ID
+			WHERE GAYE_ID=#{gayeId}
+				AND CLCH_STATUS='Y'
+	</select>
+	
+	<!-- 마이페이지 예약 목록 일정 페이징 처리 -->
 	<select id="getMyYeyakCount" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 			FROM GANGEUISIL_YEYAK
 			WHERE GAYE_ACCOUNT_ID = #{accountId}
 				AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE, 'yyyymmdd')
 	</select>
+	
+	<!-- 마이페이지 예약 정보 조회 -->
 	<select id="getMyYeyakList" resultType="yeyakVo">
 		SELECT GAYE_ID, GAYE_GAGA_ID, GAYE_ACCOUNT_ID, GAYE_YEYAK_DATE , GAYE_START_TIME , GAYE_HOURS , GAYE_STATE , GAYE_GYEO_ID
 			FROM (SELECT GAYE_ID, GAYE_GAGA_ID, (SELECT GACO_NAME
@@ -158,6 +188,8 @@
 						AND GAYE_YEYAK_DATE > TO_CHAR(CURRENT_DATE, 'yyyymmdd'))
 			WHERE rn BETWEEN #{start} AND #{end}
 	</select>
+	
+	<!-- 특정 예약 일정 결제 유저들의 결제 상태 조회 -->
 	<select id="getGyeojeStatus" resultType="geoljeVo">
 		SELECT GYEO_GEUMAEK, GYEO_ACCOUNT_ID, USER_NICKNAME AS GYEO_ID, GYEO_STATUS, (SELECT GACO_NAME
 								FROM GANGEUISIL_GAEBYEOL JOIN GANGEUISIL_COMM
@@ -172,53 +204,30 @@
 			ON GYEO_ACCOUNT_ID = USER_ACCOUNT_ID
 			WHERE GAYE_ID=#{gayeId}
 	</select>
+	
+	<!-- 예약 취소시 상태 변경 -->
 	<update id="updateYeyakDelflag">
 		UPDATE GANGEUISIL_YEYAK SET GAYE_STATE='N'
 	        WHERE GAYE_ID=#{gayeId}
 	</update>
+	
+	<!-- 결제 유저 id 조회 -->
 	<select id="getGyeoId" resultType="java.lang.String">
 		SELECT GAYE_GYEO_ID 
 			FROM GANGEUISIL_YEYAK
 			WHERE GAYE_ID=#{gayeId}
 	</select>
-	<update id="updateYeoyuTime">
-		UPDATE GANGEUISIL_GAEBYEOL SET GAGA_YEOYU_TIME = #{gagaYeoyuTime}
-        	WHERE GAGA_ID = #{gagaId}
-	</update>
+	
+	<!-- 예약 취소시 결제 테이블 상태 변경 -->
 	<update id="updateYeakGyeoljeStatus">
 		UPDATE GYEOLJE SET GYEO_STATUS = 'C'
 			WHERE GYEO_ID = #{gyeoId}
 	</update>
-	<select id="getYeoyuTime" resultType="gangeuisilVo">
-		SELECT GAGA_ID , GACO_OPEN, GACO_CLOSE, GAGA_YEOYU_TIME
-	        FROM GANGEUISIL_COMM JOIN GANGEUISIL_GAEBYEOL
-	        ON GACO_ID = GAGA_GACO_ID 
-	        WHERE GAGA_ID = #{gagaId}
-	</select>
-	<select id="getchamyeoClassList" resultType="classVo">
-		SELECT CLAS_ID , CLAS_TITLE , CLAS_HYEONJAE_INWON, GAYE_ID, GAYE_STATE
-			FROM CLASS_CHAMYEOJA JOIN CLASS
-			ON CLCH_CLAS_ID = CLAS_ID
-			LEFT JOIN (SELECT *
-						FROM GANGEUISIL_YEYAK
-						WHERE GAYE_ACCOUNT_ID='TMTD1'
-							AND GAYE_CLAS_ID IS NOT NULL
-							AND GAYE_STATE IN ('Y', 'D'))
-			ON CLAS_ID = GAYE_CLAS_ID
-			WHERE CLCH_ACCOUNT_ID = #{accountId}
-				AND CLCH_STATUS = 'Y'
-				AND CLAS_STATUS IN ('매칭완료', '매칭')
-				AND GAYE_ID IS NULL
-	</select>
+	
+	<!-- 개별 강의실 id 조회 -->
 	<select id="getAllGaebyeol" resultType="java.lang.String">
 		SELECT GAGA_ID
 			FROM GANGEUISIL_GAEBYEOL
 	</select>
-	<select id="getAllChamyeoja" resultType="java.lang.String">
-		SELECT CLCH_ACCOUNT_ID
-			FROM GANGEUISIL_YEYAK JOIN CLASS_CHAMYEOJA
-			ON GAYE_CLAS_ID = CLCH_CLAS_ID
-			WHERE GAYE_ID=#{gayeId}
-				AND CLCH_STATUS='Y'
-	</select>
+	
 </mapper>

@@ -53,16 +53,11 @@ public class YeyakServiceImpl implements IYeyakService {
 	public List<GangeuisilVo> getGangeuisilDetailList(String gagaGacoId) {
 		return dao.getGangeuisilDetailList(gagaGacoId);
 	}
-
-//	@Override
-//	public List<GangeuisilVo> getYeyakDateList(String gagaId) {
-//		return dao.getYeyakDateList(gagaId);
-//	}
-//
-//	@Override
-//	public List<GangeuisilVo> getYeyakTimeList(String gagaId) {
-//		return dao.getYeyakTimeList(gagaId);
-//	}
+	
+	@Override
+	public List<ClassVo> getchamyeoClassList(String accountId) {
+		return dao.getchamyeoClassList(accountId);
+	}
 	
 	@Override
 	public GangeuisilVo getYeoyuTime(String gagaId) {
@@ -247,10 +242,5 @@ public class YeyakServiceImpl implements IYeyakService {
 			update.put("gagaYeoyuTime", yeoyuTime);
 			dao.updateYeoyuTime(update);
 		}
-	}
-		
-	@Override
-	public List<ClassVo> getchamyeoClassList(String accountId) {
-		return dao.getchamyeoClassList(accountId);
 	}
 }
