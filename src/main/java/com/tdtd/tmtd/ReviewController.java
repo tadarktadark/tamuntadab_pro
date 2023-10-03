@@ -38,7 +38,7 @@ public class ReviewController {
 	 * 후기 작성 페이지 이동
 	 * @param session 로그인 정보
 	 * @param classId 클래스 아이디
-	 * @return title, pageTitle 페이지 제목 / reviStudName 후기 작성 닉네임 / reviClasId 후기 ref(클래스) 아이디
+	 * @return title, pageTitle 페이지 제목 / reviStudName 후기 작성 닉네임 / reviAccountId 후기 작성 아이디 /reviClasId 후기 ref(클래스) 아이디
 	 */
 	@GetMapping("/reviewWriteForm.do")
 	public String reviewWriteForm(Model model, HttpSession session, String classId) {
@@ -46,10 +46,12 @@ public class ReviewController {
 		
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		String userNickname = userInfo.getUserNickname();
+		String userAccountId = userInfo.getUserAccountId();
 		
 		model.addAttribute("title", "후기");
 		model.addAttribute("pageTitle", "후기 작성");
 		model.addAttribute("reviStudName", userNickname);
+		model.addAttribute("reviAccountId", userAccountId);
 		model.addAttribute("reviClasId", classId);
 		
 		return "reviewWriteForm";

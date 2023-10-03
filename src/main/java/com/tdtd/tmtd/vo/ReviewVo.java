@@ -18,6 +18,7 @@ public class ReviewVo {
 
 	private int reviSeq;
 	private int reviClasId;
+	private String reviAccountId;
 	private String reviStudName;
 	private int reviPro;
 	private int reviPrepare;
