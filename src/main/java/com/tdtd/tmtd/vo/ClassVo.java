@@ -35,6 +35,8 @@ public class ClassVo {
 	private String clasContent;
 	private String clasAccountId;
 	private int clasSugangRyo;
+	private String clchPilgiStatus;
+	private String clchReviewStatus;
 	
 	private List<ReviewVo> reviewVo;
 	private List<UserProfileVo> userVo;
