@@ -16,13 +16,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.tdtd.tmtd.model.service.IAlarmService;
 import com.tdtd.tmtd.vo.AlarmVo;
 
+/**
+ * 알림 관련 컨트롤러
+ * 
+ * @author 김다현
+ *
+ */
 @Controller
 public class AlarmController {
 
 	@Autowired
 	private IAlarmService service;
 	
-	
+	/**
+	 * 알림 목록 조회 ajax
+	 * 
+	 * @param alarAccountId 사용자 아이디
+	 * @return - list 알림 리스트
+	 */
 	@PostMapping("/notificationList.do")
 	@ResponseBody
 	public List<AlarmVo> notificationList(String alarAccountId) {
@@ -30,7 +41,14 @@ public class AlarmController {
 		return list;
 	}
 	
-	
+	/**
+	 * 알림 추가 ajax
+	 * 
+	 * @param gubun 알림 분류
+	 * @param content 알림 내용
+	 * @param accountId 알림 사용자 아이디
+	 * @param url 알람 이동 경로
+	 */
 	@PostMapping("/insertAlarm.do")
 	@ResponseBody
 	public void insertAlarm(String gubun, String content, String accountId,String url) {
@@ -47,6 +65,13 @@ public class AlarmController {
 		service.insertAlarm(insertMap);
 	}
 	
+	/**
+	 * 알람 관련 페이지 이동
+	 * 
+	 * @param link 알람 이동 경로
+	 * @param alarId 알람 아이디
+	 * @return
+	 */
 	@GetMapping("/notificationLink.do")
 	public String notificationLink(String link,String alarId) {
 		service.updateAlarm(alarId);
@@ -54,6 +79,11 @@ public class AlarmController {
 		return result;
 	}
 	
+	/**
+	 * 알람 삭제 ajax
+	 * 
+	 * @param checkedValues 선택한 알람 리스트
+	 */
 	@PostMapping("/delAlarm.do")
 	@ResponseBody
 	public void delAlarm(@RequestParam("checkedValues") List<String> checkedValues) {

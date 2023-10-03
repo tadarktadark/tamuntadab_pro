@@ -14,7 +14,6 @@
 	.right img{
 		display: none;
 	}
-	
 </style>
 </head>
 <body>
@@ -22,9 +21,6 @@
 	<%@ include file="./shared/_menu.jsp"%>
 	<div class="main-content">
 		<div class="page-content">
-			<div class="container-fluid">
-				<%@ include file="./shared/_page_title.jsp"%>
-			</div>
 		<div class="d-lg-flex">
 		    <div class="chat-leftsidebar card">
 		        <div class="card-body">
@@ -86,15 +82,6 @@
 		                                    </a>
 		                                </li>
 		                            </c:forEach>
-		                            <li>
-	                                    <a href="#">
-	                                        <div class="d-flex align-items-center">
-	                                            <div class="flex-grow-1 overflow-hidden">
-	                                            	<h5 class="text-truncate fs-15 mb-0"><i style="font-size: 20px;vertical-align: middle;position: relative;top: -1px;" class="ph-robot"></i> 챗봇</h5>
-	                                            </div>
-	                                        </div>
-	                                    </a>
-	                                </li>
 		                            </ul>
 		                        </div>
 		                    </div>
@@ -102,7 +89,6 @@
 		            </div>
 		        </div>
 		    </div>
-		    <!-- end chat-leftsidebar -->
 		    <div id="chatDetail" style="display:none;" class="w-100 user-chat mt-4 mt-sm-0 ms-lg-3">
 		        <div class="card">
 		            <div class="p-3 px-lg-4 border-bottom">
@@ -133,9 +119,6 @@
 		                            <input id="chatInput" type="text" class="form-control border chat-input" autocomplete="off">
 		                        </div>
 		                    </div>
-<!-- 							<div class="col-4"> -->
-<!-- 							    <input class="form-control border chat-input" type="file" id="formFile"> -->
-<!-- 							</div> -->
 		                    <div class="col-auto">
 		                        <button type="button" id="chatBtn" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">전송</span> <i class="mdi mdi-send float-end"></i></button>
 		                    </div>
@@ -144,14 +127,10 @@
 		        </div>
 		    </div>
 		</div>
-		
-		    <!-- end user chat -->
 <%@ include file="./shared/_footer.jsp" %>
 		</div>
 	</div>
 </div>
-
-<!-- End d-lg-flex  -->
 <script type="text/javascript" src="~/assets/js/app.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script type='text/javascript' src="./js/chat.js"></script>

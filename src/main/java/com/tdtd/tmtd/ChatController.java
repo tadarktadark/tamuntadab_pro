@@ -28,6 +28,12 @@ import com.tdtd.tmtd.vo.ChatUserVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
+/**
+ * 채팅 관련 컨트롤러
+ * 
+ * @author 김다현
+ *
+ */
 @Controller
 public class ChatController implements ServletConfigAware{
 	
@@ -42,11 +48,19 @@ public class ChatController implements ServletConfigAware{
 	@Autowired
 	private IChatService service;
 	
-	
+	/**
+	 * 채팅 페이지 이동
+	 * 
+	 * @param request 제목 설정
+	 * @param session 세션
+	 * @param model 채팅방 목록 전달
+	 * @return
+	 */
 	@GetMapping("/chatPage.do")
 	public String chatPage(HttpServletRequest request,HttpSession session,Model model) {
 		request.setAttribute("title", "채팅");
 		UserProfileVo userVo = (UserProfileVo) session.getAttribute("userInfo");
+		//채팅이 이미 있다면 채팅 페이지로 이동
 		if(userVo==null) {
 			return "redirect:/loginForm.do";
 		}
@@ -57,7 +71,12 @@ public class ChatController implements ServletConfigAware{
 		return "chat";
 	}
 	
-	
+	/**
+	 * 클래스 채팅방 생성 
+	 * 
+	 * @param clasId 클래스 아이디
+	 * @return 채팅 페이지 이동
+	 */
 	@GetMapping("/classChatRoom.do")
 	public String classChatRoom(int clasId) {
 		//클래스 정보 받아오고
@@ -83,7 +102,6 @@ public class ChatController implements ServletConfigAware{
 		
 		//참가자 추가
 		String chroId = service.getChatDetailByClasId(clasId).getChroId();
-		
 		for (ChamyeoVo chamyeoVo : classUserList) {
 			String clchAccountId = chamyeoVo.getClchAccountId();
 			String chusType = chamyeoVo.getClchYeokal();
@@ -102,7 +120,13 @@ public class ChatController implements ServletConfigAware{
 	
 	
 	
-	
+	/**
+	 * 강사 채팅방 생성
+	 * 
+	 * @param studAccountId 학생 아이디
+	 * @param instrAccountId 강사 아이디
+	 * @return 채팅 페이지 이동
+	 */
 	@GetMapping("/intsrChatRoom.do")
 	public String intsrChatRoom(String studAccountId,String instrAccountId) {
 		UserProfileVo instrVo = service.getInstrInfo(instrAccountId);
@@ -113,6 +137,7 @@ public class ChatController implements ServletConfigAware{
 		int clasId = Integer.parseInt(instrClasId+""+studClasId) ;
 		checkMap.put("chroClasId", clasId);
 		checkMap.put("chusAccountId", studAccountId);
+		//강사 채팅방 유무 판단
 		int n = service.countChatRoom(checkMap);
 		if(n>0) {
 			return "redirect:/chatPage.do";
@@ -147,22 +172,33 @@ public class ChatController implements ServletConfigAware{
 	}
 	
 	
-	
+	/**
+	 * 채팅방 정보 조회 ajax
+	 * 
+	 * @param session 세션
+	 * @param chroId 채팅방 아이디
+	 * @return 채팅방 VO
+	 */
 	@ResponseBody
 	@GetMapping("/chatRoom.do")
 	public ChatRoomVo chatRoom(HttpSession session, String chroId) {
-		System.out.println(chroId);
 		UserProfileVo userVo = (UserProfileVo)session.getAttribute("userInfo");
 		String mem_id = userVo.getUserAccountId();
-		System.out.println("mem_id ============"+mem_id);
 		session.setAttribute("cr_id", chroId);
 		session.setAttribute("mem_id", mem_id);
 		ChatRoomVo chatRoomVo = service.getChatDetail(chroId);
-		System.out.println("채팅방 vo : "+chatRoomVo);
 		return chatRoomVo;
 	}
 
 
+	/**
+	 * 채팅 웹소켓
+	 * 
+	 * @param cr_id 채팅방아이디
+	 * @param mem_id 참가자아이디
+	 * @param session 세션
+	 * @return 채팅 페이지 이동
+	 */
 	@GetMapping("/openChatRoom.do")
 	public String openChatRoom(String cr_id, String mem_id, HttpSession session) {
 		session.setAttribute("mem_id", mem_id);
@@ -182,6 +218,12 @@ public class ChatController implements ServletConfigAware{
 	}
 	
 	
+	/**
+	 * 채팅 내역 저장 ajax
+	 * 
+	 * @param chroId 채팅방 아이디
+	 * @param chroChatLog 채팅 내역
+	 */
 	@PostMapping("/updateChatLog.do")
 	@ResponseBody
 	public void updateChatLog(String chroId,String chroChatLog) {
@@ -192,6 +234,12 @@ public class ChatController implements ServletConfigAware{
 		service.updateChatCount(chroId);
 	}
 	
+	/**
+	 * 참가자 읽은 채팅 수 업데이트 ajax
+	 * 
+	 * @param chroId 채팅방 아이디
+	 * @param chusAccountId 참가자 아이디
+	 */
 	@GetMapping("/updateUserChatCount.do")
 	@ResponseBody
 	public void updateUserChatCount(String chroId, String chusAccountId) {
@@ -201,6 +249,13 @@ public class ChatController implements ServletConfigAware{
 		service.updateUserChatCount(map);
 	}
 	
+	/**
+	 * 안 읽은 채팅 수 ajax 
+	 * 
+	 * @param chroId 채팅방 아이디
+	 * @param chusAccountId 참가자 아이디
+	 * @return
+	 */
 	@PostMapping("/countChatAlarm.do")
 	@ResponseBody
 	public int countChatAlarm(String chroId,String chusAccountId) {
@@ -219,6 +274,11 @@ public class ChatController implements ServletConfigAware{
 	}
 	
 
+	/**
+	 * 웹소켓 종료 ajax
+	 * 
+	 * @param session 세션
+	 */
 	@PostMapping(value = "/socketOut.do")
 	@ResponseBody
 	public void socketOut(HttpSession session) {
