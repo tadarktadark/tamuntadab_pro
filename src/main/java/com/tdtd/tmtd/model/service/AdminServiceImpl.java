@@ -1,5 +1,6 @@
 package com.tdtd.tmtd.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +45,8 @@ public class AdminServiceImpl implements IAdminService {
 		return adminDao.getAdminList(map);
 	}
 	@Override
-	public int countAdmin() {
-		return adminDao.countAdmin();
+	public int countAdmin(Map<String,Object>map) {
+		return adminDao.countAdmin(map);
 	}
 
 	@Override
@@ -54,7 +55,65 @@ public class AdminServiceImpl implements IAdminService {
 	}
 
 	@Override
-	public int countUser() {
-		return adminDao.countUser();
+	public int countUser(Map<String, Object> map) {
+		return adminDao.countUser(map);
 	}
+
+	@Override
+	public UserProfileVo getuserDetail(String userId) {
+		return adminDao.getuserDetail(userId);
+	}
+
+	@Override
+	public int setuserJeongji(Map<String, Object> map) {
+		int n = adminDao.setuserJeongji(map);
+		int m = adminDao.updatesisu(map);
+		return (n+m)>1?1:0;
+	}
+
+	@Override
+	public int addAdmin(Map<String, Object> map) {
+		return adminDao.addAdmin(map);
+	}
+
+	@Override
+	public int addIp(Map<String, Object> map) {
+		return adminDao.addIP(map);
+	}
+
+	@Override
+	public int adminIdCheck(Map<String, Object> map) {
+		return adminDao.adminIdCheck(map);
+	}
+
+	@Override
+	public Map<String,Object> adminDetail(String userId) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("adminVo", adminDao.adminDetail(userId));
+		map.put("adminIp", adminDao.adminipDetail(userId));
+		return map;
+	}
+
+	@Override
+	public int delAdmin(String adminId) {
+		int n = adminDao.delAdmin(adminId);
+		n += adminDao.delAdmin_IP(adminId);
+		return n>0?1:0;
+	}
+
+	@Override
+	public int delIP(Map<String, Object> map) {
+		return adminDao.delIP(map);
+	}
+
+	@Override
+	public int restoreAdmin(String adminId) {
+		return adminDao.restoreAdmin(adminId);
+	}
+
+	@Override
+	public int resetAdminPw(String adminId) {
+		return adminDao.resetAdminPw(adminId);
+	}
+
 }

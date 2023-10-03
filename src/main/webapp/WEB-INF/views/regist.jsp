@@ -112,9 +112,9 @@
 		<%@ include file="./shared/_footer.jsp"%>
 		</div>
 	</div>	
+	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-	<%@ include file="./shared/_vender_scripts.jsp" %>
 	<script src="./js/registPage.js"></script>
 	</body>
 </html>

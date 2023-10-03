@@ -20,6 +20,7 @@
 		<result column="USER_CHADAN_REGIST_DATE" property="userChadanRegistDate" />
 		<result column="USER_CHADAN_COUNT" property="userChadanCount" />
 		<result column="USJE_JEONGJI_SANGTAE" property="userJeongJiSangTae" />
+		<result column="SIUS_STATE" property="siusState" />
 	</resultMap>
 
 	<resultMap type="adminVo" id="adminMap">
@@ -27,6 +28,9 @@
 		<result column="ADPR_NAME" property="adprName" />
 		<result column="ADPR_AUTH" property="adprAuth" />
 		<result column="ADPR_LAST_ACCESS" property="adprLastAccess" />
+		<result column="ADPR_ADMIN" property="adprAdmin" />
+		<result column="ADPR_DELFLAG" property="adprDelflag" />
+		<result column="IP_ADDRESS" property="ipAddress" />
 	</resultMap>
 
 	<select id="searchIP" resultType="java.lang.Integer">
@@ -56,49 +60,66 @@
 	<select id="countAdmin" resultType="java.lang.Integer">
 		SELECT COUNT(*)
 		FROM ADMIN_PROFILE ap
+		WHERE ADPR_AUTH IN ('T','M','P','B')
+	    <if test="userAuth != null">
+	        AND ADPR_AUTH IN (#{userAuth})
+	    </if>
+   	    <if test="userDelflag != null">
+	        AND ADPR_DELFLAG IN (#{userDelflag})
+	    </if>
+	    <if test="tag != null and searchValue != null">
+	    	AND ${tag} = #{searchValue}
+	    </if>
 	</select>
 
 	<select id="getAdminList" resultMap="adminMap">
-		SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS
+		SELECT ADPR_ID, ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS,ADPR_DELFLAG
 		FROM(
-		SELECT ROW_NUMBER() OVER(ORDER BY ADPR_LAST_ACCESS DESC) AS RN, ADPR_ID,
-		ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS
-		FROM ADMIN_PROFILE)
+		SELECT ROW_NUMBER() 
+			<choose>
+				<when test="column != null and value !=null">
+					OVER(ORDER BY ${column} ${value}) AS RN
+				</when>
+				<otherwise>
+					OVER(ORDER BY ADPR_LAST_ACCESS DESC) AS RN
+				</otherwise>
+			</choose> 
+		, ADPR_ID,
+		ADPR_NAME ,ADPR_AUTH,ADPR_LAST_ACCESS,ADPR_DELFLAG
+		FROM ADMIN_PROFILE
+		WHERE ADPR_AUTH IN ('T','M','P','B')
+	    <if test="userAuth != null">
+	        AND ADPR_AUTH IN (#{userAuth})
+	    </if>
+	    <if test="userDelflag != null">
+	        AND ADPR_DELFLAG IN (#{userDelflag})
+	    </if>
+	    <if test="tag != null and searchValue != null">
+	    	AND ${tag} = #{searchValue}
+	    </if>
+		)
 		WHERE RN BETWEEN #{start}AND#{end}
 	</select>
 	<select id="countUser" resultType="java.lang.Integer">
-			SELECT
-			COUNT(*)
+	SELECT 
+		COUNT(*)
 			FROM(
-				SELECT up.USER_ACCOUNT_ID AS USER_NICKNAME
-				FROM
-				USER_PROFILE up
-				UNION
-				SELECT kup.USER_ACCOUNT_ID AS USER_NICKNAME
-				FROM
-				KAKAO_USER_PROFILE kup
-				UNION
-				SELECT nup.USER_ACCOUNT_ID AS USER_NICKNAME
-				FROM NAVER_USER_PROFILE nup
-				UNION
-				SELECT gup.USER_ACCOUNT_ID AS
-				USER_NICKNAME
-				FROM GOOGLE_USER_PROFILE gup)
-	</select>
-	<select id="getUserList" parameterType="java.util.Map" resultMap="userProfileMap">
-		SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
-					USER_AUTH,USER_PHONE_NUMBER,TO_CHAR(USER_BIRTH,'YYYY-MM-DD') AS USER_BIRTH,USER_JOIN_DATE,
-					USER_LAST_ACCESS_DATE,USER_GENDER,USER_SITE,
-					USER_DELFLAG,USJE_JEONGJI_SANGTAE,RN
-			FROM(SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
-					USER_AUTH,USER_PHONE_NUMBER,USER_BIRTH,USER_JOIN_DATE,
-					USER_LAST_ACCESS_DATE,USER_GENDER,USER_SITE,
-					USER_DELFLAG,USJE_JEONGJI_SANGTAE,ROW_NUMBER() OVER(ORDER BY USER_ACCOUNT_ID DESC) AS RN
-				FROM(SELECT USER_ACCOUNT_ID, USER_EMAIL,USER_NAME,USER_NICKNAME,
-						USER_AUTH,USER_PHONE_NUMBER,USER_BIRTH,USER_JOIN_DATE,
-						USER_LAST_ACCESS_DATE,USER_GENDER,USER_SITE,
-						USER_DELFLAG,USJE_JEONGJI_SANGTAE
-					FROM(
+				SELECT 
+					USER_ACCOUNT_ID, 
+					USER_EMAIL,
+					USER_NAME,
+					USER_NICKNAME,
+					USER_AUTH,
+					USER_PHONE_NUMBER,
+					USER_BIRTH,
+					USER_JOIN_DATE,
+					USER_LAST_ACCESS_DATE,
+					USER_GENDER,
+					USER_SITE,
+					USER_DELFLAG,
+					CASE WHEN USJE_JEONGJI_SANGTAE = 'Y' THEN USJE_JEONGJI_SANGTAE ELSE 'N' END AS USJE_JEONGJI_SANGTAE,
+					CASE WHEN su.SIUS_STATE = 'Y' THEN su.SIUS_STATE ELSE 'N' END AS SIUS_STATE
+						FROM(
 						SELECT up.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, 
 						       up.USER_EMAIL AS USER_EMAIL,
 						       up.USER_NAME AS USER_NAME,
@@ -165,27 +186,287 @@
 						       uj.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE
 						FROM USER_JEONGJI uj 
 							RIGHT OUTER JOIN GOOGLE_USER_PROFILE gup 
-							ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)
-						WHERE USER_AUTH IN ('S','I')
-						    <if test="userAuth != null">
-						        AND USER_AUTH IN (#{userAuth})
-						    </if>
-						    <if test="userSite != null">
-						        AND USER_SITE IN (#{userSite})
-						    </if>
-						    <if test="userDelflag != null">
-						        AND USER_DELFLAG IN (#{userDelflag})
-						    </if>
-						    <if test="userGender != null">
-						        AND USER_GENDER IN(#{userGender})
-						    </if>
-						    <if test="userJeongJiSangTae != null">
-						        AND USJE_JEONGJI_SANGTAE IN (#{userJeongJiSangTae})
-						    </if>
-						    <if test="tag != null and value != null">
-						    	${tag} = #{value}
-						    </if>
-				))
-			WHERE RN BETWEEN #{start} AND #{end}
+							ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)us
+				LEFT  OUTER JOIN (SELECT SIUS_ACCOUNT_ID, SIUS_STATE FROM SINGO_USER WHERE SIUS_STATE = 'Y')su
+							ON us.USER_ACCOUNT_ID = su.SIUS_ACCOUNT_ID)
+			WHERE USER_AUTH IN ('S','I')
+			    <if test="userAuth != null">
+			        AND USER_AUTH IN (#{userAuth})
+			    </if>
+			    <if test="userSite != null">
+			        AND USER_SITE IN (#{userSite})
+			    </if>
+			    <if test="userDelflag != null">
+			        AND USER_DELFLAG IN (#{userDelflag})
+			    </if>
+			    <if test="userGender != null">
+			        AND USER_GENDER IN(#{userGender})
+			    </if>
+			    <if test="userJeongJiSangTae != null">
+			        AND USJE_JEONGJI_SANGTAE IN (#{userJeongJiSangTae})
+			    </if>
+			    <if test="siusState != null">
+			        AND SIUS_STATE IN (#{siusState})
+			    </if>
+			    <if test="tag != null and searchValue != null">
+			    	AND ${tag} = #{searchValue}
+			    </if>
 	</select>
+	<select id="getUserList" parameterType="java.util.Map" resultMap="userProfileMap">
+	SELECT 
+		USER_ACCOUNT_ID, 
+		USER_EMAIL,
+		USER_NAME,
+		USER_NICKNAME,
+		USER_AUTH,
+		USER_PHONE_NUMBER,
+		TO_CHAR(USER_BIRTH,'YYYY-MM-DD') AS USER_BIRTH,
+		TO_CHAR(USER_JOIN_DATE,'YYYY-MM-DD') AS USER_JOIN_DATE,
+		USER_LAST_ACCESS_DATE,
+		USER_GENDER,
+		USER_SITE,
+		USER_DELFLAG,
+		USJE_JEONGJI_SANGTAE,
+		SIUS_STATE,
+		RN
+			FROM(
+				SELECT 
+					USER_ACCOUNT_ID, 
+					USER_EMAIL,
+					USER_NAME,
+					USER_NICKNAME,
+					USER_AUTH,
+					USER_PHONE_NUMBER,
+					USER_BIRTH,
+					USER_JOIN_DATE,
+					USER_LAST_ACCESS_DATE,
+					USER_GENDER,
+					USER_SITE,
+					USER_DELFLAG,
+					USJE_JEONGJI_SANGTAE,
+					SIUS_STATE,
+					ROW_NUMBER() 
+						<choose>
+							<when test="column != null and value !=null">
+								OVER(ORDER BY ${column} ${value}) AS RN
+							</when>
+							<otherwise>
+								OVER(ORDER BY USER_LAST_ACCESS_DATE DESC) AS RN
+							</otherwise>
+						</choose> 
+					FROM(
+						SELECT 
+							USER_ACCOUNT_ID, 
+							USER_EMAIL,
+							USER_NAME,
+							USER_NICKNAME,
+							USER_AUTH,
+							USER_PHONE_NUMBER,
+							USER_BIRTH,
+							USER_JOIN_DATE,
+							USER_LAST_ACCESS_DATE,
+							USER_GENDER,
+							USER_SITE,
+							USER_DELFLAG,
+							USJE_JEONGJI_SANGTAE,
+							SIUS_STATE
+								FROM(
+									SELECT 
+										USER_ACCOUNT_ID, 
+										USER_EMAIL,
+										USER_NAME,
+										USER_NICKNAME,
+										USER_AUTH,
+										USER_PHONE_NUMBER,
+										USER_BIRTH,
+										USER_JOIN_DATE,
+										USER_LAST_ACCESS_DATE,
+										USER_GENDER,
+										USER_SITE,
+										USER_DELFLAG,
+										CASE WHEN USJE_JEONGJI_SANGTAE = 'Y' THEN USJE_JEONGJI_SANGTAE ELSE 'N' END AS USJE_JEONGJI_SANGTAE,
+										CASE WHEN su.SIUS_STATE = 'Y' THEN su.SIUS_STATE ELSE 'N' END AS SIUS_STATE
+											FROM(
+											SELECT up.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, 
+											       up.USER_EMAIL AS USER_EMAIL,
+											       up.USER_NAME AS USER_NAME,
+											       up.USER_NICKNAME AS USER_NICKNAME, 
+											       up.USER_AUTH AS USER_AUTH, 
+											       up.USER_PHONE_NUMBER AS USER_PHONE_NUMBER,
+											       up.USER_BIRTH  AS USER_BIRTH,
+											       up.USER_JOIN_DATE AS USER_JOIN_DATE, 
+											       up.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE,
+											       up.USER_GENDER AS USER_GENDER,
+											       up.USER_SITE AS USER_SITE, 
+											       up.USER_DELFLAG AS USER_DELFLAG,
+											       uj.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE
+											FROM USER_JEONGJI uj 
+												RIGHT OUTER JOIN USER_PROFILE up 
+												ON up.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID
+											UNION 
+											SELECT nup.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, 
+											       nup.USER_EMAIL AS USER_EMAIL,
+											       nup.USER_NAME AS USER_NAME,
+											       nup.USER_NICKNAME AS USER_NICKNAME, 
+											       nup.USER_AUTH AS USER_AUTH, 
+											       nup.USER_PHONE_NUMBER AS USER_PHONE_NUMBER,
+											       nup.USER_BIRTH  AS USER_BIRTH,
+											       nup.USER_JOIN_DATE AS USER_JOIN_DATE, 
+											       nup.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE,
+											       nup.USER_GENDER AS USER_GENDER,
+											       nup.USER_SITE AS USER_SITE, 
+											       nup.USER_DELFLAG AS USER_DELFLAG,
+											       uj.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE
+											FROM USER_JEONGJI uj 
+												RIGHT OUTER JOIN NAVER_USER_PROFILE nup  
+												ON nup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID
+											UNION 
+											SELECT kup.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, 
+											       kup.USER_EMAIL AS USER_EMAIL,
+											       kup.USER_NAME AS USER_NAME,
+											       kup.USER_NICKNAME AS USER_NICKNAME, 
+											       kup.USER_AUTH AS USER_AUTH, 
+											       kup.USER_PHONE_NUMBER AS USER_PHONE_NUMBER,
+											       kup.USER_BIRTH  AS USER_BIRTH,
+											       kup.USER_JOIN_DATE AS USER_JOIN_DATE, 
+											       kup.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE,
+											       kup.USER_GENDER AS USER_GENDER,
+											       kup.USER_SITE AS USER_SITE, 
+											       kup.USER_DELFLAG AS USER_DELFLAG,
+											       uj.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE
+											FROM USER_JEONGJI uj 
+												RIGHT OUTER JOIN KAKAO_USER_PROFILE kup 
+												ON kup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID
+											UNION 
+											SELECT gup.USER_ACCOUNT_ID AS USER_ACCOUNT_ID, 
+											       gup.USER_EMAIL AS USER_EMAIL,
+											       gup.USER_NAME AS USER_NAME,
+											       gup.USER_NICKNAME AS USER_NICKNAME, 
+											       gup.USER_AUTH AS USER_AUTH, 
+											       gup.USER_PHONE_NUMBER AS USER_PHONE_NUMBER,
+											       gup.USER_BIRTH  AS USER_BIRTH,
+											       gup.USER_JOIN_DATE AS USER_JOIN_DATE, 
+											       gup.USER_LAST_ACCESS_DATE AS USER_LAST_ACCESS_DATE,
+											       gup.USER_GENDER AS USER_GENDER,
+											       gup.USER_SITE AS USER_SITE, 
+											       gup.USER_DELFLAG AS USER_DELFLAG,
+											       uj.USJE_JEONGJI_SANGTAE AS USJE_JEONGJI_SANGTAE
+											FROM USER_JEONGJI uj 
+												RIGHT OUTER JOIN GOOGLE_USER_PROFILE gup 
+												ON gup.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID)us
+									LEFT  OUTER JOIN (SELECT SIUS_ACCOUNT_ID, SIUS_STATE FROM SINGO_USER WHERE SIUS_STATE = 'Y')su
+												ON us.USER_ACCOUNT_ID = su.SIUS_ACCOUNT_ID)
+								WHERE USER_AUTH IN ('S','I')
+								    <if test="userAuth != null">
+								        AND USER_AUTH IN (#{userAuth})
+								    </if>
+								    <if test="userSite != null">
+								        AND USER_SITE IN (#{userSite})
+								    </if>
+								    <if test="userDelflag != null">
+								        AND USER_DELFLAG IN (#{userDelflag})
+								    </if>
+								    <if test="userGender != null">
+								        AND USER_GENDER IN(#{userGender})
+								    </if>
+								    <if test="userJeongJiSangTae != null">
+								        AND USJE_JEONGJI_SANGTAE IN (#{userJeongJiSangTae})
+								    </if>
+								    <if test="siusState != null">
+								        AND SIUS_STATE IN (#{siusState})
+								    </if>
+								    <if test="tag != null and searchValue != null">
+								    	AND ${tag} = #{searchValue}
+								    </if>
+						))
+					WHERE RN BETWEEN #{start} AND #{end}
+		</select>
+	<select id="getuserDetail" resultMap="userProfileMap">
+		SELECT USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG,
+				CASE WHEN USJE_JEONGJI_SANGTAE = 'Y' THEN USJE_JEONGJI_SANGTAE ELSE 'N' END AS USJE_JEONGJI_SANGTAE,
+				CASE WHEN SIUS_STATE = 'Y' THEN SIUS_STATE ELSE 'N' END AS SIUS_STATE,
+				USER_PROFILE_FILE
+				FROM(
+					SELECT USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG ,USER_PROFILE_FILE
+						FROM USER_PROFILE up 
+					UNION
+					SELECT USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG ,USER_PROFILE_FILE
+						FROM  KAKAO_USER_PROFILE kup 
+					UNION
+					SELECT USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG ,USER_PROFILE_FILE
+						FROM  NAVER_USER_PROFILE nup 
+					UNION
+					SELECT USER_ACCOUNT_ID,USER_EMAIL ,USER_NAME ,USER_NICKNAME,USER_AUTH,USER_PHONE_NUMBER ,USER_JOIN_DATE ,USER_LAST_ACCESS_DATE ,USER_GENDER ,USER_SITE,USER_DELFLAG ,USER_PROFILE_FILE
+						FROM  GOOGLE_USER_PROFILE gup
+				)us
+		LEFT OUTER JOIN(SELECT SIUS_ACCOUNT_ID, SIUS_STATE FROM SINGO_USER WHERE SIUS_STATE = 'Y')su
+		ON us.USER_ACCOUNT_ID = su.SIUS_ACCOUNT_ID
+		LEFT OUTER JOIN(SELECT USJE_ACCOUNT_ID, USJE_JEONGJI_SANGTAE FROM USER_JEONGJI)uj
+		ON us.USER_ACCOUNT_ID = uj.USJE_ACCOUNT_ID
+		WHERE us.USER_ACCOUNT_ID =#{user_account_id}
+	</select>
+	
+	<insert id="setuserJeongji">
+		INSERT INTO USER_JEONGJI uj (USJE_ACCOUNT_ID,USJE_JEONGJI_SANGTAE,USJE_JEONGJI_DAY)
+			VALUES(#{userId},#{state},#{jeongji_day})
+	</insert>
+	
+	<update id="updatesisu">
+		UPDATE SINGO_USER SET SIUS_STATE = 'D'
+			WHERE SIUS_ACCOUNT_ID = #{userId}
+			AND SIUS_STATE ='Y'
+	</update>
+	
+	<insert id="addAdmin">
+		INSERT INTO ADMIN_PROFILE ap (ADPR_ID,ADPR_PASSWORD, ADPR_NAME, ADPR_AUTH,ADPR_ADMIN)
+		VALUES(#{adminId},#{adminPW},#{adminName},#{auth},#{admin})
+	</insert>
+	
+	<insert id="addIP">
+		INSERT INTO ADMIN_ACCESS_IP_LIST (IP_ADDRESS,ADPR_ID, ADPR_ADMIN)
+		VALUES(#{ip},#{adminID},#{admin})
+	</insert>
+	
+	<select id="adminDetail" resultMap="adminMap">
+		SELECT ADPR_ID ,ADPR_NAME, ADPR_LAST_ACCESS ,ADPR_AUTH, ADPR_ADMIN, ADPR_DELFLAG
+			FROM ADMIN_PROFILE ap 
+			WHERE ADPR_ID =#{adminID}
+	</select>
+	
+	<select id="adminipDetail" resultMap="adminMap">
+		SELECT IP_ADDRESS, ADPR_ADMIN FROM ADMIN_ACCESS_IP_LIST
+			WHERE ADPR_ID =#{adminID}
+	</select>
+	
+	<select id="adminIdCheck" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+			FROM ADMIN_PROFILE
+				WHERE ADPR_ID = #{adminId}
+	</select>
+	
+	<update id="restoreAdmin">
+		UPDATE ADMIN_PROFILE SET ADPR_DELFLAG ='N'
+			WHERE ADPR_ID =#{adminId}
+	</update>
+	
+	<update id="delAdmin">
+		UPDATE ADMIN_PROFILE SET ADPR_DELFLAG ='Y'
+			WHERE ADPR_ID =#{adminId}
+	</update>
+	
+	<delete id="delAdmin_IP">
+		DELETE FROM ADMIN_ACCESS_IP_LIST aail 
+			WHERE ADPR_ID = #{adminId}
+	</delete>
+	
+	<delete id="delIP">
+	DELETE FROM ADMIN_ACCESS_IP_LIST aail 
+		WHERE IP_ADDRESS  = #{ipAddr}
+		AND ADPR_ADMIN = #{adpradmin}
+	</delete>
+	
+	<update id="resetAdminPw">
+		UPDATE ADMIN_PROFILE SET ADPR_LAST_ACCESS = NULL
+			WHERE ADPR_ID = #{adminId}
+	</update>
 </mapper>
