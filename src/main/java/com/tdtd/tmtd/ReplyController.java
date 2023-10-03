@@ -310,6 +310,11 @@ public class ReplyController {
 		bMap.put("accountId", userInfo.getUserAccountId());
 		
 		List<ReplyVo> list = service.getWriteReplyList(bMap);
+		String regex = "<[^>]+>";
+		for (ReplyVo r : list) {
+			String content = r.getContent().replaceAll(regex, "").length()>20?r.getContent().replaceAll(regex, "").substring(0,20)+"...":r.getContent().replaceAll(regex, "");
+			r.setContent(content);
+		}
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("bList", list);

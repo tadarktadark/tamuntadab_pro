@@ -296,54 +296,46 @@
 		   	</td>
 			<td>
 		    	{{#stateD}}
-		        <div class="d-flex">
+		        <div>
 		            <div id="{{seq}}">
 		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
 		            </div>
 		        </div>
 				{{else}}
 				{{#boardI}}
-				<div class="d-flex">
-					<div>
-		                <span class="badge badge-outline-info">나만 보기</span>
-		            </div>
+				<div>
 		            <div id="{{seq}}" class="ms-1">
+		                <span class="badge badge-outline-info">나만 보기</span>
 		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
 		            </div>
 		        </div>
 				{{/boardI}}
 				{{#boardD}}
-				<div class="d-flex">
-					<div>
-		                <span class="badge badge-outline-primary">신고 삭제</span>
-		            </div>
+				<div>
 		            <div id="{{seq}}" class="ms-1">
+		                <span class="badge badge-outline-primary">신고 삭제</span>
 		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
 		            </div>
 		        </div>
 				{{/boardD}}
 				{{#boardY}}
-				<div class="d-flex">
-					<div>
-		                <span class="badge badge-outline-warning">삭제</span>
-		            </div>
+				<div>
 		            <div id="{{seq}}" class="ms-1">
+		                <span class="badge badge-outline-warning">삭제</span>
 		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
 		            </div>
 		        </div>
 				{{/boardY}}
 				{{#boardN}}
-				<div class="d-flex">
-					<div>
-		                <span class="badge badge-outline-danger">완전 삭제</span>
-		            </div>
+				<div>
 		            <div id="{{seq}}" class="ms-1">
+		                <span class="badge badge-outline-danger">완전 삭제</span>
 		                <button class="badge text-bg-danger reply-delete" id="{{id}}">완전 삭제</button>
 		            </div>
 		        </div>
 				{{/boardN}}
 				{{#boardC}}
-				<div class="d-flex">
+				<div>
 					<div>
 		                <i class="ri-check-double-fill text-success"></i>
 		            </div>
