@@ -160,7 +160,6 @@
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
-	<script src="./assets/js/app.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script type="text/javascript" src="./js/ckeditor.js"></script>

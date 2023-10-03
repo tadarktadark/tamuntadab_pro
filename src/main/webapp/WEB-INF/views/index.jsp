@@ -10,23 +10,10 @@
 <meta charset="UTF-8">
 <title>타문타답 | 우리가 만드는 커리큘럼</title>
 <%@ include file="./shared/_logout.jsp"%>
-<link href="./assets/libs/sweetalert2/sweetalert2.min.css"
-	rel="stylesheet" type="text/css" />
+<link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css" rel="stylesheet">
+<link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 <%@ include file="./shared/_head_css.jsp"%>
-<script
-	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-<script src="./js/index.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
-<link
-	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css"
-	rel="stylesheet">
-<link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet"
-	type="text/css" />
-<!--Swiper slider js-->
-<script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
-<!-- swiper.init js -->
-<script src="./assets/js/pages/swiper.init.js"></script>
 <style type="text/css">
 .card-fixed-height::-webkit-scrollbar {
 	width: 10px;
@@ -119,7 +106,7 @@ a {
 					</form>
 						<span
 							class="badge bg-secondary-subtle text-secondary  badge-border"
-							style="width: 300px; text-align: left; display: block; margin-top: 5%; margin-bottom: 3%; font-size: 1.2em;""><i
+							style="width: 300px; text-align: left; display: block; margin-top: 5%; margin-bottom: 3%; font-size: 1.2em;"><i
 							class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런
 							과목들을 배울 수 있어요 </span>
 					<div id="subjectDiv">
@@ -294,6 +281,13 @@ a {
 		</div>
 	</div>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+	<script src="./js/index.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
+	<!--Swiper slider js-->
+	<script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
+	<!-- swiper.init js -->
+	<script src="./assets/js/pages/swiper.init.js"></script>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript">
