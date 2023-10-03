@@ -248,9 +248,10 @@
 	<script id="reply-list-template" type="text/x-handlebars-template">
 		<div class="list-group-item bg-light">
 			{{#isDel}}
-			{{#stateNotP}}
+			{{#stateN}}
 	        <div class="list-text mb-2">{{{content}}}</div>
-			{{else}}
+			{{/stateN}}
+			{{#stateP}}
 			<div class="hstack gap-3 mb-3">
 				<a class="link-danger contentShow" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
 					<i class="ri-arrow-down-circle-line fs-16"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
@@ -261,7 +262,10 @@
 					{{{content}}}
 				</div>
 			</div>
-			{{/stateNotP}}
+			{{/stateP}}
+			{{#stateD}}
+	        <div class="list-text mb-2 text-danger">관리자에 의해 삭제된 게시글입니다.</div>
+			{{/stateD}}
 			{{else}}
 			<p style="color:red;" class="list-text mb-2">{{content}}</p>
 			{{/isDel}}	
@@ -269,7 +273,7 @@
 	        	<div class="flex-grow-1 reply-align">
 	        		<div class="hidden replySeq">{{seq}}</div>
 					{{#isDel}}
-					{{#stateNotP}}
+					{{#stateN}}
 	        			{{#isNotWriter}}
 	        			<a class="singo-btn reply-align reply-icon"><i class="ri-alarm-warning-line"></i></a>
 	        			{{else}}
@@ -282,7 +286,7 @@
 						{{#noChaetaek}}
 						<a class="reply-chaetaek-btn reply-align reply-icon"><i class="ri-check-double-fill"></i></a>
 						{{/noChaetaek}}
-					{{/stateNotP}}
+					{{/stateN}}
 					{{/isDel}}											        		
 	        	</div>
 	            <div class="ms-3 float-end">
@@ -302,9 +306,10 @@
 			{{#each re-reply}}
 			<div class="list-group-item re-reply-group ms-3">
 				{{#isReDel}}
-				{{#reStateNotP}}
+				{{#reStateN}}
 				<p class="list-text mb-2">{{{re-content}}}</p>
-				{{else}}
+				{{/reStateN}}
+				{{#reStateP}}
 				<div class="hstack gap-3 mb-3">
 					<a class="link-danger contentShow" data-bs-toggle="collapse" href="#collapseWithicon" role="button" aria-expanded="true" aria-controls="collapseWithicon">
 						<i class="ri-arrow-down-circle-line fs-12"></i><span>신고되어 처리중인 게시글입니다. 내용을 확인하시려면 클릭해주세요.</span>
@@ -315,7 +320,10 @@
 						{{{re-content}}}
 					</div>
 				</div>
-				{{/reStateNotP}}
+				{{/reStateP}}
+				{{#reStateD}}
+	        	<div class="list-text mb-2 text-danger">관리자에 의해 삭제된 게시글입니다.</div>
+				{{/reStateD}}
 				{{else}}
 				<p style="color:red;" class="list-text mb-2">{{re-content}}</p>
 				{{/isReDel}}
@@ -323,14 +331,14 @@
 					<div class="flex-grow-1 reply-align">
 						<div class="hidden replySeq">{{re-seq}}</div>
 						{{#isReDel}}
-						{{#reStateNotP}}
+						{{#reStateN}}
 							{{#isReWriter}}
 							<a class="singo-btn reply-align reply-icon"><i class="ri-alarm-warning-line"></i></a>
 							{{else}}
 							<a class="reply-delete-btn reply-align reply-icon"><i class="bx bx-trash align-middle"></i></a>
 							<a class="re-update-btn reply-align reply-icon"><i class="bx bx-pencil align-middle"></i></a>
 							{{/isReWriter}}
-						{{/reStateNotP}}
+						{{/reStateN}}
 						{{/isReDel}}										        		
 					</div>
 					<div class="ms-3 float-end">
