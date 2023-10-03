@@ -65,8 +65,8 @@ public class SingoDaoImpl implements ISingoDao {
 	}
 	
 	@Override
-	public String getSingoWriter(String id) {
-		return session.selectOne(NS+"getSingoWriter",id);
+	public SingoDaesangVo getSingoDaesang(String id) {
+		return session.selectOne(NS+"getSingoDaesang",id);
 	}
 
 	@Override
