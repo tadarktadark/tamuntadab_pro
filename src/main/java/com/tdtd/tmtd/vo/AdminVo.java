@@ -18,4 +18,7 @@ public class AdminVo {
 	private String adprName;
 	private String adprLastAccess;
 	private String adprAuth;
+	private String adprAdmin;
+	private String ipAddress;
+	private String adprDelflag;
 }

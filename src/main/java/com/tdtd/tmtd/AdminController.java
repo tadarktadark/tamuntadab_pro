@@ -1,9 +1,11 @@
 package com.tdtd.tmtd;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -107,7 +109,7 @@ public class AdminController {
 									Model model){
 		log.info("page:{}",page);
 		PagingVo pageVo = new PagingVo();
-		pageVo.setTotalCount(adminService.countAdmin()); //총 게시물의 개수
+		pageVo.setTotalCount(adminService.countAdmin(map)); //총 게시물의 개수
 		pageVo.setCountList(10); //출력될 게시글의 개수
 		pageVo.setCountPage(5); // 화면에 몇 개의 페이지를 보여줄 건지 (페이지 그룹)
 		pageVo.setTotalPage(pageVo.getTotalCount()); // 총 페이지의 개수
@@ -134,9 +136,8 @@ public class AdminController {
 	@ResponseBody
 	public String getUserList(@RequestParam Map<String, Object> map,
 							@RequestParam(name= "page", defaultValue = "1",required = false)String page) {
-		log.info("{}",map);
 		PagingVo pageVo = new PagingVo();
-		pageVo.setTotalCount(adminService.countUser()); //총 게시물의 개수
+		pageVo.setTotalCount(adminService.countUser(map)); //총 게시물의 개수
 		pageVo.setCountList(10); //출력될 게시글의 개수
 		pageVo.setCountPage(5); // 화면에 몇 개의 페이지를 보여줄 건지 (페이지 그룹)
 		pageVo.setTotalPage(pageVo.getTotalCount()); // 총 페이지의 개수
@@ -150,6 +151,114 @@ public class AdminController {
 	    map.put("user", userLists);
 	    map.put("page", pageVo);
 	    return gson.toJson(map);
+	}
+	
+	@RequestMapping(value="/admin/userJeongji.do",method = RequestMethod.POST)
+	@ResponseBody
+	public String userJeongji(@RequestParam Map<String, Object> map, Model model) {
+		int n = adminService.setuserJeongji(map);
+		if(n>0) {
+			return"true";
+		}else{
+			return"false";
+		}
+	}
+	
+	@RequestMapping(value="/admin/userdetail.do", method = RequestMethod.GET)
+	public String getUserDetail(@RequestParam String id ,Model model) {
+		model.addAttribute("title","회원관리");
+		model.addAttribute("pageTitle", "회원 목록");
+		log.info("{}",id);
+		UserProfileVo user = adminService.getuserDetail(id);
+		model.addAttribute("user",user);
+		return "/admin/userDetail";
+	}
+	
+	@RequestMapping(value ="/admin/addIp.do",method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String addIP(@RequestParam Map<String,Object> map, HttpSession session) {
+		AdminVo admin = (AdminVo) session.getAttribute("adminInfo");
+		map.put("admin", admin.getAdprId());
+		adminService.addIp(map);
+		return "<script>alert('추가 완료 되었습니다.');location.href='./adminInsert.do';</script>";
+	}
+	@RequestMapping(value ="/admin/addAdmin.do",method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String addADMIN(@RequestParam Map<String,Object> map, HttpSession session) {
+		AdminVo admin = (AdminVo) session.getAttribute("adminInfo");
+		map.put("admin", admin.getAdprId());
+		String auth = (String) map.get("auth");
+		if(auth.equals("총관리자")) {
+			map.put("auth", "T");
+		}else if(auth.equals("회원관리자")) {
+			map.put("auth", "M");
+		}else if(auth.equals("결제관리자")) {
+			map.put("auth", "P");
+		}else if(auth.equals("게시판관리자")) {
+			map.put("auth", "B");
+		}
+		int n = adminService.adminIdCheck(map);
+		if(n>0) {
+			return "<script>alert('이미 사용중인 ID 입니다.');location.href='./adminInsert.do';</script>";
+		}else {
+			adminService.addAdmin(map);
+			return "<script>alert('추가 완료 되었습니다.');location.href='./adminInsert.do';</script>";
+		}	
+	}
+	@RequestMapping(value = "/admin/adminDetail.do",method=RequestMethod.GET)
+	public String adminDetail(@RequestParam String id, Model model) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map = adminService.adminDetail(id);
+		log.info("{}",map);
+		model.addAttribute("admin",map);
+		return "/admin/adminDetail";
+	}
+	
+	@RequestMapping(value="/admin/delAdmin.do",method=RequestMethod.GET,produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String adminDelete(@RequestParam String adminId) {
+		int n = adminService.delAdmin(adminId);
+		if (n>0) {
+			return "<script>alert('삭제되었습니다.');location.href='./adminList.do';</script>";
+		}else {
+			return "<script>alert('다시 시도해주세요');location.href='./adminList.do';</script>";
+		}
+	}
+	@RequestMapping(value="/admin/restoreAdmin.do",method=RequestMethod.GET,produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String restoreAdmin(@RequestParam String adminId) {
+		int n = adminService.restoreAdmin(adminId);
+		if (n>0) {
+			return "<script>alert('복구 되었습니다.');location.href='./adminList.do'; </script>";
+		}else {
+			return "<script>alert('다시 시도해주세요');location.href='./adminList.do';</script>";
+		}
+	}
+	@RequestMapping(value="/admin/delIP.do",method=RequestMethod.GET,produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String delIP(@RequestParam Map<String,Object> map) {
+		int n = adminService.delIP(map);
+		if (n>0) {
+			return "<script>alert('삭제되었습니다.');location.href='./adminList.do';</script>";
+		}else {
+			return "<script>alert('다시 시도해주세요');location.href='./adminList.do';</script>";
+		}
+	}
+	@RequestMapping(value="/admin/adminResetPW.do",method=RequestMethod.GET,produces = "text/html; charset=UTF-8")
+	@ResponseBody
+	public String resetAdminPw(@RequestParam String adminId) {
+		int n = adminService.resetAdminPw(adminId);
+		if (n>0) {
+			return "<script>alert('초기화 되었습니다.');location.href='./adminList.do';</script>";
+		}else {
+			return "<script>alert('다시 시도해주세요');location.href='./adminList.do';</script>";
+		}
+	}
+	
+	@RequestMapping(value="admin/adminLogout.do",method=RequestMethod.GET)
+	@ResponseBody
+	public String adminLogout() {
+		return "<script>location.href='./admin.do';</script>";
 	}
 }
 

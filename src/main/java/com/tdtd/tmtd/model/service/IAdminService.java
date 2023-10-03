@@ -18,9 +18,30 @@ public interface IAdminService {
 	
 	public List<AdminVo> getAdminList(Map<String,Object> map);
 	
-	public int countAdmin();
+	public int countAdmin(Map<String,Object>map);
 	
 	public List<UserProfileVo> getUserList(Map<String,Object> map);
 
-	public int countUser();
+	public int countUser(Map<String, Object> map);
+	
+	public UserProfileVo getuserDetail(String userId);
+	
+	public int setuserJeongji(Map<String,Object> map);
+	
+	public int addAdmin(Map<String,Object> map);
+	
+	public int addIp(Map<String,Object> map);
+	
+	public int adminIdCheck(Map<String,Object>map);
+	
+	public Map<String,Object> adminDetail(String userId);
+	
+	public int delAdmin(String adminId);
+	
+	public int delIP(Map<String,Object> map);
+	
+	public int restoreAdmin(String adminId);
+	
+	public int resetAdminPw(String adminId);
+	
 }

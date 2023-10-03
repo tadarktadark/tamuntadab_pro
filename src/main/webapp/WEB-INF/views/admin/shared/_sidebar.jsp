@@ -57,24 +57,6 @@
                         </div>
                     </li>
                   <li class="nav-item ">
-                        <a class="nav-link menu-link fs-3" href="#admin4yeyak" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarComm">
-                            <i class=" bx bxs-calendar fs-3"></i> <span data-key="admin4yeyak">예약 관리</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="admin4yeyak">
-                            <ul class="nav nav-sm flex-column ">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5"  onclick="check(event,'<%=adminInfo.getAdprAuth()%>','P')">예약 조회</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5"  onclick="check(event,'<%=adminInfo.getAdprAuth()%>','P')">예약 추가</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link fs-5"  onclick="check(event,'<%=adminInfo.getAdprAuth()%>','P')">예약 수정</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                  <li class="nav-item ">
                         <a class="nav-link menu-link fs-3 admin4admin" href="#admin4admin" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarComm">
                             <i class=" bx bx-lock-alt fs-3"></i> <span data-key="admin4admin">총관리자</span>
                         </a>

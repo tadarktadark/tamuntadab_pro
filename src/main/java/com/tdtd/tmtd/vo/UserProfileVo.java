@@ -38,6 +38,7 @@ public class UserProfileVo {
 	private String userChadanCount;
 	private String userChadanRegistDate;
 	private String userJeongJiSangTae;
+	private String siusState;
 }
 
 
