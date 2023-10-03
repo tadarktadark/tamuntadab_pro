@@ -14,6 +14,18 @@
 <link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css" rel="stylesheet">
 <link href="./assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
 <%@ include file="./shared/_head_css.jsp"%>
+<script
+	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script src="./js/index.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css"
+	rel="stylesheet">
+<!--Swiper slider js-->
+<script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
+<!-- swiper.init js -->
+<script src="./assets/js/pages/swiper.init.js"></script>
 <style type="text/css">
 .card-fixed-height::-webkit-scrollbar {
 	width: 10px;
@@ -281,13 +293,6 @@ a {
 		</div>
 	</div>
 	<script src="./assets/libs/sweetalert2/sweetalert2.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-	<script src="./js/index.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js "></script>
-	<!--Swiper slider js-->
-	<script src="./assets/libs/swiper/swiper-bundle.min.js"></script>
-	<!-- swiper.init js -->
-	<script src="./assets/js/pages/swiper.init.js"></script>
 	<%@ include file="./shared/_vender_scripts.jsp"%>
 </body>
 <script type="text/javascript">
