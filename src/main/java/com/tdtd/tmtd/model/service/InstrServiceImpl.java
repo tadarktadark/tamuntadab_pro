@@ -42,11 +42,13 @@ public class InstrServiceImpl implements IInstrService {
 			System.out.println("$$$$$$$$$$$$$ seq:"+vo.getInprSeq());
 	        List<InstrEduVo> eduLevels = vo.getInstrEduVo();
 	        for (InstrEduVo eduLevel : eduLevels) {
-	            eduLevel.setInedInprSeq(vo.getInprSeq());
-	            
-	            int result = dao.insertInstrEdulevel(eduLevel);
-	            if (result == 0) {
-	                return 0; 
+	        	if (eduLevel != null) {
+	                eduLevel.setInedInprSeq(vo.getInprSeq());
+	                
+	                int result = dao.insertInstrEdulevel(eduLevel);
+	                if (result == 0) {
+	                    return 0; 
+	                }
 	            }
 	        }
 	        
@@ -64,12 +66,14 @@ public class InstrServiceImpl implements IInstrService {
 		if (vo.getInstrEduVo() != null && !vo.getInstrEduVo().isEmpty()) {
 	        List<InstrEduVo> eduLevels = vo.getInstrEduVo();
 	        for (InstrEduVo eduLevel : eduLevels) {
-	            eduLevel.setInedInprSeq(vo.getInprSeq());
-	            
-	            int result = dao.updateInstrEdulevel(eduLevel);
-	            if (result == 0) {
-	            	result = dao.insertInstrEdulevel(eduLevel);
-	            }
+	        	if (eduLevel != null) {
+		            eduLevel.setInedInprSeq(vo.getInprSeq());
+		            
+		            int result = dao.updateInstrEdulevel(eduLevel);
+		            if (result == 0) {
+		            	result = dao.insertInstrEdulevel(eduLevel);
+		            }
+	        	}
 	        }
 	        
 	        return 1;  // 성공적으로 업데이트되었을 경우 반환값 변경 가능
