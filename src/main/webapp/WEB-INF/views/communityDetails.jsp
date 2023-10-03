@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
-<!-- <link href="./css/ckeditor.css" rel="stylesheet" type="text/css" /> -->
+<%@ include file="./shared/_logout.jsp" %>
 <%@ include file="./shared/_head_css.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<!-- <link href="./css/ckeditor.css" rel="stylesheet" type="text/css" /> -->
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <link href="./css/communityDetails.css" rel="stylesheet" type="text/css" />
-<%@ include file="./shared/_logout.jsp" %>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -225,7 +225,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 	<script type="text/javascript" src="./libs/ckeditor5/build/ckeditor.js"></script>
 	<script type="text/javascript" src="./js/ckeditor.js"></script>
-	<script src="./assets/js/app.js"></script>
 	<script src="./js/html2canvas.js" charset="UTF-8"></script>
 	<script src="./js/jspdf.min.js" charset="UTF-8"></script>
 	<script src="./js/community.js" charset="UTF-8"></script>

@@ -539,16 +539,16 @@ File: Main Js File
                 }
             });
 
-            searchOptions.addEventListener("click", function () {
-                searchInput.value = "";
-                dropdown.classList.remove("show");
-                searchOptions.classList.add("d-none");
-            });
+//            searchOptions.addEventListener("click", function () {
+//                searchInput.value = "";
+//                dropdown.classList.remove("show");
+//                searchOptions.classList.add("d-none");
+//            });
 
             document.body.addEventListener("click", function (e) {
                 if (e.target.getAttribute("id") !== "search-options") {
-                    dropdown.classList.remove("show");
-                    searchOptions.classList.add("d-none");
+//                    dropdown.classList.remove("show");
+//                    searchOptions.classList.add("d-none");
                 }
             });
         }

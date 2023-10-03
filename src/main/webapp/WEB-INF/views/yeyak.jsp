@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>${title} | 타문타답</title>
+<%@ include file="./shared/_logout.jsp" %>
 <%@ include file="./shared/_head_css.jsp" %>
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <link href="./css/yeyak.css" rel="stylesheet" type="text/css" />
@@ -14,7 +15,6 @@
 <link rel="stylesheet" href="./assets/libs/@simonwep/pickr/themes/monolith.min.css" /> <!-- 'monolith' theme -->
 <link rel="stylesheet" href="./assets/libs/@simonwep/pickr/themes/nano.min.css" /> <!-- 'nano' theme -->
 <link rel="stylesheet" href="./assets/libs/@simonwep/pickr/themes/nano.min.css" /> <!-- 'nano' theme -->
-<%@ include file="./shared/_logout.jsp" %>
 </head>
 <body class="twocolumn-panel">
 	<div id="layout-wrapper">
@@ -61,7 +61,6 @@
     <script src="./assets/js/pages/form-wizard.init.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=99gs7xiokw"></script>
-	<script type="text/javascript" src="./assets/js/app.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="./js/community.js"></script>
 	<script type="text/javascript" src="./js/yeyak.js" charset="UTF-8"></script>
 	<script id="page-list-template" type="text/x-handlebars-template">
