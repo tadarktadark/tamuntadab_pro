@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 
 import com.tdtd.tmtd.model.mapper.IPaymentDao;
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.GyeoljeVo;
 import com.tdtd.tmtd.vo.HwanbulVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,6 +74,18 @@ public class PaymentServiceImpl implements IPaymentService {
 	public int myPageRoomPaymentListCount(String gyeoAccountId) {
 		log.info("PaymentServiceImpl myPageRoomPaymentListCount 실행");
 		return dao.myPageRoomPaymentListCount(gyeoAccountId);
+	}
+
+	@Override
+	public GeoljeVo getGyeoInfo(Map<String, Object> map) {
+		log.info("PaymentServiceImpl getGyeoInfo 실행");
+		return dao.getGyeoInfo(map);
+	}
+
+	@Override
+	public UserProfileVo getGyeoljejaInfo(String userAccountId) {
+		log.info("PaymentServiceImpl getGyeoljejaInfo 실행");
+		return dao.getGyeoljejaInfo(userAccountId);
 	}
 
 }

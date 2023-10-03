@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
 	data-sidebar-image="none" data-preloader="disable">
@@ -26,23 +29,42 @@
                                 <div class="card-body">
                                     <div class="row p-4">
                                         <div class="col-lg-9">
-                                            <h4 class="mb-4">결제 유형 : 수강료 결제 </h4>
+                                        	
+                                            <h4 class="mb-4">결제 유형 : 
+											    <c:choose>
+											        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+											            수강료 결제
+											        </c:when>
+											        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+											            강의실 대여료 결제
+											        </c:when>
+											    </c:choose>
+											</h4>
                                             <div class="row g-4">
                                                 <div class="col-lg-6 col-6">
                                                     <p class="text-muted mb-1 text-uppercase fw-medium fs-13">결제 ID</p>
-                                                    <h5 class="fs-16 mb-0">CL<span id="invoice-no">10000045</span></h5>
+                                                    <h5 class="fs-16 mb-0"><span id="invoice-no">${gyeoljeVo.gyeoId}</span></h5>
                                                 </div>
-                                                <div class="col-lg-6 col-6">
-                                                    <p class="text-muted mb-1 text-uppercase fw-medium fs-13">Date</p>
-                                                    <h5 class="fs-16 mb-0"><span id="invoice-date">2023년 09월 26일</span> <small class="text-muted" id="invoice-time">03:55PM</small></h5>
-                                                </div>
-                                                <div class="col-lg-6 col-6">
-                                                    <p class="text-muted mb-1 text-uppercase fw-medium fs-13">결제 기한</p>
-                                                    <span class="badge bg-success-subtle text-success  fs-11" id="payment-status">1일 남음</span>
-                                                </div>
+                                               <div class="col-lg-6 col-6">
+												    <p class="text-muted mb-1 text-uppercase fw-medium fs-13">결제 요청일</p>
+												    <h5 class="fs-16 mb-0">
+												        <span id="invoice-date">
+												            ${gyeoljeVo.gyeoRegdate}
+												        </span> 
+												    </h5>
+												</div>
+												<div class="col-lg-6 col-6">
+												    <p class="text-muted mb-1 text-uppercase fw-medium fs-13">결제 기한</p>
+												    <h5 class="fs-16 mb-0">
+												        <span id="payment-due-date">
+												            ${formattedDueDate}
+												        </span> 
+												    </h5>
+												</div>
+
                                                 <div class="col-lg-6 col-6">
                                                     <p class="text-muted mb-1 text-uppercase fw-medium fs-13">총 결제금액</p>
-                                                    <h5 class="fs-16 mb-0"><span id="total-amount">30,000 원</span></h5>
+                                                    <h5 class="fs-16 mb-0"><span id="total-amount">${sugangryoVo.sugaYocheongGeumaek}</span></h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -67,15 +89,15 @@
                                             <div class="row g-3">
                                                 <div class="col-6">
                                                     <h6 class="text-muted text-uppercase mb-3">결제자 정보</h6>
-                                                    <p class="fw-medium mb-2" id="billing-name">학생 테스트 이름 12</p>
-                                                    <p class="text-muted mb-1" id="billing-address-line-1">qweeras@gmail.com</p>
-                                                    <p class="text-muted mb-1"><span>Phone: +</span><span id="billing-phone-no">010-456-7890</span></p>
+                                                    <p class="fw-medium mb-2" id="billing-name">${userVo.userNickname}</p>
+                                                    <p class="text-muted mb-1" id="billing-address-line-1">${userVo.userEmail}</p>
+                                                    <p class="text-muted mb-1"><span>Phone: +</span><span id="billing-phone-no">${userVo.userPhoneNumber}</span></p>
                                                 </div>
                                                 <!--end col-->
                                                 <div class="col-6">
 	                                                <h6 class="text-muted text-uppercase mb-3">청구 금액</h6>
-	                                                <h3 class="fw-bold mb-2">4,280 원</h3>
-	                                                <span class="badge bg-success-subtle text-success  fs-12">납부 마감 : 2023-09-27</span>
+	                                                <h3 class="fw-bold mb-2">${gyeoljeVo.gyeoGeumaek} 원</h3>
+	                                                <span class="badge bg-success-subtle text-success  fs-12">납부 마감 : ${formattedDueDate}</span>
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -103,14 +125,23 @@
                                                         </thead>
                                                         <tbody id="products-list">
                                                             <tr>
-                                                                <th scope="row">수강료</th>
+                                                                <th scope="row">
+                                                               	 	<c:choose>
+																        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+																            수강료
+																        </c:when>
+																        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+																            강의실 대여료
+																        </c:when>
+																    </c:choose>
+                                                                </th>
                                                                 <td class="text-start" style="text-align: center;">
-                                                                    <span class="fw-medium">웹 개발 기초 알려주세요</span>
-                                                                    <p class="text-muted mb-0">강사 강사테스트이름16</p>
+                                                                    <span class="fw-medium">${classVo.clasTitle}</span>
+                                                                    <p class="text-muted mb-0" id="clasId">${clasVo.clasId}</p>
                                                                 </td>
-                                                                <td>30,000 원</td>
-                                                                <td>7 명</td>
-                                                                <td class="text-end">4280 원</td>
+                                                                <td>${sugangryoVo.sugaYocheongGeumaek} 원</td>
+                                                                <td>${classVo.clasHyeonjaeInwon} 명</td>
+                                                                <td class="text-end">${gyeoljeVo.gyeoGeumaek} 원</td>
                                                             </tr>
                                                         </tbody>
                                                     </table><!--end table-->
@@ -120,30 +151,38 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>총 결제금액</td>
-                                                                <td class="text-end">30,000원</td>
+                                                                <td class="text-end">${sugangryoVo.sugaYocheongGeumaek} 원</td>
                                                             </tr>
                                                             <tr>
-                                                                <td>Discount <small class="text-muted">(소액 지원)</small></td>
-                                                                <td class="text-end">- 40 원</td>
+                                                                <td>할인 <small class="text-muted">(소액 지원)</small></td>
+                                                                <td class="text-end">- ${sugangryoVo.sugaYocheongGeumaek - (classVo.clasHyeonjaeInwon*gyeoljeVo.gyeoGeumaek)} 원</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>본인 외 부담 금액</td>
-                                                                <td class="text-end">- 25,680 원</td>
+                                                                <td class="text-end">- ${(classVo.clasHyeonjaeInwon-1)*gyeoljeVo.gyeoGeumaek} 원</td>
                                                             </tr>
                                                             <tr class="border-top border-top-dashed fs-15">
                                                                 <th scope="row">청구 금액</th>
-                                                                <th class="text-end">4,280 원</th>
+                                                                <th class="text-end">${gyeoljeVo.gyeoGeumaek} 원</th>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                     <!--end table-->
                                                 </div>
                                                 <div class="mt-3">
-                                                    <h6 class="text-muted text-uppercase mb-3">결제 세부사항 : </h6>
-                                                    <p class="text-muted mb-1">결제 방법 : <span class="fw-medium" id="payment-method">카카오페이</span></p>
-                                                    <p class="text-muted mb-1">결제자 : <span class="fw-medium" id="card-holder-name">학생 테스트 이름 12</span></p>
-                                                    <p class="text-muted mb-1">Card Number : <span class="fw-medium" id="card-number">xxx xxxx xxxx 1234</span></p>
-                                                    <p class="text-muted">결제액 : <span class="fw-medium" id=""></span><span id="card-total-amount">4,280 원</span></p>
+                                                    <h6 class="text-muted text-uppercase mb-3">결제 세부사항 </h6>
+                                                    <div class="form-group d-flex align-items-center">
+													    <label for="payment-method" class="text-muted mb-0 mr-2">결제 방법 :</label>
+													    <select class="form-control" id="payment-method" style="width:auto;">
+													        <option selected>선택하세요</option>
+													        <option value="credit-card">신용카드</option>
+													        <option value="kakao-pay">카카오페이</option>
+													        <option value="toss">토스</option>
+													    </select>
+													</div>
+
+                                                    <p class="text-muted mb-1">결제자 : <span class="fw-medium" id="card-holder-name">${userVo.userName}</span></p>
+                                                    <p class="text-muted">결제액 : <span class="fw-medium" id=""></span><span id="card-total-amount">${gyeoljeVo.gyeoGeumaek}</span>원</p>
                                                 </div>
                                                 <div class="mt-4">
                                                     <div class="alert alert-info">
@@ -155,9 +194,10 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="hstack gap-2 justify-content-end d-print-none mt-4">
-                                                    <a href="javascript:window.print()" class="btn btn-secondary"><i class="bx bx-printer align-middle me-1"></i> 취소</a>
-                                                    <a href="javascript:void(0);" class="btn btn-primary"><i class="bx bx-download align-middle me-1"></i> 결제하기</a>
+                                                    <a href="javascript:history.back();" class="btn btn-secondary">취소</a>
+                                                    <input type="button" class="btn btn-primary" onclick="request_pay()" value="결제하기">
                                                 </div>
                                             </div><!--end card-body-->
                                         </div><!--end col-->
@@ -167,23 +207,19 @@
                         </div>
                         <!--end col-->
                     </div>
-					
-					
-					
-					
-					<div class="row">
-                        <div class="col-12">
-                        	<div class ="btns">
-                        		<input type="button" id="check2" onclick="request_pay1()" value="이니시스">
-								<input type="button" id="check3" onclick="request_pay2()" value="토스">
-								<input type="button" id="check4" onclick="requestPay3()" value="카카오페이">
-								<h1><a href="javascript:doCheck()">정보확인</a></h1>
-								<a href="javascript:doF()">결제 취소</a>
-								<button onclick="cancelPay()">환불하기</button>
-							</div>
-                        </div>
-                    </div>
-		        	
+					<input type="hidden" id="accountId" value="${userVo.userAccountId}">
+<!-- 					<div class="row"> -->
+<!--                         <div class="col-12"> -->
+<!--                         	<div class ="btns"> -->
+<!--                         		<input type="button" id="check2" onclick="request_pay1()" value="이니시스"> -->
+<!-- 								<input type="button" id="check3" onclick="request_pay2()" value="토스"> -->
+<!-- 								<input type="button" id="check4" onclick="requestPay3()" value="카카오페이"> -->
+<!-- 								<h1><a href="javascript:doCheck()">정보확인</a></h1> -->
+<!-- 								<a href="javascript:doF()">결제 취소</a> -->
+<!-- 								<button onclick="cancelPay()">환불하기</button> -->
+<!-- 							</div> -->
+<!--                         </div> -->
+<!--                     </div> -->
 				</div>
 			</div>
 			<%@ include file="./shared/_footer.jsp" %>

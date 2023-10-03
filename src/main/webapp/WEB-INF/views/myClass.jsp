@@ -77,6 +77,24 @@
 	    )
 	  </script>
 	</c:if>
+	<c:if test="${param.agreeSugangryo == 'true'}">
+	  <script>
+	    Swal.fire(
+	    	'성공!',
+	  	    '수강료 확정이 정상적으로 처리되었습니다.',
+	  	    'success'
+	    )
+	  </script>
+	</c:if>
+	<c:if test="${param.rejectSugangryo == 'true'}">
+	  <script>
+	    Swal.fire(
+	    	'성공!',
+	  	    '반려 의사가 성공적으로 전달되었습니다.',
+	  	    'success'
+	    )
+	  </script>
+	</c:if>
 		<%@ include file="./shared/_menu.jsp" %>
 		<div class="main-content">
 			<div class="page-content">
@@ -95,20 +113,20 @@
 											    </button>
 											</c:if>
 											
-											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '매칭완료'}">
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '매칭완료' and sugangryoVo.sugaYocheongStatus ne 'A'}">
 											    <button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#dealSugangryo">
 											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정 요청하기
 											    </button>
 											</c:if>
 											
-											<c:if test="${matchedChamyeoVo.clchYeokal eq 'I' and sugangryoVo ne null and classVo.clasStatus eq '매칭완료'}">
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'I' and sugangryoVo ne null and classVo.clasStatus eq '매칭완료' and sugangryoVo.sugaYocheongStatus ne 'A'}">
 											    <button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#agreeSugangryo">
 											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정하기
 											    </button>
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I' and sugangryoVo.sugaYocheongStatus eq 'A' and classVo.clasStatus eq '매칭완료'}">
-											    <button class="btn btn-soft-secondary w-100" onclick="location.href='./payment.do'">
+											    <button class="btn btn-soft-secondary w-100" onclick="location.href='./payment.do?clasId=${param.clasId}'">
 											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 결제하기
 											    </button>
 											</c:if>
@@ -201,20 +219,22 @@
 											                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 											            </div>
 											            <div class="modal-body">
-											                <form action="./agreeSugangryo.do" method="post">
-											                    <div class="mt-4">
-											                    	<h4 class="mb-3">해당 클래스의 수강료를 확정합니다</h4>
-											                    	<p class="text-muted mb-4">확정시, 추가적인 강의료 조율 절차는 없습니다. 확정 하시겠습니까?</p>
-											                	</div>
-											                	<div class="mb-3">
-											                        <label for="recipient-name" class="col-form-label">확정 요청된 금액</label>
-											                        <input type="text" class="form-control" id="recipient-name" readonly="readonly" value="${empty sugangryoVo || sugangryoVo.sugaYocheongStatus == '' ? '요청된 값 없음' : sugangryoVo.sugaYocheongGeumaek}">
-											                    </div>
-													            <div class="modal-footer">
-													                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>아니오</button>
-													                <button type="submit" class="btn btn-secondary">네, 확정합니다</button>
-													            </div>
-											            	</form>
+											                <form action="./agreeSugangryo.do" method="post" id="myForm">
+															    <div class="mt-4">
+															        <h4 class="mb-3">해당 클래스의 수강료를 확정합니다</h4>
+															        <p class="text-muted mb-4">확정시, 추가적인 강의료 조율 절차는 없습니다. 확정 하시겠습니까?</p>
+															    </div>
+															    <div class="mb-3">
+															        <label for="recipient-name" class="col-form-label">확정 요청된 금액</label>
+															        <input type="text" class="form-control" id="recipient-name" name="sugangryo" readonly="readonly" value="${empty sugangryoVo || sugangryoVo.sugaYocheongStatus == '' ? '요청된 값 없음' : sugangryoVo.sugaYocheongGeumaek}">
+															        <input type="hidden" name="instrId" value="${classVo.clasAccountId}">
+															        <input type="hidden" name="clasId" value="${param.clasId}">
+															    </div>
+															    <div class="modal-footer">
+															        <button type="button" class="btn btn-warning" onclick="submitForm('./rejectSugangryo.do')">반려합니다</button>
+															        <button type="button" class="btn btn-secondary" onclick="submitForm('./agreeSugangryo.do')">네, 확정합니다</button>
+															    </div>
+															</form>
 											            </div>
 											        </div>
 											    </div>
@@ -414,6 +434,9 @@
 											    </span>
 											</h6>
                                             <h6 class="card-title">과목 : <span class="card-text text-muted mb-0">${classVo.subjVo[0].subjTitle}</span></h6>
+                                            <c:if test="${sugangryoVo.sugaYocheongStatus eq 'A'}">
+											     <h6 class="card-title">수강료 : <span class="card-text text-muted mb-0">${sugangryoVo.sugaYocheongGeumaek}</span></h6>
+											</c:if>
                                             <br>
                                             <h6 class="card-title">클래스 내용 </h6>
                                             <p class="card-text text-muted mb-0">

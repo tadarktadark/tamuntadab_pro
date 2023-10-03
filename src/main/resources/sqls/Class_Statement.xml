@@ -544,5 +544,4 @@
 		AND CLAS_STATUS = '종료'
 	</select>
 	
-	
 	</mapper>
