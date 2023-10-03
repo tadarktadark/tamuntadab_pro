@@ -46,7 +46,6 @@ public class CommUserServiceImpl implements ICommUserService {
 			if(uservo.getUserChadanRegistDate() != null) {
 				//사용자가 로그인을 성공 했지만 해당 유저가 차단되어 있는 상태일 경우
 				String time = cdao.checkUserChadanDate(uservo.getUserEmail()); 
-				log.info("{}",time);
 				if(time.equals("782898")) {
 					if(uservo.getUserDelflag().equals("H")) {
 						result.put("status","human");

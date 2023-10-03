@@ -48,7 +48,14 @@ import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-
+/**
+ * WOON 회원 관련 흐름처리를 위한 컨트롤러 클래스
+ * 
+ * @author 임정운
+ * 
+ * @since 2023.09.08
+ *
+ */
 @Controller
 @Slf4j
 public class UserController {
@@ -67,6 +74,20 @@ public class UserController {
 	@Autowired
 	private JavaMailSender mailsender;
 	
+	
+	/**
+	 * WOON 사용자 삭제 처리를 위한 메소드
+	 * 설명 : 해당 사용자가 결제 내역 확인 후 삭제 처리하며 세션삭제
+	 * 
+	 * @param session 사용자 정보를 담고있는 HttpSession 객체
+	 * 
+	 * @return 사용자의 삭제처리 상태를 반환
+	 *  
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value="/deleteUser.do",method=RequestMethod.GET)
 	@ResponseBody
 	public String deleteUser(HttpSession session) {
@@ -84,6 +105,21 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * WOON 사용자의 닉네임 변경을 위한 메소드
+	 * 설명 : 사용자가 입력한 닉네임의 중복여부를 확인 후 변경 진행
+	 * 
+	 * @param nickname 사용자가 입력한 변경 닉네임
+	 * 
+	 * @param session 사용자의 정보를 담고있는 HttpSession객체
+	 * 
+	 * @return 닉네임 변경 성공 유무 
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value="/updateNickname.do",method = RequestMethod.POST)
 	@ResponseBody
 	public String updateNickname(@RequestParam(name = "nickname") String nickname, HttpSession session) {
@@ -102,6 +138,22 @@ public class UserController {
 		return "false";
 	}
 
+	/**
+	 * WOON 사용자 프로필 사진 변경을 위한 메소드
+	 * 
+	 * @param file 사용자가 전송한 File 객체
+	 * 
+	 * @param session 사용자의 정보를 담고 있는 Session 객체
+	 * 
+	 * @param req 서버 정보를 담고 있는 Request객체
+	 * 
+	 * @return 이미지 변경 성공 여부
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "uploadImg.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String uplodaImg(@RequestParam MultipartFile file, HttpSession session, HttpServletRequest req)
@@ -168,11 +220,24 @@ public class UserController {
 		return "false";
 	};
 
+	/**
+	 * WOON 사용자 비밀번호 변경을 위한 메소드
+	 * 설명 : 사용자의 비밀번호를 현재 비밀번호와 비교 후 변경
+	 * 
+	 * @param map 사용자가 입력한 비밀번호를 담은 객체
+	 * 
+	 * @param session 사용자의 정보가 담겨있는 객체
+	 * 
+	 * @return 사용자의 변경 성공 여부
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "updatePassword.do", method = RequestMethod.POST, produces = "text/html; charset=UTF-8")
 	@ResponseBody
-	public String updatePassword(@RequestParam Map<String, Object> map, HttpServletResponse resp, HttpServletRequest req, HttpSession session) throws UnsupportedEncodingException {
-		req.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html; charset=UTF-8");
+	public String updatePassword(@RequestParam Map<String, Object> map, HttpSession session) throws UnsupportedEncodingException {
 		int checkisc = 0;
 		if(session.getAttribute("userInfo")!=null) {
 			UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
@@ -200,11 +265,36 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * WOON 비밀번호 변경 화면으로 이동을 위한 메소드
+	 * 
+	 * @return updatePasswordForm.jsp
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "updatePassword.do", method = RequestMethod.GET)
 	public String updatePasswordForm() {
 		return "updatePasswordForm";
 	}
 
+	
+	/**
+	 * WOON 로그인 시 비밀번호 분실로 인해 비밀번호 초기화를 위해 메일을 전송하는 메소드
+	 * 
+	 * @param userInfo 사용자의 정보를 담은 객체 
+	 * 
+	 * @param req 서버정보를 담고있는 객체
+	 * 
+	 * @return 메일 전송 성공여부
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "sendToken.do")
 	@ResponseBody
 	public String sendToken(@RequestParam Map<String, Object> userInfo, HttpServletRequest req) {
@@ -227,24 +317,73 @@ public class UserController {
 		}
 		return n == 1 ? "true" : "false";
 	}
-
+	
+	/**
+	 * WOON 비밀번호 초기화에 필요한 이메일 입력 페이지 이동을 위한 메소드
+	 * @return resetPasswordForm.jsp
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/resetPassword.do", method = RequestMethod.GET)
-	public String resetPasswrod(HttpServletRequest req) {
-		log.info("{}", req.getRequestURL().substring(0, req.getRequestURL().lastIndexOf("/")));
+	public String resetPasswrod() {
 		return "resetPasswordForm";
 	}
 
+	/**
+	 * WOON 로그아웃을 위한 메소드
+	 * 
+	 * @param session 사용자의 정보 삭제를 위한 객체
+	 * 
+	 * @return 세션 제거 후 main으로 전송
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/logout.do")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:main.do";
 	}
 
+	/**
+	 * WOON 로그인 화면으로 이동하는 메소드
+	 * 
+	 * @return loginForm.jsp
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/loginForm.do")
 	public String loginForm() {
 		return "loginForm";
 	}
 
+	/**
+	 * WOON 사용자 로그인을 위한 메소드
+	 * 설명 : 사용자가 입력한 정보를 비교하여 계정 유무를 판단 하며 해당 계정의 
+	 * 		상태를 반환 혹은 해당 조회된 정보를 반환하는 메소드이다
+	 * 		휴면계정일 경우 해당 메일로 이메일ㅇ ㅣ전송된다.
+	 * 
+	 * @param map 사용자가 입력한 값을 담은 객체이다
+	 * 
+	 * @param session 해당 사용자의 정보를 담기위한 객체
+	 * 
+	 * @param req 서버의 정보를 담은 객체 
+	 * 
+	 * @return 로그인 성공여부를 반환하는 객체
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(@RequestParam Map<String, String> map, HttpSession session, HttpServletRequest req) {
@@ -275,6 +414,21 @@ public class UserController {
 		return gson.toJson(result);
 	}
 
+	/**
+	 * WOON 사용자가 자동로그인 처리를 위한 메소드
+	 * 설명 : 사용자의 토큰을 받아 해당 정보를 조회한다.
+	 * 
+	 * @param userAutoLoginToken 사용자의 자동로그인 토큰
+	 * 
+	 * @param session 조회된 사용자의 정보를 담기위한 객체
+	 * 
+	 * @return 로그인 성공 여부
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/autoLogin.do")
 	@ResponseBody
 	public String autoLogin(@RequestParam String userAutoLoginToken, HttpSession session) {
@@ -287,24 +441,54 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * WOON 회원가입 페이지로 이동하기 위한 메소드
+	 * @return regist.jsp
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/regist.do", method = RequestMethod.GET)
 	public String registForm() {
 		return "regist";
 	}
 
+	/**
+	 * WOON 이메일의 중복 여부를 판단하기 위한 메소드
+	 * 
+	 * @param map 사용자가 입력한 값을 담은 객체
+	 * 
+	 * @return 중복 여부
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/searchEmail.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean searchEmail(@RequestParam Map<String, String> map) {
 		return commUserService.searchEmailService(map);
 	}
 
+	/**
+	 * WOON 사용자 이메일 인정을 위한 메소드
+	 * 설명: 사용자가 입력한 값을 받아 메일은 전송하는 메소드이다.
+	 * 
+	 * @param map 사용자가 입력한 값을 가지고 있는 객체
+	 * 
+	 * @return 메일 전송 성공여부
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/sendMail.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendmail(@RequestParam Map<String, String> map) {
-		log.info("받은 매일 {}", map.get("userEmail"));
-
-		Map<String, String> sendmap = new HashMap<String, String>();
-
 		MimeMessage msg = mailsender.createMimeMessage();
 
 		try {
@@ -312,8 +496,8 @@ public class UserController {
 			map.put("code", UUID.randomUUID().toString().substring(0, 8));
 			msgHelper.setFrom("juojuo9809@naver.com");
 			msgHelper.setTo(map.get("userEmail"));
-			msgHelper.setSubject("타문타답 인증번호" + map.get("code"));
-			msgHelper.setText("타문타답 인증번호" + map.get("code"));
+			msgHelper.setSubject("타문타답 인증번호 : " + map.get("code"));
+			msgHelper.setText("타문타답 인증번호 : " + map.get("code"));
 			map.put("isc", "true");
 			mailsender.send(msg);
 		} catch (MessagingException e) {
@@ -324,6 +508,19 @@ public class UserController {
 		return result;
 	}
 
+	/**
+	 * WOON 사용자 휴대폰 인증을 위한 메소드
+	 * 설명: 사용자가 입력한 번호를 받아 해당 번호에 문자를 전송하는 메소드
+	 * 
+	 * @param phoneNumber 사용자가 입력한 핸드폰 번호
+	 *
+	 * @return 문자 전송 성공 여부 및 성공시 전송 번호
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/sendSMS.do", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendSMS(@RequestParam String phoneNumber) {
@@ -353,6 +550,21 @@ public class UserController {
 		return result;
 	}
 
+	/**
+	 * WOON 사용자의 회원가입 처리를 위한 메소드
+	 * 설명 : 사용자 입력 값을 받고 자동로그인 토큰을 생성 후 서비스로 전송
+	 * 
+	 * @param map 사용자가 입력한 값을 담은 객체
+	 *  
+	 * @param resp 실패시 에러처리를 위한 객체
+	 * 
+	 * @return 성공시 main으로 전송
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
 	public String registration(@RequestParam Map<String, Object> map, HttpServletResponse resp) throws IOException {
 		map.put("userAutoLoginToken", (UUID.randomUUID()) + (map.get("userPassword").toString().substring(0, 4))
@@ -366,14 +578,38 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * WOON 회원 가입 페이지로 이동하기 위한 메소드
+	 * 
+	 * @return registform.jsp
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/registForm.do", method = RequestMethod.GET)
 	public String registinputForm() {
 		return "registform";
 	}
 
+	/**
+	 * WOON 사용자가 사용자의 정보를 조회하기 위한 메소드
+	 * 설명 : 사용자의 정볼를 조회
+	 * @param session 사용자 정보를 담고있는 객체
+	 * 
+	 * @param model 조회결과를 담기 위한 객체
+	 * 
+	 * @return maPage.jsp
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
+	@SuppressWarnings("serial")
 	@RequestMapping(value = "/mypage.do")
 	public String mypage(HttpSession session, Model model) {
-		//리뷰 작성 목록 조회를 위한 데이터 전송
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		String userAccountId = userInfo.getUserAccountId();
 		
@@ -388,9 +624,22 @@ public class UserController {
 		return "myPage";
 	}
 
+	/**
+	 * WOON 해당 유저의 정지 여부를 판단하는 메소드
+	 * 설명 : 사용자의 정지 유무를 판단하고 결과를 반환하는 메소드
+	 * 
+	 * @param session 사용자의 정보를 담은 객체
+	 * 
+	 * @return 사용자의 정지 유무
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value = "/jeongji.do")
 	@ResponseBody
-	public String jeongji(HttpServletResponse resp, HttpSession session) throws IOException {
+	public String jeongji(HttpSession session) throws IOException {
 		UserProfileVo userInfo = (UserProfileVo)session.getAttribute("userInfo");
 		Map<String,Object> result = new HashMap<String, Object>();
 			int n = commUserService.searchJeongJi(userInfo);
@@ -403,6 +652,22 @@ public class UserController {
 			}
 		return gson.toJson(result.put("status", "false"));
 	}
+	
+	/**
+	 * WOON 휴면 해제 처리를 위한 메소드
+	 * 설명 : 메일에 전송된 휴면 토큰을 이용해 해당 사용자의 delflag를 변경하는 메소드
+	 * 
+	 * @param tokenValue 사용자가 메일에 전송됐던 토큰
+	 * 
+	 * @param resp 에러처리를 위한 객체
+	 * 
+	 * @return 성공시 main으로 반환
+	 *   
+	 * @author 임정운
+	 * 
+	 * @since 2023.09.08
+	 *
+	 */
 	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
 	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
 		int n = commUserService.updatedelflag(tokenValue);
