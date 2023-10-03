@@ -25,6 +25,7 @@
 						<form action="javascript:void(0);" class="row g-3">
 						<input type="hidden" id="reviClasId" value="${reviClasId}">
 						<input type="hidden" name="reviStudName" value="${reviStudName}">
+						<input type="hidden" name="reviAccountId" value="${reviAccountId}">
 							<div class="col-md-6">
 								<label for="reviPro" class="form-label">전문성</label><br>
 								<div id="reviPro" dir="ltr" class="star-rating"
