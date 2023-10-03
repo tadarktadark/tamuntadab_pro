@@ -27,6 +27,7 @@ public class ReviewVo {
 	private String reviRegdate;
 	private double avgScore;
 	private String clasTitle;
+	private int clasId;
 	private int clchId;
 	
 }

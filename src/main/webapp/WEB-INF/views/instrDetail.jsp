@@ -339,7 +339,8 @@ a {
 											<div class="card-body">
 												<div class="row">
 													<div class="col-9">
-														<span class="badge badge-outline-info" style="font-size: 15px;">${review.clasTitle}</span>
+														<a data-bs-toggle="tooltip"
+									title="필기 보러가기" class="w-100"  href="./community.do?board=pilgi&clasId=${review.clasId}"><span class="badge badge-outline-info" style="font-size: 15px;">${review.clasTitle}</span></a>
 													</div>
 													<div class="col-3"><b>총점 (${review.avgScore})</b></div>
 												</div>
@@ -511,7 +512,8 @@ function handleChatClick() {
 											<div class="card-body">
 											<div class="row">
 												<div class="col-9">
-														<span class="badge badge-outline-info" style="font-size: 15px;">{{clasTitle}}</span>
+														<a data-bs-toggle="tooltip"
+									title="필기 보러가기" class="w-100" href="./community.do?board=pilgi&clasId={{clasId}}"><span class="badge badge-outline-info" style="font-size: 15px;">{{clasTitle}}</span></a>
 												</div>
 													<div class="col-3"><b>총점 ({{avgScore}})</b></div>
 											</div>

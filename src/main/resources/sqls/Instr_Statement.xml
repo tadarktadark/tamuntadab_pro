@@ -278,11 +278,11 @@ WHERE RN BETWEEN #{start} AND #{end}
 
 <select id="getOneIntrReview" resultType="reviewVo">
     SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, REVI_SEQ,
-           AVG_SCORE,
+           AVG_SCORE, CLAS_ID,
            REVI_ABIL, REVI_SIGAN, REVI_DETAIL, TO_CHAR(REVI_REGDATE, 'YYYY-MM-DD') AS REVI_REGDATE
     FROM (
     	SELECT CLAS_TITLE, REVI_STUD_NAME, REVI_PRO, REVI_PREPARE, REVI_SEQ,
-           AVG_SCORE,
+           AVG_SCORE, CLAS_ID,
            REVI_ABIL, REVI_SIGAN, REVI_DETAIL, REVI_REGDATE,
            ROW_NUMBER() OVER (
                    <choose>
@@ -297,7 +297,7 @@ WHERE RN BETWEEN #{start} AND #{end}
                        </otherwise>
                    </choose>) AS RN
     FROM(       
-	        SELECT CLAS_TITLE, 
+	        SELECT CLAS_TITLE, CLAS_ID,
 	               REVI_STUD_NAME,
 	               REVI_PRO, REVI_SEQ,
 	               REVI_PREPARE,
