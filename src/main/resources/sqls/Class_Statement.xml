@@ -273,7 +273,7 @@
 
 	<!-- 클래스 개설 -->
 	<insert id="addClass" parameterType="classVo">
-		INSERT INTO TMTD.CLASS
+		INSERT INTO CLASS
 		(CLAS_ID, CLAS_TITLE, CLAS_LOCATION,
 		CLAS_STATUS, CLAS_MAGAM_GIHAN,
 		CLAS_HUIMANG_INWON,
@@ -297,7 +297,7 @@
 		<selectKey resultType="java.lang.Integer" keyProperty="subjCode" order="BEFORE">
 			SELECT SUBJ_CODE_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO TMTD.SUBJECT
+		INSERT INTO SUBJECT
 			(SUBJ_ID, SUBJ_TITLE, SUBJ_STUD_ID, SUBJ_STATUS, SUBJ_DELFLAG, SUBJ_CODE)
 		VALUES (SUBJ_ID_SEQ.NEXTVAL, #{subjTitle}, #{subjStudId},
 		#{subjStatus}, #{subjDelflag}, #{subjCode})
@@ -308,7 +308,7 @@
 	<selectKey resultType="java.lang.String" keyProperty="subjCode" order="BEFORE">
 		SELECT SUBJ_CODE_SEQ.CURRVAL FROM DUAL
 	</selectKey>
-	INSERT INTO TMTD.SUBJECT_TAG 
+	INSERT INTO SUBJECT_TAG 
 		(SUTA_CODE, SUTA_TITLE)
 	VALUES(COALESCE(#{subjCode}, NULL), #{sutaTitle})
 	</insert>
@@ -327,12 +327,12 @@
 	
 	<!-- 참여자 추가 (클래스 생성) -->
 	<insert id="addChamyeoja" parameterType="chamyeoVo">
-		INSERT INTO TMTD.CLASS_CHAMYEOJA 
+		INSERT INTO CLASS_CHAMYEOJA 
 		(CLCH_ID, CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS, CLCH_YEOKAL) 
-		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, (SELECT MAX(CLAS_ID) FROM TMTD.CLASS) , #{clchStatus}, 'N', #{clchYeokal})
+		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, (SELECT MAX(CLAS_ID) FROM CLASS) , #{clchStatus}, 'N', #{clchYeokal})
 	</insert>
 	<insert id="addChamyeojaGeneral" parameterType="chamyeoVo">
-		INSERT INTO TMTD.CLASS_CHAMYEOJA 
+		INSERT INTO CLASS_CHAMYEOJA 
 		(CLCH_ID, CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS, CLCH_YEOKAL) 
 		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, #{clchClasId} , #{clchStatus}, 'N', #{clchYeokal})
 	</insert>
@@ -342,6 +342,7 @@
 		SELECT cc.CLCH_ACCOUNT_ID,
 		       up.USER_GENDER, up.USER_NICKNAME,
 		       up.USER_PROFILE_FILE,
+		       cc.CLCH_YEOKAL,
 		       FLOOR(MONTHS_BETWEEN(CURRENT_DATE, up.USER_BIRTH) / 12) AS USER_BIRTH,
 		       cc.CLCH_GYEOLJE_STATUS
 		FROM CLASS c 
@@ -389,7 +390,7 @@
 	<!-- 수강료 확정 상태 확인 -->
 	<select id="getRequestedSugangryo" parameterType="java.lang.String" resultType="sugangryoVo">
 		SELECT SUGA_ID, SUGA_CLAS_ID, SUGA_ACCOUNT_ID, SUGA_YOCHEONG_GEUMAEK, SUGA_YOCHEONG_STATUS
-			FROM TMTD.SUGANGNRYO
+			FROM SUGANGNRYO
 			WHERE SUGA_CLAS_ID = #{sugaClasId}
 	</select>
 	
@@ -495,6 +496,7 @@
 				AND CLAS_STATUS != '종료')
 		 WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!-- 위 쿼리의  ROW 갯수 반환 -->
 	<select id="myPageClassListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
@@ -502,6 +504,13 @@
 		JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
 		WHERE CLCH_ACCOUNT_ID=#{clchAccountId} 
 		AND CLAS_STATUS != '종료'
+	</select>
+	
+	<!-- 채팅방이 존재하는지 조회 -->
+	<select id="checkChatroom" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT CHRO_CLAS_ID
+			FROM CHAT_ROOM cr
+			WHERE CHRO_CLAS_ID=#{clasId}
 	</select>
 	
 	

@@ -116,10 +116,31 @@
 											    </button>
 											</c:if>
 											
-											<button class="btn btn-soft-secondary w-100"
-												onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '모집'}">
+											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
+												<i class="bi bi-person-check-fill fixed-width-icon"></i> 모집 마감
 											</button>
+											</c:if>
+											
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '모집'}">
+											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
+												<i class="bi bi-person-check-fill fixed-width-icon"></i> 모집 마감 기한 연장
+											</button>
+											</c:if>
+											
+											
+											<c:choose>
+											    <c:when test="${chroClasId ne null && chroClasId ne ''}">
+											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
+											            <i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
+											        </button>
+											    </c:when>
+											    <c:when test="${(chroClasId == null || chroClasId eq '') && matchedChamyeoVo.clchYeokal eq 'M'}">
+											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./createClassChatRoom.do?clasId=${param.clasId}'">
+											            <i class="bi bi-person-plus-fill fixed-width-icon"></i> 채팅방 생성
+											        </button>
+											    </c:when>
+											</c:choose>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I'}">
 											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
@@ -337,15 +358,11 @@
 		                                	<h6 class="card-title">배정된 강사 : 
 											    <span class="card-text text-muted mb-0">
 											        <c:choose>
-											            <c:when test="${empty clasVo.clasAccountId}">
+											            <c:when test="${empty classVo.clasAccountId}">
 											                배정된 강사 없음
 											            </c:when>
 											            <c:otherwise>
-											                <c:forEach var="participant" items="${chamyeoList}" varStatus="status">
-											                    <c:if test="${participant.clchAccountId == clasVo.clasAccountId}">
-											                        ${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : '전민균'}
-											                    </c:if>
-											                </c:forEach>
+											               ${classVo.clasAccountId}
 											            </c:otherwise>
 											        </c:choose>
 											    </span>
@@ -365,7 +382,6 @@
 										        <div class="table-responsive">
 										            <table class="table align-middle table-nowrap mb-1">
 										                <tbody>
-										                    <!-- Display participants where clchYeokal is M first -->
 										                    <c:forEach var="participant" items="${chamyeoList}" varStatus="status">
 										                        <c:if test="${participant.clchYeokal != 'I' && participant.clchYeokal == 'M'}">
 										                            <tr>
