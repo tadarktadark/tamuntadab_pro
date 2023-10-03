@@ -25,6 +25,8 @@ public class GeoljeVo {
 	private String gyeoWanryoil;
 	private String gyeoBangbeop;
 	private String gyeoStatus;
+	private String gyeoUid;
+	private String gyeoMid;
 	
 	private List<ClassVo> clasVo;
 	private List<GangeuisilVo> gasiVo;

@@ -3,8 +3,10 @@ package com.tdtd.tmtd.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.GyeoljeVo;
 import com.tdtd.tmtd.vo.HwanbulVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 public interface IPaymentService {
 
@@ -70,4 +72,18 @@ public interface IPaymentService {
 	 * @return
 	 */
 	public int myPageRoomPaymentListCount(String gyeoAccountId);
+	
+	/**
+	 * 결제 테이블 조회
+	 * @param map
+	 * @return
+	 */
+	public GeoljeVo getGyeoInfo(Map<String, Object> map);
+	
+	/**
+	 * 결제자 정보 조회
+	 * @param userAccountId
+	 * @return
+	 */
+	public UserProfileVo getGyeoljejaInfo(String userAccountId);
 }

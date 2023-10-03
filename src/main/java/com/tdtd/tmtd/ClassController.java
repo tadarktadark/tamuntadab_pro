@@ -22,9 +22,11 @@ import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IChatService;
 import com.tdtd.tmtd.model.service.IClassService;
+import com.tdtd.tmtd.model.service.IPaymentService;
 import com.tdtd.tmtd.model.service.ISubjectService;
 import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
+import com.tdtd.tmtd.vo.GyeoljeVo;
 import com.tdtd.tmtd.vo.PagingVo;
 import com.tdtd.tmtd.vo.SubjectVo;
 import com.tdtd.tmtd.vo.SugangryoVo;
@@ -44,6 +46,9 @@ public class ClassController {
 
 	@Autowired
 	private IChatService chatService;
+	
+	@Autowired
+	private IPaymentService pService;
 	
 	@GetMapping("/classList.do")
 	public String classList(Model model, @RequestParam(required = false) String subjects) {
@@ -687,6 +692,44 @@ public class ClassController {
 			cService.updateSugangryo(sugangryoVo);
 		}
 		
+		List<ChamyeoVo> chamyeoList = cService.getChamyeojas(clasId);
+		log.info("chamyeoList 해당 클래스 모든 참여자 정보 : {}", chamyeoList);
+
+		List<String> geoljejas = chamyeoList.stream()
+                .filter(chamyeo -> !("I".equals(chamyeo.getClchYeokal())))
+                .map(ChamyeoVo::getClchAccountId)
+                .collect(Collectors.toList());
+		
+		int sugangryoInt = Integer.parseInt(sugangryo);
+		int gyeoGeumaek = (sugangryoInt/geoljejas.size() / 100) * 100;
+		
+		for (int i = 0; i < geoljejas.size(); i++) {
+			GyeoljeVo gVo = new GyeoljeVo();
+			gVo.setGyeoGeumaek(gyeoGeumaek);
+			gVo.setGyeoDaesangId(clasId);
+			gVo.setGyeoAccountId(geoljejas.get(i));
+			pService.newPayment(gVo);
+		}
+		
 		return "redirect:/justGoMyClass.do?clasId=" + clasId+ "&agreeSugangryo=true";
+	}
+	
+	@PostMapping("/rejectSugangryo.do")
+	public String rejectSugangryo(Model model, @RequestParam("clasId") String clasId
+											, @RequestParam("sugangryo") String sugangryo
+											, @RequestParam("instrId") String instrId){
+		model.addAttribute("title", "클래스");
+		model.addAttribute("pageTitle", "참여 중인 클래스");
+		
+		SugangryoVo sugangryoVo = cService.getRequestedSugangryo(clasId);
+		if(sugangryoVo == null || sugangryoVo.getSugaClasId() == null) {
+			log.info("ClassController agreeSugangryo 에러 : 요청된 수강료 없음");
+		}else {
+			sugangryoVo.setSugaYocheongGeumaek(sugangryo);
+			sugangryoVo.setSugaYocheongStatus("R");
+			cService.updateSugangryo(sugangryoVo);
+		}
+		
+		return "redirect:/justGoMyClass.do?clasId=" + clasId+ "&rejectSugangryo=true";
 	}
 }

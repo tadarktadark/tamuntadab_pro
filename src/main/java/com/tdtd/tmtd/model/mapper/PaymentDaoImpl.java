@@ -7,8 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.GyeoljeVo;
 import com.tdtd.tmtd.vo.HwanbulVo;
+import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -72,6 +74,18 @@ public class PaymentDaoImpl implements IPaymentDao {
 	public int myPageRoomPaymentListCount(String gyeoAccountId) {
 		log.info("PaymentDaoImpl myPageRoomPaymentListCount 실행");
 		return sqlSession.selectOne(NS+"myPageRoomPaymentListCount",gyeoAccountId);
+	}
+
+	@Override
+	public GeoljeVo getGyeoInfo(Map<String, Object> map) {
+		log.info("PaymentDaoImpl getGyeoInfo 실행");
+		return sqlSession.selectOne(NS+"getGyeoInfo",map);
+	}
+
+	@Override
+	public UserProfileVo getGyeoljejaInfo(String userAccountId) {
+		log.info("PaymentDaoImpl getGyeoljejaInfo 실행");
+		return sqlSession.selectOne(NS+"getGyeoljejaInfo",userAccountId);
 	}
 
 }

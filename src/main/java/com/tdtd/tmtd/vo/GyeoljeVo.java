@@ -1,5 +1,6 @@
 package com.tdtd.tmtd.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class GyeoljeVo {
 	private String gyeoId;
 	private int gyeoGeumaek;

@@ -27,8 +27,26 @@
 	<insert id="newPayment" parameterType="geoljeVo">
 		INSERT INTO TMTD.GYEOLJE
 			(GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, GYEO_ACCOUNT_ID, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS, GYEO_UID, GYEO_MID)
-		VALUES(GYEO_ID_SEQ.NEXTVAL, #{gyeoGeumaek}, #{gyeoDaesangId}, #{gyeoAccountId}, CURRENT_DATE , '', '', 'W' , '', '')
+		VALUES('CL' || GYEO_ID_SEQ.NEXTVAL, #{gyeoGeumaek}, #{gyeoDaesangId}, #{gyeoAccountId}, CURRENT_DATE , '', '', 'W' , '', '')
 	</insert>
+	
+	<!-- 결제 테이블 조회 -->
+	<select id="getGyeoInfo" parameterType="java.util.Map" resultType="geoljeVo">
+		SELECT GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, GYEO_ACCOUNT_ID, GYEO_REGDATE,
+			GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS, GYEO_MID, GYEO_UID
+			FROM GYEOLJE
+			WHERE GYEO_ACCOUNT_ID = #{gyeoAccountId}
+			AND GYEO_DAESANG_ID = #{gyeoDaesangId}
+	</select>
+	
+	<!-- 결제자 정보 조회 -->
+	<select id="getGyeoljejaInfo" parameterType="java.lang.String" resultType="userProfileVo">
+		SELECT USER_ACCOUNT_ID, USER_EMAIL, USER_PASSWORD, USER_NAME, USER_NICKNAME,
+			USER_AUTH, USER_PHONE_NUMBER, USER_AUTO_LOGIN_TOKEN, USER_JOIN_DATE, USER_LAST_ACCESS_DATE, USER_GENDER
+			, USER_SITE, USER_BIRTH, USER_PROFILE_FILE
+			FROM USER_PROFILE up 
+			WHERE USER_ACCOUNT_ID = #{userAccountId}
+	</select>
 	
 	<!-- 결제 상태 변경 (참여자 테이블) -->
 	<update id="updatePayStatusInChamyeo" parameterType="java.util.Map">
