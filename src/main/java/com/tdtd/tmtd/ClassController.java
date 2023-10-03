@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.PagingUtils;
+import com.tdtd.tmtd.model.service.IChatService;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.ISubjectService;
 import com.tdtd.tmtd.vo.ChamyeoVo;
@@ -41,6 +42,9 @@ public class ClassController {
 	@Autowired
 	private ISubjectService sService;
 
+	@Autowired
+	private IChatService chatService;
+	
 	@GetMapping("/classList.do")
 	public String classList(Model model, @RequestParam(required = false) String subjects) {
 		model.addAttribute("title", "클래스");
@@ -520,7 +524,6 @@ public class ClassController {
 		} else {
 			log.info("ClassController myPageClass 세션의 유저 정보 : 정보없음");
 		}
-		
 		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
 		
 		int totalPClass = cService.myPageClassListCount(userAccountId);
@@ -612,22 +615,78 @@ public class ClassController {
 	}
 	
 	@PostMapping("/dealSugangryo.do")
-	public String dealSugangryo(Model model, @RequestParam("clasId") String clasId) {
+	public String dealSugangryo(Model model, @RequestParam("clasId") String clasId
+											, @RequestParam("sugangryo") String sugangryo
+											, @RequestParam("instrId") String instrId){
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "참여 중인 클래스");
 		
-		
+		SugangryoVo sugangryoVo = cService.getRequestedSugangryo(clasId);
+		if(sugangryoVo == null || sugangryoVo.getSugaClasId() == null) {
+			SugangryoVo sVo = new SugangryoVo();
+			sVo.setSugaClasId(clasId);
+			sVo.setSugaAccountId(instrId);
+			sVo.setSugaYocheongGeumaek(sugangryo);
+			sVo.setSugaYocheongStatus("S");
+			cService.dealSugangryo(sVo);
+		}else {
+			sugangryoVo.setSugaYocheongGeumaek(sugangryo);
+			sugangryoVo.setSugaYocheongStatus("S");
+			cService.updateSugangryo(sugangryoVo);
+		}
 		
 		return "redirect:/justGoMyClass.do?clasId=" + clasId+ "&dealSugangryo=true";
 	}
 	
 	@GetMapping("/cancelClass.do")
-	public String cancelClass(Model model, @RequestParam("clasId") String clasId) {
+	public String cancelClass(Model model, HttpSession session,
+										@RequestParam("clasId") String clasId) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "참여 중인 클래스");
 		
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("ClassController cancelClass 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("ClassController cancelClass 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
 		
 		
+		if(userAccountId != null) {
+			//참여자 테이블에서 삭제
+			Map<String, Object> delChamyeo = new HashMap<String, Object>();
+			delChamyeo.put("clchClasId", clasId);
+			delChamyeo.put("clchAccountId", userAccountId);
+			cService.delChamyeoja(delChamyeo);
+			
+			//참여자 테이블에서 삭제 - 현재인원 감소
+			Map<String, Object> decreaseMap = new HashMap<String, Object>();
+			decreaseMap.put("nums", -1);
+			decreaseMap.put("clasId", clasId);
+			cService.updateClassPeople(decreaseMap);
+		}else {
+			log.info("ClassController cancelClass 에러 : 사용자 정보 없음");
+		}
 		return "redirect:/classList.do";
+	}
+	
+	@PostMapping("/agreeSugangryo.do")
+	public String agreeSugangryo(Model model, @RequestParam("clasId") String clasId
+											, @RequestParam("sugangryo") String sugangryo
+											, @RequestParam("instrId") String instrId){
+		model.addAttribute("title", "클래스");
+		model.addAttribute("pageTitle", "참여 중인 클래스");
+		
+		SugangryoVo sugangryoVo = cService.getRequestedSugangryo(clasId);
+		if(sugangryoVo == null || sugangryoVo.getSugaClasId() == null) {
+			log.info("ClassController agreeSugangryo 에러 : 요청된 수강료 없음");
+		}else {
+			sugangryoVo.setSugaYocheongGeumaek(sugangryo);
+			sugangryoVo.setSugaYocheongStatus("A");
+			cService.updateSugangryo(sugangryoVo);
+		}
+		
+		return "redirect:/justGoMyClass.do?clasId=" + clasId+ "&agreeSugangryo=true";
 	}
 }

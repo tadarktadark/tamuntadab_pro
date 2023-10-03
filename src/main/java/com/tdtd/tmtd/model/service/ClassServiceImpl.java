@@ -274,4 +274,10 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - checkChatroom");
 		return dao.checkChatroom(clasId);
 	}
+
+	@Override
+	public int updateSugangryo(SugangryoVo sVo) {
+		log.info("ClassServiceImpl 실행 - updateSugangryo");
+		return dao.updateSugangryo(sVo);
+	}
 }

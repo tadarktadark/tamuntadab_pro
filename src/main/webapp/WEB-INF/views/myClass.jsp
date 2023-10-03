@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
@@ -41,6 +42,8 @@
 	overflow-y: auto;
 }
 </style>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="twocolumn-panel">
 	<input name="accountId" type="hidden" value="${userInfo.userAccountId}">
@@ -99,7 +102,7 @@
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'I' and sugangryoVo ne null and classVo.clasStatus eq '매칭완료'}">
-											    <button class="btn btn-soft-secondary w-100" onclick="">
+											    <button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#agreeSugangryo">
 											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정하기
 											    </button>
 											</c:if>
@@ -112,7 +115,7 @@
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and chamyeoList.size() >= 2}">
 											    <button class="btn btn-soft-secondary w-100" onclick="">
-											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임 (아직)
+											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
 											    </button>
 											</c:if>
 											
@@ -128,27 +131,35 @@
 											</button>
 											</c:if>
 											
-											
 											<c:choose>
 											    <c:when test="${chroClasId ne null && chroClasId ne ''}">
 											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
 											            <i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
 											        </button>
 											    </c:when>
-											    <c:when test="${(chroClasId == null || chroClasId eq '') && matchedChamyeoVo.clchYeokal eq 'M'}">
-											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./createClassChatRoom.do?clasId=${param.clasId}'">
+											    <c:when test="${(chroClasId == null || chroClasId eq '') && matchedChamyeoVo.clchYeokal eq 'M' && classVo.clasStatus eq '매칭완료'}">
+											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
 											            <i class="bi bi-person-plus-fill fixed-width-icon"></i> 채팅방 생성
 											        </button>
 											    </c:when>
 											</c:choose>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I'}">
-											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
-											</button>
+											    <c:choose>
+											        <c:when test="${classVo.clasHyeonjaeInwon le 1}">
+											            <button class="btn btn-soft-secondary w-100" onclick="deleteClass('${matchedChamyeoVo.clchYeokal}','${param.clasId}');">
+											                <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 삭제
+											            </button>
+											        </c:when>
+											        <c:otherwise>
+											            <button class="btn btn-soft-secondary w-100" onclick="cancelClass('${matchedChamyeoVo.clchYeokal}');">
+											                <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
+											            </button>
+											        </c:otherwise>
+											    </c:choose>
 											</c:if>
 											
-											<!-- 수강료 확정 모달 -->
+											<!-- 수강료 확정 요청 모달 -->
 											<!-- Varying modal content -->
 											<div class="modal fade" id="dealSugangryo" tabindex="-1" aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
 											    <div class="modal-dialog">
@@ -166,12 +177,42 @@
 											                    </div>
 											                    <div class="mb-3">
 											                        <label for="message-text" class="col-form-label">요청할 금액</label>
-											                        <!-- 입력 필드에 name 속성을 추가하여 서버에서 값을 식별할 수 있도록 합니다. -->
 											                        <input type="number" class="form-control" id="sugangryo" name="sugangryo">
+											                        <input type="hidden" name="instrId" value="${classVo.clasAccountId}">
+											                        <input type="hidden" name="clasId" value="${param.clasId}">
 											                    </div>
 													            <div class="modal-footer">
 													                <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
 													                <button type="submit" class="btn btn-secondary">요청</button>
+													            </div>
+											            	</form>
+											            </div>
+											        </div>
+											    </div>
+											</div>
+											
+											<!-- 수강료 확정 모달 -->
+											<!-- Varying modal content -->
+											<div class="modal fade" id="agreeSugangryo" tabindex="-1" aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
+											    <div class="modal-dialog">
+											        <div class="modal-content">
+											            <div class="modal-header">
+											                <h5 class="modal-title" id="varyingcontentModalLabel">수강료 확정 하기</h5>
+											                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											            </div>
+											            <div class="modal-body">
+											                <form action="./agreeSugangryo.do" method="post">
+											                    <div class="mt-4">
+											                    	<h4 class="mb-3">해당 클래스의 수강료를 확정합니다</h4>
+											                    	<p class="text-muted mb-4">확정시, 추가적인 강의료 조율 절차는 없습니다. 확정 하시겠습니까?</p>
+											                	</div>
+											                	<div class="mb-3">
+											                        <label for="recipient-name" class="col-form-label">확정 요청된 금액</label>
+											                        <input type="text" class="form-control" id="recipient-name" readonly="readonly" value="${empty sugangryoVo || sugangryoVo.sugaYocheongStatus == '' ? '요청된 값 없음' : sugangryoVo.sugaYocheongGeumaek}">
+											                    </div>
+													            <div class="modal-footer">
+													                <button type="button" class="btn btn-light" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i>아니오</button>
+													                <button type="submit" class="btn btn-secondary">네, 확정합니다</button>
 													            </div>
 											            	</form>
 											            </div>
@@ -241,7 +282,8 @@
 														진행 지역 : ${classVo.clasLocation} <br>
 														클래스 수업일 : ${classVo.clasSueopNaljja} <br>
 														인원 : ${classVo.clasHyeonjaeInwon} / ${classVo.clasHuimangInwon} <br>
-														클래스 개설일 : ${classVo.clasRegdate} <br>
+														<fmt:parseDate var="parsedDate" value="${classVo.clasRegdate}" pattern="yyyy-MM-dd HH:mm:ss" />
+														클래스 개설일 : <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd" /><br>
 														<c:choose>
 														    <c:when test="${classVo.clasSeongbyeolJehan eq 'GFREE'}">
 														        클래스 성별제한 : 제한 없음
@@ -362,7 +404,11 @@
 											                배정된 강사 없음
 											            </c:when>
 											            <c:otherwise>
-											               ${classVo.clasAccountId}
+											            	<c:forEach var="participant" items="${chamyeoList}" varStatus="status">
+										                        <c:if test="${classVo.clasAccountId == participant.clchAccountId}">
+											               		${participant.userVo[0].userNickname}
+										                        </c:if>
+										                    </c:forEach>
 											            </c:otherwise>
 											        </c:choose>
 											    </span>
@@ -386,7 +432,7 @@
 										                        <c:if test="${participant.clchYeokal != 'I' && participant.clchYeokal == 'M'}">
 										                            <tr>
 										                                <td style="width: 50px;"><img src="${not empty participant.userVo[0].userProfileFile ? participant.userVo[0].userProfileFile : './image/profile.png'}" class="rounded-circle avatar-xs"></td>
-										                                <td><h5 class="fs-15 m-0"><i class="ri-vip-crown-2-line">&nbsp;</i><a href="javascript: void(0);" class="text-body">${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : 'N/A'}</a></h5></td>
+										                                <td><h5 class="fs-15 m-0"><i class="ri-vip-crown-2-line">&nbsp;</i><span class="text-body">${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : 'N/A'}</span></h5></td>
 										                                <td>${not empty participant.userVo[0].userGender ? (participant.userVo[0].userGender == 'M' ? '남자' : '여자') : 'N/A'}</td>
 										                                <td>${not empty participant.userVo[0].userBirth ? participant.userVo[0].userBirth : 'N/A'}세</td>
 										                                <td>
@@ -406,7 +452,7 @@
 										                        <c:if test="${participant.clchYeokal != 'I' && participant.clchYeokal != 'M'}">
 										                            <tr>
 										                                <td style="width: 50px;"><img src="${not empty participant.userVo[0].userProfileFile ? participant.userVo[0].userProfileFile : './image/profile.png'}" class="rounded-circle avatar-xs"></td>
-										                                <td><h5 class="fs-15 m-0"><a href="javascript: void(0);" class="text-body">${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : 'N/A'}</a></h5></td>
+										                                <td><h5 class="fs-15 m-0"><span class="text-body">${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : 'N/A'}</span></h5></td>
 										                                <td>${not empty participant.userVo[0].userGender ? (participant.userVo[0].userGender == 'M' ? '남자' : '여자') : 'N/A'}</td>
 										                                <td>${not empty participant.userVo[0].userBirth ? participant.userVo[0].userBirth : 'N/A'}세</td>
 										                                <td>

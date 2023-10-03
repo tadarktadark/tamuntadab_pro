@@ -19,16 +19,6 @@
 				<div class="container-fluid">
 					<%@ include file="./shared/_page_title.jsp" %>
 					
-					<div class="row pb-4 gy-3">
-						<div class="col-sm-4">
-							<!-- 임시 화면 -->
-							<button class="btn btn-primary addMembers-modal"
-								data-bs-toggle="modal" data-bs-target="#addmemberModal" onclick="location.href='./subjectManage.do?page=1'">
-								<i class="bx bx-plus fs-16 align-middle me-1"></i> 과목 관리 화면
-							</button>
-						</div>
-					</div>
-					
 					<div class="row">
                         <div class="col-12">
     
