@@ -463,6 +463,7 @@ public class ClassController {
 		
 		//해당 클래스 모든 참여자 정보
 		List<ChamyeoVo> chamyeoList = cService.getChamyeojas(clasId);
+		log.info("chamyeoList 해당 클래스 모든 참여자 정보 : {}", chamyeoList);
 		
 		//해당 클래스의 해당참여자 정보
 		Optional<ChamyeoVo> matchingChamyeo = chamyeoList.stream()
@@ -471,10 +472,8 @@ public class ClassController {
 		ChamyeoVo matchedChamyeoVo = null; // 찾아낸 ChamyeoVo 객체를 변수로 담기
 		if (matchingChamyeo.isPresent()) {
 		    matchedChamyeoVo = matchingChamyeo.get();
-		    // matchedChamyeoVo를 모델에 추가
 		    model.addAttribute("matchedChamyeoVo", matchedChamyeoVo);
 		} else {
-		    // 일치하는 ChamyeoVo 객체가 없을 경우의 처리 로직 (예: 로그 출력, 예외 처리 등)
 		    log.info("일치하는 ChamyeoVo 객체가 없습니다.");
 		}
 		

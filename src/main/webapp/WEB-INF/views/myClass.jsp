@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE html>
 <html lang="en" data-layout="horizontal" data-layout-mode="light"
 	data-topbar="light" data-sidebar="light" data-sidebar-size="sm"
@@ -186,19 +187,19 @@
 												<p class="text-muted">달력 라벨</p>
 												<div
 													class="external-event fc-event bg-danger-subtle  text-danger"
-													data-class="bg-success-subtle ">
+													data-class="bg-success-subtle " style="cursor:auto;">
 													<i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>
 													이 클래스의 일정
 												</div>
 												<div
 													class="external-event fc-event bg-info-subtle  text-info"
-													data-class="bg-info-subtle ">
+													data-class="bg-info-subtle " style="cursor:auto;">
 													<i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>
 													다른 모든 클래스의 일정
 												</div>
 												<div
 													class="external-event fc-event bg-warning-subtle  text-warning"
-													data-class="bg-warning-subtle ">
+													data-class="bg-warning-subtle " style="cursor:auto;">
 													<i class="mdi mdi-checkbox-blank-circle font-size-11 me-2"></i>
 													강의실 예약 일정
 												</div>
@@ -333,45 +334,83 @@
 		                                    </h5>
 		                                </div>
 		                                <div class="card-body">
-		                                	<h6 class="card-title">배정된 강사 : <span class="card-text text-muted mb-0">전민균</span></h6>
+		                                	<h6 class="card-title">배정된 강사 : 
+											    <span class="card-text text-muted mb-0">
+											        <c:choose>
+											            <c:when test="${empty clasVo.clasAccountId}">
+											                배정된 강사 없음
+											            </c:when>
+											            <c:otherwise>
+											                <c:forEach var="participant" items="${chamyeoList}" varStatus="status">
+											                    <c:if test="${participant.clchAccountId == clasVo.clasAccountId}">
+											                        ${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : '전민균'}
+											                    </c:if>
+											                </c:forEach>
+											            </c:otherwise>
+											        </c:choose>
+											    </span>
+											</h6>
                                             <h6 class="card-title">과목 : <span class="card-text text-muted mb-0">${classVo.subjVo[0].subjTitle}</span></h6>
                                             <br>
                                             <h6 class="card-title">클래스 내용 </h6>
                                             <p class="card-text text-muted mb-0">
-                                            	이 강의는 비전공자로 개발에 들어선 초보 개발자 분들의 어려움을 해결하기 위해 만들어졌습니다.<br> 
-		                                		복잡하고 이해하기 힘든 이론들을 쉽고 단순하게 외우는 것만으로도  <br>
-		                                		일정 수준에 도달할 수 있도록 도와드립니다.<br>
-		                                		컴퓨터 공학 전공자들이 4년 동안 어떤 것들을 공부하는지 빠르게 익혀보실 수 있습니다.<br>
-												제목처럼 이해가 아닌 암기를 통해 전공자들조차 쉽게 이해하기 어려운 개념들을<br> 
-												명쾌한 비유로 이해하고, 비전공자 개발자로서 느끼는 격차를 줄이는 게 이번 강의의 목표입니다!
+                                            	${classVo.clasContent}
                                             </p>
                                         </div>
 		                                <div class="card p-0 overflow-hidden mt-3 mb-1 shadow-none" style="margin:16px;">
-			                                <div class="card-header">
-			                                    <h5 class="card-title mb-0">참여 중인 클래스원</h5>
-			                                </div>
-			                                <div class="card-body pt-2">
-			                                    <div class="table-responsive">
-			                                        <table class="table align-middle table-nowrap mb-1">
-			                                            <tbody>
-			                                                <tr>
-			                                                    <td style="width: 50px;"><img src="assets/images/users/avatar-2.jpg" class="rounded-circle avatar-xs" alt=""></td>
-			                                                    <td><h5 class="fs-15 m-0"><a href="javascript: void(0);" class="text-body">학생 테스트 닉네임 21</a></h5></td>
-			                                                    <td>
-			                                                        <div>
-			                                                            <a href="javascript: void(0);" class="badge bg-primary-subtle  text-primary fs-11">Frontend</a>
-			                                                        </div>
-			                                                    </td>
-			                                                    <td>
-			                                                        <i class="mdi mdi-circle-medium fs-18 text-success align-middle me-1"></i> Online
-			                                                    </td>
-			                                                </tr>
-			                                                
-			                                            </tbody>
-			                                        </table>
-			                                    </div>
-			                                </div>
-		                                </div>
+										    <div class="card-header">
+										        <h5 class="card-title mb-0">참여 중인 클래스원</h5>
+										    </div>
+										    <div class="card-body pt-2">
+										        <div class="table-responsive">
+										            <table class="table align-middle table-nowrap mb-1">
+										                <tbody>
+										                    <!-- Display participants where clchYeokal is M first -->
+										                    <c:forEach var="participant" items="${chamyeoList}" varStatus="status">
+										                        <c:if test="${participant.clchYeokal != 'I' && participant.clchYeokal == 'M'}">
+										                            <tr>
+										                                <td style="width: 50px;"><img src="${not empty participant.userVo[0].userProfileFile ? participant.userVo[0].userProfileFile : './image/profile.png'}" class="rounded-circle avatar-xs"></td>
+										                                <td><h5 class="fs-15 m-0"><i class="ri-vip-crown-2-line">&nbsp;</i><a href="javascript: void(0);" class="text-body">${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : 'N/A'}</a></h5></td>
+										                                <td>${not empty participant.userVo[0].userGender ? (participant.userVo[0].userGender == 'M' ? '남자' : '여자') : 'N/A'}</td>
+										                                <td>${not empty participant.userVo[0].userBirth ? participant.userVo[0].userBirth : 'N/A'}세</td>
+										                                <td>
+										                                    <c:choose>
+										                                        <c:when test="${participant.clchGyeoljeStatus == 'Y'}">
+										                                            <span class="badge bg-success-subtle text-success">결제 완료</span>
+										                                        </c:when>
+										                                        <c:otherwise>
+										                                            <span class="badge bg-warning-subtle text-warning">결제 미완료</span>
+										                                        </c:otherwise>
+										                                    </c:choose>
+										                                </td>
+										                            </tr>
+										                        </c:if>
+										                    </c:forEach>
+										                    <c:forEach var="participant" items="${chamyeoList}" varStatus="status">
+										                        <c:if test="${participant.clchYeokal != 'I' && participant.clchYeokal != 'M'}">
+										                            <tr>
+										                                <td style="width: 50px;"><img src="${not empty participant.userVo[0].userProfileFile ? participant.userVo[0].userProfileFile : './image/profile.png'}" class="rounded-circle avatar-xs"></td>
+										                                <td><h5 class="fs-15 m-0"><a href="javascript: void(0);" class="text-body">${not empty participant.userVo[0].userNickname ? participant.userVo[0].userNickname : 'N/A'}</a></h5></td>
+										                                <td>${not empty participant.userVo[0].userGender ? (participant.userVo[0].userGender == 'M' ? '남자' : '여자') : 'N/A'}</td>
+										                                <td>${not empty participant.userVo[0].userBirth ? participant.userVo[0].userBirth : 'N/A'}세</td>
+										                                <td>
+										                                    <c:choose>
+										                                        <c:when test="${participant.clchGyeoljeStatus == 'Y'}">
+										                                            <span class="badge bg-success-subtle text-success">결제 완료</span>
+										                                        </c:when>
+										                                        <c:otherwise>
+										                                            <span class="badge bg-warning-subtle text-warning">결제 미완료</span>
+										                                        </c:otherwise>
+										                                    </c:choose>
+										                                </td>
+										                            </tr>
+										                        </c:if>
+										                    </c:forEach>
+										                </tbody>
+										            </table>
+										        </div>
+										    </div>
+										</div>
 		                            </div>
 									<div class="card card-h-100"> <!-- 캘린더 카드 -->
 										<div class="card-body">
@@ -773,5 +812,8 @@
 			    background-color: var(--tb-secondary);
     			color: #fff;
 		}
+		.fc-event{
+    			cursor:pointer;
+    	}
 	</style>
 </html>
