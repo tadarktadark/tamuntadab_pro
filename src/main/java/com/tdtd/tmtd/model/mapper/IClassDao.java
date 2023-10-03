@@ -271,4 +271,11 @@ public interface IClassDao {
 	 * 채팅방이 존재하는지 조회
 	 */
 	public String checkChatroom(String clasId);
+
+	/**
+	 * 수강료 상태 업데이트
+	 * @param sVo
+	 * @return
+	 */
+	public int updateSugangryo(SugangryoVo sVo);
 }

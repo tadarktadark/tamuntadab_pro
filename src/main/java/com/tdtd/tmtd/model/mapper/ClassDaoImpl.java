@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tdtd.tmtd.vo.ChamyeoVo;
-import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.SugangryoVo;
 
@@ -284,6 +283,12 @@ public class ClassDaoImpl implements IClassDao {
 
 	@Override
 	public String checkChatroom(String clasId) {
+		log.info("ClassDaoImpl checkChatroom 실행");
 		return sqlSession.selectOne(NS+"checkChatroom",clasId);
+	}
+	
+	public int updateSugangryo(SugangryoVo sVo) {
+		log.info("ClassDaoImpl updateSugangryo 실행");
+		return sqlSession.update(NS+"updateSugangryo",sVo);
 	}
 }

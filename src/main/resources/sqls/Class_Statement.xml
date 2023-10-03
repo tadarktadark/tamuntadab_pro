@@ -402,6 +402,14 @@
 		AND CLCH_CLAS_ID = #{clchClasId}
 	</update>
 	
+	<!-- 수강료 상태 업데이트 -->
+	<update id="updateSugangryo" parameterType="sugangryoVo">
+		UPDATE SUGANGNRYO
+		SET SUGA_YOCHEONG_GEUMAEK = #{sugaYocheongGeumaek},
+		    SUGA_YOCHEONG_STATUS = #{sugaYocheongStatus}
+		WHERE SUGA_CLAS_ID = #{sugaClasId}
+	</update>
+	
 	<!-- 과목 이름으로 과목 ID 검색 -->
 	<select id="findSubjId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT SUBJ_ID
