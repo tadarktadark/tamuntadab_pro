@@ -454,6 +454,7 @@ public class ClassController {
 			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
 		}
 		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		String  chroClasId = cService.checkChatroom(clasId);
 		
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("clasId", clasId);
@@ -483,6 +484,7 @@ public class ClassController {
 		model.addAttribute("classVo", classVo);
 		model.addAttribute("chamyeoList", chamyeoList);
 		model.addAttribute("sugangryoVo", sugangryoVo);
+		model.addAttribute("chroClasId",chroClasId);
 		return "myClass";
 	}
 	

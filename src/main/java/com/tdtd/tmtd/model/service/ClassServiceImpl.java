@@ -268,4 +268,10 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - updateInstr");
 		return dao.updateInstr(map);
 	}
+
+	@Override
+	public String checkChatroom(String clasId) {
+		log.info("ClassServiceImpl 실행 - checkChatroom");
+		return dao.checkChatroom(clasId);
+	}
 }
