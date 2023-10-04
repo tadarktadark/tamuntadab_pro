@@ -322,7 +322,7 @@
 		#{userAutoLoginToken},
 		CURRENT_DATE,CURRENT_DATE , #{userGender},
 		'T',
-		#{userBirth}, '기본경로 잡아주기' , 'N')
+		#{userBirth}, './image/profile.png' , 'N')
 	</insert>
 
 	<!-- NOTE [회원관리 : 해당 USERID를 이용해 정지여부 판단] -->

@@ -53,6 +53,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                      			  <a class="dropdown-item" href="./regist.do"><i class="mdi mdi-account-plus text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">회원가입</span></a>
                                  </div>
         					</div>
+        					<script type="text/javascript" src="./js/autoLogin.js"></script>
 				<%
 					}else{
 				%>
@@ -65,9 +66,10 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 						<div class="dropdown-menu dropdown-menu-end">
 	                        <h6 class="dropdown-header"><%=userInfo.getUserNickname()%>님 어서오세요</h6>
 	                        <a class="dropdown-item" href="./mypage.do"><i class="ri-profile-line text-muted fs-17 align-middle me-1"></i> <span class="align-middle">MyPage</span></a>
-	                        <a class="dropdown-item" id="logout" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
+	                        <a class="dropdown-item" id="logout" href="./logout.do" onclick="localStorage.removeItem('autoLoginToken');"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
 						</div>
 					</div>
+					<script src="./js/jeongjiCheck.js"></script>
 				<%
 					}
                    %>
@@ -208,9 +210,11 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
                      			  <a class="dropdown-item" href="./regist.do"><i class="mdi mdi-account-plus text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">회원가입</span></a>
                                  </div>
         					</div>
+        					<script type="text/javascript" src="./js/autoLogin.js"></script>
 				<%
 					}else{
 				%>
+					<script src="./js/jeongjiCheck.js"></script>
 					<div class="dropdown header-item">
 						<button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                        <span class="d-flex align-items-center">
@@ -220,7 +224,7 @@ UserProfileVo userInfo = (UserProfileVo)request.getSession().getAttribute("userI
 						<div class="dropdown-menu dropdown-menu-end">
 	                        <h6 class="dropdown-header"><%=userInfo.getUserNickname()%>님 어서오세요</h6>
 	                        <a class="dropdown-item" href="./mypage.do"><i class="ri-profile-line text-muted fs-17 align-middle me-1"></i> <span class="align-middle">MyPage</span></a>
-	                        <a class="dropdown-item" id="logout" href="./logout.do"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
+	                        <a class="dropdown-item" id="logout" href="./logout.do" onclick="localStorage.removeItem('autoLoginToken');"><i class="bx bx-log-out text-muted fs-17 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">로그아웃</span></a>
 						</div>
 					</div>
 				<%
