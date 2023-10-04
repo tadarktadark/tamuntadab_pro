@@ -30,4 +30,5 @@ public class GeoljeVo {
 	
 	private List<ClassVo> clasVo;
 	private List<GangeuisilVo> gasiVo;
+	private List<YeyakVo> yeyakVo;
 }

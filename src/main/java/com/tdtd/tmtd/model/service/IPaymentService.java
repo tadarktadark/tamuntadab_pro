@@ -51,7 +51,7 @@ public interface IPaymentService {
 	 * @param map
 	 * @return
 	 */
-	public List<GyeoljeVo> myPageClassPaymentList(Map<String, Object> map);	
+	public List<GeoljeVo> myPageClassPaymentList(Map<String, Object> map);	
 	/**
 	 * 위 메소드 결과의 ROW 갯수 반환
 	 * @param gyeoAccountId
@@ -64,7 +64,7 @@ public interface IPaymentService {
 	 * @param map
 	 * @return
 	 */
-	public List<GyeoljeVo> myPageRoomPaymentList(Map<String, Object> map);
+	public List<GeoljeVo> myPageRoomPaymentList(Map<String, Object> map);
 	
 	/**
 	 * 강의실 대여료 결제 내역 조회 (마이페이지)

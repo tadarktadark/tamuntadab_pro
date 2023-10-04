@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.comm.PagingUtils;
-import com.tdtd.tmtd.model.service.IChatService;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.IPaymentService;
 import com.tdtd.tmtd.model.service.ISubjectService;
@@ -43,9 +42,6 @@ public class ClassController {
 
 	@Autowired
 	private ISubjectService sService;
-
-	@Autowired
-	private IChatService chatService;
 	
 	@Autowired
 	private IPaymentService pService;

@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -23,17 +24,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.AccessToken;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.IPaymentService;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GeoljeVo;
-import com.tdtd.tmtd.vo.GyeoljeVo;
+import com.tdtd.tmtd.vo.PagingVo;
 import com.tdtd.tmtd.vo.SugangryoVo;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
@@ -249,5 +252,113 @@ public class PaymentContriller {
 			e.printStackTrace();
 		}
 		return "paySuccess";
+	}
+	
+	@PostMapping(value = "/getClassPaymentList.do")
+	@ResponseBody
+	public String getClassPaymentList(Model model, HttpSession session, 
+			@RequestParam("page") String pageAttr) {
+		
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("PaymentContriller getClassPaymentList 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("PaymentContriller getClassPaymentList 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
+		log.info("PaymentContriller getClassPaymentList 가져온 현재 페이지 = {}", pageAttr);
+		int thisPage = 0;
+		if (pageAttr == null) {
+			thisPage = 1;
+		} else {
+			thisPage = Integer.parseInt(pageAttr);
+		}
+		
+		int totalCount = pService.myPageClassPaymentListCount(userAccountId);
+		
+		log.info("PaymentContriller getClassPaymentList 형변환한 페이지 : {}",thisPage);
+		// 페이지에 사용될 정보 담기
+		PagingVo pVo = new PagingVo();
+		pVo.setTotalCount(totalCount);
+		pVo.setCountList(10);
+		pVo.setCountPage(5);
+		pVo.setTotalPage(pVo.getTotalPage());
+		pVo.setPage(thisPage);
+		pVo.setStartPage(pVo.getPage());
+		pVo.setEndPage(pVo.getPage());
+		
+		log.info("PaymentContriller getClassPaymentList 가져온 페이지 정보 : {}", pVo);
+		Map<String, Object> pagingMap = PagingUtils.paging(pageAttr, pVo.getTotalCount(), pVo.getCountList(),
+				pVo.getCountPage());
+		Map<String, Object> listMap = new HashMap<String, Object>();
+		listMap.put("first", pagingMap.get("start"));
+		listMap.put("last", pagingMap.get("end"));
+		listMap.put("gyeoAccountId", userAccountId);
+		
+		List<GeoljeVo> gVoList = pService.myPageClassPaymentList(listMap);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("gVoList", gVoList);
+		result.put("pVo", pVo);
+		
+		Gson gson = new Gson();
+
+		return gson.toJson(result);
+	}
+	
+	
+	@PostMapping(value = "/getYeyakPaymentList.do")
+	@ResponseBody
+	public String getYeyakPaymentList(Model model, HttpSession session, 
+			@RequestParam("page") String pageAttr) {
+		
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("PaymentContriller getClassPaymentList 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("PaymentContriller getClassPaymentList 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
+		log.info("PaymentContriller getClassPaymentList 가져온 현재 페이지 = {}", pageAttr);
+		int thisPage = 0;
+		if (pageAttr == null) {
+			thisPage = 1;
+		} else {
+			thisPage = Integer.parseInt(pageAttr);
+		}
+		
+		int totalCount = pService.myPageRoomPaymentListCount(userAccountId);
+		
+		log.info("PaymentContriller getClassPaymentList 형변환한 페이지 : {}",thisPage);
+		// 페이지에 사용될 정보 담기
+		PagingVo pVo = new PagingVo();
+		pVo.setTotalCount(totalCount);
+		pVo.setCountList(10);
+		pVo.setCountPage(5);
+		pVo.setTotalPage(pVo.getTotalPage());
+		pVo.setPage(thisPage);
+		pVo.setStartPage(pVo.getPage());
+		pVo.setEndPage(pVo.getPage());
+		
+		log.info("PaymentContriller getClassPaymentList 가져온 페이지 정보 : {}", pVo);
+		Map<String, Object> pagingMap = PagingUtils.paging(pageAttr, pVo.getTotalCount(), pVo.getCountList(),
+				pVo.getCountPage());
+		Map<String, Object> listMap = new HashMap<String, Object>();
+		listMap.put("first", pagingMap.get("start"));
+		listMap.put("last", pagingMap.get("end"));
+		listMap.put("gyeoAccountId", userAccountId);
+		
+		List<GeoljeVo> gVoList = pService.myPageRoomPaymentList(listMap);
+		log.info("PaymentContriller getClassPaymentList 리스트 정보 : {}", gVoList);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("gVoList", gVoList);
+		result.put("pVo", pVo);
+		
+		Gson gson = new Gson();
+
+		return gson.toJson(result);
 	}
 }

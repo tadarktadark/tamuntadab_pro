@@ -13,14 +13,23 @@
 		<result column="GYEO_STATUS" property="gyeoStatus"/>
 		<collection property="clasVo" resultMap="classMap"/>
 		<collection property="gasiVo" resultMap="gangeuisilMap"/>
+		<collection property="yeyakVo" resultMap="yeyakMap"/>
 	</resultMap>
 
 	<resultMap type="classVo" id="classMap">
+		<result column="CLAS_ID" property="clasId"/>
 		<result column="CLAS_TITLE" property="clasTitle"/>
 	</resultMap>
 	
 	<resultMap type="gangeuisilVo" id="gangeuisilMap">
 		<result column="GAGA_NAME" property="gagaName"/>
+		<result column="GACO_NAME" property="gacoName"/>
+	</resultMap>
+	
+	<resultMap type="yeyakVo" id="yeyakMap">
+		<result column="GAYE_YEYAK_DATE" property="gayeYeyakDate"/>
+		<result column="GAYE_START_TIME" property="gayeStartTime"/>
+		<result column="GAYE_HOURS" property="gayeHours"/>
 	</resultMap>
 
 	<!-- 결제 생성 -->
@@ -85,30 +94,36 @@
 	
 	<!-- 수강료 결제 내역 조회 (마이페이지) -->
 	<select id="myPageClassPaymentList" parameterType="java.util.Map" resultMap="gyeoljeMap">
-		SELECT CLAS_TITLE, GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS
-		FROM GYEOLJE g JOIN CLASS c 
-		ON GYEO_DAESANG_ID = CLAS_ID
-		WHERE GYEO_ID LIKE 'CL________'
-		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
-		ORDER BY GYEO_REGDATE DESC
+		SELECT CLAS_ID, CLAS_TITLE, GYEO_GEUMAEK, GYEO_WANRYOIL, GYEO_STATUS
+		FROM (SELECT c.CLAS_ID, c.CLAS_TITLE, GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS,
+			ROW_NUMBER() OVER (ORDER BY GYEO_REGDATE DESC) AS RN
+			FROM GYEOLJE g JOIN CLASS c
+			ON GYEO_DAESANG_ID = CLAS_ID
+			WHERE GYEO_ID LIKE 'CL________'
+			AND GYEO_ACCOUNT_ID=#{gyeoAccountId})
+		WHERE RN BETWEEN #{first} AND #{last}
 	</select>
 	<!-- 위 쿼리의 ROW 갯수 반환 -->
 	<select id="myPageClassPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
 		FROM GYEOLJE g 
 		JOIN CLASS c ON GYEO_DAESANG_ID = CLAS_ID
-		WHERE GYEO_ID LIKE 'CL________' 
+		WHERE GYEO_ID LIKE 'CL________'
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
 	</select>
 	
 	<!-- 강의실 대여료 결제 내역 조회 (마이페이지) -->
-	<select id="myPageRoomPaymentList" parameterType="java.lang.String" resultMap="gyeoljeMap">
-		SELECT GYEO_GEUMAEK, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS
+	<select id="myPageRoomPaymentList" parameterType="java.util.Map" resultMap="gyeoljeMap">
+		SELECT GYEO_STATUS, GACO_NAME, GAGA_NAME, GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS
+		FROM(SELECT GYEO_STATUS, GACO_NAME, GAGA_NAME, GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS,
+				ROW_NUMBER() OVER (ORDER BY GYEO_REGDATE DESC) AS RN
 		FROM GYEOLJE g JOIN GANGEUISIL_YEYAK gy
 		ON GYEO_DAESANG_ID = GAYE_ID
+		JOIN GANGEUISIL_GAEBYEOL gg ON GAYE_GAGA_ID = gg.GAGA_ID
+		JOIN GANGEUISIL_COMM gc ON gg.GAGA_GACO_ID = gc.GACO_ID
 		WHERE GYEO_ID LIKE 'RE________'
-		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
-		ORDER BY GYEO_REGDATE DESC
+		AND GYEO_ACCOUNT_ID= #{gyeoAccountId})
+		WHERE RN BETWEEN #{first} AND #{last}
 	</select>
 	<!-- 강의실 대여료 결제 내역 갯수 조회 (마이페이지) -->
 	<select id="myPageRoomPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">

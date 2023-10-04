@@ -53,7 +53,7 @@ public class PaymentDaoImpl implements IPaymentDao {
 	}
 
 	@Override
-	public List<GyeoljeVo> myPageClassPaymentList(Map<String, Object> map) {
+	public List<GeoljeVo> myPageClassPaymentList(Map<String, Object> map) {
 		log.info("PaymentDaoImpl myPageClassPaymentList 실행");
 		return sqlSession.selectList(NS+"myPageClassPaymentList",map);
 	}
@@ -65,7 +65,7 @@ public class PaymentDaoImpl implements IPaymentDao {
 	}
 
 	@Override
-	public List<GyeoljeVo> myPageRoomPaymentList(Map<String, Object> map) {
+	public List<GeoljeVo> myPageRoomPaymentList(Map<String, Object> map) {
 		log.info("PaymentDaoImpl myPageRoomPaymentList 실행");
 		return sqlSession.selectList(NS+"myPageRoomPaymentList",map);
 	}
