@@ -12,8 +12,8 @@ public class URLVo {
 	private String googleUrl="https://accounts.google.com/o/oauth2/auth";
 	
 	//리다이렉트 URL
-	private String naverRedirect = "http://localhost:8090/tamuntadab_pro/naverRedirect.do";
-	private String kakaoRedirect = "http://localhost:8090/tamuntadab_pro/kakaoRedirect.do";
+	private String naverRedirect = "http://158.180.71.118:8089/tamuntadab_pro/naverRedirect.do";
+	private String kakaoRedirect = "http://158.180.71.118:8089/tamuntadab_pro/kakaoRedirect.do";
 	private String googleRedirect = "http://localhost:8090/tamuntadab_pro/googleRedirect.do";
 
 	//토큰 요청 URL
