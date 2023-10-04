@@ -360,27 +360,27 @@ body[data-revision-history='true'] .ck.ck-pagination-view-line::after {
 }
 
 /* --------- SAMPLE GENERIC STYLES (not related to CKEditor) ------------------------------------------------------- */
-body, html {
-	padding: 0;
-	margin: 0;
+/* body, html { */
+/* 	padding: 0; */
+/* 	margin: 0; */
 
-	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-size: 16px;
-	line-height: 1.5;
-}
+/* 	font-family: sans-serif, Arial, Verdana, "Trebuchet MS", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; */
+/* 	font-size: 16px; */
+/* 	line-height: 1.5; */
+/* } */
 
-body {
-	height: 100%;
-	color: #2D3A4A;
-}
+/* body { */
+/* 	height: 100%; */
+/* 	color: #2D3A4A; */
+/* } */
 
-body * {
-	box-sizing: border-box;
-}
+/* body * { */
+/* 	box-sizing: border-box; */
+/* } */
 
-a {
-	color: #38A5EE;
-}
+/* a { */
+/* 	color: #38A5EE; */
+/* } */
 
 header .centered {
 	display: flex;
@@ -427,28 +427,28 @@ header nav ul li a:hover {
 	text-decoration: underline;
 }
 
-main .message {
-	padding: 0 0 var(--ck-sample-base-spacing);
-	background: var(--ck-sample-color-green);
-	color: var(--ck-sample-color-white);
-}
+/* main .message { */
+/* 	padding: 0 0 var(--ck-sample-base-spacing); */
+/* 	background: var(--ck-sample-color-green); */
+/* 	color: var(--ck-sample-color-white); */
+/* } */
 
-main .message::after {
-	content: "";
-	z-index: -1;
-	display: block;
-	height: 10em;
-	width: 100%;
-	background: var(--ck-sample-color-green);
-	position: absolute;
-	left: 0;
-}
+/* main .message::after { */
+/* 	content: ""; */
+/* 	z-index: -1; */
+/* 	display: block; */
+/* 	height: 10em; */
+/* 	width: 100%; */
+/* 	background: var(--ck-sample-color-green); */
+/* 	position: absolute; */
+/* 	left: 0; */
+/* } */
 
-main .message h2 {
-	position: relative;
-	padding-top: 1em;
-	font-size: 2em;
-}
+/* main .message h2 { */
+/* 	position: relative; */
+/* 	padding-top: 1em; */
+/* 	font-size: 2em; */
+/* } */
 
 .centered {
 	/* Hide overlapping comments. */
@@ -458,35 +458,35 @@ main .message h2 {
 	padding: 0 var(--ck-sample-base-spacing);
 }
 
-.row {
-	display: flex;
-	position: relative;
-}
+/* .row { */
+/* 	display: flex; */
+/* 	position: relative; */
+/* } */
 
-.btn {
-	cursor: pointer;
-	padding: 8px 16px;
-	font-size: 1rem;
-	user-select: none;
-	border-radius: 4px;
-	transition: color .2s ease-in-out,background-color .2s ease-in-out,border-color .2s ease-in-out,opacity .2s ease-in-out;
-	background-color: var(--ck-sample-color-button-blue);
-	border-color: var(--ck-sample-color-button-blue);
-	color: var(--ck-sample-color-white);
-	display: inline-block;
-}
+/* .btn { */
+/* 	cursor: pointer; */
+/* 	padding: 8px 16px; */
+/* 	font-size: 1rem; */
+/* 	user-select: none; */
+/* 	border-radius: 4px; */
+/* 	transition: color .2s ease-in-out,background-color .2s ease-in-out,border-color .2s ease-in-out,opacity .2s ease-in-out; */
+/* 	background-color: var(--ck-sample-color-button-blue); */
+/* 	border-color: var(--ck-sample-color-button-blue); */
+/* 	color: var(--ck-sample-color-white); */
+/* 	display: inline-block; */
+/* } */
 
 .btn--tiny {
 	padding: 6px 12px;
 	font-size: .8rem;
 }
 
-footer {
-	margin: calc(2*var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing);
-	font-size: .8em;
-	text-align: center;
-	color: rgba(0,0,0,.4);
-}
+/* footer { */
+/* 	margin: calc(2*var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing); */
+/* 	font-size: .8em; */
+/* 	text-align: center; */
+/* 	color: rgba(0,0,0,.4); */
+/* } */
 
 /* --------- RWD --------------------------------------------------------------------------------------------------- */
 @media screen and ( max-width: 800px ) {

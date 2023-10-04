@@ -106,7 +106,7 @@
 		        	<p class="list-text mb-0 fs-12"> 
 			        	<i class=" ri-timer-2-fill"></i>&ensp;{{regdate}}&ensp;
 				    	<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
-			        	<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
+			        	<i class="ri-heart-fill"></i>&ensp;<span id="lickCount">{{likeCount}}</span>&ensp;
 		        	</p>
 		    	</div>
 			</div>

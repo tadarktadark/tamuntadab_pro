@@ -9,7 +9,7 @@
 <%@ include file="./shared/_logout.jsp" %>
 <%@ include file="./shared/_head_css.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-<!-- <link href="./css/ckeditor.css" rel="stylesheet" type="text/css" /> -->
+<link href="./css/ckeditor.css" rel="stylesheet" type="text/css" />
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <link href="./css/communityDetails.css" rel="stylesheet" type="text/css" />
 </head>
@@ -56,14 +56,16 @@
 					                            <div class="col-xl-9 col-md-12">
 					                                <div class="pb-3 pb-xl-0">
 					                                	<div class="d-flex gap-2 flex-shrink-0">
-					                                		<c:choose>
-					                                			<c:when test="${bVo.likeUser eq 1}">
-														        	<img src="./image/heart_cancel.png" alt="" class="avatar-sm rounded-circle like-do" id="${bVo.id}"/>
-					                                			</c:when>
-					                                			<c:otherwise>
-														        	<img src="./image/heart_do.png" alt="" class="avatar-sm rounded-circle like-do" id="${bVo.id}"/>
-					                                			</c:otherwise>
-					                                		</c:choose>
+					                                		<div class="flex-shrink-0">
+						                                		<c:choose>
+						                                			<c:when test="${bVo.likeUser eq 1}">
+															        	<img src="./image/heart_cancel.png" alt="" class="avatar-sm rounded-circle like-do" id="${bVo.id}"/>
+						                                			</c:when>
+						                                			<c:otherwise>
+															        	<img src="./image/heart_do.png" alt="" class="avatar-sm rounded-circle like-do" id="${bVo.id}"/>
+						                                			</c:otherwise>
+						                                		</c:choose>
+													    	</div>
 					                                		<div>
 							                                    <h4 id="title">${bVo.title}
 							                                    	<c:if test="${bVo.chaetaek eq 'Y'}">
@@ -77,7 +79,7 @@
 													        		</c:if>
 													        		<i class="ri-timer-2-fill"></i>&ensp;${bVo.regdate}&ensp;
 														    		<i class="ri-eye-fill"></i>&ensp;${bVo.viewCount}&ensp;
-													        		<i class="ri-heart-fill"></i>&ensp;<span>${bVo.likeCount}</span>&ensp;
+													        		<i class="ri-heart-fill"></i>&ensp;<span id="lickCount">${bVo.likeCount}</span>&ensp;
 													        	</p>
 					                                		</div>
 												    	</div>
