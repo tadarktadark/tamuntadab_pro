@@ -30,7 +30,7 @@
 	                            	<col width="300px">
 	                            	<col width="100px">
 	                            	<col width="100px">
-	                            	<col width="100px">                 	
+	                            	<col width="100px">
 	                                <thead class="table-primary">
 	                                    <tr>
 	                                        <th scope="col" style="width: 50px;" class="bg-primary">
