@@ -4,6 +4,9 @@
     <div class="layout-width">
         <div class="navbar-header">
             <div class="d-flex">
+            	<a href="./adminLogout.do">
+            		로그아웃
+            	</a>
             </div>
         </div>
     </div>

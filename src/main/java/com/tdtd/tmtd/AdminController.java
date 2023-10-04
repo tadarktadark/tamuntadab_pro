@@ -585,5 +585,20 @@ public class AdminController {
 	public String adminLogout() {
 		return "<script>location.href='./admin.do';</script>";
 	}
+	/**
+	 * WOON 관리자 페이지에서 메인으로 가는 메소드
+	 * 
+	 * @return 
+	 * 
+	 * @author 임정운
+	 * 
+	 * @since 2023.10.04
+	 * 
+	 */
+	@RequestMapping(value="admin/backToMain.do",method=RequestMethod.GET)
+	@ResponseBody
+	public String backToMain() {
+		return "<script>location.href='../main.do';</script>";
+	}
 }
 

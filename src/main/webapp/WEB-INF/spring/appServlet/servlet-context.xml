@@ -79,6 +79,7 @@
 		<mvc:mapping path="/admin/**"/>
 		<mvc:exclude-mapping path="/admin/admin.do"/>
 		<mvc:exclude-mapping path="/admin/adminLogin.do"/>
+		<mvc:exclude-mapping path="/admin/backToMain.do"/>
 		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAfterLoginInterceptor" />
 	</mvc:interceptor>
     <mvc:interceptor>
