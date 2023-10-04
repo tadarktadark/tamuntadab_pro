@@ -3,20 +3,15 @@ package com.tdtd.tmtd.model.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.checkerframework.checker.units.qual.cd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
 import com.tdtd.tmtd.model.mapper.IInstrDao;
 import com.tdtd.tmtd.vo.UserProfileVo;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class CommUserServiceImpl implements ICommUserService {
 	
 	@Autowired
@@ -38,7 +33,8 @@ public class CommUserServiceImpl implements ICommUserService {
 	public int searchJeongJi(UserProfileVo userInfo) {
 		return cdao.searchJeongJi(userInfo);
 	}
-
+	
+	@Transactional
 	@Override
 	public Map<String, Object> commLogin(Map<String, String> userInput) {
 		Map<String,Object> result = new HashMap<String, Object>();
@@ -170,13 +166,15 @@ public class CommUserServiceImpl implements ICommUserService {
 		return n>1?1:0;
 	}
 
+	@Transactional
 	@Override
 	public int updateUserDelflagToY(UserProfileVo vo) {
 		int n = cdao.insertUserDelTable(vo);
 		int m = cdao.updateUserDelflagToY(vo);
 		return (n+m)>1?1:0;
 	}
-
+	
+	@Transactional
 	@Override
 	public String checkPayment(UserProfileVo vo) {
 		if(vo.getUserAuth().equals("S")) {

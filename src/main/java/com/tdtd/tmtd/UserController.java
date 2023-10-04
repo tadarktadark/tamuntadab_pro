@@ -668,7 +668,7 @@ public class UserController {
 	 * @since 2023.09.08
 	 *
 	 */
-	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
+	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET, produces = "text/html; charset=UTF-8")
 	@ResponseBody
 	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
 		int n = commUserService.updatedelflag(tokenValue);
