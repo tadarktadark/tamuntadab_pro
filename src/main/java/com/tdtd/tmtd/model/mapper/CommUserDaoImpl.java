@@ -113,6 +113,10 @@ public class CommUserDaoImpl implements ICommUserDao {
 	public String jeongjidate(UserProfileVo userInfo) {
 		return sqlSession.selectOne(NS+"jeongjidate",userInfo);
 	}
+	@Override
+	public int countDeluser() {
+		return sqlSession.selectOne(NS+"countDeluser");
+	}
 	
 	
 

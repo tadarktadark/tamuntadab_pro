@@ -34,25 +34,32 @@
 		 AND JEON_STATUS = 'N'
 	</select>
 	
+	<select id="countDeluser" resultType="java.lang.Integer">
+		    SELECT COUNT(*) FROM DELETED_USER_PROFILE
+	</select>
+	
 	<update id="updateUserDelflagToY">
-		UPDATE  
-		<choose>
-				<when test='userSite == "T"'>
-					USER_PROFILE SET USER_CHADAN_COUNT=0, USER_CHADAN_REGIST_DATE=NULL, USER_PASSWORD_RESET_TOKEN= NULL,
-				</when>
-				<when test='userSite == "N"'>
-					NAVER_USER_PROFILE SET
-				</when>
-				<when test='userSite == "K"'>
-					KAKAO_USER_PROFILE SET
-				</when>
-				<when test='userSite == "G"'>
-					GOOGLE_USER_PROFILE SET
-				</when>
-		</choose>
-			USER_EMAIL=#{userAccountId}, USER_NAME='탈퇴계정' || (SELECT COUNT(*)  FROM DELETED_USER_PROFILE), 
-			USER_NICKNAME='탈퇴계정' || (SELECT COUNT(*)  FROM DELETED_USER_PROFILE), USER_PHONE_NUMBER=(SELECT COUNT(*)  FROM DELETED_USER_PROFILE),USER_DELFLAG='Y'
-				WHERE USER_ACCOUNT_ID = #{userAccountId}
+	    UPDATE  
+	    <choose>
+	        <when test='userSite == "T"'>
+	            USER_PROFILE SET USER_CHADAN_COUNT=0, USER_CHADAN_REGIST_DATE=NULL, USER_PASSWORD_RESET_TOKEN= NULL,
+	        </when>
+	        <when test='userSite == "N"'>
+	            NAVER_USER_PROFILE SET
+	        </when>
+	        <when test='userSite == "K"'>
+	            KAKAO_USER_PROFILE SET
+	        </when>
+	        <when test='userSite == "G"'>
+	            GOOGLE_USER_PROFILE SET
+	        </when>
+	    </choose>
+	    USER_EMAIL=#{userAccountId}, 
+	    USER_NAME=CONCAT('탈퇴계정', #{deletedCount}), 
+	    USER_NICKNAME=CONCAT('탈퇴계정', #{deletedCount}), 
+	    USER_PHONE_NUMBER=#{deletedCount},
+	    USER_DELFLAG='Y'
+		WHERE USER_ACCOUNT_ID = #{userAccountId}
 	</update>
 	
 	<insert id="insertUserDelTable">
