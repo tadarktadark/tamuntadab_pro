@@ -200,4 +200,13 @@ public interface ICommUserDao {
 	 */
 	public int searchUserJeongSan(UserProfileVo vo);
 	
+	/**
+	 * 
+	 * WOON 사용자 삭제시 삭제 테이블 인원을 가져오는 메소드
+	 *
+	 * @return 테이블 row의 갯수
+	 * @author : Administrator
+	 * @since : 2023.09.
+	 */
+	public int countDeluser();
 }

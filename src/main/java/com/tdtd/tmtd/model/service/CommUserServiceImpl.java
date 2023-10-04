@@ -170,6 +170,7 @@ public class CommUserServiceImpl implements ICommUserService {
 	@Override
 	public int updateUserDelflagToY(UserProfileVo vo) {
 		int n = cdao.insertUserDelTable(vo);
+		vo.setDeletedCount(cdao.countDeluser());
 		int m = cdao.updateUserDelflagToY(vo);
 		return (n+m)>1?1:0;
 	}
