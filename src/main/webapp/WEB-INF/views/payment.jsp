@@ -137,7 +137,7 @@
                                                                 </th>
                                                                 <td class="text-start" style="text-align: center;">
                                                                     <span class="fw-medium">${classVo.clasTitle}</span>
-                                                                    <p class="text-muted mb-0" id="clasId">${clasVo.clasId}</p>
+                                                                    <p class="text-muted mb-0" id="clasId">${classVo.clasId}</p>
                                                                 </td>
                                                                 <td>${sugangryoVo.sugaYocheongGeumaek} 원</td>
                                                                 <td>${classVo.clasHyeonjaeInwon} 명</td>

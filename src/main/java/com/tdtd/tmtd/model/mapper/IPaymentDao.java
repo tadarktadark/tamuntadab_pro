@@ -29,7 +29,7 @@ public interface IPaymentDao {
 	 * @param GyeoljeVo
 	 * @return
 	 */
-	public int updatePayStatusInPayment(GyeoljeVo vo);
+	public int updatePayStatusInPayment(GeoljeVo vo);
 	
 	/**
 	 * 환불 테이블 insert

@@ -35,7 +35,7 @@ public class PaymentServiceImpl implements IPaymentService {
 	}
 
 	@Override
-	public int updatePayStatusInPayment(GyeoljeVo vo) {
+	public int updatePayStatusInPayment(GeoljeVo vo) {
 		log.info("PaymentServiceImpl updatePayStatusInPayment 실행");
 		return dao.updatePayStatusInPayment(vo);
 	}

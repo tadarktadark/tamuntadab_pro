@@ -154,18 +154,35 @@ public class PaymentContriller {
 	
 	//결제한 후 서버로 데이터 전송 및 DB 입력 위해 값 받아오기
 	@PostMapping(value="/doPay.do")
-	public void getPay(String merchant_uid, String imp_uid, String clasId, String accountId) {
+	public void getPay(String merchant_uid, String imp_uid, String clasId, String accountId, String method) {
 		log.info("merchant_uid : {}", merchant_uid);
 		log.info("imp_uid : {}", imp_uid);
+		log.info("clasId : {}", clasId);
+		log.info("accountId : {}", accountId);
 		this.getToken();
 		
-		GyeoljeVo geoljeVo = new GyeoljeVo();
+		if(method.equals("kakaopay.TC0ONETIME")) {
+		    method="K";
+		} else if(method.equals("tosspay")) {
+		    method="P";
+		} else if(method.equals("html5_inicis")) {
+		    method="G";
+		}
+		
+		GeoljeVo geoljeVo = new GeoljeVo();
 		geoljeVo.setGyeoStatus("P");
 		geoljeVo.setGyeoUid(imp_uid);
 		geoljeVo.setGyeoMid(merchant_uid);
 		geoljeVo.setGyeoDaesangId(clasId);
 		geoljeVo.setGyeoAccountId(accountId);
+		geoljeVo.setGyeoBangbeop(method);
 		pService.updatePayStatusInPayment(geoljeVo);
+		
+		Map<String, Object> chMap = new HashMap<String, Object>();
+		chMap.put("clchGyeoljeStatus", "Y");
+		chMap.put("clchClasId", clasId);
+		chMap.put("clchAccountId", accountId);
+		pService.updatePayStatusInChamyeo(chMap);
 	}
 	
 	//환불

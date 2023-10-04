@@ -25,7 +25,7 @@
 
 	<!-- 결제 생성 -->
 	<insert id="newPayment" parameterType="geoljeVo">
-		INSERT INTO TMTD.GYEOLJE
+		INSERT INTO GYEOLJE
 			(GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, GYEO_ACCOUNT_ID, GYEO_REGDATE, GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS, GYEO_UID, GYEO_MID)
 		VALUES('CL' || GYEO_ID_SEQ.NEXTVAL, #{gyeoGeumaek}, #{gyeoDaesangId}, #{gyeoAccountId}, CURRENT_DATE , '', '', 'W' , '', '')
 	</insert>
@@ -59,16 +59,18 @@
 	<!-- 결제 상태 변경 (결제 테이블) -->
 	<update id="updatePayStatusInPayment" parameterType="geoljeVo">
 		UPDATE GYEOLJE 
-		SET GYEO_STATUS =#{gyeoStatus},
+		SET GYEO_STATUS = #{gyeoStatus},
 		    GYEO_UID = #{gyeoUid},
-		    GYEO_MID = #{gyeoMid}
+		    GYEO_MID = #{gyeoMid},
+		    GYEO_WANRYOIL= CURRENT_DATE,
+		    GYEO_BANGBEOP= #{gyeoBangbeop}
 		WHERE GYEO_DAESANG_ID =#{gyeoDaesangId}
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
 	</update>
 	
 	<!-- 환불 테이블 insert -->
 	<insert id="insertHwanbul" parameterType="hwanbulVo">
-		INSERT INTO TMTD.HWANBUL
+		INSERT INTO HWANBUL
 			(HWAN_ID, HWAN_GYEOLJE_ID, HWAN_STATUS, HWAN_REGDATE, HWAN_GEUMAEK, HWAN_REASON)
 		VALUES(HWAN_ID_SEQ.NEXTVAL, #{hwanGyeoljeId}, #{hwanStatus}, CURRENT_DATE, #{hwanGeumaek}, #{hwanReason})
 	</insert>
