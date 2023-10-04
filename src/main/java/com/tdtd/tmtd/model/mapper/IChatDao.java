@@ -11,41 +11,58 @@ import com.tdtd.tmtd.vo.UserProfileVo;
 
 public interface IChatDao {
 
-//	채팅방 목록 조회
+	// 채팅방 목록 조회
 	public List<ChatRoomVo> getChatRoomList(String accountId);
-//	채팅방 조회
+
+	// 채팅방 조회
 	public ChatRoomVo getChatDetail(String chroId);
-	//채팅방 클래스아이디로 조회
+
+	// 채팅방 클래스아이디로 조회
 	public ChatRoomVo getChatDetailByClasId(int chroClasId);
-//	채팅방 참가자 정보 조회
+
+	// 채팅방 참가자 정보 조회
 	public List<ChatUserVo> getChatUserList(String chusChroId);
-//	채팅방 생성
-	public int insertChatRoom(Map<String,Object> map);
-//	채팅방 참가자 추가
+
+	// 채팅방 생성
+	public int insertChatRoom(Map<String, Object> map);
+
+	// 채팅방 참가자 추가
 	public int insertChatUser(ChatUserVo vo);
-//	채팅 저장하기
+
+	// 채팅 저장하기
 	public int updateChatLog(ChatRoomVo vo);
-//	채팅방 삭제
+
+	// 채팅방 삭제
 	public int delChatRoom(String chroId);
-//	채팅방에 있는 모든 참가자 삭제
+
+	// 채팅방에 있는 모든 참가자 삭제
 	public int delAllChatUser(String chusChroId);
-//	채팅 참가자 퇴장
+
+	// 채팅 참가자 퇴장
 	public int delChatUser(int chusId);
-	//클래스 정보 조회
+
+	// 클래스 정보 조회
 	public ClassVo getClassInfo(int clasId);
-	//클래스 참가자 목록 조회
+
+	// 클래스 참가자 목록 조회
 	public List<ChamyeoVo> getClassUser(int clchClasId);
-	//유저 정보 조회
+
+	// 유저 정보 조회
 	public UserProfileVo getInstrInfo(String userAccountId);
-	//채팅방 세기
-	public int countChatRoom(Map<String,Object> map);
-	//클래스채팅방 세기
+
+	// 채팅방 세기
+	public int countChatRoom(Map<String, Object> map);
+
+	// 클래스채팅방 세기
 	public int countClassChatRoom(int chroClasId);
-	//채팅방 총 채팅 수 증가
+
+	// 채팅방 총 채팅 수 증가
 	public int updateChatCount(String chroId);
-	//유저 읽은 채팅 수 저장
-	public int updateUserChatCount(Map<String,Object> map);
-	//채팅 유저 상세 조회
-	public ChatUserVo getChatUser(Map<String,Object> map);
-	
+
+	// 유저 읽은 채팅 수 저장
+	public int updateUserChatCount(Map<String, Object> map);
+
+	// 채팅 유저 상세 조회
+	public ChatUserVo getChatUser(Map<String, Object> map);
+
 }
