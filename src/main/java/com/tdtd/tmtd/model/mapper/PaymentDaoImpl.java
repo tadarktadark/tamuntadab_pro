@@ -35,7 +35,7 @@ public class PaymentDaoImpl implements IPaymentDao {
 	}
 
 	@Override
-	public int updatePayStatusInPayment(GyeoljeVo vo) {
+	public int updatePayStatusInPayment(GeoljeVo vo) {
 		log.info("PaymentDaoImpl updatePayStatusInPayment 실행");
 		return sqlSession.update(NS+"updatePayStatusInPayment",vo);
 	}
