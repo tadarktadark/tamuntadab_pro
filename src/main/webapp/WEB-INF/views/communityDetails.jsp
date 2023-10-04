@@ -9,7 +9,7 @@
 <%@ include file="./shared/_logout.jsp" %>
 <%@ include file="./shared/_head_css.jsp" %>
 <link href="./assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-<link href="./css/ckeditor.css" rel="stylesheet" type="text/css" />
+<!-- <link href="./css/ckeditor.css" rel="stylesheet" type="text/css" /> -->
 <link href="./css/community.css" rel="stylesheet" type="text/css" />
 <link href="./css/communityDetails.css" rel="stylesheet" type="text/css" />
 </head>
