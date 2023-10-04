@@ -37,11 +37,7 @@ import com.google.protobuf.ByteString;
 import com.tdtd.tmtd.model.mapper.IFileDao;
 import com.tdtd.tmtd.vo.FileVo;
 
-/**
- * 파일 관련 Service
- * @author 문희애
- *
- */
+
 @Service
 public class FileServiceImpl implements IFileService {
 	
@@ -64,26 +60,19 @@ public class FileServiceImpl implements IFileService {
         areas.put("careCompany", new Rectangle(576,2830,624,70));   
     }
 	
-    /**
-	 * 파일 업로드시 DB 저장
-	 */
+    
     @Override
     public int insertFile(Map<String, Object> map) {
     	return dao.insertFile(map);
     }
     
-    /**
-	 * 파일 정보 조회
-	 */
+    
     @Override
     public FileVo getFile(String fileRekPk) {
     	return dao.getFile(fileRekPk);
     }
     
-    /**
-     * 파일을 서버에 업로드
-     * @return uploadInfo - originalName 원본파일명 / saveName 저장파일명 / path 저장경로 / uploadDate 저장일
-     */
+    
 	@SuppressWarnings("resource")
 	public Map<String, Object> fileSave(MultipartFile file, HttpServletRequest request) throws IOException {
 	        String originalFileName = file.getOriginalFilename();
@@ -129,10 +118,7 @@ public class FileServiceImpl implements IFileService {
 	     return uploadInfo;  
 	    }
 	
-		/**
-		 * 서버에 있는 파일 다운로드
-		 * @return File
-		 */
+		
 		public File fileDownload(HttpServletRequest request, String saveFileName) throws IOException {
 			// 파일 다운로드를 위한 물리적인 주소(가상으로 배포된 물리적인 주소)
 			String path = WebUtils.getRealPath(request.getSession().getServletContext(), "/storage");
@@ -148,10 +134,7 @@ public class FileServiceImpl implements IFileService {
 			return file;
 		}
 
-		/**
-		 * Google OCR 실행 전 PDF를 PNG로 변환
-		 * @return convertedFileNames 변환된 PNG 파일 이름 리스트
-		 */
+		
 	    public List<String> convertPdfToPng(String pdfFilePath, String outputDir) throws Exception{
 	    	File pdfFile = new File(pdfFilePath);
 		    PDDocument document = PDDocument.load(pdfFile);
@@ -176,10 +159,7 @@ public class FileServiceImpl implements IFileService {
 		    return convertedFileNames;
 	    }
 
-	    /**
-	     * Google OCR 실행 메소드
-	     * @return extractedTextMap 추출된 문자열 (key: careerVo 필드명)
-	     */
+	   
 	    public Map<String,Object> extractTextFromAreas(String fileName){
 	    	Map<String,Object> extractedTextMap = new HashMap<>();
 	    	
@@ -240,11 +220,7 @@ public class FileServiceImpl implements IFileService {
 	    	return extractedTextMap;
 	     }
 	    
-	    /**
-	     * Google OCR 실행시 PNG파일의 내용을 byte로 변환하는 메소드
-	     * @param img PNG 파일
-	     * @return 변환된 byteArray
-	     */
+	   
 	    private static byte[] toByteArray(BufferedImage img) throws IOException {
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	        ImageIO.write(img, "png", baos);

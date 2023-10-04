@@ -52,6 +52,10 @@ a {
    max-width: 200px; 
    height: auto;
 }
+
+.avatar-sm {
+	cursor: pointer;
+}
 </style>
 </head>
 <body class="twocolumn-panel">
@@ -135,7 +139,7 @@ a {
 							<div id="currentCount">
 								<p class="list-text mb-0 fs-12 mt-4">
 									<i class="ri-eye-fill"></i>&ensp;${simpleVo.inprViewCount}&ensp;
-									<i class="ri-heart-fill"></i>&ensp;<span>${simpleVo.inprLikeCount}</span>&ensp;
+									<i class="ri-heart-fill"></i>&ensp;<span id="heartCount">${simpleVo.inprLikeCount}</span>&ensp;
 								</p>
 							</div>
 						</div>
@@ -465,7 +469,7 @@ function handleChatClick() {
 <script id="current-count-template" type="text/x-handlebars-template">
 	<p class="list-text mb-0 fs-12 mt-4"> 
 		<i class="ri-eye-fill"></i>&ensp;{{viewCount}}&ensp;
-		<i class="ri-heart-fill"></i>&ensp;<span>{{likeCount}}</span>&ensp;
+		<i class="ri-heart-fill"></i>&ensp;<span id="heartCount">{{likeCount}}</span>&ensp;
 	</p>
 </script>
 <script id="class-history-template" type="text/x-handlebars-template">
