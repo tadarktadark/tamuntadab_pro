@@ -6,6 +6,7 @@ import java.util.Map;
 import org.checkerframework.checker.units.qual.cd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.gson.Gson;
 import com.tdtd.tmtd.model.mapper.ICommUserDao;
@@ -159,6 +160,7 @@ public class CommUserServiceImpl implements ICommUserService {
 		return "false";
 	}
 
+	@Transactional
 	@Override
 	public int updatedelflag(Map<String, Object> userToken) {
 		int n = cdao.updatedelflag(userToken);
