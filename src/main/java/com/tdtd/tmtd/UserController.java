@@ -669,10 +669,11 @@ public class UserController {
 	 *
 	 */
 	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
+	@ResponseBody
 	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
 		int n = commUserService.updatedelflag(tokenValue);
 		if(n>0) {
-			return "redirect:main.do";
+			return "<script>alert('해제 되었습니다.');location.href='./main.do';</script>";
 		}else {
 			resp.sendError(500);
 			return null;
