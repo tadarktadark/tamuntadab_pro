@@ -122,7 +122,7 @@ a {
 							class="bx bxs-bookmark" style="vertical-align: middle;"></i>&nbsp;이런
 							과목들을 배울 수 있어요 </span>
 					<div id="subjectDiv">
-						<div id="subjectTagSlider"></div>
+						<div id="subjectTagSlider"> </div>
 					</div>
 					<span class="badge bg-success-subtle text-success  badge-border"
 						style="width: 300px; text-align: left; display: block; margin-top: 5%; margin-bottom: 3%; font-size: 1.2em;">
