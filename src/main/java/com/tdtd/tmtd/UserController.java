@@ -528,12 +528,10 @@ public class UserController {
 	public String sendSMS(@RequestParam String phoneNumber) {
 		Map<String, String> sendMap = new HashMap<String, String>();
 
-		// 랜덤 난수 발생
-		Random ran = new Random();
-		sendMap.put("code", "" + ran.nextInt(10000));
+		sendMap.put("code", "" + (int)(Math.random() * 8999) + 1000);
 		// coolSMS API사용
-		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLH5XMRHNML98D",
-				"SCDV2ABM6KXGAUPYYEWZEL1C92RU0NOJ", "https://api.coolsms.co.kr");
+		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSZADE5ZEC1DZR3",
+				"HQMRDEF5F5WUBE15UHVGMYSOY4PVFBJS", "https://api.coolsms.co.kr");
 		Message message = new Message();
 		message.setFrom("01022546438");
 		message.setTo(phoneNumber);
