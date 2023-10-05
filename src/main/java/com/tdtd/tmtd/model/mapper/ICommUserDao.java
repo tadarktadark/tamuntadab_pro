@@ -209,4 +209,5 @@ public interface ICommUserDao {
 	 * @since : 2023.09.
 	 */
 	public int countDeluser();
+	
 }
