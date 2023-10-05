@@ -56,15 +56,20 @@
 												<div class="col-lg-6 col-6">
 												    <p class="text-muted mb-1 text-uppercase fw-medium fs-13">결제 기한</p>
 												    <h5 class="fs-16 mb-0">
-												        <span id="payment-due-date">
-												            ${formattedDueDate}
-												        </span> 
+												        <span id="payment-due-date">${formattedDueDate.split(' ')[0]} ${formattedDueDate.split(' ')[1]} ${formattedDueDate.split(' ')[2]}</span>
 												    </h5>
 												</div>
 
                                                 <div class="col-lg-6 col-6">
                                                     <p class="text-muted mb-1 text-uppercase fw-medium fs-13">총 결제금액</p>
-                                                    <h5 class="fs-16 mb-0"><span id="total-amount">${sugangryoVo.sugaYocheongGeumaek}</span></h5>
+                                                    <c:choose>
+												        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+												            <h5 class="fs-16 mb-0"><span id="total-amount">${sugangryoVo.sugaYocheongGeumaek}</span></h5>
+												        </c:when>
+												        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+												            <h5 class="fs-16 mb-0"><span id="total-amount">${gyeoljeVo.yeyakVo[0].gayeHours * gyeoljeVo.gasiVo[0].gagaHourPrice}</span></h5>
+												        </c:when>
+												    </c:choose>
                                                 </div>
                                             </div>
                                         </div>
@@ -97,7 +102,7 @@
                                                 <div class="col-6">
 	                                                <h6 class="text-muted text-uppercase mb-3">청구 금액</h6>
 	                                                <h3 class="fw-bold mb-2">${gyeoljeVo.gyeoGeumaek} 원</h3>
-	                                                <span class="badge bg-success-subtle text-success  fs-12">납부 마감 : ${formattedDueDate}</span>
+	                                                <span class="badge bg-success-subtle text-success  fs-12">납부 마감 : ${formattedDueDate.split(' ')[0]} ${formattedDueDate.split(' ')[1]} ${formattedDueDate.split(' ')[2]}</span>
                                                 </div>
                                                 <!--end col-->
                                             </div>
@@ -135,12 +140,36 @@
 																        </c:when>
 																    </c:choose>
                                                                 </th>
-                                                                <td class="text-start" style="text-align: center;">
-                                                                    <span class="fw-medium">${classVo.clasTitle}</span>
-                                                                    <p class="text-muted mb-0" id="clasId">${classVo.clasId}</p>
-                                                                </td>
-                                                                <td>${sugangryoVo.sugaYocheongGeumaek} 원</td>
-                                                                <td>${classVo.clasHyeonjaeInwon} 명</td>
+                                                                <c:choose>
+															        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+															        	<td class="text-start" style="padding-left:100px;">
+		                                                                    <span class="fw-medium">${classVo.clasTitle}</span>
+		                                                                    <p class="text-muted mb-0" id="clasId">${classVo.clasId}</p>
+		                                                                </td>    
+															        </c:when>
+															        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+															        	<td class="text-start" style="padding-left:100px;">
+		                                                                    <span class="fw-medium">${gyeoljeVo.gasiVo[0].gacoName}&nbsp;${gyeoljeVo.gasiVo[0].gagaName}&nbsp;${gyeoljeVo.yeyakVo[0].gayeHours}시간</span>
+		                                                                    <p class="text-muted mb-0" id="clasId">${gyeoljeVo.yeyakVo[0].gayeId}</p>
+		                                                                </td>    
+															        </c:when>
+															    </c:choose>
+															    <c:choose>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+																            <td>${sugangryoVo.sugaYocheongGeumaek} 원</td>
+																    </c:when>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+																        <td>${gyeoljeVo.yeyakVo[0].gayeHours * gyeoljeVo.gasiVo[0].gagaHourPrice} 원</td>
+															        </c:when>
+															    </c:choose>
+															    <c:choose>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+																            <td>${classVo.clasHyeonjaeInwon} 명</td>
+																    </c:when>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+																        <td>${users} 명</td>
+															        </c:when>
+															    </c:choose>
                                                                 <td class="text-end">${gyeoljeVo.gyeoGeumaek} 원</td>
                                                             </tr>
                                                         </tbody>
@@ -153,14 +182,39 @@
                                                                 <td>총 결제금액</td>
                                                                 <td class="text-end">${sugangryoVo.sugaYocheongGeumaek} 원</td>
                                                             </tr>
-                                                            <tr>
-                                                                <td>할인 <small class="text-muted">(소액 지원)</small></td>
-                                                                <td class="text-end">- ${sugangryoVo.sugaYocheongGeumaek - (classVo.clasHyeonjaeInwon*gyeoljeVo.gyeoGeumaek)} 원</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>본인 외 부담 금액</td>
-                                                                <td class="text-end">- ${(classVo.clasHyeonjaeInwon-1)*gyeoljeVo.gyeoGeumaek} 원</td>
-                                                            </tr>
+                                                            	<c:choose>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+																        <c:if test="${(sugangryoVo.sugaYocheongGeumaek - (classVo.clasHyeonjaeInwon*gyeoljeVo.gyeoGeumaek)) ne 0}">
+																            <tr>
+																                <td>할인 <small class="text-muted">(소액 지원)</small></td>
+																                <td class="text-end">- ${sugangryoVo.sugaYocheongGeumaek - (classVo.clasHyeonjaeInwon*gyeoljeVo.gyeoGeumaek)} 원</td>
+																            </tr>
+																        </c:if>
+																    </c:when>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+																        <c:if test="${(gyeoljeVo.yeyakVo[0].gayeHours * gyeoljeVo.gasiVo[0].gagaHourPrice - (users*gyeoljeVo.gyeoGeumaek)) ne 0}">
+																            <tr>
+																                <td>할인 <small class="text-muted">(소액 지원)</small></td>
+																                <td class="text-end">- ${gyeoljeVo.yeyakVo[0].gayeHours * gyeoljeVo.gasiVo[0].gagaHourPrice - (users*gyeoljeVo.gyeoGeumaek)} 원</td>
+																            </tr>
+																        </c:if>
+																    </c:when>
+																</c:choose>
+																<c:choose>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+																        <tr>
+			                                                                <td>본인 외 부담 금액</td>
+			                                                                <td class="text-end">- ${(classVo.clasHyeonjaeInwon-1)*gyeoljeVo.gyeoGeumaek} 원</td>
+			                                                            </tr>
+																    </c:when>
+																    <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+																    	<tr>
+			                                                                <td>본인 외 부담 금액</td>
+			                                                                <td class="text-end">- ${(users-1)*gyeoljeVo.gyeoGeumaek} 원</td>
+			                                                            </tr>
+																    </c:when>
+															    </c:choose>
+                                                            
                                                             <tr class="border-top border-top-dashed fs-15">
                                                                 <th scope="row">청구 금액</th>
                                                                 <th class="text-end">${gyeoljeVo.gyeoGeumaek} 원</th>
@@ -197,7 +251,14 @@
                                                 
                                                 <div class="hstack gap-2 justify-content-end d-print-none mt-4">
                                                     <a href="javascript:history.back();" class="btn btn-secondary">취소</a>
-                                                    <input type="button" class="btn btn-primary" onclick="request_pay()" value="결제하기">
+                                                    <c:choose>
+												        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'CL')}">
+												            <input type="button" class="btn btn-primary" onclick="request_pay()" value="결제하기">
+												        </c:when>
+												        <c:when test="${fn:startsWith(gyeoljeVo.gyeoId, 'RE')}">
+												            <input type="button" class="btn btn-primary" onclick="request_rentPay()" value="결제하기">
+												        </c:when>
+											   	 	</c:choose>
                                                 </div>
                                             </div><!--end card-body-->
                                         </div><!--end col-->

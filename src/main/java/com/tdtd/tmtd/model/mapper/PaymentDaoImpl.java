@@ -88,4 +88,16 @@ public class PaymentDaoImpl implements IPaymentDao {
 		return sqlSession.selectOne(NS+"getGyeoljejaInfo",userAccountId);
 	}
 
+	@Override
+	public GeoljeVo getGangGyeoInfo(Map<String, Object> map) {
+		log.info("PaymentDaoImpl getGangGyeoInfo 실행");
+		return sqlSession.selectOne(NS+"getGangGyeoInfo",map);
+	}
+
+	@Override
+	public int updateYeyakStatusInPayment(Map<String, Object> map) {
+		log.info("PaymentDaoImpl updateYeyakStatusInPayment 실행");
+		return sqlSession.update(NS+"updateYeyakStatusInPayment",map);
+	}
+
 }
