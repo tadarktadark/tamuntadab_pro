@@ -114,8 +114,8 @@
 	
 	<!-- 강의실 대여료 결제 내역 조회 (마이페이지) -->
 	<select id="myPageRoomPaymentList" parameterType="java.util.Map" resultMap="gyeoljeMap">
-		SELECT GYEO_STATUS, GACO_NAME, GAGA_NAME, GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS
-		FROM(SELECT GYEO_STATUS, GACO_NAME, GAGA_NAME, GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS,
+		SELECT GYEO_ID, GYEO_STATUS, GACO_NAME, GAGA_NAME, GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS, GAYE_ID
+		FROM(SELECT GYEO_ID, GYEO_STATUS, GACO_NAME, GAGA_NAME, GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, GAYE_HOURS, GAYE_ID,
 				ROW_NUMBER() OVER (ORDER BY GYEO_REGDATE DESC) AS RN
 		FROM GYEOLJE g JOIN GANGEUISIL_YEYAK gy
 		ON GYEO_DAESANG_ID = GAYE_ID
@@ -125,6 +125,7 @@
 		AND GYEO_ACCOUNT_ID= #{gyeoAccountId})
 		WHERE RN BETWEEN #{first} AND #{last}
 	</select>
+	
 	<!-- 강의실 대여료 결제 내역 갯수 조회 (마이페이지) -->
 	<select id="myPageRoomPaymentListCount" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) 
