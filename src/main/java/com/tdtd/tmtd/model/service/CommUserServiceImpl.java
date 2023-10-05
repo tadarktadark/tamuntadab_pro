@@ -166,7 +166,6 @@ public class CommUserServiceImpl implements ICommUserService {
 		return n>1?1:0;
 	}
 
-	@Transactional
 	@Override
 	public int updateUserDelflagToY(UserProfileVo vo) {
 		int n = cdao.insertUserDelTable(vo);
