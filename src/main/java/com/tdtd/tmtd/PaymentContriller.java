@@ -13,8 +13,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.Spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
@@ -117,6 +120,71 @@ public class PaymentContriller {
 		return "payment";
 	}
 	
+	@GetMapping("/rentPayment.do")
+	public String rentPayment(Model model, HttpSession session, 
+									@RequestParam("gayeId") String gayeId) {
+		model.addAttribute("title", "결제");
+		model.addAttribute("pageTitle", "결제 처리");
+		
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("PaymentContriller payment 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("PaymentContriller payment 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
+		//결제 테이블 조회
+		Map<String, Object> gMap = new HashMap<String, Object>();
+		gMap.put("gyeoAccountId", userAccountId);
+		gMap.put("gyeoDaesangId", gayeId);
+		GeoljeVo gyeoljeVo = pService.getGangGyeoInfo(gMap);
+		log.info("PaymentContriller payment 강의실 결제 테이블의 정보 : {} :", gyeoljeVo);
+		
+		//결제자 정보 조회
+		UserProfileVo userVo = pService.getGyeoljejaInfo(userAccountId);
+		log.info("PaymentContriller payment 결제자 정보 : {} :", userVo);
+		
+		try {
+			String gyeoRegdateStr = (gyeoljeVo != null) ? gyeoljeVo.getGyeoRegdate() : null; 
+			if (gyeoRegdateStr != null) {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime gyeoRegdate = LocalDateTime.parse(gyeoRegdateStr, formatter);
+				LocalDateTime paymentDueDate = gyeoRegdate.plusDays(7);
+
+				// 요일, 시간 등을 포함한 포맷으로 변환
+				DateTimeFormatter dueDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm", Locale.KOREAN);
+				String formattedDueDate = paymentDueDate.format(dueDateFormatter);
+
+				// 남은 일자 계산
+				long daysRemaining = ChronoUnit.DAYS.between(LocalDateTime.now(), paymentDueDate);
+				
+				model.addAttribute("formattedDueDate", formattedDueDate);
+				model.addAttribute("daysRemaining", daysRemaining);
+			} else {
+				// gyeoRegdateStr가 null인 경우 처리 로직(로그 출력, 예외 처리 등)
+				log.warn("PaymentContriller payment gyeoRegdateStr is null");
+			}
+		} catch (DateTimeParseException e) {
+			// 날짜 변환에 실패한 경우 처리 로직(로그 출력, 예외 처리 등)
+			log.error("PaymentContriller payment DateTimeParseException: {}", e.getMessage());
+		}
+		
+		String jsonStr = gyeoljeVo.getYeyakVo().get(0).getGayeGyeoljeUser(); // 데이터베이스로부터 가져온 JSON 문자열
+
+	    Gson gson = new Gson();
+	    Map<String, String> map = gson.fromJson(jsonStr, new TypeToken<Map<String, String>>(){}.getType());
+	    int users = map.size(); // JSON 키의 개수
+		
+		
+		//사용될 강의실 정보, 결제 정보
+		model.addAttribute("gyeoljeVo", gyeoljeVo);
+		model.addAttribute("userVo", userVo);
+		model.addAttribute("users", users);
+		
+		return "payment";
+	}
+	
 	
 	
 	//Iamport 객체 생성
@@ -156,8 +224,9 @@ public class PaymentContriller {
 	
 	
 	//결제한 후 서버로 데이터 전송 및 DB 입력 위해 값 받아오기
+	@ResponseBody
 	@PostMapping(value="/doPay.do")
-	public void getPay(String merchant_uid, String imp_uid, String clasId, String accountId, String method) {
+	public Map<String, String> getPay(String merchant_uid, String imp_uid, String clasId, String accountId, String method) {
 		log.info("merchant_uid : {}", merchant_uid);
 		log.info("imp_uid : {}", imp_uid);
 		log.info("clasId : {}", clasId);
@@ -186,6 +255,58 @@ public class PaymentContriller {
 		chMap.put("clchClasId", clasId);
 		chMap.put("clchAccountId", accountId);
 		pService.updatePayStatusInChamyeo(chMap);
+		
+		Map<String, String> response = new HashMap<>();
+	    response.put("status", "Success");
+	    return response;
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/doRentPay.do")
+	public Map<String, String> getRentPay(String merchant_uid, String imp_uid, String gayeId, String accountId, String method) {
+		log.info("merchant_uid : {}", merchant_uid);
+		log.info("imp_uid : {}", imp_uid);
+		log.info("gayeId : {}", gayeId);
+		log.info("accountId : {}", accountId);
+		this.getToken();
+		
+		if(method.equals("kakaopay.TC0ONETIME")) {
+		    method="K";
+		} else if(method.equals("tosspay")) {
+		    method="P";
+		} else if(method.equals("html5_inicis")) {
+		    method="G";
+		}
+		
+		GeoljeVo geoljeVo = new GeoljeVo();
+		geoljeVo.setGyeoStatus("P");
+		geoljeVo.setGyeoUid(imp_uid);
+		geoljeVo.setGyeoMid(merchant_uid);
+		geoljeVo.setGyeoDaesangId(gayeId);
+		geoljeVo.setGyeoAccountId(accountId);
+		geoljeVo.setGyeoBangbeop(method);
+		int n =pService.updatePayStatusInPayment(geoljeVo);
+		
+		if (n == 1) {
+			log.info("getRentPay updateYeyakStatusInPayment 결제 테이블 결제상태 업데이트 성공");
+		}else {
+			log.info("getRentPay updateYeyakStatusInPayment 결제 테이블 결제상태 업데이트 실패");
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("accountId", accountId);
+		map.put("gayeId", gayeId);
+		int m = pService.updateYeyakStatusInPayment(map);
+		
+		if (m == 1) {
+			log.info("updateYeyakStatusInPayment 예약 테이블 결제상태 업데이트 성공");
+		}else {
+			log.info("updateYeyakStatusInPayment 예약 테이블 결제상태 업데이트 실패");
+		}
+		
+		Map<String, String> response = new HashMap<>();
+	    response.put("status", "Success");
+	    return response;
 	}
 	
 	//환불

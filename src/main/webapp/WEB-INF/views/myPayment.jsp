@@ -72,9 +72,9 @@
 	                                            상태
 	                                        </th>
 	                                        <th class="bg-primary">예약한 강의실</th>
-			                                <th class="bg-primary">금액</th>
-			                                <th class="bg-primary">예약일시</th> 
 			                                <th class="bg-primary">예약시간</th>
+			                                <th class="bg-primary">예약일시</th> 
+			                                <th class="bg-primary">금액</th>
 			                                <th class="bg-primary"></th>
 	                                    </tr>
 	                                </thead>

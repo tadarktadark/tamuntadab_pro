@@ -24,12 +24,15 @@
 	<resultMap type="gangeuisilVo" id="gangeuisilMap">
 		<result column="GAGA_NAME" property="gagaName"/>
 		<result column="GACO_NAME" property="gacoName"/>
+		<result column="GAGA_HOUR_PRICE" property="gagaHourPrice"/>
 	</resultMap>
 	
 	<resultMap type="yeyakVo" id="yeyakMap">
 		<result column="GAYE_YEYAK_DATE" property="gayeYeyakDate"/>
 		<result column="GAYE_START_TIME" property="gayeStartTime"/>
 		<result column="GAYE_HOURS" property="gayeHours"/>
+		<result column="GAYE_ID" property="gayeId"/>
+		<result column="GAYE_GYEOLJE_USER" property="gayeGyeoljeUser"/>
 	</resultMap>
 
 	<!-- 결제 생성 -->
@@ -44,6 +47,20 @@
 		SELECT GYEO_ID, GYEO_GEUMAEK, GYEO_DAESANG_ID, GYEO_ACCOUNT_ID, GYEO_REGDATE,
 			GYEO_WANRYOIL, GYEO_BANGBEOP, GYEO_STATUS, GYEO_MID, GYEO_UID
 			FROM GYEOLJE
+			WHERE GYEO_ACCOUNT_ID = #{gyeoAccountId}
+			AND GYEO_DAESANG_ID = #{gyeoDaesangId}
+	</select>
+	
+	<!-- 결제 테이블 조회 (강의실) -->
+	<select id="getGangGyeoInfo" parameterType="java.util.Map" resultMap="gyeoljeMap">
+		SELECT GYEO_ID, GYEO_STATUS, GACO_NAME, GAGA_NAME, 
+			GYEO_GEUMAEK, GAYE_YEYAK_DATE, GAYE_START_TIME, 
+			GAYE_HOURS, GAYE_ID, GYEO_REGDATE, GAGA_HOUR_PRICE,
+			GAYE_GYEOLJE_USER
+		FROM GYEOLJE g JOIN GANGEUISIL_YEYAK gy
+		ON GYEO_DAESANG_ID = GAYE_ID
+		JOIN GANGEUISIL_GAEBYEOL gg ON GAYE_GAGA_ID = gg.GAGA_ID
+		JOIN GANGEUISIL_COMM gc ON gg.GAGA_GACO_ID = gc.GACO_ID
 			WHERE GYEO_ACCOUNT_ID = #{gyeoAccountId}
 			AND GYEO_DAESANG_ID = #{gyeoDaesangId}
 	</select>
@@ -75,6 +92,13 @@
 		    GYEO_BANGBEOP= #{gyeoBangbeop}
 		WHERE GYEO_DAESANG_ID =#{gyeoDaesangId}
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
+	</update>
+	
+	<!-- 결제 상태 변경 (예약 테이블) -->
+	<update id="updateYeyakStatusInPayment" parameterType="java.util.Map">
+	    UPDATE GANGEUISIL_YEYAK gy
+	    SET GAYE_GYEOLJE_USER = JSON_TRANSFORM(GAYE_GYEOLJE_USER, SET '$.${accountId}' = 'Y')
+	    WHERE GAYE_ID = #{gayeId, jdbcType=VARCHAR}
 	</update>
 	
 	<!-- 환불 테이블 insert -->
