@@ -1,4 +1,4 @@
-$(function(){
+﻿$(function(){
 	getClassPaymentList(1);
 });
 
@@ -57,7 +57,7 @@ function getClassPaymentList(page){
 				html+='    <td class="classDay">'+classPayList[i].gyeoWanryoil+'</td>';
 				html+='    <td class="buttons">';
 				if(gyeoStatus == '결제 대기중'){
-					html += '<button type="button" class="btn btn-primary me-2" onclick="#">결제하기</button>';
+					html += '<button type="button" class="btn btn-primary me-2" onclick="location.href=\'./payment.do?clasId=' + classPayList[i].clasVo[0].clasId + '\'">결제하기</button>';
 				}else{
 					html += '<button type="button" class="btn btn-primary me-2" onclick="#" disabled>결제하기</button>';
 				}
@@ -132,7 +132,7 @@ function getYeyakPaymentList(page){
 				html+='    <td class="classDay">'+rentPayList[i].yeyakVo[0].gayeHours+'시간'+'</td>';
 				html+='    <td class="buttons">';
 				if(gyeoStatus == '결제 대기중'){
-					html += '<button type="button" class="btn btn-primary me-2" onclick="#">결제하기</button>';
+					html += '<button type="button" class="btn btn-primary me-2" onclick="location.href=\'./rentPayment.do?gayeId=' + rentPayList[i].yeyakVo[0].gayeId + '\'">결제하기</button>';
 				}else{
 					html += '<button type="button" class="btn btn-primary me-2" onclick="#" disabled>결제하기</button>';
 				}
@@ -142,6 +142,7 @@ function getYeyakPaymentList(page){
 			}
 		},
 		error:{
+			
 		}
 	})
 }
