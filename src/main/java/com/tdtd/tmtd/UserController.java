@@ -528,12 +528,12 @@ public class UserController {
 	public String sendSMS(@RequestParam String phoneNumber) {
 		Map<String, String> sendMap = new HashMap<String, String>();
 
-		sendMap.put("code", "" + (int)(Math.random() * 8999) + 1000);
+		sendMap.put("code", "" + ((int)(Math.random() * 9999) + 1));
 		// coolSMS API사용
 		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSZADE5ZEC1DZR3",
 				"HQMRDEF5F5WUBE15UHVGMYSOY4PVFBJS", "https://api.coolsms.co.kr");
 		Message message = new Message();
-		message.setFrom("01022546438");
+		message.setFrom("01073780203");
 		message.setTo(phoneNumber);
 		message.setText("타문타답 문자 인증 번호 : " + sendMap.get("code"));
 		try {
