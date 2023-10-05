@@ -117,12 +117,6 @@ public class CommUserDaoImpl implements ICommUserDao {
 	}
 	@Override
 	public int countDeluser() {
-		sqlSession.commit();
-		
 		return sqlSession.selectOne(NS+"countDeluser");
 	}
-	
-	
-
-	
 }
