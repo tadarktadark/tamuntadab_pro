@@ -96,8 +96,10 @@ public class UserController {
 		if(isc.equals("false")) {
 			return "payment";
 		}
+		int m = commUserService.insertUserDelTable(userInfo);
+		userInfo.setDeletedCount(commuserDao.countDeluser());
 		int n = commUserService.updateUserDelflagToY(userInfo);
-		if(n>0) {
+		if(n+m>1) {
 			session.invalidate();
 			return "true";
 		}else {

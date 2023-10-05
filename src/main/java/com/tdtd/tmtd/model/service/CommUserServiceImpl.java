@@ -166,18 +166,10 @@ public class CommUserServiceImpl implements ICommUserService {
 		return n>1?1:0;
 	}
 	
-	@Transactional
 	@Override
 	public int updateUserDelflagToY(UserProfileVo vo) {
-		int n = cdao.insertUserDelTable(vo);
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		vo.setDeletedCount(cdao.countDeluser());
 		int m = cdao.updateUserDelflagToY(vo);
-		return (n+m)>1?1:0;
+		return m;
 	}
 	
 	@Transactional
@@ -203,6 +195,11 @@ public class CommUserServiceImpl implements ICommUserService {
 	@Override
 	public String jeongjidate(UserProfileVo userInfo) {
 		return cdao.jeongjidate(userInfo);
+	}
+
+	@Override
+	public int insertUserDelTable(UserProfileVo vo) {
+		return cdao.insertUserDelTable(vo);
 	}
 
 }
