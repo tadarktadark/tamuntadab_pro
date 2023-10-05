@@ -118,6 +118,7 @@ public class CommUserServiceImpl implements ICommUserService {
 		return cdao.updateResetPwToken(resetPassword);
 	}
 
+	@Transactional
 	@Override
 	public int updateUserPassword(Map<String, Object> resetPassword) {
 		int n = cdao.updateUserPassword(resetPassword);
