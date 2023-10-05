@@ -47,34 +47,63 @@
 <!-- </task:scheduled-tasks> -->
 	
 
+<!-- 흐름 제어용 인터셉터 및 세션확인용 -->
 <mvc:interceptors>
-<!-- 	<mvc:interceptor> -->
-<!-- 		<mvc:mapping path="/**"/> -->
-<!-- 		<mvc:exclude-mapping path="/login.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/main.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/updatePassword.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/sendToken.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/resetPassword.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/loginForm.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/autoLogin.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/regist.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/searchEmail.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/sendMail.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/sendSMS.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/registration.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/registForm.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/naverRedirect.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/kakaoRedirect.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/googleRedirect.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/GoogleRegist.do"/> -->
-<!-- 		<mvc:exclude-mapping path="/admin/**"/> -->
-<!-- 		<mvc:exclude-mapping path="/admin/admin.do"/> -->
-<!-- 		<beans:bean class="com.tdtd.tmtd.interceptor.SessionInterceptor"/> -->
-<!-- 	</mvc:interceptor> -->
+
+<!-- 							사용자 세션체크용 인터셉터 -->
+<!-- 								<mvc:interceptor> -->
+<!-- 									<mvc:mapping path="/**"/> -->
+<!-- 									<mvc:exclude-mapping path="/login.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/main.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/updatePassword.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/sendToken.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/resetPassword.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/loginForm.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/autoLogin.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/regist.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/searchEmail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/sendMail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/sendSMS.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/registration.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/registForm.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/naverRedirect.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/kakaoRedirect.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/googleRedirect.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/GoogleRegist.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/classList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/classDetail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrMoreList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrSearch.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrDetail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrCareerDetail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrClassDetail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/instrReviewDetail.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/viewCount.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/userLike.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/community.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/getCommunityList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/communityDetails.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/communityDownload.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/communitySearch.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/getReplyList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/getGangeuisilSidoList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/getGangeuisilList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/getGangeuisilSigunguList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/getGangeuisilDetailList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/notificationList.do"/> -->
+<!-- 									<mvc:exclude-mapping path="/admin/**"/> -->
+<!-- 									<mvc:exclude-mapping path="/admin/admin.do"/> -->
+<!-- 									<beans:bean class="com.tdtd.tmtd.interceptor.SessionInterceptor"/> -->
+<!-- 								</mvc:interceptor> -->
+	
+<!-- 	관리용 인터셉터 -->
 	<mvc:interceptor>
 		<mvc:mapping path="/admin/admin.do"/>
 		<beans:bean class="com.tdtd.tmtd.interceptor.AdminInterceptor" />
 	</mvc:interceptor>	
+	
+<!-- 	관리자 세션 체크용 인터셉터 -->
 	<mvc:interceptor>
 		<mvc:mapping path="/admin/**"/>
 		<mvc:exclude-mapping path="/admin/admin.do"/>
@@ -82,6 +111,64 @@
 		<mvc:exclude-mapping path="/admin/backToMain.do"/>
 		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAfterLoginInterceptor" />
 	</mvc:interceptor>
+	
+<!-- 관리자 권한 별 인터셉터 -->
+
+	<!-- 총관리자 관리자 -->
+	<mvc:interceptor>
+		<mvc:mapping path="/admin/adminList.do"/>
+		<mvc:mapping path="/admin/adminInsert.do"/>
+		<mvc:mapping path="/admin/searchAdminList.do"/>
+		<mvc:mapping path="/admin/addIp.do"/>
+		<mvc:mapping path="/admin/addAdmin.do"/>
+		<mvc:mapping path="/admin/adminDetail.do"/>
+		<mvc:mapping path="/admin/delAdmin.do"/>
+		<mvc:mapping path="/admin/restoreAdmin.do"/>
+		<mvc:mapping path="/admin/delIP.do"/>
+		<mvc:mapping path="/admin/adminResetPW.do"/>
+		
+		<mvc:exclude-mapping path="/admin/admin.do"/>
+		<mvc:exclude-mapping path="/admin/adminLogin.do"/>
+		<mvc:exclude-mapping path="/admin/backToMain.do"/>
+		<mvc:exclude-mapping path="admin/adminLogout.do"/>
+		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAuthTInterceptor"/>
+	</mvc:interceptor>
+	
+	<!-- 회원 관리자 -->
+	<mvc:interceptor>
+		<mvc:mapping path="/admin/managerCareer.do"/>
+		<mvc:mapping path="/admin/updateS.do"/>
+		<mvc:mapping path="/admin/downloadPdf.do"/>
+		<mvc:mapping path="/admin/updateD.do"/>
+		<mvc:mapping path="/admin/deleteCareer.do"/>
+		<mvc:mapping path="/admin/careerEdit.do"/>
+		<mvc:mapping path="/admin/updateB.do"/>
+		<mvc:mapping path="/admin/userList.do"/>
+		<mvc:mapping path="/admin/getUserList.do"/>
+		<mvc:mapping path="/admin/userJeongji.do"/>
+		<mvc:mapping path="/admin/userdetail.do"/>
+		
+		<mvc:exclude-mapping path="/admin/admin.do"/>
+		<mvc:exclude-mapping path="/admin/adminLogin.do"/>
+		<mvc:exclude-mapping path="/admin/backToMain.do"/>
+		<mvc:exclude-mapping path="admin/adminLogout.do"/>
+		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAuthMInterceptor"/>
+	</mvc:interceptor>
+	
+		<!-- 신고 관리자  --> 
+	<mvc:interceptor>
+		<mvc:mapping path="/admin/adminSingo.do"/>
+		<mvc:mapping path="/admin/getMaxSingoList.do"/>
+		<mvc:mapping path="/admin/adminAction.do"/>
+		
+		<mvc:exclude-mapping path="/admin/admin.do"/>
+		<mvc:exclude-mapping path="/admin/adminLogin.do"/>
+		<mvc:exclude-mapping path="/admin/backToMain.do"/>
+		<mvc:exclude-mapping path="admin/adminLogout.do"/>
+		<beans:bean class="com.tdtd.tmtd.interceptor.AdminAuthBInterceptor"/>
+	</mvc:interceptor>
+
+<!-- 	캐쉬 삭제용 인터셉터 -->
     <mvc:interceptor>
         <mvc:mapping path="/**" />
         <beans:bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">

@@ -580,7 +580,7 @@ public class AdminController {
 	 * @since 2023.09.28
 	 * 
 	 */
-	@RequestMapping(value="admin/adminLogout.do",method=RequestMethod.GET)
+	@RequestMapping(value="/admin/adminLogout.do",method=RequestMethod.GET)
 	@ResponseBody
 	public String adminLogout() {
 		return "<script>location.href='./admin.do';</script>";
