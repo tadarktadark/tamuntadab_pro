@@ -95,8 +95,6 @@ public class CommUserDaoImpl implements ICommUserDao {
 	}
 	@Override
 	public int updateUserDelflagToY(UserProfileVo vo) {
-		sqlSession.commit();
-	
 		return sqlSession.update(NS+"updateUserDelflagToY",vo);
 	}
 	@Override
