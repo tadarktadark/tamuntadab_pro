@@ -219,17 +219,34 @@
 	
 	<!-- 세션에 있는 회원의 모든 참여중 클래스 조회 -->
 	<select id="getChamyeoClass" parameterType="java.lang.String" resultMap="classMap">
-		SELECT CLAS_ID, CLAS_TITLE, CLAS_LOCATION, CLAS_STATUS, 
-				CLAS_HUIMANG_INWON, USER_PROFILE_FILE,
-				CLAS_HYEONJAE_INWON, USER_NICKNAME, SUBJ_TITLE, 
-				CLAS_REGDATE,CLAS_SEONGBYEOL_JEHAN, CLAS_NAI_JEHAN,
-				CLAS_SUEOP_NALJJA
+		SELECT main.CLAS_ID, 
+		       coalesce(subq.USER_NICKNAME, main.USER_NICKNAME) AS USER_NICKNAME, 
+		       main.CLAS_TITLE, 
+		       main.CLAS_LOCATION, 
+		       main.CLAS_STATUS, 
+		       main.CLAS_HUIMANG_INWON, 
+		       main.USER_PROFILE_FILE, 
+		       main.CLAS_HYEONJAE_INWON, 
+		       main.SUBJ_TITLE, 
+		       main.CLAS_REGDATE, 
+		       main.CLAS_SEONGBYEOL_JEHAN, 
+		       main.CLAS_NAI_JEHAN, 
+		       main.CLAS_SUEOP_NALJJA
 		FROM (
-			SELECT c.CLAS_ID, c.CLAS_TITLE, c.CLAS_LOCATION, 
-					CLAS_STATUS, CLAS_HUIMANG_INWON, CLAS_HYEONJAE_INWON,
-					jot.SUBJ_TITLE,up.USER_NICKNAME, c.CLAS_REGDATE,
-					c.CLAS_SEONGBYEOL_JEHAN, c.CLAS_NAI_JEHAN, up.USER_PROFILE_FILE,
-					c.CLAS_SUEOP_NALJJA, ROW_NUMBER() OVER (ORDER BY c.CLAS_REGDATE DESC) AS RN
+		    SELECT c.CLAS_ID, 
+		           c.CLAS_TITLE, 
+		           c.CLAS_LOCATION, 
+		           CLAS_STATUS, 
+		           CLAS_HUIMANG_INWON, 
+		           CLAS_HYEONJAE_INWON,
+		           jot.SUBJ_TITLE,
+		           up.USER_NICKNAME, 
+		           c.CLAS_REGDATE,
+		           c.CLAS_SEONGBYEOL_JEHAN, 
+		           c.CLAS_NAI_JEHAN, 
+		           up.USER_PROFILE_FILE,
+		           c.CLAS_SUEOP_NALJJA, 
+		           ROW_NUMBER() OVER (ORDER BY c.CLAS_REGDATE DESC) AS RN
 		    FROM CLASS c
 		    JOIN CLASS_CHAMYEOJA cc ON CLAS_ID = CLCH_CLAS_ID
 		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
@@ -242,7 +259,15 @@
 		        GROUP BY c.CLAS_ID
 		    ) jot ON jot.CLAS_ID = c.CLAS_ID
 		    WHERE CLCH_ACCOUNT_ID = #{clchAccountId}
-		)
+		) main
+		LEFT JOIN (
+		    SELECT c.CLAS_ID, up.USER_NICKNAME
+		    FROM CLASS c
+		    JOIN CLASS_CHAMYEOJA cc ON c.CLAS_ID = cc.CLCH_CLAS_ID
+		    JOIN USER_PROFILE up ON cc.CLCH_ACCOUNT_ID = up.USER_ACCOUNT_ID
+		    WHERE cc.CLCH_YEOKAL = 'M'
+		) subq ON main.CLAS_ID = subq.CLAS_ID
+		ORDER BY CLAS_ID DESC
 	</select>
 	
 	<!-- 클래스 상세조회 -->
@@ -292,6 +317,13 @@
 		#{clasContent})
 	</insert>
 
+	<!-- 클래스의 모든 uid 조회 -->
+	<select id="getAllUidInClass" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT GYEO_UID
+		FROM GYEOLJE g 
+		WHERE GYEO_DAESANG_ID = #{clasId}
+	</select>
+
 	<!-- 과목 추가 -->
 	<insert id="addSubject">
 		<selectKey resultType="java.lang.Integer" keyProperty="subjCode" order="BEFORE">
@@ -327,7 +359,7 @@
 	
 	<!-- 참여자 추가 (클래스 생성) -->
 	<insert id="addChamyeoja" parameterType="chamyeoVo">
-		INSERT INTO CLASS_CHAMYEOJA 
+		INSERT INTO CLASS_CHAMYEOJA
 		(CLCH_ID, CLCH_ACCOUNT_ID, CLCH_CLAS_ID, CLCH_STATUS, CLCH_GYEOLJE_STATUS, CLCH_YEOKAL) 
 		VALUES (CLCH_ID_SEQ.NEXTVAL, #{clchAccountId}, (SELECT MAX(CLAS_ID) FROM CLASS) , #{clchStatus}, 'N', #{clchYeokal})
 	</insert>
