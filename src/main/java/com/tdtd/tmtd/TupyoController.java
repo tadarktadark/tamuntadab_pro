@@ -417,7 +417,7 @@ public class TupyoController {
 			service.endTupyo(tupySeq);
 			Map<String, Object> classStatusMap = new HashMap<String, Object>();
 			classStatusMap.put("clasId", clasId);
-			classStatusMap.put("clasStatus", "모집완료");
+			classStatusMap.put("clasStatus", "매칭완료");
 			service.updateClassStatus(classStatusMap);
 			return "confirm";
 		}

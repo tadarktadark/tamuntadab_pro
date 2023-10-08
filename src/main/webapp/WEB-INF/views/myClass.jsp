@@ -115,49 +115,49 @@
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '매칭완료' and sugangryoVo.sugaYocheongStatus ne 'A'}">
 											    <button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#dealSugangryo">
-											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정 요청하기
+											        <i class="bi bi-vector-pen fixed-width-icon"></i> 수강료 확정 요청하기
 											    </button>
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'I' and sugangryoVo ne null and classVo.clasStatus eq '매칭완료' and sugangryoVo.sugaYocheongStatus ne 'A'}">
 											    <button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#agreeSugangryo">
-											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 확정하기
+											        <i class="bi bi-vector-pen fixed-width-icon"></i> 수강료 확정하기
 											    </button>
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal ne 'I' and sugangryoVo.sugaYocheongStatus eq 'A' and classVo.clasStatus eq '매칭완료'}">
 											    <button class="btn btn-soft-secondary w-100" onclick="location.href='./payment.do?clasId=${param.clasId}'">
-											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 수강료 결제하기
+											        <i class="bi bi-wallet2 fixed-width-icon"></i> 수강료 결제하기
 											    </button>
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and chamyeoList.size() >= 2}">
 											    <button class="btn btn-soft-secondary w-100" onclick="">
-											        <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스장 권한 위임
+											        <i class="bi bi-hand-index-thumb-fill fixed-width-icon"></i> 클래스장 권한 위임
 											    </button>
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '모집'}">
-											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 모집 마감
+											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#magam">
+												<i class="bi bi-calendar-check-fill fixed-width-icon"></i> 모집 마감
 											</button>
 											</c:if>
 											
 											<c:if test="${matchedChamyeoVo.clchYeokal eq 'M' and classVo.clasStatus eq '모집'}">
-											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#cancel">
-												<i class="bi bi-person-check-fill fixed-width-icon"></i> 모집 마감 기한 연장
+											<button class="btn btn-soft-secondary w-100" data-bs-toggle="modal" data-bs-target="#">
+												<i class="bi bi-calendar-plus-fill fixed-width-icon"></i> 모집 마감 기한 연장
 											</button>
 											</c:if>
 											
 											<c:choose>
 											    <c:when test="${chroClasId ne null && chroClasId ne ''}">
 											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
-											            <i class="bi bi-person-check-fill fixed-width-icon"></i> 채팅방 이동
+											            <i class="bi bi-chat-dots-fill fixed-width-icon"></i> 채팅방 이동
 											        </button>
 											    </c:when>
 											    <c:when test="${(chroClasId == null || chroClasId eq '') && matchedChamyeoVo.clchYeokal eq 'M' && classVo.clasStatus eq '매칭완료'}">
 											        <button class="btn btn-soft-secondary w-100" onclick="location.href='./classChatRoom.do?clasId=${param.clasId}'">
-											            <i class="bi bi-person-plus-fill fixed-width-icon"></i> 채팅방 생성
+											            <i class="bi bi-chat-dots-fill fixed-width-icon"></i> 채팅방 생성
 											        </button>
 											    </c:when>
 											</c:choose>
@@ -166,15 +166,20 @@
 											    <c:choose>
 											        <c:when test="${classVo.clasHyeonjaeInwon le 1}">
 											            <button class="btn btn-soft-secondary w-100" onclick="deleteClass('${matchedChamyeoVo.clchYeokal}','${param.clasId}');">
-											                <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 삭제
+											                <i class="bi bi-trash-fill fixed-width-icon"></i> 클래스 삭제
 											            </button>
 											        </c:when>
 											        <c:otherwise>
 											            <button class="btn btn-soft-secondary w-100" onclick="cancelClass('${matchedChamyeoVo.clchYeokal}');">
-											                <i class="bi bi-person-check-fill fixed-width-icon"></i> 클래스 취소
+											                <i class="bi bi-door-open-fill fixed-width-icon"></i> 클래스 취소
 											            </button>
 											        </c:otherwise>
 											    </c:choose>
+											</c:if>
+											<c:if test="${matchedChamyeoVo.clchYeokal eq 'I'}">
+											    <button class="btn btn-soft-secondary w-100" onclick="cancelClass('${matchedChamyeoVo.clchYeokal}');">
+											         <i class="bi bi-door-open-fill fixed-width-icon"></i> 클래스 취소
+											    </button>
 											</c:if>
 											
 											<!-- 수강료 확정 요청 모달 -->
@@ -231,8 +236,32 @@
 															        <input type="hidden" name="clasId" value="${param.clasId}">
 															    </div>
 															    <div class="modal-footer">
-															        <button type="button" class="btn btn-warning" onclick="submitForm('./rejectSugangryo.do')">반려합니다</button>
+															        <button type="button" class="btn btn-light" data-bs-dismiss="modal">취소</button>
 															        <button type="button" class="btn btn-secondary" onclick="submitForm('./agreeSugangryo.do')">네, 확정합니다</button>
+															    </div>
+															</form>
+											            </div>
+											        </div>
+											    </div>
+											</div>
+											<!-- 모집 마감 모달 -->
+											<div class="modal fade" id="magam" tabindex="-1" aria-labelledby="varyingcontentModalLabel" aria-hidden="true">
+											    <div class="modal-dialog">
+											        <div class="modal-content">
+											            <div class="modal-header">
+											                <h5 class="modal-title" id="varyingcontentModalLabel">모집 마감하기</h5>
+											                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											            </div>
+											            <div class="modal-body">
+											                <form action="./magam.do" method="post" id="myForm">
+															    <div class="mt-4">
+															        <h4 class="mb-3">수강 인원을 이대로 확정합니다.</h4>
+															        <p class="text-muted mb-4">확정시, 강사와 매칭 가능한 상태가 됩니다. 확정 하시겠습니까?</p>
+															    	<input type="hidden" name="clasId" value="${param.clasId}">
+															    </div>
+															    <div class="modal-footer">
+															        <a href="javascript:void(0);" class="btn btn-link link-success fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> 아니오</a>
+															        <button type="submit" class="btn btn-secondary">네, 확정합니다</button>
 															    </div>
 															</form>
 											            </div>
@@ -254,10 +283,17 @@
 											                
 											                <div class="mt-4">
 											                    <h4 class="mb-3">해당 클래스 참여를 취소합니다</h4>
-											                    <p class="text-muted mb-4">클래스 취소시, 이미 결제된 수강료는 환불되지 않습니다. 취소하시겠습니까?</p>
+											                    <c:choose>
+															        <c:when test="${matchedChamyeoVo.clchYeokal eq 'I'}">
+															            <p class="text-muted mb-4">클래스 취소시, 결제된 수강료는 학생에게 전액 환불됩니다. 취소하시겠습니까?</p>
+															        </c:when>
+															        <c:otherwise>
+															            <p class="text-muted mb-4">클래스 취소시, 이미 결제된 수강료는 환불되지 않습니다. 취소하시겠습니까?</p>
+															        </c:otherwise>
+															    </c:choose>
 											                    <div class="hstack gap-2 justify-content-center">
 											                        <a href="javascript:void(0);" class="btn btn-link link-success fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> 아니오</a>
-											                        <a href="./cancelClass.do?clasId=${param.clasId}" class="btn btn-warning">네. 취소합니다</a>
+											                        <a href="./cancelClass.do?clasId=${param.clasId}&status=${classVo.clasStatus}" class="btn btn-warning">네. 취소합니다</a>
 											                    </div>
 											                </div>
 											            </div>

@@ -1,7 +1,11 @@
 package com.tdtd.tmtd;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
+import com.siot.IamportRestClient.response.AccessToken;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.IPaymentService;
@@ -45,6 +55,41 @@ public class ClassController {
 	
 	@Autowired
 	private IPaymentService pService;
+	
+	//Iamport 객체 생성
+	IamportClient client;
+	
+	//클라이언트 생성
+	IamportClient getTmtdClient() {
+		String test_api_key = "7067762145628325"; 
+		String test_api_secret = "04sZnp1EjV1czvg3EMEbG7WuClONdywb8I4UoA5Utmu6ySihOLzjows52ig4A6eEgU3oegXQhFjsXneI";
+		return new IamportClient(test_api_key, test_api_secret);
+	}
+	
+	public ClassController() {
+		this.client = this.getTmtdClient();
+	}
+	
+	//토큰 받아 오기
+		void getToken() {
+			try {
+				IamportResponse<AccessToken> auth_response = client.getAuth();
+				assertNotNull(auth_response.getResponse());
+				assertNotNull(auth_response.getResponse().getToken());
+				
+				System.out.println("get token str: " + auth_response.getResponse().getToken());
+				
+			}catch(IamportResponseException e){
+				System.out.println(e.getMessage());
+				
+				switch(e.getHttpStatusCode()) {
+				case 401 : log.info("PaymentContriller getToken 401 에러 발생"); break;
+				case 500 : log.info("PaymentContriller getToken 500 에러 발생"); break;
+				}
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
 	
 	@GetMapping("/classList.do")
 	public String classList(Model model, @RequestParam(required = false) String subjects) {
@@ -266,7 +311,7 @@ public class ClassController {
 	}
 
 	@PostMapping("classWrite.do")
-	public String classWrite(Model model, @RequestParam("classTitle") String classTitle,
+	public String classWrite(Model model,HttpSession session, @RequestParam("classTitle") String classTitle,
 			@RequestParam("subject1") String subject1,
 			@RequestParam(value = "subject2", defaultValue = "null") String subject2,
 			@RequestParam(value = "subject3", defaultValue = "null") String subject3,
@@ -278,6 +323,14 @@ public class ClassController {
 			@RequestParam(value = "clasChoisoSugangnyo", defaultValue = "0") Integer clasChoisoSugangnyo,
 			@RequestParam(value = "clasChoidaeSugangnyo", defaultValue = "0") Integer clasChoidaeSugangnyo) {
 
+		UserProfileVo userInfo = (UserProfileVo) session.getAttribute("userInfo");
+		if (userInfo != null) {
+			log.info("ClassController cancelClass 세션의 유저 정보: {}", userInfo);
+		} else {
+			log.info("ClassController cancelClass 세션의 유저 정보 : 정보없음");
+		}
+		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		
 		List<String> subjTitles = new ArrayList<String>();
 		subjTitles.add(subject1);
 		if (!"null".equals(subject2)) {
@@ -317,13 +370,13 @@ public class ClassController {
 		log.info("만들어진 클래스 정보 = {}", cVo);
 
 		ChamyeoVo cyVo = new ChamyeoVo();
-		cyVo.setClchAccountId("TMTD64");
+		cyVo.setClchAccountId(userAccountId);
 		cyVo.setClchStatus("Y");
 		cyVo.setClchYeokal("M");
 
 		cService.addClass(cVo, cyVo);
 
-		return "classList";
+		return "redirect:/classList.do";
 	}
 
 	@PostMapping("/subjectManage.do")
@@ -427,23 +480,27 @@ public class ClassController {
 			log.info("ClassController classListLoad 세션의 유저 정보 : 정보없음");
 		}
 		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		String userAuth = (userInfo != null) ? userInfo.getUserAuth() : null;
+		
 		
 		ChamyeoVo vo = new ChamyeoVo();
 		vo.setClchAccountId(userAccountId);
 		vo.setClchClasId(Integer.parseInt(clasId));
 		vo.setClchStatus("Y");
-		vo.setClchYeokal("S");
+		vo.setClchYeokal(userAuth);
 		
 		int n = cService.addChamyeojaGeneral(vo);
+		if(userAuth.equals("S")) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("clasId", clasId);
+			map.put("nums", 1);
+			if (n==0) {
+				return "./error500.do";
+			}else
+			cService.updateClassPeople(map); // 인원 수 1 증가시키기
+		}
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("clasId", clasId);
-		map.put("nums", 1);
 		
-		if (n==0) {
-			return "./error500.do";
-		}else
-		cService.updateClassPeople(map); // 인원 수 1 증가시키기
 		return "redirect:/justGoMyClass.do?clasId=" + clasId;
 	}
 	
@@ -641,7 +698,8 @@ public class ClassController {
 	
 	@GetMapping("/cancelClass.do")
 	public String cancelClass(Model model, HttpSession session,
-										@RequestParam("clasId") String clasId) {
+										@RequestParam("clasId") String clasId,
+										@RequestParam("status") String status) {
 		model.addAttribute("title", "클래스");
 		model.addAttribute("pageTitle", "참여 중인 클래스");
 		
@@ -652,9 +710,9 @@ public class ClassController {
 			log.info("ClassController cancelClass 세션의 유저 정보 : 정보없음");
 		}
 		String userAccountId = (userInfo != null) ? userInfo.getUserAccountId() : null;
+		String userAuth = (userInfo != null) ? userInfo.getUserAuth() : null;
 		
-		
-		if(userAccountId != null) {
+		if(userAccountId != null && !"I".equals(userAuth)) {
 			//참여자 테이블에서 삭제
 			Map<String, Object> delChamyeo = new HashMap<String, Object>();
 			delChamyeo.put("clchClasId", clasId);
@@ -666,8 +724,30 @@ public class ClassController {
 			decreaseMap.put("nums", -1);
 			decreaseMap.put("clasId", clasId);
 			cService.updateClassPeople(decreaseMap);
-		}else {
-			log.info("ClassController cancelClass 에러 : 사용자 정보 없음");
+		}else if(userAccountId != null  && "I".equals(userAuth) && "진행".equals(status)) {
+			Map<String, Object> delChamyeo = new HashMap<String, Object>();
+			delChamyeo.put("clchClasId", clasId);
+			delChamyeo.put("clchAccountId", userAccountId);
+			cService.delChamyeoja(delChamyeo);
+			
+			List<String> uidList = cService.getAllUidInClass(clasId);
+			for (int i = 0; i < uidList.size(); i++) {
+				CancelPayment(uidList.get(i));
+			}
+			
+			pService.updatePayStatusInGyeoljeinClass(clasId);
+			pService.updatePayStatusInChamyeoinClass(clasId);
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+		    map.put("clasStatus", "매칭");
+		    map.put("clasId", clasId);
+		    cService.updateClassStatus(map);
+			
+		}else if(userAccountId != null  && "I".equals(userAuth)) {
+			Map<String, Object> delChamyeo = new HashMap<String, Object>();
+			delChamyeo.put("clchClasId", clasId);
+			delChamyeo.put("clchAccountId", userAccountId);
+			cService.delChamyeoja(delChamyeo);
 		}
 		return "redirect:/classList.do";
 	}
@@ -728,4 +808,37 @@ public class ClassController {
 		
 		return "redirect:/justGoMyClass.do?clasId=" + clasId+ "&rejectSugangryo=true";
 	}
+	
+	@PostMapping("/magam.do")
+	public String magam(Model model, @RequestParam("clasId") String clasId) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("clasStatus", "매칭");
+		map.put("clasId", clasId);
+		cService.updateClassStatus(map);
+		
+		return "redirect:/justGoMyClass.do?clasId="+ clasId;
+	}
+	
+	public void CancelPayment(String cancelUid) {
+        CancelData cancel_data = new CancelData(cancelUid, true); 
+        log.info("환불 완료");
+        try {
+            IamportResponse<Payment> payment_response = client.cancelPaymentByImpUid(cancel_data);
+           
+            if(payment_response.getResponse() == null) {
+            	log.info("이미 처리된 환불입니다");
+            }
+        } catch (IamportResponseException e) {
+        	log.info(e.getMessage());
+            switch (e.getHttpStatusCode()) {
+                case 401:
+                    break;
+                case 500:
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

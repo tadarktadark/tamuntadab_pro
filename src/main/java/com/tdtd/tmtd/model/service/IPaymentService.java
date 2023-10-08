@@ -101,4 +101,17 @@ public interface IPaymentService {
 	 */
 	public int updateYeyakStatusInPayment(Map<String, Object> map);
 	
+	/**
+	 * <!-- 참여자 결제상태 변경 (클래스 전체) -->
+	 * @param clasId
+	 * @return
+	 */
+	public int updatePayStatusInChamyeoinClass(String clasId);
+	
+	/**
+	 * <!-- 결제테이블 결제상태 변경 (클래스 전체) -->
+	 * @param clasId
+	 * @return
+	 */
+	public int updatePayStatusInGyeoljeinClass(String clasId);
 }

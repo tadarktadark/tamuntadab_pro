@@ -82,6 +82,20 @@
 			AND CLCH_ACCOUNT_ID = #{clchAccountId}
 	</update>
 	
+	<!-- 참여자 결제상태 변경 (클래스 전체) -->
+	<update id="updatePayStatusInChamyeoinClass" parameterType="java.lang.String">
+		UPDATE CLASS_CHAMYEOJA
+		SET CLCH_GYEOLJE_STATUS = 'R'
+		WHERE CLCH_CLAS_ID = #{clasId}
+		AND CLCH_YEOKAL != 'I'
+	</update>
+	<!-- 결제테이블 결제상태 변경 (클래스 전체) -->
+	<update id="updatePayStatusInGyeoljeinClass" parameterType="java.lang.String">
+		UPDATE GYEOLJE 
+		SET GYEO_STATUS = 'R'
+		WHERE GYEO_DAESANG_ID = #{clasId}
+	</update>
+	
 	<!-- 결제 상태 변경 (결제 테이블) -->
 	<update id="updatePayStatusInPayment" parameterType="geoljeVo">
 		UPDATE GYEOLJE 
@@ -158,4 +172,6 @@
 		WHERE GYEO_ID LIKE 'RE________' 
 		AND GYEO_ACCOUNT_ID = #{gyeoAccountId}
 	</select>
+	
+	
 </mapper>

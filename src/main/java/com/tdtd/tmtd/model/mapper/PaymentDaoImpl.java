@@ -100,4 +100,15 @@ public class PaymentDaoImpl implements IPaymentDao {
 		return sqlSession.update(NS+"updateYeyakStatusInPayment",map);
 	}
 
+	@Override
+	public int updatePayStatusInChamyeoinClass(String clasId) {
+		log.info("ClassDaoImpl updatePayStatusInChamyeoinClass 실행");
+		return sqlSession.update(NS+"updatePayStatusInChamyeoinClass",clasId);
+	}
+
+	@Override
+	public int updatePayStatusInGyeoljeinClass(String clasId) {
+		log.info("ClassDaoImpl updatePayStatusInGyeoljeinClass 실행");
+		return sqlSession.update(NS+"updatePayStatusInGyeoljeinClass",clasId);
+	}
 }

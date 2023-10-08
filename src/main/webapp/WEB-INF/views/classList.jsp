@@ -114,10 +114,9 @@
     
                                         <div class="card p-0 overflow-hidden mt-3 shadow-none">
                                             <div class="mail-list">
-                                                <a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span>참여 중인 클래스</a>
-                                                <a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-warning float-end"></span>좋아요 한 클래스</a>
-                                                <a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-danger float-end"></span>성별 제한</a>
-												<a href="#" class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-info float-end"></span>나이 제한</a>
+                                                <a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-primary float-end"></span>참여 중인 클래스</a>
+                                                <a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-danger float-end"></span>성별 제한</a>
+												<a class="border-bottom"><span class="mdi mdi-arrow-right-drop-circle text-info float-end"></span>나이 제한</a>
                                             </div>
                                         </div>
                                     </div>
