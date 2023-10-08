@@ -126,5 +126,5 @@ public interface ICommUserService {
 	 */
 	public String checkPayment (UserProfileVo vo);
 	
-	
+	public int insertUserDelTable(UserProfileVo vo);
 }

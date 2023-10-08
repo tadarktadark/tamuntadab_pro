@@ -96,8 +96,10 @@ public class UserController {
 		if(isc.equals("false")) {
 			return "payment";
 		}
+		int m = commUserService.insertUserDelTable(userInfo);
+		userInfo.setDeletedCount(commuserDao.countDeluser());
 		int n = commUserService.updateUserDelflagToY(userInfo);
-		if(n>0) {
+		if(n+m>1) {
 			session.invalidate();
 			return "true";
 		}else {
@@ -526,14 +528,12 @@ public class UserController {
 	public String sendSMS(@RequestParam String phoneNumber) {
 		Map<String, String> sendMap = new HashMap<String, String>();
 
-		// 랜덤 난수 발생
-		Random ran = new Random();
-		sendMap.put("code", "" + ran.nextInt(10000));
+		sendMap.put("code", "" + ((int)(Math.random() * 9999) + 1));
 		// coolSMS API사용
-		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSLH5XMRHNML98D",
-				"SCDV2ABM6KXGAUPYYEWZEL1C92RU0NOJ", "https://api.coolsms.co.kr");
+		DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSZADE5ZEC1DZR3",
+				"HQMRDEF5F5WUBE15UHVGMYSOY4PVFBJS", "https://api.coolsms.co.kr");
 		Message message = new Message();
-		message.setFrom("01022546438");
+		message.setFrom("01073780203");
 		message.setTo(phoneNumber);
 		message.setText("타문타답 문자 인증 번호 : " + sendMap.get("code"));
 		try {
@@ -668,7 +668,7 @@ public class UserController {
 	 * @since 2023.09.08
 	 *
 	 */
-	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET)
+	@RequestMapping(value="updatehuman.do", method = RequestMethod.GET, produces = "text/html; charset=UTF-8")
 	@ResponseBody
 	public String updatehuman(@RequestParam Map<String,Object> tokenValue, HttpServletResponse resp) throws IOException {
 		int n = commUserService.updatedelflag(tokenValue);

@@ -88,4 +88,16 @@ public class PaymentServiceImpl implements IPaymentService {
 		return dao.getGyeoljejaInfo(userAccountId);
 	}
 
+	@Override
+	public GeoljeVo getGangGyeoInfo(Map<String, Object> map) {
+		log.info("PaymentServiceImpl getGangGyeoInfo 실행");
+		return dao.getGangGyeoInfo(map);
+	}
+
+	@Override
+	public int updateYeyakStatusInPayment(Map<String, Object> map) {
+		log.info("PaymentServiceImpl updateYeyakStatusInPayment 실행");
+		return dao.updateYeyakStatusInPayment(map);
+	}
+
 }

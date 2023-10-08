@@ -86,4 +86,19 @@ public interface IPaymentService {
 	 * @return
 	 */
 	public UserProfileVo getGyeoljejaInfo(String userAccountId);
+	
+	/**
+	 * 강의실 결제를 위한 결제정보 조회
+	 * @param map
+	 * @return
+	 */
+	public GeoljeVo getGangGyeoInfo(Map<String, Object> map);
+
+	/**
+	 * 결제 상태 변경 (예약 테이블)
+	 * @param map
+	 * @return
+	 */
+	public int updateYeyakStatusInPayment(Map<String, Object> map);
+	
 }
