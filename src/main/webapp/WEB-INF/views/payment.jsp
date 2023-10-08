@@ -229,7 +229,7 @@
 													    <label for="payment-method" class="text-muted mb-0 mr-2">결제 방법 :</label>
 													    <select class="form-control" id="payment-method" style="width:auto;">
 													        <option selected>선택하세요</option>
-													        <option value="credit-card">신용카드</option>
+													        <option value="credit-card">KG이니시스(신용카드)</option>
 													        <option value="kakao-pay">카카오페이</option>
 													        <option value="toss">토스</option>
 													    </select>

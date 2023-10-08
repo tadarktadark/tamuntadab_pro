@@ -291,4 +291,10 @@ public class ClassDaoImpl implements IClassDao {
 		log.info("ClassDaoImpl updateSugangryo 실행");
 		return sqlSession.update(NS+"updateSugangryo",sVo);
 	}
+
+	@Override
+	public List<String> getAllUidInClass(String clasId) {
+		log.info("ClassDaoImpl getAllUidInClass 실행");
+		return sqlSession.selectList(NS+"getAllUidInClass",clasId);
+	}
 }

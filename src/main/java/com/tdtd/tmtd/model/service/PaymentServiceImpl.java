@@ -100,4 +100,15 @@ public class PaymentServiceImpl implements IPaymentService {
 		return dao.updateYeyakStatusInPayment(map);
 	}
 
+	@Override
+	public int updatePayStatusInChamyeoinClass(String clasId) {
+		log.info("ClassServiceImpl 실행 - updatePayStatusInChamyeoinClass");
+		return dao.updatePayStatusInChamyeoinClass(clasId);
+	}
+
+	@Override
+	public int updatePayStatusInGyeoljeinClass(String clasId) {
+		log.info("ClassServiceImpl 실행 - updatePayStatusInGyeoljeinClass");
+		return dao.updatePayStatusInGyeoljeinClass(clasId);
+	}
 }

@@ -280,4 +280,12 @@ public class ClassServiceImpl implements IClassService {
 		log.info("ClassServiceImpl 실행 - updateSugangryo");
 		return dao.updateSugangryo(sVo);
 	}
+
+	@Override
+	public List<String> getAllUidInClass(String clasId) {
+		log.info("ClassServiceImpl 실행 - getAllUidInClass");
+		return dao.getAllUidInClass(clasId);
+	}
+
+	
 }

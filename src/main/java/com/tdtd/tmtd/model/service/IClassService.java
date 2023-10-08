@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.tdtd.tmtd.vo.ChamyeoVo;
-import com.tdtd.tmtd.vo.ChatRoomVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.SugangryoVo;
 
@@ -278,5 +277,13 @@ public interface IClassService {
 	 * @return
 	 */
 	public int updateSugangryo(SugangryoVo sVo);
+	
+	/**
+	 * 클래스의 모든 UID 조회
+	 * @param clasId
+	 * @return
+	 */
+	public List<String> getAllUidInClass(String clasId);
+
 	
 }

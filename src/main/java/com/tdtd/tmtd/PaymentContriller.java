@@ -7,16 +7,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.Spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +36,7 @@ import com.siot.IamportRestClient.response.Payment;
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IClassService;
 import com.tdtd.tmtd.model.service.IPaymentService;
+import com.tdtd.tmtd.vo.ChamyeoVo;
 import com.tdtd.tmtd.vo.ClassVo;
 import com.tdtd.tmtd.vo.GeoljeVo;
 import com.tdtd.tmtd.vo.PagingVo;
@@ -240,6 +240,11 @@ public class PaymentContriller {
 		} else if(method.equals("html5_inicis")) {
 		    method="G";
 		}
+		Map<String, Object> chMap = new HashMap<String, Object>();
+		chMap.put("clchGyeoljeStatus", "Y");
+		chMap.put("clchClasId", clasId);
+		chMap.put("clchAccountId", accountId);
+		pService.updatePayStatusInChamyeo(chMap);
 		
 		GeoljeVo geoljeVo = new GeoljeVo();
 		geoljeVo.setGyeoStatus("P");
@@ -250,11 +255,28 @@ public class PaymentContriller {
 		geoljeVo.setGyeoBangbeop(method);
 		pService.updatePayStatusInPayment(geoljeVo);
 		
-		Map<String, Object> chMap = new HashMap<String, Object>();
-		chMap.put("clchGyeoljeStatus", "Y");
-		chMap.put("clchClasId", clasId);
-		chMap.put("clchAccountId", accountId);
-		pService.updatePayStatusInChamyeo(chMap);
+		
+		List<ChamyeoVo> chamyeoList = cService.getChamyeojas(clasId);
+		List<ChamyeoVo> studentList;
+		studentList = new ArrayList<>();
+		for (ChamyeoVo item : chamyeoList) {
+		    if (!"I".equals(item.getClchYeokal())) {
+		        studentList.add(item);
+		    }
+		}
+		boolean allMatched = true;
+		for (ChamyeoVo student : studentList) {
+		    if (!"Y".equals(student.getClchGyeoljeStatus())) {
+		        allMatched = false;
+		        break;
+		    }
+		}
+		if (allMatched) {
+		    Map<String, Object> map = new HashMap<String, Object>();
+		    map.put("clasStatus", "진행");
+		    map.put("clasId", clasId);
+		    cService.updateClassStatus(map);
+		}
 		
 		Map<String, String> response = new HashMap<>();
 	    response.put("status", "Success");
@@ -335,8 +357,7 @@ public class PaymentContriller {
         }
         return "beforePay";
     }
-
-
+	
 	//지불 후 이동 페이지(결과창)
 	@RequestMapping(value = "/beforePay.do" ,method = RequestMethod.GET)
 	public String nextPage() {
