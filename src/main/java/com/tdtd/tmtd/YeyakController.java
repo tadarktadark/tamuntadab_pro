@@ -27,6 +27,11 @@ import com.tdtd.tmtd.vo.YeyakVo;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 예약 관련 컨트롤러
+ * @author SoHyeon
+ * @since 2023.09.09
+ */
 @Controller
 @Slf4j
 public class YeyakController {
@@ -34,6 +39,13 @@ public class YeyakController {
 	@Autowired
 	private IYeyakService service;
 	
+	/**
+	 * 예약 페이지 이동
+	 * @param model
+	 * @return 예약jsp
+	 * @author SoHyeon
+	 * @since 2023.09.09
+	 */
 	@RequestMapping(value="/yeyak.do", method = RequestMethod.GET)
 	public String yeyak(Model model) {
 		log.info("@@@@@@@@@@@@@@@ 예약 페이지 이동");
@@ -42,6 +54,12 @@ public class YeyakController {
 		return "yeyak";
 	}
 	
+	/**
+	 * 시도 강의실 목록 조회
+	 * @return 강의실 시도 list
+	 * @author SoHyeon 
+	 * @since 2023.09.09
+	 */
 	@RequestMapping(value="/getGangeuisilSidoList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getGangeuisilSidoList() {
@@ -56,6 +74,15 @@ public class YeyakController {
 		return result;
 	}
 	
+	/**
+	 * 공통 강의실 목록 조회
+	 * @param page 페이지
+	 * @param type 시도/시군구
+	 * @param sendData 
+	 * @return 강의실 개수, 강의실list, 페이지
+	 * @author SoHyeon 
+	 * @since 2023.09.09
+	 */
 	@RequestMapping(value="/getGangeuisilList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getGangeuisilList(String page, String type, String sendData){
@@ -84,6 +111,13 @@ public class YeyakController {
 		return result;
 	}
 	
+	/**
+	 * 시군구 목록 조회
+	 * @param sido
+	 * @return 강의실list, 페이지
+	 * @author SoHyeon 
+	 * @since 2023.09.09
+	 */
 	@RequestMapping(value="/getGangeuisilSigunguList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getGangeuisilSigunguList(String sido){
@@ -100,6 +134,13 @@ public class YeyakController {
 		return result;
 	}
 
+	/**
+	 * 개별 강의실 목록 조회
+	 * @param gacoId 공통 강의실 id
+	 * @return 해당 공통 강의실이 개별 강의실 list
+	 * @author SoHyeon
+	 * @since 2023.09.09
+	 */
 	@RequestMapping(value="/getGangeuisilDetailList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public List<GangeuisilVo> getGangeuisilDetailList(String gacoId) {
@@ -108,6 +149,15 @@ public class YeyakController {
 		return list;
 	}
 	
+	/**
+	 * 예약자 정보 조회
+	 * @param accountId 계정id
+	 * @param gagaId 선택한 개별 강의실 id
+	 * @param date 선택한 날짜
+	 * @return 선택 가능 클래스/해당 강의실 여유 시간
+	 * @author SoHyeon
+	 * @since 2023.09.11
+	 */
 	@RequestMapping(value="/getYeyakInfo.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getYeoyuTime(String accountId, String gagaId, String date) {
@@ -167,6 +217,14 @@ public class YeyakController {
 		}
 	}
 	
+	/**
+	 * 예약 정보 입력
+	 * @param yVo 예약vo
+	 * @param gVo 강의실 vo
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.11
+	 */
 	@RequestMapping(value="/insertYeyakInfo.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int insertYeyakInfo(YeyakVo yVo, GeoljeVo gVo) {
@@ -174,6 +232,14 @@ public class YeyakController {
 		return service.insertYeakInfo(yVo, gVo);
 	}
 	
+	/**
+	 * 마이페이지 예약 일정 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return 페이지, 예약 vo list
+	 * @author SoHyeon
+	 * @since 2023.10.01
+	 */
 	@RequestMapping(value="/getMyYeyakList.do", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object> getMyYeyakList(HttpSession session, String page) {
@@ -199,6 +265,14 @@ public class YeyakController {
 		return result;
 	}
 	
+	/**
+	 * 예약 취소
+	 * @param session
+	 * @param vo 예약 vo
+	 * @return 성공1, 실패0
+	 * @author SoHyeon
+	 * @since 2023.10.01
+	 */
 	@RequestMapping(value="/yeyakCancel.do", method = RequestMethod.POST)
 	@ResponseBody
 	public int yeyakCancel(HttpSession session, YeyakVo vo) {
@@ -207,6 +281,14 @@ public class YeyakController {
 		return service.yeyakCancel(vo);
 	}
 	
+	/**
+	 * 예약 결제 상태 조회
+	 * @param session
+	 * @param gayeId 예약 id
+	 * @return 결제vo
+	 * @author SoHyeon
+	 * @since 2023.10.01
+	 */
 	@RequestMapping(value="/getGyeojeStatus.do", method = RequestMethod.POST)
 	@ResponseBody
 	public List<GeoljeVo> getGyeojeStatus(HttpSession session, String gayeId) {

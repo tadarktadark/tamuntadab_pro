@@ -91,7 +91,7 @@
 			WHERE JIBO_ID=#{id}
 	</update>
 	
-	<!-- 질문 작성 선택 가능한 클래스 목록 및 과목 -->
+	<!-- 질문 작성 선택 가능한 클래스 목록 -->
 	<select id="getJilmunClassList" resultType="classVo">
 		SELECT CLAS_ID, CLAS_TITLE
 			FROM CLASS JOIN CLASS_CHAMYEOJA

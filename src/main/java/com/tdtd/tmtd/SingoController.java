@@ -25,6 +25,11 @@ import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 신고 관련 컨트롤러
+ * @author SoHyeon
+ * @since 2023.09.21
+ */
 @Controller
 @Slf4j
 public class SingoController {
@@ -32,6 +37,12 @@ public class SingoController {
 	@Autowired
 	private ISingoService service;
 	
+	/**
+	 * 신고 버튼 클릭시 모달창 열기
+	 * @return 신고 카테고리 list
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/communitySingo.do", method=RequestMethod.GET)
 	@ResponseBody
 	public List<SingoSayuVo> communitySingo() {
@@ -39,6 +50,15 @@ public class SingoController {
 		return service.getSingoCategory();
 	}
 	
+	/**
+	 * 유저 신고시 -> 신고 대상 추가(또는 엡더이트) 및 대상 보도 상태 변경, 신고 사유 입력
+	 * @param session
+	 * @param daesangId 대상보드id
+	 * @param sVo 신고Vo
+	 * @return 성공1, 실패0
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/userSingo.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int userSingo(HttpSession session, String daesangId, SingoSayuVo sVo) {
@@ -56,6 +76,13 @@ public class SingoController {
 		return service.userSingo(daesangId, board, sVo);
 	}
 	
+	/**
+	 * 신고 관리 페이지 이동
+	 * @param model
+	 * @return 신고 관리 페이지 jsp
+	 * @author SoHyeon
+	 * @since 2023.09.26
+	 */
 	@RequestMapping(value="/admin/adminSingo.do", method=RequestMethod.GET)
 	public String adminSingo(Model model) {
 		log.info("@@@@@@@@@@@@@@@ 어드민 신고 페이지 이동");
@@ -65,6 +92,14 @@ public class SingoController {
 		return "/admin/adminSingo";
 	}
 	
+	/**
+	 * 관리자 신고 목록 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return 신고list, 페이지list
+	 * @author SoHyeon
+	 * @since 2023.09.26
+	 */
 	@RequestMapping(value="/admin/getMaxSingoList.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getMaxSingoList(HttpSession session, String page) {
@@ -87,6 +122,13 @@ public class SingoController {
 		return result;
 	}
 	
+	/**
+	 * 관리자 신고 처리
+	 * @param vo 신고대상vo
+	 * @return 성공1, 실패0
+	 * @author SoHyeon
+	 * @since 2023.09.26
+	 */
 	@RequestMapping(value="/admin/adminAction.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int adminAction(SingoDaesangVo vo) {

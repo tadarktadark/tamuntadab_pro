@@ -67,6 +67,16 @@ public class CommunityController {
 	@Autowired
 	private ElasticsearchService eService;
 		
+	/**
+	 * 커뮤니티 이동
+	 * @param model
+	 * @param session
+	 * @param board 보드 종류
+	 * @param clasId 클래스 id
+	 * @return 커뮤니티 목록 jsp
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/community.do", method=RequestMethod.GET)
 	public String community(Model model, HttpSession session, String board, String clasId) {
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 이동 : board {}, clasId {}", board, clasId);
@@ -90,6 +100,16 @@ public class CommunityController {
 		return "communityList";
 	}
 	
+	/**
+	 * 커뮤니티 목록 조회
+	 * @param session
+	 * @param orderBy 현재 정렬
+	 * @param page 현재 페이지
+	 * @param boardId boardIdList
+	 * @return map(boardVo, pageVo)
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/getCommunityList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> getCommunityList(HttpSession session, String orderBy, String page, @RequestParam(value="boardId[]", required = false) String[] boardId){
@@ -139,6 +159,16 @@ public class CommunityController {
 		return result;
 	}
 	
+	/**
+	 * 커뮤키티 좋아요(목록/상세보기)
+	 * @param session
+	 * @param type 좋아요/취소
+	 * @param id boardId
+	 * @param board 게시판 종류
+	 * @return 좋아요/취소, boardId
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityLike.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> communityLike(HttpSession session, String type, String id, String board){
@@ -186,6 +216,16 @@ public class CommunityController {
 		return result;
 	}
 	
+	/**
+	 * 커뮤니티 상세 조회
+	 * @param session
+	 * @param model
+	 * @param board 게시판 종류
+	 * @param id 게시판id
+	 * @return boardList, subjectList
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityDetails.do", method=RequestMethod.GET)
 	public String communityDetails(HttpSession session, Model model, String board, String id){
 		if(board == null) {
@@ -235,6 +275,16 @@ public class CommunityController {
 		return "communityDetails";
 	}
 	
+	/**
+	 * 글 작성 폼 이동
+	 * @param model
+	 * @param session
+	 * @param id 작성자 id
+	 * @param board 게시판 종류
+	 * @return 작성 정보
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityWriteForm.do", method=RequestMethod.GET)
 	public String communityWriteForm(Model model, HttpSession session, String id, String board) {
 		if(board != null) {
@@ -278,6 +328,14 @@ public class CommunityController {
 		return "communityWriteForm";
 	}
 	
+	/**
+	 * 질문 작성 시 선택 클래스 과목 조회
+	 * @param session
+	 * @param clasId 클래스id
+	 * @return 과목 list
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/getJilmunClassList.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getJilmunClassList(HttpSession session, String clasId) {
@@ -302,6 +360,18 @@ public class CommunityController {
 		return result;
 	}
 	
+	/**
+	 * 글 입력
+	 * @param model
+	 * @param session
+	 * @param request
+	 * @param bVo boardVo
+	 * @param files FileList
+	 * @return 글 상세 페이지 이동
+	 * @throws IOException
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityWrite.do", method=RequestMethod.POST)
 	public String communityWrite(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam(value = "file", required = false) MultipartFile[] files) throws IOException {
 		String board = (String)session.getAttribute("community");
@@ -336,7 +406,15 @@ public class CommunityController {
 				
 		return "redirect:/communityDetails.do?id="+bVo.getId();
 	}
-		
+	
+	/**
+	 * 필기 작성시 이미지 업로드
+	 * @param upload 이미지file
+	 * @param req
+	 * @return 이미지 저장 경로
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityUploadImage.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> communityUploadImage(MultipartFile upload, HttpServletRequest req) {
@@ -397,6 +475,13 @@ public class CommunityController {
 		return map;
 	}
 	
+	/**
+	 * 필기 작성시 이미지 삭제
+	 * @param saveName 이미지 저장 경로
+	 * @param req
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityRemoveImage.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void removeImage(String saveName, HttpServletRequest req) {
@@ -416,6 +501,16 @@ public class CommunityController {
 		}
 	}
 	
+	/**
+	 * 파일 다운로드
+	 * @param resp
+	 * @param req
+	 * @param save 파일 저장 경로
+	 * @param name 파일 이름
+	 * @throws IOException
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityDownload.do", method = RequestMethod.GET)
 	public void communityDownload(HttpServletResponse resp, HttpServletRequest req, String save, String name) throws IOException {
 		log.info("@@@@@@@@@@@@@@@ 커뮤니티 다운로드 : fileSaveName {}", save);		
@@ -457,6 +552,15 @@ public class CommunityController {
 		
 	}
 	
+	/**
+	 * 커뮤니티 검색
+	 * @param session
+	 * @param formData 검색data
+	 * @return 검색 결과 list
+	 * @throws IOException
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communitySearch.do", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<String> communitySearch(HttpSession session, @RequestBody Map<String, Object> formData) throws IOException {
@@ -483,6 +587,15 @@ public class CommunityController {
 		return boardList;
 	}
 	
+	/**
+	 * 커뮤니티 글 수정 form 이동
+	 * @param model
+	 * @param session
+	 * @param id boardId
+	 * @return 커뮤니티 글 수정 form jsp
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityUpdateForm.do", method=RequestMethod.GET)
 	public String communityUpdateForm(Model model, HttpSession session, String id) {
 		String board = (String)session.getAttribute("community");
@@ -538,6 +651,13 @@ public class CommunityController {
 		return "communityUpdateForm";
 	}
 	
+	/**
+	 * 필기 업로드 파일 삭제
+	 * @param save 저장 경로
+	 * @return 성공 1, 삭제 0
+	 * @author SoHyeon
+	 * @since 2023.09.20
+	 */
 	@RequestMapping(value="/removeFile.do", method=RequestMethod.GET)
 	@ResponseBody
 	public int removeFile(String save) {
@@ -546,6 +666,18 @@ public class CommunityController {
 		return pService.deletePilgiFile(save);
 	}
 	
+	/**
+	 * 커뮤니티 게시글 수정
+	 * @param model
+	 * @param session
+	 * @param request
+	 * @param bVo boardVo
+	 * @param files 파일List
+	 * @return 상세보기 페이지
+	 * @throws IOException
+	 * @author SoHyeon
+	 * @since 2023.09.20
+	 */
 	@RequestMapping(value="/communityUpdate.do", method=RequestMethod.POST)
 	public String communityUpdate(Model model, HttpSession session, HttpServletRequest request, BoardVo bVo, @RequestParam(value = "file", required = false) MultipartFile[] files) throws IOException {
 		String board = (String)session.getAttribute("community");
@@ -579,6 +711,16 @@ public class CommunityController {
 		return "redirect:/communityDetails.do?id="+bVo.getId();
 	}
 	
+	/**
+	 * 커뮤니티 게시글 삭제(필기-임시, 질문/자유-완전)
+	 * @param model
+	 * @param session
+	 * @param id boardId
+	 * @param board board 종류
+	 * @return 목록 페이지 이동
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/communityDelete.do", method=RequestMethod.GET)
 	public String communityDelete(Model model, HttpSession session, String id, String board){
 		if(board==null) {			
@@ -606,6 +748,14 @@ public class CommunityController {
 		return "redirect:/community.do?board="+board;
 	}
 	
+	/**
+	 * 커뮤니티 필기 복원
+	 * @param session
+	 * @param id 필기Id
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/restorePilgi.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int restorePilgi(HttpSession session, String id){
@@ -624,6 +774,14 @@ public class CommunityController {
 		return pService.updatePilgiState(bMap, cMap);
 	}
 	
+	/**
+	 * 필기 완전 삭제
+	 * @param session
+	 * @param id boardId
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/deletePilgi.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int deletePilgi(HttpSession session, String id){
@@ -631,6 +789,15 @@ public class CommunityController {
 		return pService.deletePilgi(id);
 	}
 	
+	/**
+	 * 마이페이지에서 게시글 삭제
+	 * @param session
+	 * @param id boardId
+	 * @param board board종류
+	 * @return 성공1, 실패0
+	 * @author SoHyeon
+	 * @since 2023.09.14
+	 */
 	@RequestMapping(value="/myCommDelete.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int myCommDelete(HttpSession session, String id, String board){

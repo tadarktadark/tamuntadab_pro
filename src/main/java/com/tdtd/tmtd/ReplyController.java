@@ -9,7 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tdtd.tmtd.comm.PagingUtils;
 import com.tdtd.tmtd.model.service.IAlarmService;
-import com.tdtd.tmtd.model.service.IJayuService;
-import com.tdtd.tmtd.model.service.IJilmunService;
-import com.tdtd.tmtd.model.service.IPilgiService;
 import com.tdtd.tmtd.model.service.IReplyService;
 import com.tdtd.tmtd.vo.BoardVo;
 import com.tdtd.tmtd.vo.ReplyVo;
@@ -28,6 +24,11 @@ import com.tdtd.tmtd.vo.UserProfileVo;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 댓글 및 마이페이지 관련 컨트롤러
+ * @author SoHyeon
+ * @since 2023.09.21
+ */
 @Controller
 @Slf4j
 public class ReplyController {
@@ -38,15 +39,14 @@ public class ReplyController {
 	@Autowired
 	private IAlarmService alarm;
 	
-	@Autowired
-	private IPilgiService pilgi;
-	
-	@Autowired
-	private IJilmunService jilmun;
-	
-	@Autowired
-	private IJayuService jayu;
-	
+	/**
+	 * 댓글 보기
+	 * @param page 요청 페이지
+	 * @param boardId 대상 보드 id
+	 * @return map (page, rootReplyList, reReplyList)
+	 * @author SoHyeon
+	 * @since 2023.09.23
+	 */
 	@RequestMapping(value="/getReplyList.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> getReplyList(String page, String boardId) {
@@ -76,6 +76,14 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * 댓글 작성 및 알람
+	 * @param session
+	 * @param vo
+	 * @return redirect:게시글 상세보기
+	 * @author SoHyeon
+	 * @since 2023.09.23
+	 */
 	@RequestMapping(value="/replyWrite.do", method=RequestMethod.POST)
 	public String replyWrite(HttpSession session, ReplyVo vo) {
 		String board = (String)session.getAttribute("community");
@@ -107,6 +115,13 @@ public class ReplyController {
 		return "redirect:/communityDetails.do?id="+vo.getBoardId();
 	}
 	
+	/**
+	 * 댓글 수정 데이터 조회
+	 * @param seq 댓글seq
+	 * @return 댓글 내용
+	 * @author SoHyeon
+	 * @since 2023.09.24
+	 */
 	@RequestMapping(value="/getUpdateContent.do", produces = "text/plain; charset=UTF-8", method=RequestMethod.POST)
 	@ResponseBody
 	public String getUpdateContent(String seq) {
@@ -115,6 +130,14 @@ public class ReplyController {
 		return service.getUpdateContent(seq);
 	}
 	
+	/**
+	 * 댓글 수정
+	 * @param session
+	 * @param vo
+	 * @return 게시글 상세 조회 페이지 이동
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/replyUpdate.do", method=RequestMethod.POST)
 	public String replyUpdate(HttpSession session, ReplyVo vo) {
 		String board = (String)session.getAttribute("community");
@@ -125,6 +148,15 @@ public class ReplyController {
 		return "redirect:/communityDetails.do?id="+vo.getBoardId();
 	}
 	
+	/**
+	 * 댓글 삭제
+	 * @param session
+	 * @param boardId 대상 게시글 id
+	 * @param seq 삭제 댓글 id
+	 * @return 게시글 상세 페이지 이동
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/replyDelete.do", method=RequestMethod.GET)
 	public String replyDelete(HttpSession session, String boardId, int seq) {
 		String board = (String)session.getAttribute("community");
@@ -139,6 +171,14 @@ public class ReplyController {
 		return "redirect:/communityDetails.do?id="+boardId;
 	}
 	
+	/**
+	 * 대댓글 입력 및 알람
+	 * @param session
+	 * @param vo
+	 * @return 게시판 상세 페이지
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/insertReReply.do", method=RequestMethod.POST)
 	public String insertReReply(HttpSession session, ReplyVo vo) {
 		log.info("@@@@@@@@@@@@@@@ 대댓글 입력 : vo {}", vo);
@@ -174,6 +214,14 @@ public class ReplyController {
 		return "redirect:/communityDetails.do?id="+vo.getBoardId();
 	}
 	
+	/**
+	 * 대댓글 수정
+	 * @param session
+	 * @param vo
+	 * @return 게시판 상세 페이지
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/updateReReply.do", method=RequestMethod.POST)
 	public String updateReReply(HttpSession session, ReplyVo vo) {
 		log.info("@@@@@@@@@@@@@@@ 대댓글 수정 : vo {}", vo);
@@ -183,6 +231,14 @@ public class ReplyController {
 		return "redirect:/communityDetails.do?id="+vo.getBoardId();
 	}
 	
+	/**
+	 * 댓글 채택 및 알람
+	 * @param seq
+	 * @param boardId
+	 * @return 게시판 상세 페이지 이동
+	 * @author SoHyeon
+	 * @since 2023.09.21
+	 */
 	@RequestMapping(value="/replyChaetaek.do", method=RequestMethod.GET)
 	public String replyChaetaek(int seq, String boardId) {
 		log.info("@@@@@@@@@@@@@@@ 댓글 채택 : seq {}, boardId {}", seq, boardId);
@@ -217,6 +273,14 @@ public class ReplyController {
 		return "redirect:/communityDetails.do?board=jilmun&id="+boardId;
 	}
 	
+	/**
+	 * 내가 작성한 필기 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return 필기boardList, 페이지 객체
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
 	@RequestMapping(value="/myPilgi.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> myPilgi(HttpSession session, String page) {
@@ -242,6 +306,14 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * 내가 작성한 질문 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return 질문boardList, 페이지 객체
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
 	@RequestMapping(value="/myJilmun.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> myJilmun(HttpSession session, String page) {
@@ -267,6 +339,14 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * 내가 작성한 자유 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return 자유boardList, 페이지 객체
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
 	@RequestMapping(value="/myJayu.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> myJayu(HttpSession session, String page) {
@@ -292,6 +372,14 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * 내가 작성한 댓글 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return 댓글replyList, 페이지 객체
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
 	@RequestMapping(value="/myReply.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> myReply(HttpSession session, String page) {
@@ -322,6 +410,14 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * 내가 좋아요한 게시글 조회
+	 * @param session
+	 * @param page 현재 페이지
+	 * @return boardList, page객체
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
 	@RequestMapping(value="/myLike.do", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> myLike(HttpSession session, String page) {
@@ -347,6 +443,16 @@ public class ReplyController {
 		return result;
 	}
 	
+	/**
+	 * 내가 작성한 댓글 삭제(마이페이지)
+	 * @param session
+	 * @param seq 댓글seq
+	 * @param board 대상 게시글 종류
+	 * @param boardId 대상BoardId
+	 * @return 성공 1, 실패 0
+	 * @author SoHyeon
+	 * @since 2023.09.25
+	 */
 	@RequestMapping(value="/myReplyDelete.do", method=RequestMethod.POST)
 	@ResponseBody
 	public int myReplyDelete(HttpSession session, int seq, String board, String boardId){

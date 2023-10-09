@@ -127,43 +127,6 @@ public interface IPilgiDao {
 	public int updateClchPilgiState(Map<String, Object> map);
 	
 	/**
-	 * 필기 임시저장                        
-	 * @param vo accountId, clasId, content, viewGroup, downloadGroup
-	 * @return 성공 1, 실패 0
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public int insertPilgiImsi(BoardVo vo);
-	
-	/**
-	 * 필기 임시저장 목록 조회
-	 * @param map accountId 계정<br>
-	 * 				clasId 클래스 ID
-	 * @return 임시 저장 목록(임시저장seq, SUBSTR(내용,15)||...) 
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public List<BoardVo> getPilgiImsiList(Map<String, Object> map);
-	
-	/**
-	 * 필기 임시저장 데이터 가져오기            
-	 * @param id 임시저장글 seq
-	 * @return 임시 저장 상세(내용, 공개그룹, 다운로드그룹)
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public BoardVo getPilgiImsiDetail(String id); 
-	
-	/**
-	 * 필기 임시저장 삭제하기
-	 * @param id 임시저장글 seq
-	 * @return 성공 1, 실패 0
-	 * @author SoHyeon
-	 * @since 2023.09.14
-	 */
-	public int deletePilgiImsi(String id);
-	
-	/**
 	 * 필기 수정 데이터 조회
 	 * @param id 필기 id
 	 * @return BoardVo 제목, 과목, 내용, 파일, 조회 그룹, 다운로드 그룹 
