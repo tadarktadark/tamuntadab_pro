@@ -79,15 +79,22 @@ public interface IYeyakService {
 	public GangeuisilVo getYeoyuTime(String gagaId);
 
 	/**
-	 * 예약 정보 입력, 개별 강의실 정보 수정 및 결제 정보 입력
-	 * @param yVo 예약 정보
-	 * @param gVos 결제 정보(전체 금액)
+	 * 클래스 참여 유저 조회, 예약 정보 입력, 개별 강의실 정보 수정 및 결제 정보 입력
+	 * @param yVo 예약 정보(gayeGyeoljeUser, gayeClasId, gayeGyeoljeType, gayeGagaId, gayeHours, gayeStartTime, gayeYeyakDate)
+	 * @param gVos 결제 정보(전체 금액) (gyeoGeumaek)
 	 * @return 성공시 전체금액에서 모자란 금액(카카오 정산하기), 실패시 -1
 	 * @author SoHyeon
 	 * @since 2023.09.09
 	 */
 	public int insertYeakInfo(YeyakVo yVo, GeoljeVo gVos);
 	
+	/**
+	 * 마이페이지 예약 정보 조회 페이징을 위한 전체 일정 개수 조회
+	 * @param gayeAccountId
+	 * @return 전체 일정 개수
+	 * @author SoHyeon
+	 * @since 2023.10.01
+	 */
 	public int getMyYeyakCount(String gayeAccountId);
 	
 	/**
@@ -99,10 +106,17 @@ public interface IYeyakService {
 	 */
 	public List<YeyakVo> getMyYeyakList(Map<String, Object> map);
 	
+	/**
+	 * 특정 예약 일정 결제 유저들의 결제 상태 조회
+	 * @param gayeId
+	 * @return vo(gyeoGeumaek, gyeoAccountId, gyeoId(UserNickname), gyeoStatus, gayeDaesangId(강의실 이름)
+	 * @author SoHyeon
+	 * @since 2023.10.01
+	 */
 	public List<GeoljeVo> getGyeojeStatus(String gayeId);
 
 	/**
-	 * 예약 취소
+	 * 예약 취소 및 결제 테이블 상태 변경
 	 * @param gayeId 예약 id
 	 * @return 성공시 1, 실패시 0
 	 * @author SoHyeon

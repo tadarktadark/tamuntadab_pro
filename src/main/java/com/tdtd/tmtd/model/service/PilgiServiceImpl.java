@@ -93,26 +93,6 @@ public class PilgiServiceImpl implements IPilgiService {
 		}
 		return (n>2)?1:0;
 	}
-
-	@Override
-	public int insertPilgiImsi(BoardVo vo) {
-		return dao.insertPilgiImsi(vo);
-	}
-
-	@Override
-	public List<BoardVo> getPilgiImsiList(Map<String, Object> map) {
-		return dao.getPilgiImsiList(map);
-	}
-
-	@Override
-	public BoardVo getPilgiImsiDetail(String id) {
-		return dao.getPilgiImsiDetail(id);
-	}
-
-	@Override
-	public int deletePilgiImsi(String id) {
-		return dao.deletePilgiImsi(id);
-	}
 	
 	@Override
 	public BoardVo getPilgiUpdateData(String id) {

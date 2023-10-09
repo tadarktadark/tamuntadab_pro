@@ -91,7 +91,7 @@
 		</selectKey>
 	</insert>
 	
-	<!-- 질문 수정 데이터 조회 -->
+	<!-- 자유 수정 데이터 조회 -->
 	<select id="getJayuUpdateData" resultType="boardVo">
 		SELECT JABO_TITLE  AS TITLE, JABO_CONTENT AS CONTENT
 			FROM JAYU_BOARD

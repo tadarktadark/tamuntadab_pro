@@ -361,6 +361,7 @@
 			ORDER BY rn
 	</select>
 	
+	<!-- 알람 전송을 위한 게시판 정보 조회 -->
 	<select id="getBoardAlramInfo" resultType="boardVo">
 		SELECT ID, TITLE, ACCOUNT_ID
 			FROM (SELECT PIBO_ID AS ID, CLAS_TITLE AS TITLE , PIBO_WRITER_ID AS ACCOUNT_ID
@@ -375,6 +376,7 @@
 			WHERE ID=#{id}
 	</select>
 	
+	<!-- 알람 전송을 위한 댓글 정보 조회 -->
 	<select id="getReplyAlramInfo" resultType="replyVo">
 		SELECT CORE_BOARD_ID AS BOARD_ID, CORE_CONTENT AS CONTENT, CORE_WRITER_ID AS WRITER_ID
 			FROM COMMUNITY_REPLY

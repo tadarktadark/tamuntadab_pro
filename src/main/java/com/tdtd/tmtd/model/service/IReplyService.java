@@ -39,7 +39,7 @@ public interface IReplyService {
 	public List<ReplyVo> getReReplyList(Map<String, Object> map);
 		
 	/**
-	 * ROOT 댓글 작성
+	 * ROOT 댓글 작성 및 개수 수정
 	 * @param vo boardId, writerId, content
 	 * @param map board, boardId
 	 * @return 성공 1, 실패 0
@@ -186,7 +186,21 @@ public interface IReplyService {
 	 */
 	public List<BoardVo> getLikeCommList(Map<String, Object> map);
 	
+	/**
+	 * 알람 전송을 위한 게시판 정보 조회
+	 * @param id 보드id
+	 * @return id, title, accountId
+	 * @author SoHyeon
+	 * @since 2023.10.03
+	 */
 	public BoardVo getBoardAlramInfo(String id);
 	
+	/**
+	 * 알람 전송을 위한 댓글 정보 조회
+	 * @param seq 댓글seq
+	 * @return boardId, content, writerId
+	 * @author SoHyeon
+	 * @since 2023.10.03
+	 */
 	public ReplyVo getReplyAlramInfo(String seq);
 }

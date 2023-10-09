@@ -72,26 +72,6 @@ public class PilgiDaoImpl implements IPilgiDao {
 	public int updateClchPilgiState(Map<String, Object> map) {
 		return session.update(NS+"updateClchPilgiState",map);
 	}
-	
-	@Override
-	public int insertPilgiImsi(BoardVo vo) {
-		return session.insert(NS+"insertPilgiImsi",vo);
-	}
-
-	@Override
-	public List<BoardVo> getPilgiImsiList(Map<String, Object> map) {
-		return session.selectList(NS+"getPilgiImsiList",map);
-	}
-
-	@Override
-	public BoardVo getPilgiImsiDetail(String id) {
-		return session.selectOne(NS+"getPilgiImsiDetail",id);
-	}
-
-	@Override
-	public int deletePilgiImsi(String id) {
-		return session.delete(NS+"deletePilgiImsi",id);
-	}
 
 	@Override
 	public BoardVo getPilgiUpdateData(String id) {
