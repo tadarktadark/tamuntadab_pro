@@ -112,7 +112,7 @@ public interface IReplyDao {
 	
 	/**
 	 * 삭제 댓글 입력
-	 * @param vo seq, boardId, rootSeq, step, depth
+	 * @param vo seq, boardId, rootSeq, step
 	 * @return 성공 1, 실패 0
 	 * @author SoHyeon
 	 * @since 2023.09.21
