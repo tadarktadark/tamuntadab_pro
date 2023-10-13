@@ -54,7 +54,7 @@
 			<if test="count==4">
 				,SIDA_STATE = 'P'
 			</if>
-			WHERE SIDA_ID=#{id}
+			WHERE SIDA_ID=#{id};
 	</update>
 	
 	<!-- SIDA_COUNT가 4였다면?(신고해서 5가 된다면?) : 대상(보드) 상태 변경 -->
@@ -88,7 +88,7 @@
 						<if test="content!=null">
 							,#{content}
 						</if> 
-						);
+						)
 	</insert>
 	
 	<!-- 5회 이상 신고된 게시글 개수 조회 -->
